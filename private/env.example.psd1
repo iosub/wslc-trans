@@ -19,4 +19,18 @@
     # The Firebase service account key the agent installer carries.
     # Default: private\firebase-service-account.json.
     WSLC_AGENT_PUSH_KEY         = ''
+
+    # deploy-server.ps1: the machine that runs the agent, reached over SSH.
+    # Required when you use it: user, host and folder.
+    WSLC_DEPLOY_USER            = ''
+    WSLC_DEPLOY_HOST            = ''
+    # Default: 22.
+    WSLC_DEPLOY_PORT            = ''
+    # A jump host, user@host, when the target is not reachable directly.
+    WSLC_DEPLOY_JUMP            = ''
+    # With forward slashes: C:/wslc/dist.
+    WSLC_DEPLOY_DIST            = ''
+
+    # vps-tunnels.ps1: the VPS the reverse forwards go to, user@host.
+    WSLC_TUNNEL_HOST            = ''
 }

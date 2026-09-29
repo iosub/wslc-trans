@@ -40,7 +40,7 @@ public static class PublishingTools
     }
 
     [McpServerTool(Name = "setup_publishing")]
-    [Description("The first use of publishing on this machine: creates the network of the settings if it is missing, writes the proxy's map file if it is missing, and runs the nginx proxy container (nginx:alpine, the map mounted, port 8081 on the loopback, restarted always, on that network) if it is missing. What is there already is left alone; the answer says which was which. The tunnel and the VPS are not the agent's: docs/remote-config/checklistremote.md.")]
+    [Description("The first use of publishing on this machine: creates the network of the settings if it is missing, writes the proxy's map file if it is missing, and runs the nginx proxy container (nginx:alpine, the map mounted, port 8081 on the loopback, restarted always, on that network) if it is missing. What is there already is left alone; the answer says which was which. The tunnel and the VPS are not the agent's: docs/developer/remote-access.md.")]
     public static Task<PublishingSetupResult> SetupPublishing(IPublishingSetup setup, CancellationToken cancellationToken = default) =>
         setup.SetupAsync(cancellationToken);
 

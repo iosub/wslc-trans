@@ -1,4 +1,4 @@
-@* Settings → Publish (docs/remote-config/publish.md): the values this machine
+@* Settings → Publish: the values this machine
    publishes a port with — the domain, the name suffix, the nginx container,
    the network, the map file, all five in the open — and, under them, the
    maintenance of publications.json as the Saved logins card is for its file:
@@ -37,7 +37,7 @@
         </div>
         <div class="wslc-field-pick has-note mt-2">
             <MudTextField T="string" @bind-Value="_network" Label="Network" Immediate="true" Variant="Variant.Filled" Margin="Margin.Dense"
-                          HelperTextOnFocus="true" HelperText="Example: mio — a user-defined network, where names resolve; a published container has to be on it" autocapitalize="none" autocorrect="off" spellcheck="false" />
+                          HelperTextOnFocus="true" HelperText="Example: published — a user-defined network, where names resolve; a published container has to be on it" autocapitalize="none" autocorrect="off" spellcheck="false" />
             <MudFab Color="Color.Success" StartIcon="@Icons.Material.Filled.MoreVert" Size="Size.Small" title="Pick a network" OnClick="PickNetworkAsync" />
         </div>
         <MudTextField T="string" @bind-Value="_mapFile" Label="Map file" Immediate="true" Variant="Variant.Filled" Margin="Margin.Dense" Class="mt-2 wslc-mono"
@@ -161,7 +161,7 @@
         if (_settings is null || !await DialogFlow.ConfirmAsync(Dialogs, "Set up publishing",
                 $"Create the network '{_settings.Network}' if it is missing, write the map file at {_settings.MapFile} if it is missing, "
                 + $"and run the nginx container '{_settings.ProxyContainer}' (nginx:alpine, the map mounted read-only, port 8081 on this machine's loopback, restarted always, on that network) if it is missing?\n\n"
-                + "What is there already is left as it is. The tunnel and the VPS are not touched: docs/remote-config/checklistremote.md.", "Set up"))
+                + "What is there already is left as it is. The tunnel and the VPS are not touched: docs/developer/remote-access.md.", "Set up"))
         {
             return;
         }

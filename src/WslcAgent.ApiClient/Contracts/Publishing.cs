@@ -4,12 +4,12 @@ namespace WslcAgent.ApiClient.Contracts;
 /// Settings → Publishing: how this agent's machine publishes a container port on a
 /// public name. The proxy container reads the map file the agent writes, on the
 /// network where container names resolve; the VPS sends every name under the
-/// domain down the tunnel to that proxy (docs/remote-config/remotebrowse.md).
+/// domain down the tunnel to that proxy.
 /// </summary>
 /// <param name="Domain">The domain the public names end in, e.g. <c>example.com</c>; a wildcard certificate and DNS entry cover every single label under it.</param>
 /// <param name="NameSuffix">What the suggested name adds to the container's, e.g. <c>-home</c>, so containers of several machines under one domain do not collide.</param>
 /// <param name="ProxyContainer">The nginx container that reads the map, e.g. <c>wslc-published</c>; restarted after every change.</param>
-/// <param name="Network">The user-defined network the proxy and the published containers share, e.g. <c>published</c>; a published container is attached to it.</param>
+/// <param name="Network">The user-defined network the proxy and the published containers share, e.g. <c>published</c>; a container is published only while it and the proxy are both on it, and the launch form offers to add it.</param>
 /// <param name="MapFile">Where the agent writes the map the proxy mounts, e.g. <c>C:\wslc\published.conf</c>.</param>
 public sealed record PublishingSettings(string Domain, string NameSuffix, string ProxyContainer, string Network, string MapFile);
 

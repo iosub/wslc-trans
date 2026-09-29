@@ -1,11 +1,11 @@
-@* The one launch form, in the reference's three uses: Run (with the Fill bar),
+@* The one launch form, in three uses: Run (with the Fill bar),
    Create and View & edit (the same fields pre-filled from inspect; saving
-   removes and recreates). The fields are the reference's, in one order for the
+   removes and recreates). The fields are in one order for the
    three: what the container is (image, tag, name), what it exposes and mounts,
    its variables and networks, what it runs, where and as whom, its policies,
    and the short numbers together at the end; the two commands span the width,
    since a port hidden past the edge of a narrow Command field is how a wrong
-   port went unseen. The actions are the reference's rail, with two verbs in
+   port went unseen. The actions are a rail, with two verbs in
    every use: Save (create, or recreate, stopped) and Run (create and start).
    Neither closes the window before the agent has said the container is there:
    a veil over the fields says what is being done meanwhile, and a failure
@@ -57,7 +57,7 @@
     <MudTextField Margin="Margin.Dense" T="string" @bind-Value="Form.Name" Label="Name" Immediate="true" HelperTextOnFocus="true" Variant="Variant.Filled" HelperText="Example: my-app"
                   Error="@Has(LaunchFields.Name)" ErrorText="@Error(LaunchFields.Name)" />
     @* Ports, with its popup: one row per port pair, the Reverse proxy check and the
-       name the port is published under (docs/remote-config/publish.md). The names
+       name the port is published under. The names
        are the agent's, not a flag; saving the form publishes the difference. *@
     <PortsField Publish="Form.Publish" PublicNames="Form.PublicNames" ContainerName="@Form.Name" Error="@(Error(LaunchFields.Publish) ?? Error(LaunchFields.PublicNames))" />
 
@@ -137,7 +137,7 @@
 @Below
 </div>
 
-@* The reference's action rail, drawn as the Files rail: MudBlazor's filled small
+@* The action rail, drawn as the Files rail: MudBlazor's filled small
    icon buttons with its own Material icons, in the app's verb colours — green
    puts something in or starts, light blue takes a copy out, blue creates, amber
    takes back, red destroys. Every button is always there; one that cannot act
@@ -211,7 +211,7 @@
     private string _fill = "";
     private string _fillStatus = "";
 
-    /// <summary>The status says something was not used: shown as the reference's is-error line.</summary>
+    /// <summary>The status says something was not used: shown as an error line.</summary>
     private bool _fillFlagged;
 
     private bool _busy;
@@ -344,7 +344,7 @@
                 await DialogFlow.ExplainAsync(Dialogs, "Reverse proxy",
                     $"The nginx container '{settings.ProxyContainer}' is not on this machine.",
                     "Reverse proxy needs it running here: it is the container that reads the map and answers the public names. "
-                    + "Settings → Publish names it; docs/remote-config/checklistremote.md is how it was started.");
+                    + "Settings → Publish names it; docs/developer/remote-access.md is how to set it up.");
                 return false;
             }
 
@@ -539,8 +539,7 @@
     {
         // The veil at the press, painted before anything is asked of the agent:
         // on a slower machine the checks take seconds, and a button that shows
-        // nothing for that long looks as if it did nothing (the owner,
-        // 24 September 2026).
+        // nothing for that long looks as if it did nothing.
         Busy("Checking the settings…");
         await Task.Yield();
         if (await ReadyAsync(start) is not { } request)
