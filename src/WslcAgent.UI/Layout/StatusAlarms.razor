@@ -1,0 +1,115 @@
+@* The bottom bar as the status bar (the owner, 22 September 2026): the
+   dashboard's alarms the user ticked in Edit's Status alarms, on every screen,
+   shared out on the two sides of the round button — the first half at its
+   left, the rest at its right. Each is the ring the containers' cards wear, at
+   its small size, two cells wide and never more (the owner, 22 September
+   2026): its percent inside the ring and nothing else, and under it two lines
+   in the theme's small type — the measure, then the container's name or Host
+   for the host's — each cut at the cells' edge. Past its threshold it turns
+   red and blinks as its card does. A tap on one opens what its reading is
+   made of, as a second tap on its card does (the owner, 22 September 2026). The readings are AlarmReadings': Home's, when Home has
+   just read them, or read here on the same five-second beat. *@
+@implements IAsyncDisposable
+@inject DashboardPreference Cards
+@inject AlarmReadings Watch
+@inject IDialogService Dialogs
+
+@if (Shown.Count > 0)
+{
+    var half = (Shown.Count + 1) / 2;
+    <div class="wslc-status-side wslc-status-side-start">
+        @foreach (var item in Shown.Take(half))
+        {
+            @Ring(item)
+        }
+    </div>
+    <div class="wslc-status-side wslc-status-side-end">
+        @foreach (var item in Shown.Skip(half))
+        {
+            @Ring(item)
+        }
+    </div>
+}
+
+@code {
+    /// <summary>The five-second beat Home samples on.</summary>
+    private static readonly TimeSpan Every = TimeSpan.FromSeconds(5);
+
+    private readonly CancellationTokenSource _stop = new();
+
+    /// <summary>One alarm of the bar, with the card that holds it.</summary>
+    private sealed record Item(DashboardCard Card, CardAlarm Alarm);
+
+    /// <summary>The bar's alarms for the view on screen, each with its card and its setting.</summary>
+    private IReadOnlyList<Item> Shown =>
+    [
+        .. Cards.Status
+            .Select(status => (Card: Cards.Find(status.Card), status.Measure))
+            .Where(pair => pair.Card is not null)
+            .Select(pair => new Item(pair.Card!, DashboardCatalogue.AlarmSetting(pair.Card!, pair.Measure))),
+    ];
+
+    protected override async Task OnInitializedAsync()
+    {
+        Cards.Changed += OnChanged;
+        Watch.Changed += OnChanged;
+        await Cards.ReadyAsync();
+        _ = WatchAsync(_stop.Token);
+    }
+
+    private void OnChanged() => _ = InvokeAsync(StateHasChanged);
+
+    /// <summary>What the bar's alarms need, read on the beat whatever the screen.</summary>
+    private async Task WatchAsync(CancellationToken cancellationToken)
+    {
+        using var timer = new PeriodicTimer(Every);
+        try
+        {
+            do
+            {
+                if (Shown is { Count: > 0 } shown)
+                {
+                    await Watch.SampleAsync([.. shown.Select(item => (item.Card, item.Alarm.Measure))], cancellationToken);
+                }
+            }
+            while (await timer.WaitForNextTickAsync(cancellationToken));
+        }
+        catch (OperationCanceledException)
+        {
+            // The layout went away.
+        }
+    }
+
+    /// <summary>What the ring is under: the container's name for a container's, Host for the host's.</summary>
+    private string Name(Item item) =>
+        item.Card.Ref is { } reference && Watch.Containers?.FirstOrDefault(c => c.Uid == reference.Uid) is { } container
+            ? container.Name
+            : "Host";
+
+    private RenderFragment Ring(Item item)
+    {
+        var value = Watch.MeasureOf(item.Card, item.Alarm.Measure);
+        var reading = value is { } v ? $"{v.ToString("0.#", System.Globalization.CultureInfo.InvariantCulture)}%" : "";
+        var measure = DashboardCatalogue.MeasureLabel(item.Alarm.Measure);
+        var title = $"{Name(item)} · {measure} {(reading.Length > 0 ? reading : "not known yet")}; the alarm is past {item.Alarm.Threshold}% · tap for what it is made of";
+        return @<div class="@(Watch.IsUp(item.Card, item.Alarm) ? "wslc-status-alarm wslc-status-alarm-up" : "wslc-status-alarm")"
+                     role="button" title="@title" aria-label="@title" @onclick="@(() => ReadingFacts.ShowAsync(Dialogs, item.Card, Watch, null, $"{Name(item)} · {measure}"))">
+            <UsageDial Label="" Reading="@reading" Live="@(value is not null)" Title="@title" />
+            <span class="wslc-status-line">@DashboardCatalogue.MeasureShort(item.Alarm.Measure)</span>
+            <span class="wslc-status-line">@Name(item)</span>
+        </div>;
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        Cards.Changed -= OnChanged;
+        Watch.Changed -= OnChanged;
+        // Cancelled, not disposed: a start still waiting on the dashboard asks for
+        // the token after it has gone, and a disposed source throws there — the
+        // layout brought down on a phone where the user tapped away while the app
+        // was opening (the owner, 24 September 2026). One with no timer holds
+        // nothing to let go of.
+        _stop.Cancel();
+        return ValueTask.CompletedTask;
+    }
+}

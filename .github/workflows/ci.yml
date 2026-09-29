@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      # WslcAgent.App needs the maui-windows and android workloads.
+      - name: Install workloads
+        run: dotnet workload restore WslcAgent.slnx
+
+      # Restore with the build configuration: the MAUI Windows target selects
+      # the win-x64 runtime pack only in Release, and a Debug restore leaves
+      # it missing (NETSDK1112) when the build runs with --no-restore.
+      - name: Restore
+        run: dotnet restore WslcAgent.slnx -p:Configuration=Release
+
+      - name: Build
+        run: dotnet build WslcAgent.slnx --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test WslcAgent.slnx --configuration Release --no-build --verbosity normal

@@ -1,0 +1,67 @@
+@* The title-row verbs of a dialog whose changes wait for Save (the owner,
+   22 September 2026: the + list, Status alarms and the Settings of a card and
+   of a part apply nothing until saved). Save hands the changes to the dialog,
+   which closes when they went through and stays when they could not; Cancel
+   puts them back as they were when the dialog opened, after asking, and
+   stays; Close leaves, asking first when something changed and was not
+   saved. One component, so the three read and ask the same everywhere. A
+   card's and a part's Settings apply as they change (the owner, 24 September
+   2026): their Save keeps what is on screen, Cancel and a discarding Close
+   put back what the card was when they opened (OnDiscard). *@
+@inject IDialogService Dialogs
+
+<MudButton Size="Size.Small" Variant="Variant.Filled" Color="Color.Success" Disabled="!Changed" OnClick="OnSave" title="@SaveTitle">Save</MudButton>
+<MudButton Size="Size.Small" Variant="Variant.Filled" Disabled="!Changed" OnClick="CancelAsync"
+           title="Put everything back as it was when this opened">Cancel</MudButton>
+<MudButton Size="Size.Small" Variant="Variant.Filled" OnClick="CloseAsync">Close</MudButton>
+
+@code {
+    /// <summary>
+    /// The dialog the verbs close, handed over by it: MudBlazor draws the title
+    /// row in a tree of its own, where the dialog's cascaded instance does not
+    /// arrive (Close threw a NullReferenceException through it, 22 September 2026).
+    /// </summary>
+    [Parameter, EditorRequired] public IMudDialogInstance Dialog { get; set; } = default!;
+
+    /// <summary>Something differs from what the dialog opened with: there is something to save, or to cancel.</summary>
+    [Parameter, EditorRequired] public bool Changed { get; set; }
+
+    /// <summary>Applies the changes; the dialog closes itself when they went through.</summary>
+    [Parameter, EditorRequired] public EventCallback OnSave { get; set; }
+
+    /// <summary>Puts the dialog's fields back as they were when it opened.</summary>
+    [Parameter, EditorRequired] public EventCallback OnReset { get; set; }
+
+    [Parameter] public string SaveTitle { get; set; } = "Apply the changes";
+
+    /// <summary>
+    /// For a dialog that applies its changes as they are made (a card's and a
+    /// part's Settings, the owner, 24 September 2026): what closing without
+    /// saving does before it closes — puts back what was applied. A dialog
+    /// whose changes wait for Save has nothing applied and leaves it unset.
+    /// </summary>
+    [Parameter] public EventCallback OnDiscard { get; set; }
+
+    private async Task CancelAsync()
+    {
+        if (Changed && await DialogFlow.ConfirmAsync(Dialogs, "Cancel the changes", "Put everything back as it was when this opened?", "Put back"))
+        {
+            await OnReset.InvokeAsync();
+        }
+    }
+
+    private async Task CloseAsync()
+    {
+        if (Changed && !await DialogFlow.ConfirmAsync(Dialogs, "Discard the changes", "Close without saving what was changed?", "Discard", destructive: true))
+        {
+            return;
+        }
+
+        if (Changed)
+        {
+            await OnDiscard.InvokeAsync();
+        }
+
+        Dialog.Cancel();
+    }
+}

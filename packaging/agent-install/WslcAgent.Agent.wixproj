@@ -1,0 +1,27 @@
+<Project Sdk="WixToolset.Sdk/5.0.2">
+
+  <!-- Per-user MSI for the agent. build-agent-installer.ps1 publishes the
+       server, writes GeneratedFiles.wxs from the payload and builds this. -->
+  <PropertyGroup>
+    <MsiVersion Condition="'$(MsiVersion)' == ''">0.0.0</MsiVersion>
+    <DefineConstants>$(DefineConstants);MsiVersion=$(MsiVersion)</DefineConstants>
+    <OutputType>Package</OutputType>
+    <OutputName>wslc-ai-agent</OutputName>
+    <InstallerPlatform>x64</InstallerPlatform>
+    <SuppressIces>ICE03;ICE38;ICE64;ICE91</SuppressIces>
+    <SuppressValidation>true</SuppressValidation>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="AgentUi.wxs" />
+    <Compile Include="Package.wxs" />
+    <Compile Include="GeneratedFiles.wxs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" />
+    <PackageReference Include="WixToolset.Util.wixext" />
+  </ItemGroup>
+
+</Project>

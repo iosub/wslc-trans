@@ -1,0 +1,67 @@
+@* A resource's card on the dashboard (docs/home/spec.md, section 3): its
+   list page's own card, taken apart into the dashboard's parts — the list
+   card's header as the summary, its body as the details, its verbs as the
+   actions — each in the look and tone the list gives it (the owner,
+   22 September 2026). One component for the four families; each hands over
+   its header's words, its body and its verbs. *@
+
+<HomeCard Label="@Title" Frame="Frame" Value="@State" Hint="@Subtitle">
+    <Header>
+        <EntityCardPart>
+            <EntityCardHeader Title="@Title" Subtitle="@Subtitle" AvatarColor="AvatarColor" Key="@Key" Avatar="Avatar">
+                <HeaderActions>
+                    @if (State.Length > 0)
+                    {
+                        <StateChip State="@State" />
+                    }
+                </HeaderActions>
+            </EntityCardHeader>
+        </EntityCardPart>
+    </Header>
+    <Body>
+        <EntityCardPart>
+            <MudCardContent>
+                @Body
+            </MudCardContent>
+        </EntityCardPart>
+    </Body>
+    <Actions>
+        <EntityCardPart>
+            <MudCardActions Class="py-1 justify-end">
+                <VerbTaps>
+                    @Actions
+                </VerbTaps>
+            </MudCardActions>
+        </EntityCardPart>
+    </Actions>
+</HomeCard>
+
+@code {
+    [Parameter, EditorRequired] public HomeCard.CardFrame Frame { get; set; } = default!;
+
+    /// <summary>The list card's title: the resource's name.</summary>
+    [Parameter, EditorRequired] public string Title { get; set; } = "";
+
+    /// <summary>The list card's subtitle: a container's image, an image's tag, a volume's or a network's driver.</summary>
+    [Parameter] public string Subtitle { get; set; } = "";
+
+    [Parameter] public Color AvatarColor { get; set; } = Color.Default;
+
+    /// <summary>The row's key, so a verb running on it turns the avatar into a ring as it does in the list.</summary>
+    [Parameter, EditorRequired] public string Key { get; set; } = "";
+
+    /// <summary>The badge the list card shows (running, exited, in use); empty for none.</summary>
+    [Parameter] public string State { get; set; } = "";
+
+    /// <summary>
+    /// Drawn where the avatar goes while the resource is on its way: a
+    /// container with files travelling in or out wears its transfers' ring
+    /// here, the same one its row wears in the list.
+    /// </summary>
+    [Parameter] public RenderFragment? Avatar { get; set; }
+
+    [Parameter, EditorRequired] public RenderFragment Body { get; set; } = default!;
+
+    /// <summary>The list card's verbs, the resource's Actions component with its shortcuts.</summary>
+    [Parameter, EditorRequired] public RenderFragment Actions { get; set; } = default!;
+}

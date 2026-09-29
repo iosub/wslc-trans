@@ -1,0 +1,28 @@
+@* Put inside a dialog opened with DialogFlow.ShowMovableAsync (the owner,
+   24 September 2026): the dialog is dragged by its title row and opens where
+   it was last left on this device (wslcAgent.movableDialog). Nothing of its
+   own is drawn. *@
+@inject IJSRuntime Js
+
+<span @ref="_inside" hidden></span>
+
+@code {
+    private ElementReference _inside;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        try
+        {
+            await Js.InvokeVoidAsync("wslcAgent.movableDialog", _inside);
+        }
+        catch (Exception ex) when (ex is JSDisconnectedException or JSException)
+        {
+            // The dialog closed before it was wired; it stays where MudBlazor put it.
+        }
+    }
+}

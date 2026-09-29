@@ -1,0 +1,105 @@
+@* Edit's Status alarms (the owner, 22 September 2026): every alarm the
+   dashboard's view on screen has switched on, one line each — a system or
+   alarm card by its name, a container's by the container and the measure —
+   with a box ticked while the bottom bar shows it. As the + list, the boxes
+   apply nothing until Save, which puts them in the bar and closes; Cancel and
+   Close are SaveCancelClose's. It opens at one size: the boxes scroll in a box
+   of fixed height (wslc-picker-list). *@
+@inject DashboardPreference Cards
+@inject WslcAgentApi Api
+
+<MudDialog>
+    <TitleContent>
+        <DialogTitle Title="@Dialog.Title">
+            <SaveCancelClose Dialog="Dialog" Changed="Changed" OnSave="SaveAsync" OnReset="ResetAsync" SaveTitle="Show the ticked alarms in the bottom bar" />
+        </DialogTitle>
+    </TitleContent>
+    <DialogContent>
+        <MudPaper Outlined="true" Class="wslc-picker-list pa-2">
+            @foreach (var alarm in _alarms)
+            {
+                var ticked = _ticked.Contains(alarm.Status);
+                <SquareCheckBox Value="ticked" ValueChanged="@(on => Tick(alarm.Status, on))" Label="@alarm.Name"
+                                title="@(ticked ? $"Take {alarm.Name} out of the bottom bar on Save" : $"Show {alarm.Name} in the bottom bar on Save")" />
+            }
+            @if (_alarms.Count == 0)
+            {
+                <MudText Typo="Typo.caption" Class="mud-text-secondary">
+                    No card of this view has an alarm switched on. Switch one on in a card's Settings, or add one from Alarms in the + list.
+                </MudText>
+            }
+        </MudPaper>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance Dialog { get; set; } = default!;
+
+    /// <summary>One alarm the list offers: what the bar keeps of it, and how the list names it.</summary>
+    private sealed record Offered(StatusAlarm Status, string Name);
+
+    private IReadOnlyList<Offered> _alarms = [];
+    private IReadOnlySet<StatusAlarm> _opened = new HashSet<StatusAlarm>();
+    private HashSet<StatusAlarm> _ticked = [];
+
+    private bool Changed => !_ticked.SetEquals(_opened);
+
+    protected override async Task OnInitializedAsync()
+    {
+        _opened = Cards.Status.ToHashSet();
+        _ticked = [.. _opened];
+        _alarms = await OfferedAsync();
+    }
+
+    /// <summary>The view's alarms that are on, in the dashboard's reading order, a container's named after it as it is called now.</summary>
+    private async Task<IReadOnlyList<Offered>> OfferedAsync()
+    {
+        var resources = new DashboardResources(Api);
+        if (Cards.Cards.Any(card => card.Card == DashboardCatalogue.Container))
+        {
+            await resources.RefreshAsync(DashboardCatalogue.Container);
+        }
+
+        return
+        [
+            .. Cards.Cards.SelectMany(card => DashboardCatalogue.AlarmsOf(card).Select(alarm =>
+            {
+                var what = resources.NameOf(card) ?? DashboardCatalogue.Find(card.Card)?.Label ?? card.Card;
+                var name = card.Ref is null && DashboardCatalogue.Measures(card.Card).Count == 1
+                    ? $"{what} · past {alarm.Threshold}%"
+                    : $"{what} · {DashboardCatalogue.MeasureLabel(alarm.Measure)} past {alarm.Threshold}%";
+                return new Offered(new StatusAlarm(card.Id, alarm.Measure), name);
+            })),
+        ];
+    }
+
+    private void Tick(StatusAlarm status, bool on)
+    {
+        if (on)
+        {
+            _ticked.Add(status);
+        }
+        else
+        {
+            _ticked.Remove(status);
+        }
+
+        StateHasChanged();
+        Dialog.StateHasChanged();
+    }
+
+    /// <summary>The bar keeps the ticked alarms in the list's order.</summary>
+    private async Task SaveAsync()
+    {
+        await Cards.SetStatusAsync(_alarms.Select(alarm => alarm.Status).Where(_ticked.Contains));
+        Dialog.Close(DialogResult.Ok(true));
+    }
+
+    private Task ResetAsync()
+    {
+        _ticked = [.. _opened];
+        StateHasChanged();
+        Dialog.StateHasChanged();
+        return Task.CompletedTask;
+    }
+}
