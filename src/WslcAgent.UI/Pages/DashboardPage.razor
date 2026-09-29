@@ -52,6 +52,7 @@
 @inject ObjectCatalogue Catalogue
 @inject DashboardInterop Interop
 @inject IJSRuntime Js
+@inject WslcAgent.UI.Layout.HostDevice Device
 @inject DashboardMeasures Measures
 @inject WslcAgentApi Api
 @inject IDialogService Dialogs
@@ -545,15 +546,17 @@
 
     /// <summary>
     /// The fitting this device keeps for this page and view
-    /// (<c>wslcAgent.dashboardViewFit</c>), from its first paint. Where none is,
-    /// Fill: the screen filled with the view's aspect kept, which holds on a
-    /// phone and on a desktop alike, where Fluid cut what a small screen had
-    /// no room for.
+    /// (<c>wslcAgent.dashboardViewFit</c>), from its first paint. Where none is:
+    /// Fill on a desktop, browser or Windows client, the screen filled with
+    /// the view's aspect kept; Fluid in the hand, where Fill squeezed the cards
+    /// that hold several charts and Fluid keeps each at its own size.
     /// </summary>
     private async Task ReadFittingAsync()
     {
         var kept = await Js.InvokeAsync<string?>("wslcAgent.dashboardViewFit", ZoomOf);
-        _fitting = Enum.TryParse<ViewFit>(kept, ignoreCase: true, out var fitting) ? fitting : ViewFit.Fill;
+        _fitting = Enum.TryParse<ViewFit>(kept, ignoreCase: true, out var fitting)
+            ? fitting
+            : await Device.IsHandheldAsync() ? ViewFit.Fluid : ViewFit.Fill;
         await InvokeAsync(StateHasChanged);
     }
 

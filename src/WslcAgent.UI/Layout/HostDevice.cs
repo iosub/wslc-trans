@@ -5,7 +5,8 @@ namespace WslcAgent.UI.Layout;
 /// <summary>
 /// Whether the UI is being held in the hand: on a phone or a tablet the toasts
 /// come down at the top centre, where the eye already is, instead of the top
-/// right corner of a desktop window (<c>Toasts</c>). The browser answers for
+/// right corner of a desktop window (<c>Toasts</c>), and the dashboard opens
+/// Fluid rather than Fill when nothing was chosen (<c>DashboardPage</c>). The browser answers for
 /// every host, the Android WebView included, so there is no per-platform
 /// implementation.
 /// </summary>
