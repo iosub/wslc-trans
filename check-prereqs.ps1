@@ -61,10 +61,17 @@ if ($dotnetOk) {
 } elseif ($sdks.Count -gt 0) {
     Write-WslcAgentCheck broken ".NET SDK" "found $($sdks -join ', '); global.json asks for $wanted or later in $($wanted.Major).$($wanted.Minor)." -Run "winget install --id Microsoft.DotNet.SDK.$($wanted.Major) -e" -Guide "$Guide#net-sdk"
 } else {
-    Write-WslcAgentCheck broken ".NET SDK" "dotnet not found; once installed, open a new terminal and run this check again for its workloads." -Run "winget install --id Microsoft.DotNet.SDK.$($wanted.Major) -e" -Guide "$Guide#net-sdk"
+    Write-WslcAgentCheck broken ".NET SDK" "dotnet not found." -Run "winget install --id Microsoft.DotNet.SDK.$($wanted.Major) -e" -Guide "$Guide#net-sdk"
 }
 
-if ($dotnetOk) {
+# The workloads of the client's two targets, maui-android bringing android,
+# named rather than left to the choice of dotnet workload restore.
+$installWorkloads = "dotnet workload install maui-windows maui-android"
+if (-not $dotnetOk) {
+    # Without the SDK they cannot be looked at, and they are needed all the
+    # same: its command is shown now, to run once the SDK is in.
+    Write-WslcAgentCheck broken "workloads maui-windows, maui-android" "not checked without the .NET SDK; install them after it, from a new terminal." -Run $installWorkloads -Admin -Guide "$Guide#maui-workloads"
+} else {
     # A workload brings the ones it extends: maui-android brings android and
     # maui-blazor, and dotnet workload restore may pick maui-tizen for the
     # Windows target. So what counts is what the installed ones bring, read
@@ -97,11 +104,9 @@ if ($dotnetOk) {
             $missing += $needed
         }
     }
-    # One command installs every missing one: a line for all of them. It
-    # names the workloads of the project's two targets, maui-android bringing
-    # android, rather than leaving the choice to dotnet workload restore.
+    # One command installs every missing one: a line for all of them.
     if ($missing.Count -gt 0) {
-        Write-WslcAgentCheck broken "workload $($missing -join ', ')" "missing; the client project needs it." -Run "dotnet workload install maui-windows maui-android" -Admin -Guide "$Guide#maui-workloads"
+        Write-WslcAgentCheck broken "workload $($missing -join ', ')" "missing; the client project needs it." -Run $installWorkloads -Admin -Guide "$Guide#maui-workloads"
     }
 }
 
