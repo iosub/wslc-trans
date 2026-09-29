@@ -225,7 +225,9 @@ function Build-WslcAgentMsi {
     )
     $outDir = Join-Path (Split-Path -Parent $WixProj) "bin\Release"
     New-Item -ItemType Directory -Force -Path $outDir | Out-Null
-    $extra = if ($PackagesFolder) { @("-p:PackagesFolder=$PackagesFolder") } else { @() }
+    # @( ) around the whole: an if that yields one item yields a string, and a
+    # string splatted goes one character per argument.
+    $extra = @(if ($PackagesFolder) { "-p:PackagesFolder=$PackagesFolder" })
     # Out-Host keeps the build output off the pipeline: this function's only
     # return value must be the .msi path.
     & dotnet build $WixProj -c Release -nologo -v q -p:OutputPath="$outDir\" -p:MsiVersion=$Version @extra | Out-Host

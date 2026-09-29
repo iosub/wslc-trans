@@ -20,8 +20,8 @@ $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $RepoRoot
 $Solution = Join-Path $RepoRoot "WslcAgent.slnx"
-. (Join-Path $RepoRoot "packagingPackaging.ps1")
-$Scope = Get-WslcAgentSolutionScope
+. (Join-Path $RepoRoot "packaging\Packaging.ps1")
+$Scope = @(Get-WslcAgentSolutionScope)
 
 # Restore with the same configuration as the build: the MAUI Windows target
 # needs the win-x64 runtime pack only in Release (NETSDK1112 otherwise).
