@@ -13,10 +13,12 @@ products are **WSLC AI Agent** (the agent, `wslc-ai-agent.exe`) and
 
 ## Features
 
-- **An agent for WSLC**: one Windows program beside `wslc` that starts at
+- **An MCP agent for WSLC, skill included for Claude, Hermes, OpenClaw,
+  etc.**: 53 tools, destructive ones behind your approval, and a skill
+  installed with one click. One Windows program beside `wslc` that starts at
   logon, keeps working with every window closed, and serves the web
-  interface, the clients, a REST API and an MCP server. Per user, no
-  administrator rights.
+  interface, the clients and a REST API too. Per user, no administrator
+  rights.
 - **Easy container management with WSLC**: containers, images, volumes,
   networks and sessions from one place; paste a `docker run` line to fill the
   form; live stats, a network map, restart policies kept by the agent.
@@ -31,9 +33,6 @@ products are **WSLC AI Agent** (the agent, `wslc-ai-agent.exe`) and
 - **A dashboard you design yourself**: live objects dragged onto a grid, a
   System and a User page, a landscape and a portrait view, kept on the agent
   for every client or on the device, alarms, and a fit for any screen.
-- **AI assistants through MCP**: 53 tools, destructive ones behind your
-  approval, and a skill installed with one click into Claude Code, Hermes
-  Agent or OpenClaw.
 - **Notifications** on Windows and Android.
 - **Every client, one interface**: browser, Windows app, Android app and tray
   icon; several clients per agent, several agents per client.

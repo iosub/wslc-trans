@@ -4,7 +4,9 @@ Everything WSLC AI Agent does, first at a glance, then area by area.
 
 ## At a glance
 
-- **An agent for WSLC on your Windows machine**
+- **An MCP agent for WSLC, skill included for Claude, Hermes, OpenClaw, etc.**
+  - 53 MCP tools: your AI assistant runs your containers, and asks your approval before anything destructive
+  - Its skill, which teaches the assistant WSLC, installed with one click into Claude Code, Hermes Agent or OpenClaw
   - A small Windows program that sits next to `wslc`, Microsoft's container CLI, and runs it for you
   - Starts at every logon and keeps working when every window is closed: jobs, restart policies, alarms and notifications
   - Serves everything itself: the web interface, the native clients, a REST API (`/api/v1`) and an MCP server
@@ -30,18 +32,34 @@ Everything WSLC AI Agent does, first at a glance, then area by area.
   - Drafts that survive a power cut; Save and Discard
   - Alarms with thresholds that turn a card red and appear in a status bar on every screen
   - Zoom and five ways to fit any screen: Fit, Fill, Width, Stretch, Fluid
-- **AI assistants through MCP**: 53 tools, destructive ones behind your approval, and a skill that installs itself into Claude Code, Hermes Agent or OpenClaw
 - **Notifications** on Windows and Android: thresholds, stopped containers, sessions down, jobs done, updates
 - **Every client, one UI**: web browser (also as an installable PWA), Windows app, Android app, and a tray icon
 - **Multi-client and multi-agent**: several clients on one agent share jobs and state; one client knows several agents
 - **Self-updating**: the agent and its clients update from one folder, with a countdown anyone can cancel
 - **Personalisable**: dark and light themes, page zoom, table or cards per list, and the look of every control
 
-## The agent
+## The MCP agent
 
 WSLC AI Agent is one Windows program, `wslc-ai-agent.exe`, that runs beside
 `wslc` in your user session and does the work: every screen, client and
-assistant asks the agent, and the agent runs `wslc`.
+AI assistant asks the agent, and the agent runs `wslc`. It is an MCP server
+from the start, with its skill included for Claude, Hermes, OpenClaw, etc.
+
+### MCP and AI assistants
+
+- **An MCP server** in the agent (`/api/v1/mcp`) with 53 tools: containers,
+  images, volumes, networks, sessions, publishing, notifications, logs and
+  the machine's state, and the paste of a `docker run` line.
+- **Destructive tools ask first**: a yes or no in the assistant where it
+  supports it, a confirmation step otherwise. They can be hidden entirely.
+- **A skill** that teaches the assistant how to work with WSLC, served by the
+  agent itself and **installed with one click** into Claude Code, Hermes Agent
+  or OpenClaw, on this machine or another over SSH.
+- Setup guides and ready configurations for each assistant.
+- **Architecture diagrams** of the agent, the terminal, the network and MCP,
+  one click away on every screen.
+
+### The agent
 
 - **Always on**: it starts at every logon, and whatever it began goes on
   without any window open: runs, pulls, builds, transfers, backups, updates.
@@ -233,20 +251,6 @@ The Home page is a dashboard designed by each user, not a fixed screen.
 - **Charts**: any chart opens full size, with zoom.
 - Out of design, tapping a card offers its actions (Run, Pull, Create…) and
   opens its page.
-
-## MCP and AI assistants
-
-- **An MCP server** in the agent (`/api/v1/mcp`) with 53 tools: containers,
-  images, volumes, networks, sessions, publishing, notifications, logs and
-  the machine's state, and the paste of a `docker run` line.
-- **Destructive tools ask first**: a yes or no in the assistant where it
-  supports it, a confirmation step otherwise. They can be hidden entirely.
-- **A skill** that teaches the assistant how to work with WSLC, served by the
-  agent itself and **installed with one click** into Claude Code, Hermes Agent
-  or OpenClaw, on this machine or another over SSH.
-- Setup guides and ready configurations for each assistant.
-- **Architecture diagrams** of the agent, the terminal, the network and MCP,
-  one click away on every screen.
 
 ## Notifications
 
