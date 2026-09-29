@@ -19,8 +19,11 @@ every line it reports as `[absent]` or `[broken]` points to its section here.
 | [WebView2 Runtime](#webview2-runtime) | Running the Windows client and the tray window | For the Windows client |
 | [Editor](#editor-vs-code) | Editing and debugging | No: any editor works |
 
-Open a **new terminal** after installing anything: the PATH and environment
-variables a terminal sees are the ones it started with.
+**After installing anything, close every terminal and VS Code, and open them
+again.** A terminal sees the PATH and the environment variables of the moment
+it started, and a terminal inside VS Code those of the moment VS Code started:
+a new terminal in the same VS Code window still does not see what was just
+installed.
 
 ## Windows
 

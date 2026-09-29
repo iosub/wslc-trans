@@ -153,8 +153,9 @@ Get-ChildItem -Recurse | Unblock-File
 the last line is green: **Ready to build**. Otherwise every missing piece
 names the section of
 [docs/developer/prerequisites.md](docs/developer/prerequisites.md) that
-installs it (VS Code, Visual Studio or no IDE); install it, open a new
-terminal, and run this line again.
+installs it (VS Code, Visual Studio or no IDE); install it, **close every
+terminal and VS Code and open them again** (a terminal only sees what was
+installed before it started), and run this line again.
 
 ```powershell
 .\check-prereqs.ps1

@@ -157,7 +157,7 @@ if (-not $wslc) {
 Write-Host ""
 
 if ($script:WslcAgentCheckBroken -gt 0) {
-    Write-Host "$($script:WslcAgentCheckBroken) problem(s) above. Fix them and run this again." -ForegroundColor Red
+    Write-Host "$($script:WslcAgentCheckBroken) problem(s) above. Fix them, close every terminal and VS Code, open them again and run this again." -ForegroundColor Red
     exit 1
 }
 Write-Host "Ready to build: .\build.ps1. What is absent only switches off what it names." -ForegroundColor Green

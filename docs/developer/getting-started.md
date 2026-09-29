@@ -85,8 +85,10 @@ The agent works with WSLC 2.9.13 or later; 3.0.1 is the first generally
 available release and the one to install. An older `wslc` is reported as
 `[broken]` with the link to update it. `wslc version` prints the one you have.
 
-Install what is marked `[broken]`, open a new terminal, and run the script
-again until the last line is green: **Ready to build**.
+Install what is marked `[broken]`, then **close every terminal and VS Code
+and open them again** (a terminal only sees what was installed before it, or
+before VS Code, started), and run the script again until the last line is
+green: **Ready to build**.
 
 ## 4. Check the private files (optional)
 
@@ -201,7 +203,7 @@ see [private-files.md](private-files.md).
 
 1. Run `.\check-prereqs.ps1` again: most failures are a missing SDK or
    workload.
-2. A build that fails after an SDK or workload change: close the terminal,
-   open a new one, and build again.
+2. A build that fails after an SDK or workload change: close every terminal
+   and VS Code, open them again, and build again.
 3. Still failing: open an issue with the output of both check scripts (they
    print no secret) and of the failing command.

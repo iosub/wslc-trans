@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.2.35</Version>
+    <Version>0.2.36</Version>
     <Authors>Berpiztu</Authors>
     <Company>Berpiztu</Company>
     <Product>wslc-agent</Product>
