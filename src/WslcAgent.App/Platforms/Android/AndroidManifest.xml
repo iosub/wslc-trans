@@ -13,7 +13,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <!-- Pushed notifications (docs/notifications/spec.md): the agent sends
+        <!-- Pushed notifications: the agent sends
              data and the app draws them; these are for a message that carries
              a notification of its own, which Android draws itself — a test
              from the Firebase console: the app's glyph in white, the alerts

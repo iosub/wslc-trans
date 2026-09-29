@@ -8,7 +8,7 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Containers;
 
 /// <summary>
-/// The reference's pull-then-run jobs: Run returns at once and the agent owns
+/// The pull-then-run jobs: Run returns at once and the agent owns
 /// the rest, so closing the dialog does not drop a run whose image is still
 /// downloading. The pull is the Images page's own (<see cref="ImagePulls"/>),
 /// joined when one is already under way, so its progress and console are the
@@ -92,7 +92,7 @@ public sealed class ContainerLaunches(IContainerService containers, IImageServic
         _jobs.TryRemove(new KeyValuePair<string, Job>(id, job));
     }
 
-    /// <summary>Whether the image is in the catalog, matched as the reference does: <c>repo:tag</c>, or the repository with <c>latest</c>.</summary>
+    /// <summary>Whether the image is in the catalog: <c>repo:tag</c>, or the repository with <c>latest</c>.</summary>
     internal static bool IsLocal(IEnumerable<ImageSummary> catalog, string image)
     {
         // A row without its tag is not latest: it is the image a pull moved the

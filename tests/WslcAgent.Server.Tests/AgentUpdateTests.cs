@@ -52,9 +52,9 @@ public sealed class AgentUpdateTests(WebApplicationFactory<Program> factory)
     /// <summary>
     /// Another agent on the same data folder — the development one beside the
     /// production one — writes the settings file; the running agent obeys it
-    /// without a restart, and one taken away brings the defaults back (the
-    /// owner, 26 September 2026: auto-update switched off there, and the agent
-    /// that had read it in the morning updated itself).
+    /// without a restart, and one taken away brings the defaults back (auto-update
+    /// switched off there, and the agent that had read it in the morning
+    /// updated itself).
     /// </summary>
     [Fact]
     public void Settings_written_by_another_agent_are_obeyed_without_a_restart()

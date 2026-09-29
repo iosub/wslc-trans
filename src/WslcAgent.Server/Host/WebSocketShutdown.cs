@@ -1,8 +1,7 @@
 namespace WslcAgent.Server.Host;
 
 /// <summary>
-/// Ends every open WebSocket the moment the agent starts to stop (the owner,
-/// 24 September 2026). The host waits for the requests under way before it
+/// Ends every open WebSocket the moment the agent starts to stop. The host waits for the requests under way before it
 /// exits, and a socket — a client's change stream, a terminal, a browser pane
 /// — is a request that lasts until its client goes: stopping the agent sat
 /// there until every client had reloaded or closed its window. Aborting the

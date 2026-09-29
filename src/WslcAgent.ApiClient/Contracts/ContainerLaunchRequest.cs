@@ -1,7 +1,7 @@
 namespace WslcAgent.ApiClient.Contracts;
 
 /// <summary>
-/// The reference's launch fields: what the Run, Create and View &amp; edit
+/// The launch fields: what the Run, Create and View &amp; edit
 /// forms send, and what <c>wslc container run|create</c> is built from.
 /// Empty strings and empty lists mean "not given".
 /// </summary>

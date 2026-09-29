@@ -5,8 +5,7 @@ using WslcAgent.UI.Notifications;
 namespace WslcAgent.App;
 
 /// <summary>
-/// The agent's notifications in the Windows client (docs/notifications/spec.md;
-/// the owner, 27 September 2026): the feed of the agent it talks to, shown as
+/// The agent's notifications in the Windows client: the feed of the agent it talks to, shown as
 /// Windows toasts under the client's name while the client runs — minimized
 /// too — when that agent is on another machine. On the agent's own machine its
 /// tray icon shows them, and the client showing them as well would say each

@@ -9,11 +9,10 @@ namespace Berpiztu.Dashboard.Designer;
 /// object, or a group taken whole — and the one change that can be taken
 /// back.
 /// <para>
-/// Given no draft, every change is kept at once — there is no Save
-/// (docs/home/v2/specv2.md, decision 9) — so what is on the screen is what the
+/// Given no draft, every change is kept at once — there is no Save — so what
+/// is on the screen is what the
 /// store holds: the board of every object's defaults. Given a draft, nothing
-/// reaches the store without Save (the owner, 28 September 2026, Home v2.5,
-/// as Home v3 did): each change is kept in the draft, on the device, so a
+/// reaches the store without Save: each change is kept in the draft, on the device, so a
 /// power cut or a lost connection loses nothing, and the draft is what is
 /// designed until it is saved or discarded.
 /// </para>
@@ -29,7 +28,7 @@ public sealed class DashboardDocument(IDashboardStore store, Func<string, bool>?
 {
     private readonly SemaphoreSlim _saving = new(1, 1);
 
-    /// <summary>The layout before the last change, for undo; one step only (decision 11).</summary>
+    /// <summary>The layout before the last change, for undo; one step only.</summary>
     private DashboardLayout? _before;
 
     /// <summary>The layout as the store holds it; the one on the screen until a change is made with a draft.</summary>
@@ -41,9 +40,8 @@ public sealed class DashboardDocument(IDashboardStore store, Func<string, bool>?
     public bool Unsaved => !ReferenceEquals(Layout, _saved);
 
     /// <summary>
-    /// What is chosen, objects and groups alike (the owner, 25 September 2026):
-    /// one object, whose properties the window shows; one group, taken whole
-    /// as a card of today's Home is; or several of either, chosen with Ctrl or
+    /// What is chosen, objects and groups alike: one object, whose properties
+    /// the window shows; one group, taken whole as a card is; or several of either, chosen with Ctrl or
     /// a drawn rectangle, to be moved together, made one group, or removed.
     /// </summary>
     private readonly List<string> _chosen = [];
@@ -166,7 +164,7 @@ public sealed class DashboardDocument(IDashboardStore store, Func<string, bool>?
     /// <summary>One object or group chosen, or nothing; whatever else was chosen lets go.</summary>
     public void Select(string? id) => Choose(id is null ? [] : [id]);
 
-    /// <summary>A group taken whole, as a card of today's Home is by its first tap.</summary>
+    /// <summary>A group taken whole, as a card is by its first tap.</summary>
     public void SelectGroup(string id) => Choose([id]);
 
     /// <summary>These chosen, and nothing else: a drawn rectangle's catch.</summary>
@@ -180,8 +178,7 @@ public sealed class DashboardDocument(IDashboardStore store, Func<string, bool>?
     /// <summary>
     /// Ctrl with a press: what it pressed joins what is chosen, or leaves it if
     /// it was there. Several are chosen on one level: objects standing alone
-    /// and whole groups together, or objects of one group together (the owner,
-    /// 26 September 2026); what was chosen on another level lets go first.
+    /// and whole groups together, or objects of one group together; what was chosen on another level lets go first.
     /// </summary>
     public void Toggle(string id)
     {
@@ -210,8 +207,7 @@ public sealed class DashboardDocument(IDashboardStore store, Func<string, bool>?
         : Task.FromResult(false);
 
     /// <summary>
-    /// A card made already dropped at a cell (a template; the owner,
-    /// 26 September 2026): its objects in their places, framed as one group,
+    /// A card made already dropped at a cell (a template): its objects in their places, framed as one group,
     /// added in one change and the group taken, so what it reads is chosen
     /// once for them all. Refused where the card would not fit.
     /// </summary>
@@ -235,7 +231,7 @@ public sealed class DashboardDocument(IDashboardStore store, Func<string, bool>?
     /// <summary>The alarms the status bar shows, as ticked in the properties window, in one change undo takes back.</summary>
     public Task SetStatusAsync(IReadOnlyList<StatusAlarm> status) => ChangeAsync(Layout with { Status = status });
 
-    /// <summary>The view's size in cells, set in design (Home v2.5), in one change undo takes back; a size under one cell is not a size, and changes nothing.</summary>
+    /// <summary>The view's size in cells, set in design, in one change undo takes back; a size under one cell is not a size, and changes nothing.</summary>
     public Task SetCanvasSizeAsync(int width, int height) =>
         width < 1 || height < 1 || (Layout.CanvasWidth == width && Layout.CanvasHeight == height)
             ? Task.CompletedTask
@@ -276,7 +272,7 @@ public sealed class DashboardDocument(IDashboardStore store, Func<string, bool>?
 
     /// <summary>
     /// <paramref name="dropped"/> let go on <paramref name="target"/>, both
-    /// standing alone: the two become a group (the owner, 25 September 2026).
+    /// standing alone: the two become a group.
     /// The target stays; the one dropped goes beside it (DashboardLayout.Beside),
     /// and a frame is drawn round the two, taken whole at once. Refused —
     /// false, nothing changed — when there is no room beside the target.
@@ -296,9 +292,8 @@ public sealed class DashboardDocument(IDashboardStore store, Func<string, bool>?
     }
 
     /// <summary>
-    /// An object standing alone, carried into a group's frame and let go there
-    /// (the owner, 25 September 2026): it joins the group where the user put
-    /// it — <paramref name="placed"/> is it at that place, as a member — and
+    /// An object standing alone, carried into a group's frame and let go
+    /// there: it joins the group where the user put it —<paramref name="placed"/> is it at that place, as a member — and
     /// the group is taken whole. Refused — false, nothing changed — where it
     /// would take cells another object stands on, or where the group is a card
     /// whose pieces live only in it.
@@ -316,11 +311,10 @@ public sealed class DashboardDocument(IDashboardStore store, Func<string, bool>?
     }
 
     /// <summary>
-    /// An object of a group carried out of its frame and let go (the owner,
-    /// 25 September 2026): it leaves the group and stands alone where it was
+    /// An object of a group carried out of its frame and let go: it leaves the group and stands alone where it was
     /// let go, and a group left with one object is a group no more — its
-    /// frame goes and that object stands alone too. The frame keeps its size,
-    /// as a card of today's Home does. Refused — false, nothing changed — where
+    /// frame goes and that object stands alone too. The frame keeps its size.
+    /// Refused — false, nothing changed — where
     /// it would not fit standing alone, or where it lives only in its card.
     /// </summary>
     public async Task<bool> LeaveAsync(ObjectInstance moved)
@@ -379,7 +373,7 @@ public sealed class DashboardDocument(IDashboardStore store, Func<string, bool>?
 
     /// <summary>
     /// Group (Ctrl+G) with several chosen, objects standing alone and whole
-    /// groups (the owner, 25 September 2026): one frame drawn round all of
+    /// groups: one frame drawn round all of
     /// them, the groups chosen melted into it — no group holds another — and
     /// the group taken whole. Refused — false, nothing changed — when the frame
     /// would take the cells of anything else.
@@ -439,7 +433,7 @@ public sealed class DashboardDocument(IDashboardStore store, Func<string, bool>?
 
     /// <summary>
     /// An object whose source is gone (its container deleted) leaves the
-    /// dashboard (decision 6), and a group it leaves with no object goes with
+    /// dashboard, and a group it leaves with no object goes with
     /// it — as the store holds it and as it is designed. It is not the user's
     /// change, so it is not something undo takes back: undoing it would only
     /// bring back an object with nothing to read.

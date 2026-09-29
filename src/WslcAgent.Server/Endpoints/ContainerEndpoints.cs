@@ -77,7 +77,7 @@ public static class ContainerEndpoints
         group.MapGet("/{container}/stats", (string container, IContainerService containers, CancellationToken ct) => containers.StatsAsync(container, ct))
             .WithName("ContainerStats");
 
-        // The reference's "Export JSON": the inspect output as a file the browser saves.
+        // Export JSON: the inspect output as a file the browser saves.
         group.MapGet("/{container}/inspect.json", async (string container, IContainerService containers, CancellationToken ct) =>
             {
                 var (name, json) = await containers.InspectJsonAsync(container, ct);
@@ -85,7 +85,7 @@ public static class ContainerEndpoints
             })
             .WithName("ContainerInspectJson");
 
-        // The reference's "Load JSON file": the form read from a JSON the user picked.
+        // Load JSON file: the form read from a JSON the user picked.
         group.MapPost("/launch-form", (LaunchFormSource source, IContainerService containers) => containers.LaunchFormFromJson(source.Json))
             .WithName("LaunchFormFromJson");
 
@@ -226,8 +226,8 @@ public static class ContainerEndpoints
             .DisableAntiforgery()
             .WithMetadata(new DisableRequestSizeLimitAttribute());
 
-        // A client says what it is about to move before it moves any of it
-        // (docs/transfers-queue.md): the files take their places at the back of
+        // A client says what it is about to move before it moves any of it:
+        // the files take their places at the back of
         // their direction's queue and the ids that come back are what make them
         // that client's own. Nothing travels until each is the head of its
         // queue and claims its turn on the upload or download endpoint.

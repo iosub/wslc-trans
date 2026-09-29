@@ -1,4 +1,4 @@
-@* The Ports popup of the launch form (docs/remote-config/publish.md): one row
+@* The Ports popup of the launch form: one row
    per port pair, the list-editor look, with three columns and a check —
    host port, container port, Reverse proxy, and the name the port is
    published under, the container's name by default, editable, greyed while
@@ -129,7 +129,7 @@
         Dialog.StateHasChanged();
     }
 
-    /// <summary>Blank rows are dropped, as the reference's list editors do; a ticked row without a name is not published.</summary>
+    /// <summary>Blank rows are dropped, as in every list editor; a ticked row without a name is not published.</summary>
     private void Save()
     {
         var kept = _rows.Where(r => r.Spec.Length > 0).ToList();

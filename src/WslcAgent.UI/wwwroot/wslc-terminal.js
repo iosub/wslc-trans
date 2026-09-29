@@ -1,7 +1,6 @@
 // The terminal surface: xterm.js plus the agent's exec protocol
 // (ExecTerminals). Loaded as a module the first time a terminal opens, so the
-// 500 KB emulator costs nothing on the pages that have no terminal. The
-// behaviour is the reference's shared terminal surface, feature for feature.
+// 500 KB emulator costs nothing on the pages that have no terminal.
 //
 //   client → {type:"start",command,cols,rows} {type:"stdin",data}
 //            {type:"resize",cols,rows} {type:"pong"} {type:"close"}
@@ -78,7 +77,7 @@ function loadEmulator() {
 /**
  * The clipboard API needs a permission the WebView of a native client does not
  * grant, so the copy silently failed there. The old execCommand path still
- * works in every host and is the fallback, as in the reference.
+ * works in every host and is the fallback.
  */
 async function toClipboard(text) {
     if (!text) {

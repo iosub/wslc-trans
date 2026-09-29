@@ -9,8 +9,7 @@ namespace WslcAgent.Server.Containers;
 /// <summary>
 /// What the details view and the recreate flow read from
 /// <c>wslc container inspect</c>: the header fields, the mounts and the
-/// launch fields the container was created with (the reference's
-/// <c>options_from_inspect</c>), in one place for both.
+/// launch fields the container was created with, in one place for both.
 /// </summary>
 public sealed record ContainerInspection(
     string Id,

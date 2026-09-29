@@ -2,7 +2,7 @@ using WslcAgent.ApiClient.Contracts;
 
 namespace WslcAgent.UI.Components.Launch;
 
-/// <summary>Which of the reference's three surfaces the launch form is: Run, Create, or View &amp; edit (recreate).</summary>
+/// <summary>Which of its three surfaces the launch form is: Run, Create, or View &amp; edit (recreate).</summary>
 public enum LaunchMode
 {
     Run,
@@ -55,7 +55,7 @@ public sealed class NetworkRow
 }
 
 /// <summary>
-/// The editable state behind the launch form, one field per reference field,
+/// The editable state behind the launch form, one property per form field,
 /// converted to and from the API's <see cref="ContainerLaunchRequest"/>.
 /// </summary>
 public sealed class LaunchForm

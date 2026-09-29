@@ -20,8 +20,7 @@
         Comments="$(var.MsiVersion)"
         Manufacturer="Berpiztu" />
     <!-- Every other version of the agent is replaced, older or newer: an older
-         installer is a way back, not a mistake to refuse (the owner, 21 September
-         2026). A newer one on the PC is said on the welcome page, with its number
+         installer is a way back, not a mistake to refuse. A newer one on the PC is said on the welcome page, with its number
          when it left one (Version under the agent's key, written by this installer
          and by the agent itself at every start). -->
     <Upgrade Id="94bb9fe5-4005-46ba-aab1-bddb047aed08">
@@ -70,8 +69,8 @@
       <util:InternetShortcut Id="DashboardUrl" Name="WSLC AI Agent" Target="http://[WSLC_BINDHOST]:[WSLC_AGENTPORT]/" Type="url" IconFile="[INSTALLFOLDER]wslc-ai-agent.exe" IconIndex="0" />
     </Component>
 
-    <!-- The logon task registered and removed with no window at all (the
-         owner, 26 September 2026: a black console flashed up during the
+    <!-- The logon task registered and removed with no window at all (a black
+         console flashed up during the
          install; -WindowStyle Hidden hides it only once it has been drawn).
          WiX's quiet exec runs the command with none, its command line handed
          over as the action's data. -->
@@ -97,7 +96,7 @@
                   Return="ignore" />
 
     <!-- The installed agent and its icon beside the clock stopped before the
-         installer looks for files in use (the owner, 26 September 2026: a
+         installer looks for files in use (a
          manual install asked three times to close them; the logon script
          stops them too, but only after that look). Every process running out
          of the install folder, by its path: never one picked by image name,

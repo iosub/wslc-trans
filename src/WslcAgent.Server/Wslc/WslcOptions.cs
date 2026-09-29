@@ -24,8 +24,7 @@ public sealed class WslcOptions
     /// How long a whole-list read (<c>container list</c>, <c>container stats</c>)
     /// is served from memory (<see cref="CachingWslcRunner"/>), in seconds; 0
     /// turns the cache off. One window per client refresh (5 s, the list pages'
-    /// and Home's) means one launch per interval however many clients poll, as
-    /// the reference sets it.
+    /// and Home's) means one launch per interval however many clients poll.
     /// </summary>
     public double ReadCacheSeconds { get; set; } = 5;
 

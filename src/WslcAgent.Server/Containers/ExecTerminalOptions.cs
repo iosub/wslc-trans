@@ -2,7 +2,7 @@ namespace WslcAgent.Server.Containers;
 
 /// <summary>
 /// What an exec terminal session may cost, bound from the <c>Terminal</c>
-/// configuration section. The reference's limits: a shell left open in a
+/// configuration section. The limits: a shell left open in a
 /// forgotten tab must not hold a process for ever, and a client must not be
 /// able to open them without end. Zero disables a limit.
 /// </summary>

@@ -4,7 +4,7 @@ using System.Reflection;
 namespace WslcAgent.UI.Components;
 
 /// <summary>
-/// The reference's icon language: the same Unicode glyphs it used, wrapped as
+/// The icon language: Unicode glyphs, wrapped as
 /// SVG text so they fit every MudBlazor <c>Icon</c> slot (nav links, menus,
 /// buttons). Symbols take the current colour; pictograms keep their own.
 /// </summary>
@@ -66,7 +66,7 @@ public static class WslcIcons
     public static readonly string Browser = Pictogram("🌐");
     public static readonly string Sessions = Pictogram("👁");
 
-    // The Files browser, with the reference's glyphs.
+    // The Files browser's glyphs.
     public static readonly string Cut = Symbol("✂");
     public static readonly string Edit = Symbol("✎");
     public static readonly string Rename = Symbol("↔");

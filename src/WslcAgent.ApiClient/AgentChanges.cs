@@ -11,7 +11,7 @@ namespace WslcAgent.ApiClient;
 /// them is up. A screen listens here instead of asking the agent every few
 /// seconds — and when this is not connected the screens fall back to their own
 /// slow reading, so the application never depends on it being there. The tray
-/// icon listens here too, for the notifications it shows (docs/notifications/spec.md).
+/// icon listens here too, for the notifications it shows.
 /// <para>
 /// In C# on purpose: a WebSocket from Blazor is <see cref="ClientWebSocket"/>,
 /// and this repository's JavaScript is for the terminal, the charts, the map,

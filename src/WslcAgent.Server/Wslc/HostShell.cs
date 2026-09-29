@@ -5,7 +5,7 @@ namespace WslcAgent.Server.Wslc;
 
 /// <summary>
 /// The Terminal page's shell: the agent machine's own command prompt, not
-/// <c>wslc exec</c>. As the reference: <c>%ComSpec%</c>, else
+/// <c>wslc exec</c>. <c>%ComSpec%</c>, else
 /// <c>%SystemRoot%\System32\cmd.exe</c>, behind a pseudo console where Windows
 /// has one and plain pipes otherwise; <c>$SHELL -l</c> away from Windows.
 /// </summary>

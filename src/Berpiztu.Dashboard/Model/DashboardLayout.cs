@@ -15,7 +15,7 @@ public sealed record DashboardLayout(int Columns, IReadOnlyList<ObjectInstance> 
     /// <summary>
     /// The columns a new dashboard has: cells of about 17px on the screen it is
     /// first designed on, so a card is laid out as close to the list pages'
-    /// card as cells allow (docs/home/v2.5/spec.md, decision 10; v2's had 24).
+    /// card as cells allow.
     /// </summary>
     public const int DefaultColumns = 48;
 
@@ -32,18 +32,18 @@ public sealed record DashboardLayout(int Columns, IReadOnlyList<ObjectInstance> 
         Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
     };
 
-    /// <summary>The groups, each a frame its objects stand in (docs/home/v2/specv2.md, decision 4).</summary>
+    /// <summary>The groups, each a frame its objects stand in.</summary>
     public IReadOnlyList<DashboardGroup> Groups { get; init; } = [];
 
     /// <summary>
-    /// A cell's side, the same on every screen and every dashboard (the owner,
-    /// 28 September 2026, Home v2.5: a container card dropped is as large as
-    /// the Containers screen's): the list card's measured on that screen, its
+    /// A cell's side, the same on every screen and every dashboard (a
+    /// container card dropped is as large as the Containers screen's): the
+    /// list card's measured on that screen, its
     /// header 50px in three cells, its body 118px in seven, its actions 33px
     /// in two and its 419px across in twenty-four — 16.75px at a 16px rem,
     /// in rem so the page's type and the cells scale together. A wider window
-    /// is more cells, not larger ones (the owner, 25 September 2026); the zoom
-    /// that fits a view to the screen is its own (docs/home/v2.5/spec.md).
+    /// is more cells, not larger ones; the zoom that fits a view to the screen
+    /// is its own.
     /// </summary>
     public const string CellSize = "1.046875rem";
 
@@ -51,15 +51,13 @@ public sealed record DashboardLayout(int Columns, IReadOnlyList<ObjectInstance> 
     public const double CellPixels = 16.75;
 
     /// <summary>
-    /// The alarms the status bar shows as well (the owner, 26 September 2026,
-    /// as today's Home), in the order they were ticked; one whose object left,
+    /// The alarms the status bar shows as well, in the order they were ticked; one whose object left,
     /// or whose alarm is off, is not shown.
     /// </summary>
     public IReadOnlyList<StatusAlarm> Status { get; init; } = [];
 
     /// <summary>
-    /// The view's size in cells, set in design (the owner, 28 September 2026,
-    /// Home v2.5): what is shown out of design, from the canvas's first cell,
+    /// The view's size in cells, set in design: what is shown out of design, from the canvas's first cell,
     /// rooms and all, zoomed to fit the screen; its aspect is the view's. Null
     /// until it is set, and the view is then what its cards take.
     /// </summary>
@@ -82,8 +80,8 @@ public sealed record DashboardLayout(int Columns, IReadOnlyList<ObjectInstance> 
     /// canvas's columns, on cells no other object takes, and — in a group —
     /// inside that group's frame, or — standing alone — outside every frame.
     /// The object it replaces (the same id) does not count against it, and a
-    /// hidden one takes no cells (the owner, 26 September 2026: what a hidden
-    /// piece leaves is free for the others), and it is shown again only
+    /// hidden one takes no cells (what a hidden piece leaves is free for the
+    /// others), and it is shown again only
     /// where nothing stands.
     /// </summary>
     public bool Fits(ObjectInstance candidate)
@@ -116,8 +114,7 @@ public sealed record DashboardLayout(int Columns, IReadOnlyList<ObjectInstance> 
 
     /// <summary>
     /// Where <paramref name="dropped"/> goes when it is let go on
-    /// <paramref name="target"/> to make a group of the two (the owner,
-    /// 25 September 2026): the one that was there stays, and the one dropped
+    /// <paramref name="target"/> to make a group of the two: the one that was there stays, and the one dropped
     /// stands at its right, or at its left when there is no room there, or
     /// under it; null when neither place has room for it and the frame round
     /// the two.
@@ -143,7 +140,7 @@ public sealed record DashboardLayout(int Columns, IReadOnlyList<ObjectInstance> 
     /// <summary>
     /// The group whose frame holds this box whole, if one does: an object
     /// carried there, or dropped there from the toolbox, would stand in that
-    /// group, where the user put it (the owner, 25 September 2026).
+    /// group, where the user put it.
     /// </summary>
     public DashboardGroup? GroupHolding(CellBox box) =>
         Groups.FirstOrDefault(group => group.Box.Contains(box));

@@ -17,7 +17,7 @@ public static class UpdateFlow
 {
     /// <summary>
     /// The agent's package downloaded and installed, whether or not it is newer
-    /// (the owner, 24 September 2026: the System card's version is already
+    /// (the System card's version is already
     /// green or amber, so a tap on it downloads instead of asking again). The
     /// agent is asked first only when this client has not heard from it yet.
     /// </summary>

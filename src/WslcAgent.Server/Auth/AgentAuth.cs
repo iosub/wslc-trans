@@ -5,7 +5,7 @@ using WslcAgent.Server.Host;
 namespace WslcAgent.Server.Auth;
 
 /// <summary>
-/// Who may use the agent, as the reference decides it: a signed-in session (the
+/// Who may use the agent: a signed-in session (the
 /// cookie a browser keeps, or the same value as a bearer token from a native
 /// client), the API token, or someone sitting at the agent's own machine and
 /// talking to it directly. A request that came through a proxy is never local,
@@ -88,7 +88,7 @@ public static class AgentAuth
     public static string SetupHint(HttpContext http) =>
         $"This agent has no Internet login yet. On the agent's machine, open http://127.0.0.1:{http.Connection.LocalPort}/settings (no login is asked there), set the Internet username and password, then come back to this address.";
 
-    /// <summary>The reference's <c>next</c> rule: only a path of this agent, never another site.</summary>
+    /// <summary>The <c>next</c> rule: only a path of this agent, never another site.</summary>
     public static string SafeNext(string? next) =>
         next is { Length: > 0 } value && value.StartsWith('/') && !value.StartsWith("//", StringComparison.Ordinal) && !value.StartsWith("/\\", StringComparison.Ordinal) ? value : "/";
 

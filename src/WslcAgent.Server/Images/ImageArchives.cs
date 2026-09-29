@@ -5,7 +5,7 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Images;
 
 /// <summary>
-/// Import and Load from an archive the browser uploads, as the reference: the
+/// Import and Load from an archive the browser uploads: the
 /// upload is written to a temporary file with the same extensions, handed to
 /// <c>wslc import FILE [IMAGE]</c> or <c>wslc load --input FILE</c>, and deleted
 /// whatever the outcome. Both can take minutes for a large image.

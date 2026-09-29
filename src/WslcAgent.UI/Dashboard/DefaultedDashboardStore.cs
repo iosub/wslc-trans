@@ -4,10 +4,10 @@ namespace WslcAgent.UI.Dashboard;
 
 /// <summary>
 /// Where the dashboard is kept, read with every blank page and view shown as
-/// the default the agent ships (the owner, 26 September 2026: a user's
-/// dashboard left blank, on the agent or on a device, landscape or portrait,
-/// shows the default's; <see cref="DashboardPages.Filled"/>). What it shows is
-/// kept there only once it is edited there, as today's Home's fresh set was.
+/// the default the agent ships (a user's dashboard left blank, on the agent
+/// or on a device, landscape or portrait, shows the default's;
+/// <see cref="DashboardPages.Filled"/>). What it shows is kept there only
+/// once it is edited there.
 /// </summary>
 public sealed class DefaultedDashboardStore(IDashboardStore place, Func<Task<string?>> shipped) : IDashboardStore
 {

@@ -1,8 +1,7 @@
 namespace Berpiztu.Dashboard.Catalogue;
 
 /// <summary>
-/// A measure an object can raise an alarm on (the owner, 26 September 2026,
-/// as today's Home's cards): a percent the application works out for it
+/// A measure an object can raise an alarm on: a percent the application works out for it
 /// (<see cref="Sources.IMeasures"/>), past whose threshold the object — or
 /// the card it stands in — turns red and blinks. Written on the object's
 /// component beside its descriptor, one per measure, in the order the

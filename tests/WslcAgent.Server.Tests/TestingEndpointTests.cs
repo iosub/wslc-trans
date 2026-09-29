@@ -4,7 +4,7 @@ using WslcAgent.ApiClient.Contracts;
 
 namespace WslcAgent.Server.Tests;
 
-/// <summary>Settings → Testing: the simulate-remote switch stays as the owner left it.</summary>
+/// <summary>Settings → Testing: the simulate-remote switch stays as the user left it.</summary>
 public sealed class TestingEndpointTests(WebApplicationFactory<Program> factory)
     : IClassFixture<WebApplicationFactory<Program>>
 {

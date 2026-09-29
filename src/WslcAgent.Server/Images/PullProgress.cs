@@ -4,8 +4,8 @@ using System.Text.RegularExpressions;
 namespace WslcAgent.Server.Images;
 
 /// <summary>
-/// What a <c>wslc image pull</c> terminal output says, the reference's reading
-/// of it: the layers seen and how far each got (downloading is the first half,
+/// What a <c>wslc image pull</c> terminal output says:
+/// the layers seen and how far each got (downloading is the first half,
 /// extracting the second), a status line to show, the error worth repeating,
 /// and the log as text without terminal codes.
 /// </summary>
@@ -62,7 +62,7 @@ public static partial class PullProgress
                 }
 
                 // The word alone, as Extracting: the CLI's bar and sizes said in text
-                // what the percentage beside it already shows (owner, 2026-09-20).
+                // what the percentage beside it already shows.
                 status = "Downloading...";
             }
             else if (message.Contains("Pulling from"))
@@ -95,7 +95,7 @@ public static partial class PullProgress
 
     /// <summary>
     /// What the CLI said when it failed, whole: its output without the layers'
-    /// progress lines, as printed. The owner's rule: the reason, the code and the
+    /// progress lines, as printed. The reason, the code and the
     /// closing line are one message, shown entire in the toast and in the log,
     /// never a line picked out of it — the picking is what showed "If this error
     /// was unexpected…" for a network that was unreachable. Null when nothing but

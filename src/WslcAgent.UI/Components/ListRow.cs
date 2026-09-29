@@ -5,8 +5,7 @@ namespace WslcAgent.UI.Components;
 /// the same row after a refresh. The grid keys its rows (<c>@key</c>) and
 /// matches its selection by the row's equality, so equality is the key alone:
 /// a polled row whose CPU or state changed stays the same row, keeps its DOM,
-/// its tick and an open menu, and only its cells are updated. The reference's
-/// Tabulator tables declare the same identity (<c>index: "Id"</c>); compared by
+/// its tick and an open menu, and only its cells are updated. Compared by
 /// value instead, a row holding a list never equals itself after a poll, and
 /// every row was drawn anew every five seconds.
 /// </summary>

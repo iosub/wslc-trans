@@ -45,7 +45,7 @@
                 <div class="wslc-details-back">@BackToList</div>
             </section>
 
-            @* The reference's tabs: Logs, Inspect (View & edit), Bind mounts, Exec, Files, Stats. *@
+            @* The tabs: Logs, Inspect (View & edit), Bind mounts, Exec, Files, Stats. *@
             <MudTabs Elevation="Style.Applied.TabsElevation" Rounded="Style.Applied.TabsRounded" Border="Style.Applied.TabsBorder"
                      Centered="Style.Applied.TabsCentered" Color="Style.Applied.TabsColor"
                      TabPanelsClass="wslc-tab-panels" Class="wslc-fill" MinimumTabWidth="@($"{Style.Applied.TabsMinWidth}px")" ActivePanelIndex="_tab" ActivePanelIndexChanged="OnTabChanged">
@@ -116,7 +116,7 @@
 </PageShell>
 
 @code {
-    /// <summary>The reference's "← Containers": back to the list (the browser's back button and the phone's gesture do the same through the router); in the header row, at its far right, as the owner placed it.</summary>
+    /// <summary>"← Containers": back to the list (the browser's back button and the phone's gesture do the same through the router); in the header row, at its far right.</summary>
     private RenderFragment BackToList => @<MudButton Size="Size.Small" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.ArrowBack" Class="rounded-0" OnClick="@(() => Navigation.NavigateTo("containers"))">Containers</MudButton>;
 
     private static readonly string[] Tabs = ["logs", "inspect", "mounts", "exec", "files", "stats"];
@@ -131,7 +131,7 @@
 
     [Parameter] public string Id { get; set; } = "";
 
-    /// <summary><c>?tab=logs|inspect|mounts|exec|files|stats</c>, the reference's deep link.</summary>
+    /// <summary><c>?tab=logs|inspect|mounts|exec|files|stats</c>, the deep link to a tab.</summary>
     [SupplyParameterFromQuery] public string? Tab { get; set; }
 
     /// <summary><c>?path=</c>: the folder the Files tab is showing, so Back walks the folders that were opened.</summary>
@@ -148,7 +148,7 @@
     protected override async Task OnParametersSetAsync()
     {
         // The section is showing this container: the sidebar's Containers entry
-        // comes back here while it is open, as the reference's does.
+        // comes back here while it is open.
         Open.SetContainer(Id);
         _tab = Math.Max(0, Array.IndexOf(Tabs, Tab ?? "logs"));
         if (_formOf != Id)
@@ -157,7 +157,7 @@
         }
     }
 
-    /// <summary>The reference re-reads the header every 10 s and stops when the container is gone.</summary>
+    /// <summary>The header is read again every 10 s, and no longer once the container is gone.</summary>
     /// <summary>A look applied in Settings reaches these tabs without the screen being opened again.</summary>
     private void OnStyleChanged() => InvokeAsync(StateHasChanged);
 
@@ -228,8 +228,7 @@
         _tab = index;
         // A pushed entry, not a replaced one: Back walks the tabs the user
         // opened (Exec → Logs → the list → wherever they came from), with the
-        // mouse's back button and with the phone's gesture alike. The
-        // reference replaces the URL here and loses that trail.
+        // mouse's back button and with the phone's gesture alike.
         Navigation.NavigateTo($"containers/{Id}?tab={Tabs[index]}");
     }
 

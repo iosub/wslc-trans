@@ -5,7 +5,7 @@ using WslcAgent.Server.Wslc;
 
 namespace WslcAgent.Server.Notifications;
 
-/// <summary>Settings → Notifications, kept in <c>notifications.json</c> in the agent's data folder; the owner's defaults until it exists.</summary>
+/// <summary>Settings → Notifications, kept in <c>notifications.json</c> in the agent's data folder; the defaults until it exists.</summary>
 public sealed class NotificationSettingsStore(IOptions<WslcOptions> options)
     : SavedSettings<NotificationSettings>(
         Path.Combine(options.Value.DataDirectory, "notifications.json"),

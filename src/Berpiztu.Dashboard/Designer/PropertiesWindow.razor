@@ -1,8 +1,8 @@
-@* The properties window (docs/home/v2/specv2.md, decision 9): small, moved
+@* The properties window: small, moved
    by its title so it is put where it hides nothing being worked on, and
    there for as long as the dashboard is designed, with nothing to open. It
    shows the object selected, and each change applies as it is made — there
-   is no Save; the last change is undone from its title (decision 11). The
+   is no Save; the last change is undone from its title. The
    source's field is the application's (ISourceFamily.Field), so it is drawn
    by the application's rules and opens its one picker. The other fields are
    MudBlazor's, as they come. *@
@@ -11,23 +11,21 @@
 @inject SourceFamilies Families
 @inject ISnackbar Snackbar
 
-@* Outlined as its fields are (the owner, 25 September 2026): the object's
+@* Outlined as its fields are: the object's
    name on its top line, which moves the window, and undo and remove on its
    bottom line at its right. *@
 <FloatingWindow Name="@Name" Class="bz-dash-properties">
     <ChildContent>
         @if (Selected is { } shown && Kind is { } kind)
         {
-            @* Five of the canvas's cells wide (the owner, 25 and 26 September 2026:
-               four, then five for an alignment and its margin in one row and the
-               five keys of its bottom line), and as tall as its fields, with no note
+            @* Five of the canvas's cells wide (for an alignment and its margin
+               in one row and the five keys of its bottom line), and as tall as its fields, with no note
                reserved under any of them: the words and the icons say what they
                are, and each carries its tooltip. *@
             <MudStack Spacing="3" Class="mt-2">
                 <PropertySection Name="Object">
-                    @* Each property in the canvas's own cells, one high (the owner,
-                       25 September 2026), its word inside its own outlined field, as the
-                       owner laid out Row, and no note under it: the source across all
+                    @* Each property in the canvas's own cells, one high, its word
+                       inside its own outlined field, and no note under it: the source across all
                        four cells, its values read from its family (ListField);
                        Col and Row two each side by side; Size across all four. *@
                     <div class="bz-dash-props">
@@ -48,18 +46,17 @@
                                    Title="Cells one under the other" />
                     </div>
                     @* A piece that lives only in its card is hidden rather than
-                       removed (the owner, 26 September 2026), and shown again here. *@
+                       removed, and shown again here. *@
                     @if (Document.CardOnly(shown))
                     {
                         <CheckRow Value="@(shown.Hidden != true)" ValueChanged="@(on => SetAsync(shown with { Hidden = on ? null : true }))"
-                                  Label="Shown" Class="mt-1" Title="Shown on the dashboard, or hidden, as a part of today's card is" />
+                                  Label="Shown" Class="mt-1" Title="Shown on the dashboard, or hidden" />
                     }
                     @* How it looks: its type size, its colours, its alignment and margins,
                        the fields several objects chosen together share too. *@
                     <LookProperties Document="Document" Objects="@([shown])" Class="mt-2" />
                 </PropertySection>
-                @* Each part of what it draws, under its name (the owner, 26 September
-                   2026): whether it is shown, where the object lets it be hidden,
+                @* Each part of what it draws, under its name: whether it is shown, where the object lets it be hidden,
                    its size on top of the object's, and a part of text its colour
                    and whether it is bold, each showing the object's design until
                    it is changed. *@
@@ -104,8 +101,7 @@
                         </div>
                     </PropertySection>
                 }
-                @* Each measure it can raise an alarm on (the owner, 26 September
-                   2026, as a card's Settings on today's Home): whether it is on,
+                @* Each measure it can raise an alarm on: whether it is on,
                    and the percent past which it turns red and blinks. *@
                 @foreach (var measure in kind.Alarms)
                 {
@@ -124,11 +120,11 @@
         }
         else if (Document.Chosen.Count > 1)
         {
-            @* Several objects chosen (the owner, 25 September 2026): carried
+            @* Several objects chosen: carried
                together by a drag on any of them, made a group by Group. *@
             <MudText Typo="Typo.caption" Class="mud-text-secondary d-block mt-1">Drag any of them to move them all together; Group (Ctrl+G) keeps them together in one frame.</MudText>
-            @* What they share, set on them all at once (the owner, 26 September
-               2026), a card chosen counting as its objects. *@
+            @* What they share, set on them all at once, a card chosen counting
+               as its objects. *@
             <div class="mt-3">
                 <PropertySection Name="Every object chosen">
                     <LookProperties Document="Document" Objects="ChosenAndTheirs" />
@@ -140,8 +136,7 @@
             @* A group taken whole: how many objects it keeps, and its frame's
                size, which its corner on the canvas changes too. *@
             <MudText Typo="Typo.caption" Class="mud-text-secondary d-block mt-1">@($"{Document.Layout.Members(frame.Id).Count} objects, kept together")</MudText>
-            @* A card whose pieces live only in it: each shown or hidden here,
-               as today's card shows or hides its parts. *@
+            @* A card whose pieces live only in it: each shown or hidden here. *@
             @foreach (var piece in Document.Layout.Members(frame.Id).Where(Document.CardOnly))
             {
                 <CheckRow Value="@(piece.Hidden != true)" ValueChanged="@(on => SetAsync(piece with { Hidden = on ? null : true }))"
@@ -149,7 +144,7 @@
             }
             <div class="bz-dash-props mt-1">
                 @* What its objects read, chosen once for them all where they read one
-                   family (the owner, 26 September 2026: a card made already). *@
+                   family (a card made already). *@
                 @if (GroupFamily(frame) is { } family)
                 {
                     <ListField T="string" Value="@(GroupSource(frame) ?? "")" ValueChanged="@(source => SetGroupSourceAsync(frame, source))"
@@ -160,8 +155,7 @@
                            Title="The group's cells side by side; never fewer than its objects take" />
                 <TextField T="int" Value="frame.H" ValueChanged="@(h => SetFrameAsync(frame with { H = h }))" Label="Row"
                            Title="The group's cells one under the other; never fewer than its objects take" />
-                @* Its card's colours, as an object's (the owner, 25 September
-                   2026): its ground, and the text of its objects that inherit theirs. *@
+                @* Its card's colours, as an object's: its ground, and the text of its objects that inherit theirs. *@
                 <ChoiceField T="ThemeColor" Value="@(frame.Background ?? ThemeColors.GroupBackground)"
                              ValueChanged="@(color => SetFrameAsync(frame with { Background = Kept(color, ThemeColors.GroupBackground) }))"
                              Options="ColorOptions" Label="Background"
@@ -170,22 +164,21 @@
                              ValueChanged="@(color => SetFrameAsync(frame with { Foreground = Kept(color, ThemeColors.GroupForeground) }))"
                              Options="ColorOptions" Label="Foreground"
                              Title="The colour of its text, which its objects set to Inherited take" />
-                @* How far its card stands off the page (the owner, 28 September
-                   2026, as the Containers screen's cards do): Settings is theirs,
+                @* How far its card stands off the page, as the Containers
+                   screen's cards do: Settings is theirs,
                    the Settings page's, followed as it changes. *@
                 <ChoiceField T="int?" Value="frame.Elevation" ValueChanged="@(elevation => SetFrameAsync(frame with { Elevation = elevation }))"
                              Options="ElevationOptions" Label="Elevation"
                              Title="How far the card stands off the page; Settings is the Containers screen's cards', the Settings page's" />
                 @* Which of the view's edges the card keeps to as a fluid view
-                   widens (the owner, 28 September 2026), as its objects keep
+                   widens, as its objects keep
                    to the card's. *@
                 <ChoiceField T="HorizontalAnchor?" Value="@(frame.Anchor ?? HorizontalAnchor.Scale)"
                              ValueChanged="@(anchor => SetFrameAsync(frame with { Anchor = anchor is { } chosen ? Kept(chosen, HorizontalAnchor.Scale) : null }))"
                              Options="AnchorOptions" Label="Anchor"
                              Title="As a fluid view widens: Scale spreads the card in proportion; Left or Right keeps its size and its distance to that edge of the view; Both keeps both distances and widens it" />
             </div>
-            @* What is set once for every object of the card (the owner,
-               26 September 2026): shown when asked for, each change made to them
+            @* What is set once for every object of the card: shown when asked for, each change made to them
                all in one step. *@
             <CheckRow @bind-Value="_toEvery" Label="Apply to every object" Class="mt-1" Title="Set these properties on every object of the group at once" />
             @if (_toEvery)
@@ -196,8 +189,7 @@
         else
         {
             <MudText Typo="Typo.caption" Class="mud-text-secondary d-block mt-1">Select an object on the dashboard to see its properties here.</MudText>
-            @* Status alarms (the owner, 26 September 2026, as today's Home's
-               Edit): the same list the round button's Status alarms opens. *@
+            @* Status alarms: the same list the round button's Status alarms opens. *@
             <div class="mt-3">
                 <PropertySection Name="Status alarms">
                     <StatusAlarmsList Document="Document" />
@@ -262,8 +254,8 @@
     }
 
     /// <summary>
-    /// The object selected as its kind makes it (the owner, 26 September
-    /// 2026: after trying things, back to where it started): as its default in
+    /// The object selected as its kind makes it (after trying things, back to
+    /// where it started): as its default in
     /// this view has it where one was designed; otherwise its type size, its
     /// alignment and margins, its colours and its parts as designed, and the
     /// cells it is dropped with where they fit. Where it stands and what it
@@ -295,7 +287,7 @@
     /// <summary>
     /// The objects Reset puts back: the one selected, or every one chosen,
     /// those of the cards chosen included, or, a card taken with "Apply to every
-    /// object" checked, every object of it (the owner, 26 September 2026); a
+    /// object" checked, every object of it; a
     /// card taken alone otherwise resets its own colours.
     /// </summary>
     private IReadOnlyList<(ObjectInstance Object, ObjectDescriptor Kind)> ToReset
@@ -341,7 +333,7 @@
         }
     }
 
-    /// <summary>The group's properties for every object are shown (the owner's check).</summary>
+    /// <summary>The group's properties for every object are shown ("Apply to every object" checked).</summary>
     private bool _toEvery;
 
     /// <summary>The objects chosen, and those of the groups chosen: what the fields of several set.</summary>

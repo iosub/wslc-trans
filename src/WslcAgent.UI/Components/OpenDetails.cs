@@ -2,8 +2,7 @@ namespace WslcAgent.UI.Components;
 
 /// <summary>
 /// The details page the Containers section is showing, kept while the user is
-/// away in another section: the sidebar's Containers entry returns to it, the
-/// way the reference's does (its <c>wslc-containers-open-details</c>), instead
+/// away in another section: the sidebar's Containers entry returns to it, instead
 /// of landing on the list and losing the container being worked on. The list
 /// itself clears it — arriving there, by the details header's ← Containers or
 /// by any other route, is how the section goes back to being the list.

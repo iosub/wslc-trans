@@ -6,14 +6,14 @@ using WslcAgent.UI.Components.Dialogs;
 namespace WslcAgent.UI.Dashboard;
 
 /// <summary>
-/// What a chart, its legend and its summary share (the owner, 26 September
-/// 2026): their subject, the host by default or one of the user's containers
+/// What a chart, its legend and its summary share: their subject, the host
+/// by default or one of the user's containers
 /// (<see cref="SubjectSourceFamily"/>), and the read that subject's chart
 /// draws — the host's runtime or I/O, or the container's stats — followed
 /// while it is shown and let go of when the subject changes. A container
 /// that is gone takes the object off the dashboard, as any container
-/// object's does (decision 6). The three are the pieces of a chart card and
-/// live only in it (decision 32).
+/// object's does. The three are the pieces of a chart card and live only
+/// in it.
 /// </summary>
 public abstract class ChartObject : WslcObject
 {
@@ -32,7 +32,7 @@ public abstract class ChartObject : WslcObject
 
     [Inject] private IDialogService Dialogs { get; set; } = default!;
 
-    /// <summary>A chart, its legend and its summary open the full chart, with its legend and zoom, as a chart card of today's Home does.</summary>
+    /// <summary>A chart, its legend and its summary open the full chart, with its legend and zoom.</summary>
     public override bool Opens => Data is not null;
 
     public override Task OpenAsync() => Data is { } data

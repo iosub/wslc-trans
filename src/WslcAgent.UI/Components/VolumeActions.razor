@@ -1,11 +1,11 @@
-@* Per-volume actions in the reference's layout: [📁 files] [⋮ more] [remove].
+@* Per-volume actions: [📁 files] [⋮ more] [remove].
    Files open through a helper container with the volume mounted; the menu
    holds container usage and View & edit. *@
 @inherits EntityActionsBase
 
 @* On a card the menu held only these two, so they are buttons there and the
    menu goes with them: a menu of nothing is worse than no menu. In a table row
-   it stays, with View & edit first — the owner's order. *@
+   it stays, with View & edit first. *@
 <div class="@(Shortcuts ? "wslc-row-verbs" : "")">
 @if (Shortcuts || ShortcutsAlone)
 {

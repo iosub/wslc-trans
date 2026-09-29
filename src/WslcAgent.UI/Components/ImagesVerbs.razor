@@ -1,7 +1,7 @@
 @* The Images page's verbs in the round button: Pull, Build, Import, Load,
    Hub and Prune. Drawn by the page, and by the dashboard while an image's
-   card is selected (docs/home/spec.md, section 5). Import names the image
-   after the page's search text, as the reference does, and clears it; on
+   card is selected. Import names the image after the page's search text,
+   and clears it; on
    the dashboard there is none, and the archive keeps its own name. *@
 @inherits PageVerbsBase
 
@@ -39,7 +39,7 @@
         await Changed.InvokeAsync();
     }
 
-    /// <summary>The reference names an imported image after what is typed in the search box.</summary>
+    /// <summary>An imported image is named after what is typed in the search box.</summary>
     private Task ImportArchiveAsync(IBrowserFile? file) =>
         ArchiveAsync(file, "Importing image...", async (content, name) =>
         {

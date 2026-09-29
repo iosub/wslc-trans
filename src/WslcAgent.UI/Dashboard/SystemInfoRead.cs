@@ -6,8 +6,7 @@ namespace WslcAgent.UI.Dashboard;
 /// <summary>
 /// wslc's version, Windows and the kernel, from the System page's own
 /// reading, which opens no session: for the System card's readings, read when
-/// an object first follows it and then seldom, as today's System card reads
-/// it once.
+/// an object first follows it and then seldom.
 /// </summary>
 public sealed class SystemInfoRead(WslcAgentApi api) : SharedRead<SystemOverview>(TimeSpan.FromMinutes(10))
 {

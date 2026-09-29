@@ -1,8 +1,7 @@
 namespace Berpiztu.Dashboard.Model;
 
 /// <summary>
-/// A colour an object or a group is given (the owner, 25 September 2026):
-/// one of the theme's, by name, so it follows the theme light or dark, or
+/// A colour an object or a group is given: one of the theme's, by name, so it follows the theme light or dark, or
 /// <see cref="Inherited"/>, which takes the colour of what it stands in.
 /// </summary>
 public enum ThemeColor
@@ -21,7 +20,7 @@ public enum ThemeColor
 
     /// <summary>
     /// The theme's third colour, the application's magenta: under Surface in
-    /// the lists, where it is found at once (the owner, 27 September 2026).
+    /// the lists, where it is found at once.
     /// Kept by name, so its place here changes no dashboard.
     /// </summary>
     Tertiary,
@@ -55,9 +54,9 @@ public enum ThemeColor
 public static class ThemeColors
 {
     /// <summary>
-    /// An object's cells: a card's ground, as a card of today's Home stands
-    /// on the page (the owner, 26 September 2026: Transparent let the canvas
-    /// through, and an object was the canvas's colour).
+    /// An object's cells: a card's ground, as a card stands on the page
+    /// (Transparent let the canvas through, and an object was the canvas's
+    /// colour).
     /// </summary>
     public const ThemeColor ObjectBackground = ThemeColor.Surface;
 
@@ -71,7 +70,7 @@ public static class ThemeColors
     /// <summary>
     /// How much Primary <see cref="ThemeColor.PrimaryTint"/> takes over a
     /// card's ground: the share WSLC's list cards give their header and verbs
-    /// rows (the owner, 25 September 2026), made of the palette, so it follows
+    /// rows, made of the palette, so it follows
     /// the theme light or dark.
     /// </summary>
     private const int PrimaryTintShare = 18;

@@ -24,7 +24,7 @@ public abstract class ListPageBase<TItem> : ComponentBase, IDisposable
     /// And the clock once it is: a net under the events, not the way they are
     /// heard. `wslc events` says nothing about what died with a session it was
     /// listening to, so a slow reading of one's own is what keeps a screen from
-    /// showing a container that is no longer there (docs/knowledge/wslc-events.md).
+    /// showing a container that is no longer there.
     /// </summary>
     private static readonly TimeSpan SafetyNet = TimeSpan.FromSeconds(60);
 
@@ -212,7 +212,7 @@ public abstract class ListPageBase<TItem> : ComponentBase, IDisposable
 
     protected static string Dash(string value) => Readings.Dash(value);
 
-    /// <summary>A verb the reference has and a later slice brings: it stays a normal button and says so.</summary>
+    /// <summary>A verb a later slice brings: it stays a normal button and says so.</summary>
     protected void NotYet(string feature, string slice) => Slices.NotYet(Snackbar, feature, slice);
 
     protected static bool Has(string value, string search) => value.Contains(search, StringComparison.OrdinalIgnoreCase);
@@ -373,7 +373,7 @@ public abstract class ListPageBase<TItem> : ComponentBase, IDisposable
 
     /// <summary>
     /// Reads the list. A read asked for while another is under way is not
-    /// dropped but done once that one ends (the owner, 24 September 2026): a
+    /// dropped but done once that one ends: a
     /// recreate is announced at its start and at its end a third of a second
     /// apart, the end's read was thrown away because the start's was still
     /// running, and the row kept the id of a container that no longer existed.
@@ -423,7 +423,7 @@ public abstract class ListPageBase<TItem> : ComponentBase, IDisposable
             // started or created last first, and a start is not a reason to move.
             Items = Order.Keep(Section, items, PlaceOf);
             // The ticks move onto the new rows by key, and a row that vanished drops
-            // out, as the reference reselects by id after replacing its data.
+            // out.
             var selectedKeys = Selected.Select(row => row.Key).ToHashSet(StringComparer.Ordinal);
             Selected = Items.Where(item => selectedKeys.Contains(KeyOf(item))).Select(item => new ListRow<TItem>(KeyOf(item), item)).ToHashSet();
             Error = null;
@@ -445,7 +445,7 @@ public abstract class ListPageBase<TItem> : ComponentBase, IDisposable
     }
 
     /// <summary>
-    /// Runs one verb on every selected row, as the reference's bulk actions do:
+    /// Runs one verb on every selected row:
     /// one toast for the whole batch, counting itself up in place ("Stopping 2
     /// of 5") instead of a new toast per row, and one summary at the end — the
     /// count that went through, or the failures, the first five of them named.

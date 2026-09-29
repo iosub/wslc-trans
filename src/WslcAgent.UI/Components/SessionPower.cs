@@ -49,7 +49,7 @@ public sealed class SessionPower(WslcAgentApi api, ISnackbar snackbar, SessionSt
         _ => $"Start {Label}",
     };
 
-    /// <summary>The reference's status line: what the selected session is right now.</summary>
+    /// <summary>The status line: what the selected session is right now.</summary>
     public string Status => (Busy, IsActive, CanPower) switch
     {
         (true, _, _) => "Working…",
@@ -58,7 +58,7 @@ public sealed class SessionPower(WslcAgentApi api, ISnackbar snackbar, SessionSt
         _ => "Stopped",
     };
 
-    /// <summary>The reference's tooltip: which session, and the store it lives in.</summary>
+    /// <summary>The tooltip: which session, and the store it lives in.</summary>
     public string SelectTitle =>
         Current is { Path.Length: > 0 } store ? $"Session: {Selected}\n{store.Path}" : $"Session: {Selected}";
 
@@ -82,10 +82,10 @@ public sealed class SessionPower(WslcAgentApi api, ISnackbar snackbar, SessionSt
     public event Action? Changed;
 
     /// <summary>
-    /// The reference's option label, of what it says kept only what cannot be
+    /// The option label says only what cannot be
     /// seen: the name, and in brackets stopped, or a reserved store of the
-    /// CLI's own that the agent cannot start. Active and selected are gone (the
-    /// owner, 22 September 2026) — the one showing in the closed field is both,
+    /// CLI's own that the agent cannot start. Active and selected are left
+    /// out — the one showing in the closed field is both,
     /// the status beside it says which, and those two words made the option
     /// twice as wide as the application's name above it, which is the width the
     /// whole block has.
@@ -105,9 +105,8 @@ public sealed class SessionPower(WslcAgentApi api, ISnackbar snackbar, SessionSt
     /// <summary>
     /// Read once, when the first control asks, again after the verbs here, and
     /// again when the agent says the session changed. Nothing polls: one
-    /// <c>wslc system info</c> per client every five seconds filled the log
-    /// (the owner, 19 September 2026), and a clock is not wanted here at all
-    /// (the owner, 24 September 2026). A stop made on another client, or from a
+    /// <c>wslc system info</c> per client every five seconds filled the log,
+    /// and a clock is not wanted here at all. A stop made on another client, or from a
     /// terminal on the machine, reaches this one as a notice on the change
     /// stream, and only then is the session read.
     /// </summary>
@@ -184,7 +183,7 @@ public sealed class SessionPower(WslcAgentApi api, ISnackbar snackbar, SessionSt
     }
 
     /// <summary>
-    /// The one power verb, as the reference's: stops the session shown as running
+    /// The one power verb: stops the session shown as running
     /// — after <paramref name="confirmStop"/>, asked with what goes down with it,
     /// says yes — and starts it when it is stopped, which brings the containers
     /// the restart policy holds back up.

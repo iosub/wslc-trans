@@ -92,7 +92,7 @@ public sealed class WslcException(string message, WslcResult result) : Exception
 public sealed class WslcNotFoundException(string message) : Exception(message);
 
 /// <summary>
-/// Executes the local <c>wslc.exe</c>. Ported behaviour: <c>--session</c> is
+/// Executes the local <c>wslc.exe</c>. <c>--session</c> is
 /// prepended for the selected session except on commands that must see every
 /// session; stderr is the error message the user gets; every run goes through
 /// <see cref="ICliActivity"/>, which lists it while it runs and writes it to the
@@ -220,12 +220,12 @@ public sealed class WslcRunner(IOptionsMonitor<WslcOptions> options, ISelectedSe
 
     /// <summary>
     /// How a command that ran to its end is recorded. A container that is not
-    /// there is not an error, as the reference records it: removing a helper
+    /// there is not an error: removing a helper
     /// that may be left over, or asking after one already gone, answers so on
     /// purpose, and the Error filter of the Logs page is for what went wrong.
     /// Older wslc names the code; 2.9.11 says "Object not found" and no more.
-    /// Nor is a <c>test</c> run in a container that answers no — exit code 1
-    /// and nothing said — (the owner, 29 September 2026): an upload asks
+    /// Nor is a <c>test</c> run in a container that answers no (exit code 1
+    /// and nothing said): an upload asks
     /// whether its file is already there, and a new file is the usual answer,
     /// which drew a failure in the log for every file sent.
     /// </summary>

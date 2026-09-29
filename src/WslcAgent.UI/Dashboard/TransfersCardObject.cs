@@ -7,14 +7,12 @@ using WslcAgent.UI.Components;
 namespace WslcAgent.UI.Dashboard;
 
 /// <summary>
-/// What the pieces of the File transfers card share (the owner, 27 September
-/// 2026: today's Home's card was one object, and its header, the header of its
-/// lines and its lines each want properties of their own): every file
+/// What the pieces of the File transfers card share (its header, the header
+/// of its lines and its lines each want properties of their own): every file
 /// travelling in or out of any container, the agent's and this client's queue,
 /// and the container the card is filtered to — chosen in its header, obeyed by
 /// its lines, per card and for as long as it is shown, not kept. The pieces
-/// live only in their card (decision 32), and open the Containers page, as
-/// today's card does.
+/// live only in their card, and open the Containers page.
 /// </summary>
 public abstract class TransfersCardObject : WslcObject
 {

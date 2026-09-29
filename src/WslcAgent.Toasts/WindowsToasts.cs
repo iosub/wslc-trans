@@ -8,10 +8,10 @@ using WslcAgent.ApiClient.Contracts;
 namespace WslcAgent.Toasts;
 
 /// <summary>
-/// The agent's notifications as Windows' own toasts (docs/notifications/spec.md):
+/// The agent's notifications as Windows' own toasts:
 /// kept in the notification centre once they leave the screen, grouped under
 /// the name of whoever shows them — the icon's balloons showed the same and
-/// kept nothing (the owner, 27 September 2026). Windows asks no permission; it
+/// kept nothing. Windows asks no permission; it
 /// lists the name under Settings › System › Notifications, where it can be
 /// silenced.
 /// <para>

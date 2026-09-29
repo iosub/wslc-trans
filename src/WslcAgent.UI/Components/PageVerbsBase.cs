@@ -8,7 +8,7 @@ namespace WslcAgent.UI.Components;
 /// <summary>
 /// What a family's page verbs share (Run and Create, Pull, Prune…): the
 /// verbs a list page offers in the round button, and the dashboard too when
-/// one of that family's cards is selected (the owner, 22 September 2026), so
+/// one of that family's cards is selected, so
 /// they are written once. A verb that may have changed the family raises
 /// <see cref="Changed"/>, which the page or the dashboard reads the family on.
 /// </summary>

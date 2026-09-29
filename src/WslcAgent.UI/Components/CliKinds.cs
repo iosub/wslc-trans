@@ -17,10 +17,9 @@ public static class CliKinds
         ("images", "Images", Icons.Material.Filled.Layers),
         ("networks", "Networks", Icons.Material.Filled.Lan),
         ("volumes", "Volumes", Icons.Material.Filled.Storage),
-        // A file carried into or out of a container, and its steps (the owner,
-        // 24 September 2026): a group of its own, to follow a transfer through.
+        // A file carried into or out of a container, and its steps: a group of its own, to follow a transfer through.
         // The agent's own update goes here too, as it waits for the transfers;
-        // a group of its own would not fit the filter bar (the owner, same day).
+        // a group of its own would not fit the filter bar.
         ("transfers", "File transfers", Icons.Material.Filled.SwapVert),
         ("general", "General", Icons.Material.Filled.Notes),
     ];
@@ -31,7 +30,7 @@ public static class CliKinds
     /// <summary>
     /// The label in a column that is only as wide as its longest word: File
     /// transfers is Transfers there, so Containers is the longest and the
-    /// column loses two characters (the owner, 24 September 2026); the filter
+    /// column loses two characters; the filter
     /// button and a row's detail keep the whole name.
     /// </summary>
     public static string ShortLabel(string kind) => kind == "transfers" ? "Transfers" : Label(kind);

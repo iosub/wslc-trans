@@ -17,7 +17,7 @@ public static class UiFallback
     {
         // An API route the agent does not own is a 404, not the page: a client
         // newer than the agent read the page as JSON and failed with
-        // "'<' is an invalid start of a value" (the owner, 27 September 2026).
+        // "'<' is an invalid start of a value".
         // The more specific pattern wins over the page's catch-all.
         app.MapFallback("/api/{**rest}", () => Results.Problem(
             "This agent has no such API route; it may be older than the client.",

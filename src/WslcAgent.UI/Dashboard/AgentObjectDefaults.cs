@@ -5,7 +5,7 @@ using WslcAgent.ApiClient;
 namespace WslcAgent.UI.Dashboard;
 
 /// <summary>
-/// How each kind of Home v2's object is born, view by view, as the agent
+/// How each kind of dashboard object is born, view by view, as the agent
 /// ships them (<c>/dashboard/object-defaults</c>): read once, and written a
 /// kind at a time from the board of every object by a development agent,
 /// which writes them back to the repository; a release agent only reads them.
@@ -46,8 +46,8 @@ public sealed class AgentObjectDefaults(WslcAgentApi api) : IObjectDefaults
 
     /// <summary>
     /// Every kind's default in one view written as its default in the other
-    /// (the owner, 26 September 2026: the objects designed for a phone given
-    /// to the landscape view, or the other way), a kind at a time; the number
+    /// (the objects designed for a phone given to the landscape view, or the
+    /// other way), a kind at a time; the number
     /// written, or null where the agent stopped keeping them part of the way.
     /// </summary>
     public async Task<int?> CopyAsync(string from, string to, CancellationToken cancellationToken = default)

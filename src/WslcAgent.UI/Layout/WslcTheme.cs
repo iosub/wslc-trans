@@ -3,7 +3,7 @@ using MudBlazor;
 namespace WslcAgent.UI.Layout;
 
 /// <summary>
-/// The MudBlazor theme: the reference project's palette (navy surfaces,
+/// The MudBlazor theme: the application's palette (navy surfaces,
 /// indigo accent) as theme values, and its compact type scale. Everything
 /// visual derives from here; components never carry colours of their own.
 /// </summary>
@@ -25,7 +25,7 @@ public static class WslcTheme
         {
             Primary = Accent,
             Secondary = "#818cf8",
-            // Magenta (the owner, 27 September 2026), unused until then: a pink
+            // Magenta: a pink
             // that reads on the dark ground, at full strength (#f472b6, and
             // #ec4899 after it, looked faint in the toolbox).
             Tertiary = "#ff2d95",
@@ -61,7 +61,7 @@ public static class WslcTheme
             Secondary = "#6366f1",
             // The same magenta, vivid, so it reads on the light ground at full
             // strength (#db2777 looked faint). What stands on it — a filled
-            // button's glyph — is MudBlazor's white, on both themes (the owner).
+            // button's glyph — is MudBlazor's white, on both themes.
             Tertiary = "#e6007e",
             Info = "#0284c7",
             Success = Success,
@@ -98,7 +98,7 @@ public static class WslcTheme
             DrawerWidthLeft = "200px",
             DrawerMiniWidthLeft = "60px",
             // Two lines at the left of the title bar (the application's name over
-            // the session line, the owner's 20 September 2026 composition):
+            // the session line):
             // MudBlazor's toolbar keeps seven eighths of this.
             AppbarHeight = "72px",
         },

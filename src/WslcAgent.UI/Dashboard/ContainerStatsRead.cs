@@ -10,8 +10,8 @@ public sealed record TimedStats(long Timestamp, ContainerStats Stats);
 /// <summary>
 /// One container's stats — its CPU, its memory and limit, what it has read
 /// and written, received and sent — sampled on the dashboard's beat for the
-/// charts, legends and readings given that container as their subject (the
-/// owner, 26 September 2026), its last two minutes kept as the host's are.
+/// charts, legends and readings given that container as their subject, its
+/// last two minutes kept as the host's are.
 /// Not asked while the session is stopped.
 /// </summary>
 public sealed class ContainerStatsRead(WslcAgentApi api, SessionState session, string container)

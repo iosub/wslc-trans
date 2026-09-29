@@ -1,11 +1,9 @@
-@* The status bar of Home v2's dashboard (the owner, 26 September 2026: the
-   bar shows v2's alarms, v2 being what replaces today's Home): the alarms
-   ticked in its Status alarms, on every screen, shared out on the two sides
-   of the round button as today's are (StatusAlarms) — the ring the
+@* The dashboard's status bar: the alarms ticked in its Status alarms, on
+   every screen, shared out on the two sides of the round button — the ring the
    containers' cards wear at its small size, its percent inside, the measure
    and the container's name or Host under it — red and blinking past its
    threshold. They are every page's, in the view the window's orientation asks
-   for — in design, the view designed (the owner, 27 September 2026) — from where this device keeps the dashboard, read again on the
+   for — in design, the view designed — from where this device keeps the dashboard, read again on the
    five-second beat so a tick made in design reaches it; what they watch is
    kept read while they are shown (DashboardMeasures). A tap opens the
    dashboard. *@
@@ -126,7 +124,7 @@
         await InvokeAsync(StateHasChanged);
     }
 
-    /// <summary>The view the window's orientation asks for: portrait where it is taller than it is wide (docs/home/v2.5/spec.md, decision 2).</summary>
+    /// <summary>The view the window's orientation asks for: portrait where it is taller than it is wide.</summary>
     private async Task<string> WindowViewAsync()
     {
         var window = await Interop.MeasureAsync(_probe);
@@ -169,7 +167,7 @@
         Measures.Changed -= OnChanged;
         Place.DesignedChanged -= OnDesigned;
         _following?.Dispose();
-        // Cancelled, not disposed, as today's bar: a beat still under way asks
+        // Cancelled, not disposed: a beat still under way asks
         // for the token after the layout has gone.
         _stop.Cancel();
         return ValueTask.CompletedTask;

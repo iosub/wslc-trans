@@ -1,8 +1,8 @@
 namespace WslcAgent.ApiClient.Contracts;
 
 /// <summary>
-/// A container backup (<c>wslc container export</c> to a tar on the agent) as
-/// the reference runs it: a job the UI polls, then downloads, then finishes or
+/// A container backup (<c>wslc container export</c> to a tar on the agent):
+/// a job the UI polls, then downloads, then finishes or
 /// discards; the archive stays on the agent until then so a failed download
 /// can be retried.
 /// </summary>
@@ -31,7 +31,7 @@ public static class BackupState
     public const string Cancelled = "cancelled";
 }
 
-/// <summary>The fixed steps of a backup, in order, with the reference's labels.</summary>
+/// <summary>The fixed steps of a backup, in order, with their labels.</summary>
 public static class BackupStep
 {
     public const string Check = "check";

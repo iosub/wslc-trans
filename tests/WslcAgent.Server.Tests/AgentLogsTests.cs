@@ -6,7 +6,7 @@ using WslcAgent.Server.Wslc;
 
 namespace WslcAgent.Server.Tests;
 
-/// <summary>The agent's log file in the reference's format, read back, merged and trimmed; the wslc commands it records read back as commands.</summary>
+/// <summary>The agent's log file in its format, read back, merged and trimmed; the wslc commands it records read back as commands.</summary>
 public sealed class AgentLogsTests
 {
     [Fact]
@@ -59,7 +59,7 @@ public sealed class AgentLogsTests
     }
 
     [Fact]
-    public void Entries_are_written_in_the_reference_format()
+    public void Entries_are_written_as_timestamp_level_category_and_message()
     {
         var line = AgentFileLoggerProvider.Format(new DateTime(2026, 9, 16, 10, 11, 12, 345), LogLevel.Warning, "WslcAgent.Server.Wslc.WslcRunner", "one\r\ntwo", null);
 

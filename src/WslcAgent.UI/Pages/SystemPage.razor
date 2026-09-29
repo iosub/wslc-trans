@@ -31,7 +31,7 @@
             var o = _overview;
             @* Only the selected session blocks: the VHDX being compacted is its
                own, and another session running holds its own file, in its own
-               folder (the owner, 22 September 2026). Those others are still
+               folder. Those others are still
                listed — they are why the machine is busy — but they do not stop
                anything. *@
             @if (o.CompactionBlocked)
@@ -63,8 +63,7 @@
                 <MudText Typo="Typo.h6" Class="mb-1">Tool version</MudText>
                 <pre class="wslc-logs-output wslc-logs-pre wslc-logs-wrap">@o.Version</pre>
                 @* The native client's version, green or amber with its install, as
-                   on the System card (the owner, 24 September 2026); nothing in a
-                   browser. *@
+                   on the System card; nothing in a browser. *@
                 @if (Client.Supported && Client.InstalledVersion.Length > 0)
                 {
                     <div class="wslc-summary mt-2">
@@ -192,9 +191,8 @@
         // Starting or stopping the session changes this page: what runs, and
         // whether Compact VHDX can go ahead. It is read again, in place — and
         // every five seconds while the page is open, the poll the sidebar's
-        // session panel used to run for the whole app (owner, 19 September
-        // 2026: one wslc system info per client every five seconds filled the
-        // log; only System watches now).
+        // session panel used to run for the whole app (one wslc system info
+        // per client every five seconds filled the log; only System watches now).
         Session.Changed += OnSessionChanged;
         _stop = new CancellationTokenSource();
         _timer = new PeriodicTimer(WatchEvery);
@@ -274,7 +272,7 @@
         }
     }
 
-    /// <summary>The reference's System → Compact VHDX: asks, then the host terminal runs the job in a dialog.</summary>
+    /// <summary>System → Compact VHDX: asks, then the host terminal runs the job in a dialog.</summary>
     private async Task CompactAsync()
     {
         const string question = "Open the host terminal and compact there? It trims in a temporary session, then runs Optimize-VHD elevated. Refuses while a WSLC session is active; nothing of yours is terminated.";

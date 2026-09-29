@@ -7,8 +7,8 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Overview;
 
 /// <summary>
-/// The System page's snapshot and its cleanups, as the reference's system
-/// router builds them. Each part fails on its own: a CLI without <c>info</c>,
+/// The System page's snapshot and its cleanups.
+/// Each part fails on its own: a CLI without <c>info</c>,
 /// or an image list that errors, still leaves the rest of the page.
 /// </summary>
 public sealed class SystemService(
@@ -58,7 +58,7 @@ public sealed class SystemService(
             storagePath,
             // Only the session whose VHDX this is: it is the one holding the
             // file open. Any-session-running blocked a compaction because some
-            // other store was in use (the owner, 22 September 2026).
+            // other store was in use.
             CompactionBlocked: primary.Length > 0,
             imageRows.Take(TopImageCount).ToList(),
             imageRows.Count,

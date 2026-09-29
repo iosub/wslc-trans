@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <!-- What the agent's tray icon and the Windows client share on Windows
-       alone: the agent's notifications as Windows' own toasts
-       (docs/notifications/spec.md). The Windows 10 SDK version is the one both
+       alone: the agent's notifications as Windows' own toasts.
+       The Windows 10 SDK version is the one both
        target, for the WinRT notifications API. -->
   <PropertyGroup>
     <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>

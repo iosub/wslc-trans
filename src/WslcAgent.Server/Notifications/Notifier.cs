@@ -5,7 +5,7 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Notifications;
 
 /// <summary>
-/// Where every notification is raised (docs/notifications/spec.md): what
+/// Where every notification is raised: what
 /// Settings › Notifications switched off goes no further; the rest is kept
 /// (<see cref="NotificationHistory"/>), written to the agent's log,
 /// announced on the events stream, so whoever shows notifications — the tray
@@ -43,8 +43,8 @@ public sealed class Notifier(NotificationSettingsStore settings, NotificationHis
     }
 
     /// <summary>
-    /// A notification's line on the Logs page goes with what raised it (the
-    /// owner, 27 September 2026): a container's under Containers, an image's
+    /// A notification's line on the Logs page goes with what raised it: a
+    /// container's under Containers, an image's
     /// under Images, the host's under General, which is the system's too.
     /// </summary>
     private static string AreaOf(string kind) => kind switch
@@ -72,7 +72,7 @@ public sealed class Notifier(NotificationSettingsStore settings, NotificationHis
     /// <summary>
     /// One of the agent's jobs ended, failed or finished, however short: a
     /// minimum of a minute left two small files uploaded without a word with
-    /// "A job finished" ticked (the owner, 27 September 2026).
+    /// "A job finished" ticked.
     /// </summary>
     /// <param name="job">What it was: Transfer, Pull, Build, Backup.</param>
     /// <param name="subject">What it was of: the file and its container, the image.</param>

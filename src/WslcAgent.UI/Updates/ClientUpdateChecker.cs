@@ -5,7 +5,7 @@ namespace WslcAgent.UI.Updates;
 
 /// <summary>
 /// Compares the running native client with the package the agent advertises,
-/// as the reference did on every navigation: the agent's installer is the
+/// on every navigation: the agent's installer is the
 /// source of truth, the check is cheap and repeats with a short cooldown, and
 /// the outcome paints the brand version (green current, yellow stale).
 /// </summary>

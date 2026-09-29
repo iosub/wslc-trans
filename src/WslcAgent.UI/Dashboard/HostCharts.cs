@@ -17,9 +17,8 @@ public sealed record HostChartData(
 
 /// <summary>
 /// The four charts — CPU, memory, disk, network — each worked out once from
-/// the history its read keeps: the host's, as today's Home draws them, or a
-/// container's, as its Stats tab does (the owner, 26 September 2026: a chart
-/// shows the host or one of the user's containers). A chart object draws it,
+/// the history its read keeps: the host's, or a container's, as its Stats
+/// tab does. A chart object draws it,
 /// and the legend and the summary of the same chart and subject write their
 /// lines and values from the same.
 /// </summary>

@@ -1,4 +1,4 @@
-@* The reference's prompt (its `promptDialog`): the question, one text field
+@* A prompt: the question, one text field
    carrying the current value already selected so a couple of characters can
    be changed without retyping the name, Cancel and the verb. Returns the
    trimmed text; nothing when cancelled. *@
@@ -35,7 +35,7 @@
     protected override void OnInitialized() => _value = Value;
 
     /// <summary>
-    /// Focus and select, as the reference does: the field is ready to be typed
+    /// Focus and select: the field is ready to be typed
     /// into without reaching for it, and a name already there is typed over in
     /// one keystroke, or arrowed into to change two characters. The field asks
     /// for the focus itself (<c>AutoFocus</c>) and the dialog takes it back

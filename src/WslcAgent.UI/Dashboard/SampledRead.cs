@@ -2,14 +2,14 @@ namespace WslcAgent.UI.Dashboard;
 
 /// <summary>
 /// A shared read that keeps its last samples as well as its last value: the
-/// history the dashboard's charts draw, two minutes at the refresh interval as
-/// today's Home keeps it (the reference's). It belongs to the read, not to a
+/// history the dashboard's charts draw, two minutes at the refresh interval.
+/// It belongs to the read, not to a
 /// chart, so every chart of a measure draws the same history, and a chart
 /// dropped later draws what was already sampled.
 /// </summary>
 public abstract class SampledRead<T>(TimeSpan every) : SharedRead<T>(every) where T : class
 {
-    /// <summary>The reference's chart history: two minutes at its default refresh.</summary>
+    /// <summary>The chart history: two minutes at the default refresh.</summary>
     private const int MaxSamples = 120;
 
     private readonly List<T> _history = [];

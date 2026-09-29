@@ -11,15 +11,14 @@
 @implements IDisposable
 @using WslcAgent.UI.Components.Styles
 
-@* Settings, beginning with the reference's Internet login card: the username and
+@* Settings, beginning with the Internet login card: the username and
    password asked by the sign-in screen of anyone outside the agent's machine
    (the native clients sign in with the same pair), and the API token for
    scripts and AI agents. A native client also finds its "This client" card here, the
    agents it can talk to. Saved logins keeps the logins the host browser pane offers, and Testing can
-   make this client behave as a remote one.
-   The rest of the reference page follows in its slice. *@
+   make this client behave as a remote one. *@
 <PageShell Title="Settings">
-    @* Six subjects, six tabs, at the owner's word: who may reach the agent
+    @* Six subjects, six tabs: who may reach the agent
        (Security), a container port on a public name (Publish), the MCP server and
        its skill (MCP), the agent updating itself (Update), what the person's own devices keep — the agents a client
        knows, the saved logins, the testing switch (User) — and what the
@@ -100,7 +99,7 @@
         <MudTabPanel Text="MCP">
             <div class="wslc-fill-scroll">
         <div class="wslc-settings-grid">
-        @* MCP server, as the reference's Settings → MCP server: the URL a client
+        @* MCP server: the URL a client
            registers, what it would find there, and the two switches the operator
            has. Both are saved on the agent and in force on the next call — no
            restart; a client that caches its tool list sees the change on its
@@ -257,7 +256,7 @@
         <MudTabPanel Text="Update">
             <div class="wslc-fill-scroll">
         <div class="wslc-settings-grid">
-            @* The agent updating itself (the owner, 24 September 2026): the switch
+            @* The agent updating itself: the switch
                and the button live here, and the countdown an automatic update
                announces is on every client (AgentUpdateWatcher). *@
             <MudPaper Outlined="true" Class="pa-4">
@@ -317,7 +316,7 @@
                 </MudText>
                 <MudSwitch T="bool" Value="Simulated.Enabled" ValueChanged="SimulateRemoteAsync" Label="Simulate remote access" LabelPlacement="Placement.Start" Color="Color.Warning" />
             </MudPaper>
-            @* The style guide lives here, not in the title bar (the owner, 20 September 2026). *@
+            @* The style guide lives here, not in the title bar. *@
             <MudPaper Outlined="true" Class="pa-4">
                 <MudText Typo="Typo.h6">Styles</MudText>
                 <MudText Typo="Typo.body2" Class="mud-text-secondary mb-2">
@@ -334,7 +333,7 @@
                     @StyleState
                 </MudAlert>
 
-<LayoutRow Title="Text" Fixed="The four the application uses: titles, default, secondary and overline (docs/knowledge/layout/medidas.md)" Changed="StateHasChanged" Reset="ResetText">
+<LayoutRow Title="Text" Fixed="The four the application uses: titles, default, secondary and overline (docs/RULES.md)" Changed="StateHasChanged" Reset="ResetText">
                     <Properties>
                         <PropSelect T="Typo" Label="Titles (h6)" @bind-Value="Style.Draft.TitleTypo" />
                         <PropSelect T="Typo" Label="Default text (body1)" @bind-Value="Style.Draft.DefaultTypo" />
@@ -448,7 +447,7 @@
                     </Control>
                 </LayoutRow>
 
-                <LayoutRow Title="Checkboxes" Fixed="The row checkbox and the header row's, at the reference's size" Changed="StateHasChanged" Reset="ResetChecks">
+                <LayoutRow Title="Checkboxes" Fixed="The row checkbox and the header row's, at one fixed size" Changed="StateHasChanged" Reset="ResetChecks">
                     <Properties>
                         <PropNumber Label="Glyph size (px)" Min="10" Max="28" @bind-Value="Style.Draft.CheckSize" />
                     </Properties>

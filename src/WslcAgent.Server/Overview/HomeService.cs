@@ -7,7 +7,7 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Overview;
 
 /// <summary>
-/// The Home page as the reference's home router builds it. Every probe fails on
+/// The Home page's data. Every probe fails on
 /// its own and is reported as such, so one CLI error never blanks the page; the
 /// metrics sum the containers' stats rows, and storage is the image catalog and
 /// the session VHDX files (allocation, not free host disk).

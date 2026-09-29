@@ -7,7 +7,7 @@ namespace WslcAgent.Server.Endpoints;
 /// <summary>
 /// Turns the exceptions the services throw into problem details the UI and the
 /// tools show verbatim — and writes them to the log as errors: what the
-/// application shows in red has to be in Logs under Error (the owner's rule).
+/// application shows in red has to be in Logs under Error.
 /// A failed <c>wslc</c> command is already there, as the command's own entry,
 /// so its exception is not written twice: neither by this handler nor by the
 /// middleware around it, which would otherwise log every one of them as an
@@ -59,7 +59,7 @@ public static class ProblemMapping
     /// there, and the screen waits behind "Waiting for the agent…". Written as
     /// plain JSON, the agent's own 502 — a session the user stopped, refusing
     /// the command that would open it again — put every other client in a loop
-    /// of that screen and a reload (the owner, 24 September 2026).
+    /// of that screen and a reload.
     /// </summary>
     public static Task WriteAsync(HttpResponse response, ProblemDetails problem) =>
         response.WriteAsJsonAsync(problem, options: null, contentType: "application/problem+json");

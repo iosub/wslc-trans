@@ -1,4 +1,4 @@
-@* How many volumes there are, as today's Home's Volumes card says it: one of
+@* How many volumes there are: one of
    the host's counts, over the overview they share (HostOverviewRead). *@
 @namespace WslcAgent.UI.Dashboard.Objects
 @using Berpiztu.Dashboard.Catalogue
@@ -20,7 +20,7 @@
 
     protected override void OnInitialized() => Follow(Overview);
 
-    /// <summary>A count opens its page, as its card on today's Home does.</summary>
+    /// <summary>A count opens its page.</summary>
     public override bool Opens => true;
 
     public override Task OpenAsync()

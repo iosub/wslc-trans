@@ -4,8 +4,8 @@ using Berpiztu.Dashboard.Model;
 namespace Berpiztu.Dashboard.Storage;
 
 /// <summary>
-/// A dashboard's pages kept as one text (the owner, 26 September 2026: tabs,
-/// so each is seen at a glance): the main page as a dashboard always was —
+/// A dashboard's pages kept as one text (tabs, so each is seen at a glance):
+/// the main page as a dashboard always was —
 /// its landscape layout, its portrait one under <c>portrait</c> — and every other
 /// page, by its name, under <c>pages</c>, each with its two views the same
 /// way. A text written before there were pages is the main page alone.
@@ -63,8 +63,8 @@ public static class DashboardPages
     /// <summary>
     /// The text with every page's view that is blank — never laid out, or
     /// holding no object — taken from <paramref name="fallback"/>'s same page
-    /// and view where that one holds some (the owner, 26 September 2026: a
-    /// dashboard left blank shows the default); the rest kept as it is.
+    /// and view where that one holds some (a dashboard left blank shows the
+    /// default); the rest kept as it is.
     /// </summary>
     public static string? Filled(string? stored, string? fallback)
     {

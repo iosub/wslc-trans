@@ -4,8 +4,7 @@ using Berpiztu.Dashboard.Storage;
 namespace WslcAgent.UI.Dashboard;
 
 /// <summary>
-/// Home v2's dashboard as the agent ships it for a user with none (the owner,
-/// 26 September 2026, as today's Home's default): every page and both its
+/// The dashboard as the agent ships it for a user with none: every page and both its
 /// views, each without the objects that read one of this machine's resources — a
 /// container, an image, a volume, a network, a chart of a container — since
 /// every machine it is installed on has its own, and one of these would read

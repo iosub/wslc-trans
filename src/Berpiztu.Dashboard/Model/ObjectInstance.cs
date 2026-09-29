@@ -50,8 +50,7 @@ public enum VerticalAlign
 /// <param name="Vertical">Where its content stands down its cells; null is the middle.</param>
 /// <param name="Group">
 /// The group it stands in (<see cref="DashboardGroup"/>), inside that group's
-/// frame; null for an object standing alone. A group means nothing
-/// (docs/home/v2/specv2.md, decision 4): it only keeps its objects together.
+/// frame; null for an object standing alone. A group means nothing: it only keeps its objects together.
 /// </param>
 /// <param name="Background">
 /// The colour its cells are filled with; null is its kind's default
@@ -65,14 +64,13 @@ public enum VerticalAlign
 /// </param>
 /// <param name="MarginX">
 /// Pixels between its left and right edges and what it shows, so what is
-/// aligned left or right keeps clear of the edge (the owner, 26 September
-/// 2026); null is none, and is not written.
+/// aligned left or right keeps clear of the edge; null is none, and is not written.
 /// </param>
 /// <param name="MarginY">Pixels between its top and bottom edges and what it shows; null is none.</param>
 /// <param name="Text">
 /// The words the user wrote on an object that takes them
-/// (<see cref="Catalogue.DashboardObjectAttribute.Writes"/>: a free text,
-/// decision 13); null for one with none, or for any other object.
+/// (<see cref="Catalogue.DashboardObjectAttribute.Writes"/>: a free text);
+/// null for one with none, or for any other object.
 /// </param>
 /// <param name="Alarms">
 /// Its alarms as the user set them, one per measure its kind watches
@@ -91,8 +89,7 @@ public enum VerticalAlign
 /// </param>
 /// <param name="Elevation">
 /// How far it stands off what is under it, 0 to <see cref="DashboardGroup.MaxElevation"/>
-/// as MudBlazor's shadows go (the owner, 28 September 2026, Home v2.5: every
-/// object has one, as every card has); null is its design's: standing alone,
+/// as MudBlazor's shadows go (every object has one, as every card has); null is its design's: standing alone,
 /// where it is drawn as a card, the application's for its cards; in a card, none.
 /// </param>
 /// <param name="Anchor">

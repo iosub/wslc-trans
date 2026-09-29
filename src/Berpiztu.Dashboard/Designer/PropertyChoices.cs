@@ -29,7 +29,7 @@ internal static class PropertyChoices
     public static readonly IReadOnlyList<FieldOption<ThemeColor?>> SomeColorOptions =
         [.. ColorOptions.Select(color => new FieldOption<ThemeColor?>(color.Value, color.Text))];
 
-    /// <summary>A card's elevations (Home v2.5, as the Containers screen's cards have one): the application's own for its cards, then 0 to the highest.</summary>
+    /// <summary>A card's elevations (as the Containers screen's cards have one): the application's own for its cards, then 0 to the highest.</summary>
     public static readonly IReadOnlyList<FieldOption<int?>> ElevationOptions =
     [
         new(null, "Settings"),
@@ -45,7 +45,7 @@ internal static class PropertyChoices
         new(HorizontalAnchor.Both, "Both"),
     ];
 
-    /// <summary>An alarm's thresholds, in steps of five percent, as today's Home offers them.</summary>
+    /// <summary>An alarm's thresholds, in steps of five percent.</summary>
     public static readonly IReadOnlyList<FieldOption<int>> ThresholdOptions =
         [.. Enumerable.Range(1, 20).Select(step => new FieldOption<int>(step * 5, $"{step * 5}%"))];
 

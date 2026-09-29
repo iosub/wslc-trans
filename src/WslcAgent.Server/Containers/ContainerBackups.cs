@@ -7,7 +7,7 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Containers;
 
 /// <summary>
-/// The reference's backup job: check that the container is stopped, export it
+/// The backup job: check that the container is stopped, export it
 /// to <c>%TEMP%\wslc-export-&lt;container&gt;-&lt;job&gt;.tar</c>, offer the
 /// archive until the user says the download finished (or discards it), and
 /// sweep archives older than six hours that a closed browser left behind.

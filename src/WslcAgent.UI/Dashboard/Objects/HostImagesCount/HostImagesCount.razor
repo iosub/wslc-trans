@@ -1,6 +1,5 @@
-@* How many images there are, and the catalog's size under it, as today's
-   Home's Images card says it: one of the host's counts, over the overview
-   they share (HostOverviewRead). *@
+@* How many images there are, and the catalog's size under it: one
+   of the host's counts, over the overview they share (HostOverviewRead). *@
 @namespace WslcAgent.UI.Dashboard.Objects
 @using Berpiztu.Dashboard.Catalogue
 @inherits WslcObject
@@ -21,7 +20,7 @@
 
     protected override void OnInitialized() => Follow(Overview);
 
-    /// <summary>A count opens its page, as its card on today's Home does.</summary>
+    /// <summary>A count opens its page.</summary>
     public override bool Opens => true;
 
     public override Task OpenAsync()

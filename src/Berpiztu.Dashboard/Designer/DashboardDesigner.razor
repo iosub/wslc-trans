@@ -1,4 +1,4 @@
-@* Berpiztu's dashboard (docs/home/v2/specv2.md): the canvas and its
+@* Berpiztu's dashboard: the canvas and its
    objects, and while it is designed the toolbox at its side and the
    properties window over it, as the form designer of the early Visual Basic.
 
@@ -7,10 +7,10 @@
    resize or a drop onto cells another object takes is refused, and while it
    is carried the place it would take is shown in the error colour.
 
-   Groups (the owner, 25 September 2026): an object let go on another, both
+   Groups: an object let go on another, both
    standing alone, makes a group of the two — the one that was there stays,
    the one dropped goes beside it, and a frame is drawn round them. A group
-   then works as a card of today's Home: a press anywhere on it takes it
+   then works as a card: a press anywhere on it takes it
    whole and a drag moves it whole, its objects included; its corner sizes
    it; once it is taken, a tap (a press let go without moving) on one of its
    objects gives that object the focus, and the object then moves inside the
@@ -18,7 +18,7 @@
    group, and a group left with one object is a group no more. An object let
    go on a group joins it. Out of design the frame is drawn as a card.
 
-   Every pointer is followed in C# (decision 23): the canvas and the toolbox
+   Every pointer is followed in C#, JavaScript only where C# cannot: the canvas and the toolbox
    are measured when a drag begins and keep the pointer until it ends
    (DashboardInterop), and the cell under the pointer is worked out here. *@
 @implements IAsyncDisposable
@@ -46,8 +46,7 @@
                          @onpointerenter="@(() => Hover(group.Id))" @onpointerleave="@(() => Hover(null))">
                     </div>
                 }
-                @* A hidden piece is not drawn, in design or out of it (the owner,
-                   26 September 2026); its card's properties show it again. *@
+                @* A hidden piece is not drawn, in design or out of it; its card's properties show it again. *@
                 @foreach (var instance in _document.Layout.Objects.Where(o => o.Hidden != true))
                 {
                     if (Catalogue.Find(instance.Type) is not { } kind || (!Designing && Unset(kind, instance)))
@@ -79,8 +78,7 @@
                         }
                     </div>
                 }
-                @* The taken group's handle is drawn after its objects, over them, as
-                   a card of today's Home draws its own after its parts: an object in
+                @* The taken group's handle is drawn after its objects, over them: an object in
                    the frame's corner would otherwise stand on it and take the press. *@
                 @if (Designing && _document.SelectedFrame is { } taken)
                 {
@@ -150,8 +148,7 @@
     /// two would make a group with; carried wholly into a group's frame, that
     /// group, which it would join where it is. <paramref name="BackToGroup"/>:
     /// the object was already the one selected in its group, so a press let go
-    /// without moving gives the focus back to the group, as a card of today's
-    /// Home does.
+    /// without moving gives the focus back to the group.
     /// </summary>
     private sealed record ObjectDrag(bool Resizing, ObjectInstance Origin, int Column, int Row, ObjectInstance Preview, ObjectInstance? Target, DashboardGroup? Joining, bool BackToGroup);
 
@@ -161,8 +158,7 @@
     /// A group being moved or resized: as it was, the cell the pointer took it
     /// at, and where it would stand now. <paramref name="Tapped"/>: the object
     /// of the group the press fell on while the group was already taken, which
-    /// a press let go without moving gives the focus to, as a tap on a part of
-    /// a card of today's Home does.
+    /// a press let go without moving gives the focus to.
     /// </summary>
     private sealed record GroupDrag(bool Resizing, DashboardGroup Origin, int Column, int Row, DashboardGroup Preview, ObjectInstance? Tapped);
 
@@ -198,8 +194,7 @@
     private ManyDrag? _many;
 
     /// <summary>
-    /// A rectangle drawn on the canvas's floor to choose what it touches (the
-    /// owner, 25 September 2026): the cell it began at, the cells it covers
+    /// A rectangle drawn on the canvas's floor to choose what it touches: the cell it began at, the cells it covers
     /// now, and whether Ctrl was held, which adds its catch to what was chosen.
     /// </summary>
     private sealed record Marquee(int Column, int Row, CellBox Box, bool Adding);
@@ -225,11 +220,10 @@
     [Parameter] public IDashboardStore? Draft { get; set; }
 
     /// <summary>
-    /// A dashboard with views (Home v2.5, docs/home/v2.5/spec.md, decision 9):
-    /// in design its view stands in a frame of the view's size, set at the
-    /// toolbox's top, as the phone's was the portrait view's; out of design
-    /// that view is zoomed to fit the screen. Any other board — the objects'
-    /// defaults, the agent's System card — lays its objects out as it always did.
+    /// A dashboard with views: in design its view stands in a frame of the
+    /// view's size, set at the toolbox's top; out of design that view is
+    /// zoomed to fit the screen. Any other board — the objects' defaults, the
+    /// agent's System card — lays its objects out unframed.
     /// </summary>
     [Parameter] public bool Framed { get; set; }
 
@@ -244,7 +238,7 @@
     /// <summary>
     /// The application's elevation for its cards: what a card with none of its
     /// own stands at (<see cref="DashboardGroup.Elevation"/>); none on a board
-    /// that is not given one, whose cards stand flat as they always did.
+    /// that is not given one, whose cards stand flat.
     /// </summary>
     [Parameter] public int CardElevation { get; set; }
 
@@ -298,8 +292,7 @@
     [Parameter] public EventCallback<DashboardSelection> SelectionChanged { get; set; }
 
     /// <summary>
-    /// What is selected out of design (the owner, 26 September 2026, as today's
-    /// Home selects a card): an object standing alone, or a card whole.
+    /// What is selected out of design: an object standing alone, or a card whole.
     /// </summary>
     public DashboardSelection Selection =>
         _document.SelectedObject is { } one ? new(one, null, [one], Opener() is not null)
@@ -317,8 +310,7 @@
     /// <summary>
     /// What opens for the selection: the object selected, or the first of the
     /// card's objects that opens something — a chart card's chart, its legend
-    /// or its summary, which all open the same chart, as a chart card of
-    /// today's Home opens its chart.
+    /// or its summary, which all open the same chart.
     /// </summary>
     private DashboardObject? Opener()
     {
@@ -334,8 +326,7 @@
 
     /// <summary>
     /// A tap out of design on a card, or an object standing alone (an object in
-    /// a card counts for its card, as a part does for its card on today's
-    /// Home): it is selected, green; tapped again, it opens what it opens, or
+    /// a card counts for its card): it is selected, green; tapped again, it opens what it opens, or
     /// lets go when it opens nothing.
     /// </summary>
     private async Task TapAsync(string unit)
@@ -531,8 +522,7 @@
     /// <summary>
     /// Where a card or an object stands: on its cells; in a fluid view, placed
     /// from the canvas's corner, down in the design's cells and across by its
-    /// anchor within what holds it (the owner, 28 September 2026;
-    /// <see cref="HorizontalAnchor"/>) — a card, or an object standing alone,
+    /// anchor within what holds it (<see cref="HorizontalAnchor"/>) — a card, or an object standing alone,
     /// within the view, widened to the screen; an object in a card within its
     /// card, wherever the card's own anchor put it.
     /// </summary>
@@ -582,8 +572,7 @@
     }
 
     /// <summary>
-    /// Where an object stands, and its colours (the owner, 25 September 2026):
-    /// its own, or its kind's default (its descriptor's) — and, set to
+    /// Where an object stands, and its colours: its own, or its kind's default (its descriptor's) — and, set to
     /// Inherited, its group's (the page's, standing alone). An object stands
     /// over its group's frame, not inside it, so what it inherits is worked
     /// out here instead of flowing down the page.
@@ -604,7 +593,7 @@
     private string FrameStyle(DashboardGroup group) =>
         Placed(group.Box, anchor: group.Anchor ?? HorizontalAnchor.Scale) + Colour("background-color", GroupBackground(group) is var background && background == ThemeColor.Inherited ? ThemeColor.Transparent : background);
 
-    /// <summary>What keeps what it shows clear of its edges (the owner, 26 September 2026): its margins across and down, none until set.</summary>
+    /// <summary>What keeps what it shows clear of its edges: its margins across and down, none until set.</summary>
     private static string Margins(ObjectInstance o) =>
         o.MarginX is null && o.MarginY is null ? "" : FormattableString.Invariant($"; padding: {o.MarginY ?? 0}px {o.MarginX ?? 0}px");
 
@@ -626,7 +615,7 @@
         // the group's card is drawn round it.
         var classes = shown.Group is null ? "bz-dash-object bz-dash-loose" : "bz-dash-object bz-dash-member";
         // Chosen, or under the rectangle being drawn, which marks what it
-        // touches as it goes (the owner, 25 September 2026).
+        // touches as it goes.
         if (Designing && (_document.Chosen.Contains(shown.Id) || (_marquee is { } marquee && Caught(marquee).Contains(shown.Id))))
         {
             classes += " bz-dash-selected";
@@ -659,22 +648,20 @@
             VerticalAlign.Bottom => " bz-dash-valign-bottom",
             _ => "",
         };
-        // A text colour chosen, its own or its card's through Inherited (the
-        // owner, 29 September 2026): the application's quieter texts, which
+        // A text colour chosen, its own or its card's through Inherited: the application's quieter texts, which
         // keep a colour of their own, take it (bz-dash-foreground).
         if (ChosenForeground(shown))
         {
             classes += " bz-dash-foreground";
         }
-        // Its alarm up (the owner, 26 September 2026, as a card of today's
-        // Home): standing alone it is marked itself; in a card the whole card
+        // Its alarm up: standing alone it is marked itself; in a card the whole card
         // is, its objects with it, whose grounds would hide the card's.
         if (shown.Group is { } card ? CardUp(card) : Up(shown))
         {
             classes += " bz-dash-alarm";
         }
 
-        // How far it stands off what is under it (Home v2.5): its own, or its
+        // How far it stands off what is under it: its own, or its
         // design's — standing alone, drawn as a card, the application's for
         // its cards; in a card, none — drawn by MudBlazor's shadow of that height.
         var elevation = shown.Elevation ?? (shown.Group is null ? CardElevation : 0);
@@ -724,8 +711,7 @@
     private bool Up(ObjectInstance o) => Measures is not null && Catalogue.Find(o.Type) is { } kind && kind.Up(o, Measures);
 
     /// <summary>
-    /// Out of design, a card's or an object's state as today's Home draws a
-    /// card's (the owner, 26 September 2026): green selected, the primary
+    /// Out of design, a card's or an object's state: green selected, the primary
     /// colour under the pointer. <paramref name="unit"/> is the card or the
     /// object standing alone; null for an object in a card, whose card shows it.
     /// </summary>
@@ -753,9 +739,8 @@
         : FormattableString.Invariant($"--bz-dash-columns: {Math.Max(1, Extent.Columns)}; --bz-dash-fixed-cell: {DashboardLayout.CellSize}; --bz-dash-fit: {_fit}; --bz-dash-cell-x: calc({_across} * var(--bz-dash-fixed-cell)); --bz-dash-cell-y: calc({_down} * var(--bz-dash-fixed-cell))");
 
     /// <summary>
-    /// In design a framed dashboard's frame is its view's size, as the phone's
-    /// was the portrait view's (the owner, 28 September 2026): its columns and
-    /// rows of cells, no larger than the page; what stands past it scrolls.
+    /// In design a framed dashboard's frame is its view's size: its columns
+    /// and rows of cells, no larger than the page; what stands past it scrolls.
     /// </summary>
     private string FrameClass =>
         Designing && Framed ? "bz-dash-canvas-frame bz-dash-framed"
@@ -825,8 +810,7 @@
     });
 
     /// <summary>
-    /// A framed dashboard's view, in cells (docs/home/v2.5/spec.md, decision
-    /// 9): the size set in design, or while none is, the view's own frame — a
+    /// A framed dashboard's view, in cells: the size set in design, or while none is, the view's own frame — a
     /// phone for the portrait one, 16:9 for the landscape one. Its aspect is
     /// the view's, and it is what the zoom fits to the screen.
     /// </summary>
@@ -834,8 +818,7 @@
         _document.Layout is { CanvasWidth: { } width, CanvasHeight: { } height } ? (width, height) : DashboardView.DefaultCanvas(View);
 
     /// <summary>
-    /// The view's size typed at the top of the toolbox (the owner, 28 September
-    /// 2026): columns and rows, applied as they are typed, as every field is;
+    /// The view's size typed at the top of the toolbox: columns and rows, applied as they are typed, as every field is;
     /// a size under one cell, the field emptied on the way to another number,
     /// is let pass.
     /// </summary>
@@ -849,8 +832,8 @@
 
     /// <summary>
     /// Out of design, the largest zoom at which the whole view fits the frame,
-    /// its width and its height both, its aspect kept (decision 6), a cell a
-    /// whole number of pixels so its lines stay sharp (decision 4); in design,
+    /// its width and its height both, its aspect kept, a cell a whole number
+    /// of pixels so its lines stay sharp; in design,
     /// none. Worked out again only where the view, the mode or the frame changed.
     /// </summary>
     private async Task FitAsync()
@@ -889,7 +872,7 @@
     /// <summary>
     /// A framed view out of design has been fitted once, as its fitting says,
     /// and is shown from then on: before, it would be painted at no zoom and
-    /// then again at its own (the owner, 28 September 2026: painted once). A
+    /// then again at its own; it is painted once. A
     /// resize or another fitting later fits it again where it is seen.
     /// </summary>
     private bool _shown;
@@ -900,7 +883,7 @@
     /// <summary>
     /// The zoom a view takes as <see cref="Fitting"/> says, from the cell the
     /// screen allows across and the one it allows down and the cell's own size,
-    /// a cell a whole number of pixels (decision 4): the smaller of the two to
+    /// a cell a whole number of pixels: the smaller of the two to
     /// see it whole, the larger to fill the screen, the one across to fill its
     /// width, each of them to stretch it
     /// — the zoom then the smaller, and the cells stretched by how much the
@@ -984,8 +967,7 @@
     }
 
     /// <summary>
-    /// A finger's press, kept until the finger says what it is (the owner,
-    /// 29 September 2026, as today's Home's cards answer a finger): a swipe
+    /// A finger's press, kept until the finger says what it is: a swipe
     /// scrolls the dashboard, and the browser cancels the press; lifted
     /// without moving, it is a tap, the press played with its release
     /// (ReleaseAsync); held still half a second (HeldAsync), the press is
@@ -1062,8 +1044,7 @@
     }
 
     /// <summary>
-    /// A press on an object, as a card of today's Home and its parts answer
-    /// it. One standing alone is taken. One in a group: while the focus is
+    /// A press on an object. One standing alone is taken. One in a group: while the focus is
     /// inside the group (one or several of its objects chosen), the object
     /// pressed is taken, and moves inside the frame, and with Ctrl it is chosen
     /// with them or taken back; otherwise the press takes the group whole and
@@ -1080,7 +1061,7 @@
         // Among several, an object standing alone counts for itself and an
         // object in a group for its whole group — unless the focus is inside
         // that group, when it counts for itself too, so Ctrl chooses several
-        // of a card's objects (the owner, 26 September 2026).
+        // of a card's objects.
         var unit = instance.Group is not { } groupOf || FocusInside(groupOf) ? instance.Id : groupOf;
         if (ChooseAmongSeveral(unit, pointer) is { } carried)
         {
@@ -1110,8 +1091,8 @@
         : BeginGroupAsync(group, pointer, resizing: false);
 
     /// <summary>
-    /// Choosing several, objects standing alone and whole groups alike (the
-    /// owner, 25 September 2026); <paramref name="unit"/> is what the press
+    /// Choosing several, objects standing alone and whole groups alike;
+    /// <paramref name="unit"/> is what the press
     /// counts for, an object's id or a group's. With Ctrl, one not chosen is
     /// added at once, so a drag that follows carries it with the rest, and a
     /// tap on one already chosen takes it back. Without Ctrl, on one of
@@ -1192,14 +1173,13 @@
     /// follows it, and the canvas is drawn again only where that changed. A
     /// pointer's events come a few times a cell, and each drew every object
     /// again — the Charts card carried over a dashboard held the page for
-    /// seconds (the owner, 29 September 2026).
+    /// seconds.
     /// </summary>
     private void Follow(PointerEventArgs pointer)
     {
         // A pointer moving with no button held has let go where the canvas
         // did not hear it: a mouse on a phone hovers, and a gesture left open
-        // carried the object under it as the wheel scrolled (the owner,
-        // 29 September 2026). What was being carried stays where it was.
+        // carried the object under it as the wheel scrolled. What was being carried stays where it was.
         if ((pointer.Buttons & 1) == 0)
         {
             var open = _marquee is not null || _many is not null || _drag is not null || _groupDrag is not null;
@@ -1218,10 +1198,9 @@
 
     /// <summary>
     /// The wheel turned. Android sends a touch where a mouse's pointer stands
-    /// before each turn of its wheel (measured on the emulator, 29 September
-    /// 2026: pointerdown of a touch, the wheel 70 ms later, the release after
-    /// 300 ms), which chose the object under the pointer (the owner, the same
-    /// day, a mouse on a phone). A finger comes with no wheel: a touch kept
+    /// before each turn of its wheel (measured on the emulator: pointerdown of
+    /// a touch, the wheel 70 ms later, the release after 300 ms), which chose
+    /// the object under the pointer (a mouse on a phone). A finger comes with no wheel: a touch kept
     /// when one turns was the wheel's, and is let go. Otherwise the wheel
     /// draws nothing.
     /// </summary>
@@ -1292,8 +1271,7 @@
             var moved = Placed(origin, origin.X + column - drag.Column, origin.Y + row - drag.Row);
 
             // Standing alone and carried wholly into a group's frame, it goes
-            // where the pointer takes it, as one of the group's (the owner,
-            // 25 September 2026): marked in the error colour where it would
+            // where the pointer takes it, as one of the group's: marked in the error colour where it would
             // take another object's cells, and the group marked as the one it
             // would join. Let go where it fits, it stands there in the group.
             if (origin.Group is null && _document.Layout.GroupHolding(moved.Box) is { } group && !_document.Closed(group))
@@ -1473,8 +1451,8 @@
     /// <summary>
     /// The kind let go: dropped on the canvas where it fits, it stands there,
     /// selected, so its properties — its source first — show at once. Only a
-    /// drag adds an object; a press that carries it nowhere adds nothing (the
-    /// owner, 25 September 2026: a click put it on the dashboard).
+    /// drag adds an object; a press that carries it nowhere adds nothing (a
+    /// click would put it on the dashboard by mistake).
     /// </summary>
     private async Task DropAsync(PointerEventArgs pointer)
     {

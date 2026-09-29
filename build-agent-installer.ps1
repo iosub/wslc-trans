@@ -44,8 +44,7 @@ Write-Host "Publishing WSLC AI Agent $version (self-contained win-x64)..." -Fore
 if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed with exit code $LASTEXITCODE" }
 if (-not (Test-Path -LiteralPath (Join-Path $Stage "wslc-ai-agent.exe"))) { throw "Publish produced no wslc-ai-agent.exe in $Stage" }
 
-# The agent's icon beside the clock and its window (the owner, 26 September
-# 2026), a program of its own in tray\, self-contained as the agent is: the
+# The agent's icon beside the clock and its window, a program of its own in tray\, self-contained as the agent is: the
 # Windows desktop runtime it needs is not the agent's.
 $Tray = Join-Path $RepoRoot "src\WslcAgent.Tray\WslcAgent.Tray.csproj"
 Write-Host "Publishing the agent's tray icon (self-contained win-x64)..." -ForegroundColor Cyan

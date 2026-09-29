@@ -3,13 +3,13 @@ using WslcAgent.ApiClient.Contracts;
 namespace WslcAgent.UI.Components;
 
 /// <summary>
-/// The reference's "open with browser" rules over the <c>hostPort-&gt;containerPort</c>
+/// The "open with browser" rules over the <c>hostPort-&gt;containerPort</c>
 /// strings a container publishes: which port opens by default and what URL
 /// reaches it on the agent's host.
 /// </summary>
 public static class PublishedPorts
 {
-    /// <summary>Web ports first, in the reference's order; any other host port after, lowest first.</summary>
+    /// <summary>Web ports first, in this order; any other host port after, lowest first.</summary>
     private static readonly int[] Preferred = [80, 443, 8000, 8080, 8443, 3000, 5000, 5173, 4200, 8888, 9090];
 
     /// <summary>A published port pair; <see cref="Url"/> targets the agent's host.</summary>

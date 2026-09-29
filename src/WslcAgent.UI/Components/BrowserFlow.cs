@@ -5,9 +5,8 @@ using WslcAgent.ApiClient.Contracts;
 namespace WslcAgent.UI.Components;
 
 /// <summary>
-/// The reference's Open with browser, with the popup of docs/remote-config/publish.md:
-/// a tap on a container's ports lists every port and its ways in. Local is the
-/// reference's own behaviour — a new tab at the agent's machine, the host
+/// Open with browser, with the ports popup:
+/// a tap on a container's ports lists every port and its ways in. Local is a new tab at the agent's machine, the host
 /// browser pane anywhere else (and there too when Settings asks to simulate
 /// remote access), because 127.0.0.1 is not that machine. Remote is the port's
 /// public name (Publish), which opens in a new tab from anywhere. The pane's

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- The installed agent's icon beside the clock and its window (the owner,
-       26 September 2026): the agent runs with no console, and its own page
+  <!-- The installed agent's icon beside the clock and its window: the agent
+       runs with no console, and its own page
        (/agent: the System card over the log) opens in a window of its own,
        WebView2, or in the browser. A program apart from the agent, so the
        agent stays the server it is. Windows only; installed under tray\ in
@@ -25,7 +25,7 @@
 
   <!-- The agent's notifications, shown as Windows toasts: the same contracts
        and the same events stream the UI reads, and the toasts the Windows
-       client shows too (docs/notifications/spec.md). -->
+       client shows too. -->
   <ItemGroup>
     <ProjectReference Include="..\WslcAgent.ApiClient\WslcAgent.ApiClient.csproj" />
     <ProjectReference Include="..\WslcAgent.Toasts\WslcAgent.Toasts.csproj" />

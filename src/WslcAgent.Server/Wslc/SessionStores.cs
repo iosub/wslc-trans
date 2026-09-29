@@ -8,7 +8,7 @@ namespace WslcAgent.Server.Wslc;
 /// other, reached by naming none. <c>wslc-cli-admin-&lt;user&gt;</c> belongs to an
 /// elevated <c>wslc</c> process: the agent does not run elevated and has no way
 /// to, so it cannot open it, enter it or run anything in it, and does not offer
-/// it (the owner, 22 September 2026). It is still one of the stores on disk, so
+/// it. It is still one of the stores on disk, so
 /// the System page, which is about what they occupy, keeps showing it.
 /// </summary>
 public static class SessionStores

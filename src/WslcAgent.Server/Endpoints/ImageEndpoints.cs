@@ -27,7 +27,7 @@ public static class ImageEndpoints
             })
             .WithName("PullImage");
 
-        // The pulls the agent owns and the Images table follows (the reference's pull worker).
+        // The pulls the agent owns and the Images table follows.
         group.MapGet("/pulls", (ImagePulls pulls) => pulls.List())
             .WithName("ImagePulls");
 
@@ -89,7 +89,7 @@ public static class ImageEndpoints
             })
             .WithName("CancelImageBuild");
 
-        // Archives run to gigabytes: no request size limit, as the reference had none.
+        // Archives run to gigabytes: no request size limit.
         group.MapPost("/import", async Task<NoContent> (IFormFile file, ImageArchives archives, string image = "", CancellationToken ct = default) =>
             {
                 await using var content = file.OpenReadStream();

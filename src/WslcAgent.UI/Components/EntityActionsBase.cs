@@ -30,7 +30,7 @@ public abstract class EntityActionsBase : ComponentBase
 
     protected bool Busy { get; private set; }
 
-    /// <summary>A verb the reference has and a later slice brings: it stays a normal button and says so.</summary>
+    /// <summary>A verb a later slice brings: it stays a normal button and says so.</summary>
     protected void NotYet(string feature, string slice) => Slices.NotYet(Snackbar, feature, slice);
 
     /// <summary>Bound to the row menu's <c>OpenChanged</c>: the page holds its refresh while the menu is open.</summary>

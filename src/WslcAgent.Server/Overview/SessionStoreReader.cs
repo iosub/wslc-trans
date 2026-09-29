@@ -9,9 +9,8 @@ namespace WslcAgent.Server.Overview;
 /// not what WSLC holds inside them. Every store is read, the elevated process's
 /// one included: the session picker leaves that one out because the agent
 /// cannot work in it, but it takes up the same gigabytes as the rest and this
-/// is what reports them. The agent runs on the Windows host, so this is the
-/// reference's local reading; its PowerShell-over-SSH fallback served a
-/// dashboard inside a Linux container and has no counterpart here.
+/// is what reports them. The agent runs on the Windows host, so it reads
+/// them locally.
 /// </summary>
 public static class SessionStoreReader
 {

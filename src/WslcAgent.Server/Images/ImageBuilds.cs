@@ -7,7 +7,7 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Images;
 
 /// <summary>
-/// The reference's build jobs: one long <c>wslc build --progress plain</c> the
+/// The build jobs: one long <c>wslc build --progress plain</c> the
 /// agent owns and whose lines it keeps (the last 2000), followed by the page
 /// and cancelled from it. <c>plain</c> is what makes the output usable from an
 /// agent with no console: <c>auto</c> would draw with cursor control.

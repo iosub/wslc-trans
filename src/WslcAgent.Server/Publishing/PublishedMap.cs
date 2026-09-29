@@ -6,7 +6,7 @@ namespace WslcAgent.Server.Publishing;
 
 /// <summary>
 /// The proxy's configuration, written from the publications and read back from
-/// a copy written by hand. It is the file of docs/remote-config/published.conf
+/// a copy written by hand. It is an nginx configuration
 /// with the map generated: one line per published port, the destination being
 /// the container's name and internal port on the shared network.
 /// </summary>

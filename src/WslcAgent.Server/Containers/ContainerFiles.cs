@@ -8,7 +8,7 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Containers;
 
 /// <summary>
-/// The files inside a container, as the reference browses them: there is no
+/// The files inside a container: there is no
 /// wslc file API, so listing is <c>ls -la</c> through <c>exec</c>, the writes
 /// are <c>mkdir</c>, <c>mv</c>, <c>cp</c> and <c>rm</c>, and the bytes travel
 /// with <c>wslc container cp</c>. Every path is made absolute and clean before
@@ -17,7 +17,7 @@ namespace WslcAgent.Server.Containers;
 /// </summary>
 public sealed class ContainerFiles(IWslcRunner wslc, ResourceRegistry registry, ILogger<ContainerFiles> logger)
 {
-    /// <summary>The editor is for configuration files, not for images: a megabyte is the reference's line.</summary>
+    /// <summary>The editor is for configuration files, not for images: a megabyte at most.</summary>
     public const int MaxEditBytes = 1_000_000;
 
     /// <summary>wslc refuses every exec against a stopped container with this code; the text is translated, the code is not.</summary>
@@ -204,8 +204,7 @@ public sealed class ContainerFiles(IWslcRunner wslc, ResourceRegistry registry, 
         {
             // The time the client took to send it, which is what the transfer
             // took for whoever sent it: the copy into the container after it is
-            // the command's own row, and only the last step (the owner,
-            // 24 September 2026).
+            // the command's own row, and only the last step.
             var sending = Stopwatch.StartNew();
             await using (var destination = File.Create(staged))
             {
@@ -385,8 +384,7 @@ public sealed class ContainerFiles(IWslcRunner wslc, ResourceRegistry registry, 
 
     /// <summary>
     /// What every command of one file's way in or out is called in CLI Activity
-    /// and the log (<see cref="CliTitle"/>), in the owner's order (24 September
-    /// 2026): the container by its name, which way, the file by its own name,
+    /// and the log (<see cref="CliTitle"/>), in this order: the container by its name, which way, the file by its own name,
     /// what is known of it — its size, how long it took to send, that it
     /// replaces one — and the folder: "web · Upload · app.msi · 58.2 MiB, sent
     /// in 42.0 s → /data". Instead of the copy of a staged file under a

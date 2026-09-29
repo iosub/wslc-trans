@@ -3,7 +3,7 @@ using WslcAgent.ApiClient.Contracts;
 
 namespace WslcAgent.UI.Components;
 
-/// <summary>The reference's "View container usage" texts, one line per container.</summary>
+/// <summary>The "View container usage" texts, one line per container.</summary>
 public static class UsageReports
 {
     /// <summary>

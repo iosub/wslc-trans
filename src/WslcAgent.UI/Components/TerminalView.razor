@@ -1,6 +1,5 @@
-@* The exec surface: the pane and nothing else around it. What the reference
-   put in a toolbar over it — a Command field and Connect — is typed in the
-   shell itself, so the window gives the pane the whole height and the rail at
+@* The exec surface: the pane and nothing else around it. No toolbar over
+   it: the command is typed in the shell itself, so the window gives the pane the whole height and the rail at
    the right holds every verb: Connect, Reconnect, Copy, Clear. The session
    state rides on Connect's tooltip, and the pane writes its own notices
    ([disconnected], [process exited], [error]). The shell runs on the agent
@@ -52,13 +51,13 @@
     /// <summary>Container name or id the shell runs in.</summary>
     [Parameter, EditorRequired] public string Container { get; set; } = "";
 
-    /// <summary>Connect as soon as the view appears, as the reference's modal does.</summary>
+    /// <summary>Connect as soon as the view appears.</summary>
     [Parameter] public bool AutoConnect { get; set; } = true;
 
-    /// <summary>The session state the toolbar used to show, on the button that acts on it.</summary>
+    /// <summary>The session state, on the button that acts on it.</summary>
     private string ConnectTitle => _live ? _status : $"Connect — {_status}";
 
-    /// <summary>The first line of the pane, as the reference writes it: the command the agent is about to run.</summary>
+    /// <summary>The first line of the pane: the command the agent is about to run.</summary>
     private string Banner => $"$ wslc exec -it {Container} {DefaultCommand}";
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

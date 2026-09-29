@@ -3,7 +3,7 @@ using System.Text;
 
 namespace WslcAgent.Server.AgentLog;
 
-/// <summary>Sends every log entry the agent writes to <see cref="AgentLogFile"/>, in the reference's file format.</summary>
+/// <summary>Sends every log entry the agent writes to <see cref="AgentLogFile"/>.</summary>
 [ProviderAlias("AgentFile")]
 public sealed class AgentFileLoggerProvider(AgentLogFile file) : ILoggerProvider
 {

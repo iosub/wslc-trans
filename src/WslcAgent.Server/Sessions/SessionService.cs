@@ -8,13 +8,13 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Sessions;
 
 /// <summary>
-/// The sessions this agent can work in, as the reference merges them: the
+/// The sessions this agent can work in: the
 /// stores on disk (<c>%LOCALAPPDATA%\wslc\sessions</c>, one folder each) marked
 /// with the ones <c>wslc system info</c> reports running, plus any running
 /// session with no folder — minus the elevated process's store, which the agent
 /// cannot open, enter or run in, so offering it is offering a dead end
-/// (<see cref="SessionStores"/>). Starting and stopping follow the reference's
-/// own sequence: a session is opened by opening the default store first (any
+/// (<see cref="SessionStores"/>). Starting and stopping follow this
+/// sequence: a session is opened by opening the default store first (any
 /// command does it) and, for a store of the user's own, <c>system session
 /// enter</c>; the CLI's reserved <c>wslc-cli-…</c> stores cannot be entered
 /// that way and say so. A session that comes up gets the restart policy applied
@@ -23,8 +23,7 @@ namespace WslcAgent.Server.Sessions;
 /// until it is started here or opened from outside (<see cref="StoppedSessions"/>).
 /// Every start, stop and choice is announced on the change stream
 /// (<see cref="ChangeNotice.SessionChanged"/>): the other clients read the
-/// session again when it happens, instead of asking on a clock (the owner,
-/// 24 September 2026).
+/// session again when it happens, instead of asking on a clock.
 /// </summary>
 public sealed class SessionService(IWslcRunner wslc, ISelectedSession selected, RestartPolicyReconciler restarts, StoppedSessions stopped, WslcEvents events) : ISessionService
 {
@@ -74,7 +73,7 @@ public sealed class SessionService(IWslcRunner wslc, ISelectedSession selected, 
     }
 
     /// <summary>
-    /// Starts a session the way the reference does: opening the default store
+    /// Starts a session: opening the default store
     /// (running any command without a session does it) activates the CLI's
     /// default and, often, the store just asked for; a store of the user's own
     /// is then entered by path. A reserved store that did not come up that way

@@ -4,7 +4,7 @@ using Berpiztu.Dashboard.Storage;
 namespace Berpiztu.Dashboard.Catalogue;
 
 /// <summary>
-/// A card made already (the owner, 26 September 2026): several objects laid
+/// A card made already: several objects laid
 /// out together, which the toolbox offers beside the objects and drops as one
 /// group, each object in its place. The application gives its templates
 /// (registered as this interface); the SDK knows them only as their objects'
@@ -25,8 +25,8 @@ public interface IDashboardTemplate
     string Group { get; }
 
     /// <summary>
-    /// The heading it stands under within its group (the owner, 26 September
-    /// 2026: the user's cards and the system's apart); subgroups go in the
+    /// The heading it stands under within its group (the user's cards and the
+    /// system's apart); subgroups go in the
     /// order their first card is given, and empty stands under none.
     /// </summary>
     string Subgroup { get; }
@@ -38,7 +38,7 @@ public interface IDashboardTemplate
 /// <summary>
 /// One object of a template: its type, its cells within the card, its type
 /// size, and where the card needs them, the size of its parts, its vertical
-/// alignment and its margin down (Home v2.5: a resource card laid out as the
+/// alignment and its margin down (a resource card laid out as the
 /// list pages draw theirs, its dials' rings a step smaller than their text and
 /// standing at the top of the body); what it reads is chosen once, on the card.
 /// </summary>
@@ -63,8 +63,8 @@ public static class DashboardTemplates
     /// <summary>
     /// The card as it is born in a view: each of its objects as its kind's
     /// default there has it where one was designed — its look, its cells and
-    /// its place in the card (the owner, 26 September 2026: the cards are
-    /// designed on the board of every object) — with the template's place,
+    /// its place in the card, since the cards are designed on the board of
+    /// every object — with the template's place,
     /// cells and type size otherwise, in either view alike; and the frame at its
     /// designed size, never smaller than its objects take. The objects' ids
     /// are their types, each card holding one of a kind, until it is dropped.

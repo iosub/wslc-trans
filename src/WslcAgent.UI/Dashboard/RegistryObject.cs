@@ -5,7 +5,7 @@ namespace WslcAgent.UI.Dashboard;
 /// chosen in the properties window by its registry uid; it reads the list the
 /// family's objects share (<see cref="RegistryRows{TList, TRow}"/>), is drawn
 /// again with each read, and leaves the dashboard once a read says its
-/// resource is gone (decision 6).
+/// resource is gone.
 /// </summary>
 public abstract class RegistryObject<TList, TRow> : WslcObject
     where TList : class

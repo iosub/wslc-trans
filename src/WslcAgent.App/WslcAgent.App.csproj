@@ -123,7 +123,7 @@
        an empty layer-list over the app's primary colour — which is the plain
        blue screen with no glyph the clients showed. The stamp goes before the
        target runs, so the splash is generated on every build; it is a handful
-       of PNGs. See docs/knowledge/stale-static-assets.md. -->
+       of PNGs. -->
   <Target Name="WslcAgentRegenerateSplash" BeforeTargets="ProcessMauiSplashScreens">
     <Delete Files="$(_MauiSplashStampFile)" ContinueOnError="true" />
   </Target>
@@ -131,7 +131,7 @@
   <!-- The app icon, the same way: ResizetizeImages decides from its own stamp
        (mauiimage.stamp), the stamp outlived the mipmaps it had written, and a
        Release build after a good one stopped at the manifest with "resource
-       mipmap/appicon not found" (24 September 2026). The stamp goes before the
+       mipmap/appicon not found". The stamp goes before the
        target runs, so the icons are written on every build; they are a few PNGs. -->
   <Target Name="WslcAgentRegenerateImages" BeforeTargets="ResizetizeImages">
     <Delete Files="$(_ResizetizerStampFile)" ContinueOnError="true" />

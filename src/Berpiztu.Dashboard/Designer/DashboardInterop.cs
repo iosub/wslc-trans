@@ -10,8 +10,7 @@ public sealed record ScreenBox(double Left, double Top, double Width, double Hei
 }
 
 /// <summary>
-/// The SDK's JavaScript, and all of it (docs/home/v2/specv2.md, decision 23):
-/// what only the browser can answer. Where an element stands and how large it
+/// The SDK's JavaScript, and all of it: what only the browser can answer. Where an element stands and how large it
 /// is, when its size changes, whether the window is taller than it is wide
 /// as it turns, when a finger is held still on the canvas's floor, and keeping
 /// the pointer on an element while a drag lasts, so the drag
@@ -35,8 +34,7 @@ public sealed class DashboardInterop(IJSRuntime js) : IAsyncDisposable
     /// <summary>
     /// Tells <paramref name="turned"/> whether the window is taller than it
     /// is wide, at once and each time that changes, until the answer is
-    /// disposed: the orientation that chooses the dashboard's view
-    /// (docs/home/v2.5/spec.md, decision 2).
+    /// disposed: the orientation that chooses the dashboard's view.
     /// </summary>
     public async Task<IAsyncDisposable> WatchOrientationAsync(Func<bool, Task> turned)
     {
@@ -48,7 +46,7 @@ public sealed class DashboardInterop(IJSRuntime js) : IAsyncDisposable
     /// <summary>
     /// Tells <paramref name="resized"/> each time <paramref name="element"/>'s
     /// size changes, once it has stood still, until the answer is disposed:
-    /// what the dashboard's zoom fits (docs/home/v2.5/spec.md, decision 6).
+    /// what the dashboard's zoom fits.
     /// </summary>
     public async Task<IAsyncDisposable> WatchSizeAsync(ElementReference element, Func<Task> resized)
     {

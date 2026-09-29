@@ -5,12 +5,11 @@ using MudBlazor;
 namespace WslcAgent.UI.Dashboard.Cards;
 
 /// <summary>
-/// The cards made already (the owner, 26 September 2026), out of the objects
-/// that a card's parts became, so each can be changed or moved after; on
-/// cells of about 17px (docs/home/v2.5/spec.md, decision 10).
+/// The cards made already, out of the objects that a card's parts became, so
+/// each can be changed or moved after; on cells of about 17px.
 /// <para>
 /// A resource card — a container's, an image's, a volume's, a network's — is
-/// laid out as the list pages draw theirs (decision 8), measured against the
+/// laid out as the list pages draw theirs, measured against the
 /// Containers, Images, Volumes and Networks screens: twenty-four cells across,
 /// a list card's 414px; its header three rows (the list's 50px), its body
 /// the rows its words take (a container's 118px seven, the others' six),
@@ -21,10 +20,10 @@ namespace WslcAgent.UI.Dashboard.Cards;
 /// actions and the own verbs at their right.
 /// </para>
 /// <para>
-/// The System card, the chart cards and File transfers are as the owner laid
-/// them out on v2's cells, twice as many of the new ones: the System card
-/// thirty-two by ten, every reading where the owner put it; a chart card
-/// twenty-two cells wide, its summary and its legend over its chart.
+/// The System card, the chart cards and File transfers were laid out on
+/// cells twice as large, now twice as many cells: the System card
+/// thirty-two by ten; a chart card twenty-two cells wide, its summary and
+/// its legend over its chart.
 /// </para>
 /// </summary>
 public static class WslcCards
@@ -72,7 +71,7 @@ public static class WslcCards
     /// — the shortcuts taking <paramref name="shortcuts"/> cells at its left,
     /// the own verbs the rest; a resource with no shortcuts has its verbs
     /// across. How each keeps to the card's edges as it widens is its kind's
-    /// (the owner, 28 September 2026: DashboardObjectAttribute.Anchor).
+    /// (DashboardObjectAttribute.Anchor).
     /// </summary>
     private static IReadOnlyList<TemplateItem> Resource(string resource, int bodyRows,
         IReadOnlyList<(string Piece, IReadOnlyDictionary<string, PartStyle>? Parts)> dials, int shortcuts)
@@ -95,7 +94,7 @@ public static class WslcCards
         return items;
     }
 
-    /// <summary>The System card as the owner laid it out: its header and its client download were hidden there, and are left out.</summary>
+    /// <summary>The System card, its header and its client download left out.</summary>
     public static readonly CardTemplate SystemCard = new("wslc.system-card", "System card", Icons.Material.Filled.Computer, SystemCards,
     [
         new("wslc.system-agent", 0, 0, 6, 4, TypeSize.Large),
@@ -111,7 +110,7 @@ public static class WslcCards
     ]);
 
     /// <summary>
-    /// A chart card as the owner laid it out: the summary at the top left, the
+    /// A chart card: the summary at the top left, the
     /// legend at the top right, the chart under both, across the card; its
     /// subject, the host until another is chosen, chosen once on the card.
     /// </summary>
@@ -133,21 +132,20 @@ public static class WslcCards
     public static readonly CardTemplate NetworkChart = Chart(HostCharts.Network, "Network", Icons.Material.Filled.MultilineChart, 12, (14, 8), 16);
 
     /// <summary>
-    /// The four chart cards in one (the owner, 29 September 2026), each at
-    /// half its size: CPU and memory above, disk and network below; over them,
-    /// on its first line, the name of what they show (the owner, same day).
+    /// The four chart cards in one, each at half its size: CPU and memory
+    /// above, disk and network below; over them, on its first line, the name
+    /// of what they show.
     /// </summary>
     public static readonly HalvedCardsTemplate ChartsCard = new("wslc.charts-card", "Charts card", Icons.Material.Filled.Insights,
         CardTemplate.CardsGroup, SystemCards, [CpuChart, MemoryChart, DiskChart, NetworkChart], PerRow: 2,
         Above: [new("wslc.chart-subject", 0, 0, 12, 2)]);
 
     /// <summary>
-    /// The File transfers card, the size today's Home's object was: its header
-    /// four rows — its three lines, title, count and hint, each an object of
-    /// its own at the left (the owner, 28 September 2026), the count two rows
-    /// for its larger type, and the container filter beside them —, the header
-    /// of its lines two, its lines the rest (the owner, 27 September 2026:
-    /// each with properties of its own, and none of them out of the card).
+    /// The File transfers card: its header four rows — its three lines,
+    /// title, count and hint, each an object of its own at the left, the
+    /// count two rows for its larger type, and the container filter beside
+    /// them —, the header of its lines two, its lines the rest (each with
+    /// properties of its own, and none of them out of the card).
     /// </summary>
     public static readonly CardTemplate TransfersCard = new("wslc.transfers-card", "File transfers card", Icons.Material.Filled.ImportExport, SystemCards,
     [

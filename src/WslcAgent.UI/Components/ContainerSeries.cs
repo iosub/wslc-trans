@@ -6,7 +6,7 @@ namespace WslcAgent.UI.Components;
 /// <summary>
 /// A container's four charts as its Stats tab draws them — their lines, as
 /// the legends name them, and each one's latest value as its header writes
-/// it — shared by that tab and Home v2's charts given the container as their
+/// it — shared by that tab and the dashboard's charts given the container as their
 /// subject, so the two say the same.
 /// </summary>
 public static class ContainerSeries

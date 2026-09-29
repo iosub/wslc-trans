@@ -26,16 +26,16 @@
     /// <summary>The title as the bar draws it, when it holds more than words (an icon); <see cref="Title"/> stays the tab's name.</summary>
     [Parameter] public RenderFragment? TitleContent { get; set; }
 
-    /// <summary>Shown next to the title (reference: topbar-status).</summary>
+    /// <summary>Shown next to the title.</summary>
     [Parameter] public RenderFragment? Status { get; set; }
 
     /// <summary>The page's search box, centred in the title row.</summary>
     [Parameter] public RenderFragment? TopbarSearch { get; set; }
 
-    /// <summary>Right side of the title row (reference: topbar-nav, e.g. bulk actions).</summary>
+    /// <summary>Right side of the title row (e.g. bulk actions).</summary>
     [Parameter] public RenderFragment? TopbarNav { get; set; }
 
-    /// <summary>Second top-bar row (reference: section_actions).</summary>
+    /// <summary>Second top-bar row: the section actions.</summary>
     [Parameter] public RenderFragment? SectionActions { get; set; }
 
     /// <summary>The page's verbs (Run, Create, Pull…): the navigation button draws them in its list, above itself.</summary>

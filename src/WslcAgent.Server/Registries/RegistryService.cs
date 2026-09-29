@@ -4,8 +4,8 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Registries;
 
 /// <summary>
-/// <c>wslc login</c> and <c>wslc logout</c>, as the reference's registry page
-/// runs them. One difference on purpose: the password goes through
+/// <c>wslc login</c> and <c>wslc logout</c>.
+/// The password goes through
 /// <c>--password-stdin</c>, so it never shows in the command line that CLI
 /// Activity and the agent log record.
 /// </summary>

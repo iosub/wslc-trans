@@ -7,7 +7,7 @@ using AndroidX.Core.View;
 
 namespace WslcAgent.App;
 
-// The activity is the reference client's: single top (a new intent reaches
+// The activity is single top (a new intent reaches
 // OnNewIntent instead of a second instance), resizeable, and it survives
 // rotation, split screen and keyboard changes without being recreated.
 // A stable activity name so tooling can start the app explicitly:
@@ -35,7 +35,7 @@ namespace WslcAgent.App;
         | ConfigChanges.ColorMode)]
 public class MainActivity : MauiAppCompatActivity
 {
-    /// <summary>The reference's page background, behind the status and navigation bars.</summary>
+    /// <summary>The page background, behind the status and navigation bars.</summary>
     private static readonly Android.Graphics.Color SystemBarsGround = Android.Graphics.Color.ParseColor("#0f172a");
 
     protected override void OnCreate(Bundle? savedInstanceState)
@@ -72,8 +72,8 @@ public class MainActivity : MauiAppCompatActivity
     }
 
     /// <summary>
-    /// Back (button or gesture) asks the UI, which walks what the reference's
-    /// client walks: an open dialog, then the navigation drawer over the page,
+    /// Back (button or gesture) asks the UI, which walks back:
+    /// an open dialog, then the navigation drawer over the page,
     /// then the step before. Only when the UI says there is nothing left does
     /// the app close.
     /// <para>

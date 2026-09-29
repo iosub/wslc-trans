@@ -25,8 +25,7 @@ public sealed class TerminalEndpointTests(WebApplicationFactory<Program> factory
     public async Task Compaction_is_refused_while_a_session_is_active_and_unknown_jobs_are_not_found()
     {
         // The session whose VHDX would be compacted, and no other: another
-        // store being in use does not hold this file open (the owner,
-        // 22 September 2026). Its name is this machine's, not a literal, or
+        // store being in use does not hold this file open. Its name is this machine's, not a literal, or
         // the test would only refuse on the machine it was written on.
         var runner = new FakeWslcRunner().Answer("system session list", $"ID  CREATOR PID  NAME\n3   77           {SessionStores.Default}\n");
         var client = factory.ClientWith(runner);

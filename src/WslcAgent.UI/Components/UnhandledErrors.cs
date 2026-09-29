@@ -6,8 +6,8 @@ namespace WslcAgent.UI.Components;
 /// The application's last catch. What nothing else caught — an exception in a
 /// dialog, a provider, the layout, anything outside the page's own
 /// <c>ErrorBoundary</c> — used to end in Blazor's own yellow bar at the foot
-/// of the window, "An unhandled error has occurred", which the owner never
-/// wants to see again: it looks final, and it is not — a WebAssembly app goes
+/// of the window, "An unhandled error has occurred", which should
+/// never be seen: it looks final, and it is not — a WebAssembly app goes
 /// on working after such an error. So the bar is gone from both <c>index.html</c>
 /// files, and every error Blazor's renderer would have put there is reported
 /// here instead, and the layout shows it as an error toast that stays and can

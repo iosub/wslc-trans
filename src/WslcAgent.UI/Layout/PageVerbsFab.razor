@@ -1,7 +1,7 @@
 @* The one navigation control, at the bottom centre of every page on an
    empty strip of the bar's tone: one large button that opens, floating over
    the page with nothing behind them but the page, one row of sections and
-   the page's verbs above it (the owner, 20 September 2026). The row grows
+   the page's verbs above it. The row grows
    out of the circle like two horns, on one rectangle of its own colour,
    left to right: Home, Volumes, Networks, Images, Containers, the circle,
    Logs, Terminal, Registry, System, Settings — five and five, every section
@@ -24,14 +24,13 @@
    section, or on a tap outside (the clear overlay under the
    buttons) — and on nothing else. It is drawn here, not by MudFabMenu: that
    one closes by itself the moment the pointer leaves it, hover mode or not
-   (measured in the browser, 20 September 2026), and a menu that goes while
+   (measured in the browser), and a menu that goes while
    the hand moves towards it is no menu.
 
-   The strip is the status bar too (the owner, 22 September 2026): the
-   dashboard's alarms ticked in Status alarms stand at either side of the
-   button (DashboardStatus, Home v2's), gone while the list is open, whose row of
-   sections takes the strip. The Architecture button, at its right end since
-   21 September, is a verb of every screen now (ArchitectureVerb). *@
+   The strip is the status bar too: the dashboard's alarms ticked in Status
+   alarms stand at either side of the button (DashboardStatus), gone while
+   the list is open, whose row of sections takes the strip. The Architecture
+   button is a verb of every screen (ArchitectureVerb). *@
 @implements IDisposable
 @inject PageChrome Chrome
 @inject SessionState Session
@@ -41,7 +40,7 @@
 @* Under the bar, over the page: a tap anywhere but the buttons closes them. *@
 <MudOverlay Visible="_open" OnClick="Close" LockScroll="false" ZIndex="1000" />
 
-@* The strip the button stands on (the owner, 20 September 2026): MudAppBar
+@* The strip the button stands on: MudAppBar
    pinned to the bottom, empty, in the bar's own tone with its elevation, the
    button centred in it and the row of sections centred on the same line. *@
 <MudAppBar Bottom="true" Elevation="1" Class="wslc-bottomnav">
@@ -64,7 +63,7 @@
                     </div>
                 }
             </CascadingValue>
-            @* One row on the rectangle, in the owner's order from left to right:
+            @* One row on the rectangle, in this order from left to right:
                Home, Volumes, Networks, Images, Containers, the circle, Logs,
                Terminal, Registry, System, Settings. The left side is written
                from the circle outward and drawn reversed; the hole in the
@@ -95,8 +94,7 @@
         </div>
     }
 </div>
-@* Home v2's alarms, v2 being what replaces today's Home (the owner,
-   26 September 2026); today's (StatusAlarms) stand down meanwhile. *@
+@* The dashboard's alarms, at either side of the button. *@
 @if (!_open)
 {
     <DashboardStatus />
@@ -143,7 +141,7 @@
 
     /// <summary>
     /// A filled button of the rectangle's colour, as approved; the section on
-    /// screen is the key held down (the owner, 20 September 2026): in the
+    /// screen is the key held down: in the
     /// primary blue and pressed into the rectangle (wslc-verbs-current).
     /// </summary>
     private RenderFragment SectionButton(Section section) =>

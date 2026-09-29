@@ -11,7 +11,7 @@ public sealed record LogLine(string Text, string Level)
 }
 
 /// <summary>
-/// The reference's log rendering rules: ANSI stripped, one element per line,
+/// The log rendering rules: ANSI stripped, one element per line,
 /// the level detected from the text (structured tokens, uvicorn prefixes,
 /// traceback cues) so lines take the app Logs palette.
 /// </summary>

@@ -1,13 +1,12 @@
 @* The second line of the File transfers card's header (TransfersCardObject;
-   the owner, 28 September 2026: each of the header's three lines an object
-   of its own): which file is on its way out of how many (the owner,
-   29 September 2026: "3 of 8"), or how many it shows while none is still to go. *@
+   each of the header's three lines an object of its own): which file is
+   on its way out of how many ("3 of 8"), or how many it shows while none is still to go. *@
 @namespace WslcAgent.UI.Dashboard.Objects
 @using Berpiztu.Dashboard.Catalogue
 @using Berpiztu.Dashboard.Model
 @inherits TransfersCardObject
 @attribute [DashboardObject("wslc.host-transfers-count", "File transfers count", Group = "System", Subgroup = "System", Icon = Icons.Material.Filled.Numbers, Columns = 9, Rows = 2, Horizontal = HorizontalAlign.Left, CardOnly = true)]
-@* Its one line a part (the owner, 29 September 2026: its colour and weight were not its own to change). *@
+@* Its one line a part, so its colour and weight are its own to change. *@
 @attribute [DashboardObjectPart("value", "Count", Bold = true)]
 
 <div class="@ReadingClass">

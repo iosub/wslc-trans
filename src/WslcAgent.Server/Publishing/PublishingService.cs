@@ -7,9 +7,8 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Publishing;
 
 /// <summary>
-/// Publish and unpublish as docs/remote-config/checklistremote.md does them by
-/// hand: the map is written whole from the store and the proxy container
-/// restarts so nginx reads it. The network is the owner's, never the agent's:
+/// Publish and unpublish: the map is written whole from the store and the proxy container
+/// restarts so nginx reads it. The network is the user's, never the agent's:
 /// the proxy reaches a container by name only on a user-defined network they
 /// share, and the container is put on one through the form's Networks rows;
 /// a row with Reverse proxy ticked on a container that shares none with the
@@ -181,7 +180,7 @@ public sealed partial class PublishingService(
         }
     }
 
-    /// <summary>The network of Settings has to exist; a missing one is the owner's to create, not the agent's to guess.</summary>
+    /// <summary>The network of Settings has to exist; a missing one is the user's to create, not the agent's to guess.</summary>
     private async Task<NetworkDetails> RequireNetworkAsync(string network, CancellationToken cancellationToken)
     {
         try

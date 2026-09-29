@@ -1,7 +1,6 @@
-@* Per-container actions in the reference's layout: [start or stop] [⋮ more] [remove],
-   with the reference's menu in its order. No entry is disabled by state:
-   the CLI answers, as in the reference — with one exception of ours, a
-   container being recreated, which for those seconds may not exist at all
+@* Per-container actions: [start or stop] [⋮ more] [remove], with the menu
+   in its order. No entry is disabled by state: the CLI answers — with one
+   exception, a container being recreated, which for those seconds may not exist at all
    (Locked). Entries later slices bring say so. *@
 @inherits EntityActionsBase
 @using WslcAgent.UI.Components.Launch
@@ -12,14 +11,14 @@
 @inject HttpClient Http
 @inject SimulatedRemote Simulated
 
-@* A card has room a table row has not, so it leads with the six verbs the
-   owner reaches for — details, edit, exec, files, browser, its sessions,
+@* A card has room a table row has not, so it leads with the six verbs most
+   reached for — details, edit, exec, files, browser, its sessions,
    logs — and keeps
    the row's own verbs (start or stop, the menu, remove) at the far end. They
    stay in the menu as well, which is the whole list; a table row draws that
    group alone. The dashboard's objects draw each group alone (ShortcutsAlone,
    and the row's group with its whole menu), so the user places each where
-   they want it (the owner, 25 September 2026). *@
+   they want it. *@
 <div class="@(Shortcuts ? "wslc-row-verbs" : "")">
 @if (Shortcuts || ShortcutsAlone)
 {
@@ -107,7 +106,7 @@
 
     /// <summary>
     /// Every verb stands greyed while one of them runs, and while the
-    /// container is being recreated (the owner, 24 September 2026): for those
+    /// container is being recreated: for those
     /// seconds it may not exist, and a start pressed then would fail or cross
     /// the recreate.
     /// </summary>
@@ -139,7 +138,7 @@
         }
     }
 
-    /// <summary>The reference shows the raw image inspect JSON under this name; a real package and CVE view is still open.</summary>
+    /// <summary>The raw image inspect JSON under this name, until a real package and CVE view exists.</summary>
     private Task ViewImagePackagesAsync() =>
         DialogFlow.ShowAsync<Dialogs.JsonDialog>(Dialogs, "Image packages / CVEs (raw inspect)",
             new DialogParameters<Dialogs.JsonDialog> { { d => d.Load, (Func<Task<string>>)(async () => (await Api.GetImageInspectAsync(Container.Image)).Json) } }, large: true);
@@ -156,7 +155,7 @@
         }
     }
 
-    /// <summary>The interactive shell in a dialog, the reference's exec modal.</summary>
+    /// <summary>The interactive shell in a dialog.</summary>
     private Task ExecAsync() =>
         DialogFlow.ShowAsync<Dialogs.ContainerTerminalDialog>(Dialogs, $"Exec — {Container.Name}",
             new DialogParameters<Dialogs.ContainerTerminalDialog> { { d => d.Container, Container.Id } }, large: true);
@@ -210,8 +209,7 @@
     private static readonly System.Text.Json.JsonSerializerOptions FullExportJson = new(System.Text.Json.JsonSerializerDefaults.Web) { WriteIndented = true };
 
     /// <summary>
-    /// The reference rebuilt the line from inspect: name, ports, env, image. Ours
-    /// prints wslc, not docker. The line that would run this container again, on
+    /// It prints wslc, not docker. The line that would run this container again, on
     /// the clipboard: paste it in a shell, or in the Run form's Fill bar, which
     /// reads the same flags back into the fields. It is built from the
     /// container's own launch form, so nothing it holds is left out; with full

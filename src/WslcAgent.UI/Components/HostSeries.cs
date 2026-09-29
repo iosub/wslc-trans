@@ -1,8 +1,8 @@
 namespace WslcAgent.UI.Components;
 
 /// <summary>
-/// The lines of the host's four charts, as their legends name them: today's
-/// Home's chart cards and Home v2's chart objects draw the same ones.
+/// The lines of the host's four charts, as their legends name them: the
+/// dashboard's chart objects draw the same ones.
 /// </summary>
 public static class HostSeries
 {

@@ -200,7 +200,7 @@
     private IReadOnlyList<ContainerTransfer> _transfers = [];
     private readonly HashSet<string> _reportedLaunches = [];
 
-    /// <summary>Runs still on their way first, as a temporary row each, the reference's process rows.</summary>
+    /// <summary>Runs still on their way first, as a temporary row each.</summary>
     protected override async Task<IReadOnlyList<ContainerSummary>> LoadAsync()
     {
         var response = await Api.GetContainersAsync(all: !_runningOnly, helpers: _helpers);
@@ -216,8 +216,8 @@
     protected override void OnInitialized()
     {
         // The section is the list again, however the user arrived: the sidebar's
-        // Containers entry stops pointing at a details page, as the reference's
-        // memory is cleared whenever the list itself is showing.
+        // Containers entry stops pointing at a details page: its memory is
+        // cleared whenever the list itself is showing.
         Open.ClearContainers();
         base.OnInitialized();
         _ = FollowJobsAsync(PageClosing);

@@ -8,8 +8,8 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.AgentLog;
 
 /// <summary>
-/// The Logs page's reading of <see cref="AgentLogFile"/>, as the reference's
-/// logs router: every file parsed into entries (a line in the log format starts
+/// The Logs page's reading of <see cref="AgentLogFile"/>:
+/// every file parsed into entries (a line in the log format starts
 /// one, the lines after it are its details), merged by timestamp, the last
 /// <c>tail</c> kept; deleting rewrites each file without the chosen entries.
 /// A <c>wslc</c> command's entry is read back as the command it records
@@ -61,7 +61,7 @@ public sealed partial class AgentLogs(AgentLogFile file, ICliActivity activity) 
         return [.. kept.Select(entry => ToContract(entry, whole: false)), .. activity.Running().Select(RunningEntry)];
     }
 
-    /// <summary>The entries with these ids, whole: a command's output entire, as the owner's rule has it, never cut.</summary>
+    /// <summary>The entries with these ids, whole: a command's output entire, never cut.</summary>
     public IReadOnlyList<AgentLogEntry> Entries(IReadOnlyCollection<int> entryIds)
     {
         var ids = entryIds.ToHashSet();
@@ -76,7 +76,7 @@ public sealed partial class AgentLogs(AgentLogFile file, ICliActivity activity) 
         return [.. running.Concat(finished).Take(Math.Max(1, max))];
     }
 
-    /// <summary>The same entries as plain text, the reference's <c>/logs/text</c>.</summary>
+    /// <summary>The same entries as plain text.</summary>
     public string Text(int? tail)
     {
         var kept = Tail(ReadAll(), tail);
@@ -239,10 +239,9 @@ public sealed partial class AgentLogs(AgentLogFile file, ICliActivity activity) 
     }
 
     /// <summary>
-    /// A command that failed is an error, whatever its line says: the files
-    /// written before 2026-09-20 say WARNING for one, and the page's Error filter
-    /// has to find every failure in the file, not only those written since
-    /// (owner: "si le pones Error tienen que aparecer todos los errores que hay").
+    /// A command that failed is an error, whatever its line says: files
+    /// written by older versions say WARNING for one, and the page's Error filter
+    /// has to find every failure in the file, not only those written since.
     /// </summary>
     private static string LevelOf(Entry entry, CliTraceEntry? command) =>
         command is { Status: "error" or "timeout" } ? "ERROR" : entry.Level;

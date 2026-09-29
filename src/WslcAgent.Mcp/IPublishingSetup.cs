@@ -3,8 +3,8 @@ using WslcAgent.ApiClient.Contracts;
 namespace WslcAgent.Mcp;
 
 /// <summary>
-/// The first use of publishing on a machine: what docs/remote-config/checklistremote.md
-/// did by hand in its steps 1 and 2, done by the agent from Settings → Publish.
+/// The first use of publishing on a machine: the network, the map file and the
+/// proxy container, set up by the agent from Settings → Publish.
 /// Implemented by the server.
 /// </summary>
 public interface IPublishingSetup

@@ -124,7 +124,7 @@
     private IReadOnlyList<ImagePullState> _pulls = [];
     private readonly HashSet<string> _reportedFailures = [];
 
-    /// <summary>Pulls still under way first, over their catalog row or as a pending row of their own, as the reference merges them.</summary>
+    /// <summary>Pulls still under way first, over their catalog row or as a pending row of their own.</summary>
     protected override async Task<IReadOnlyList<ImageSummary>> LoadAsync()
     {
         var response = await Api.GetImagesAsync();

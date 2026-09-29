@@ -71,7 +71,7 @@
         }
         catch (Exception ex) when (ex is AgentApiException or HttpRequestException)
         {
-            // Best effort, as in the reference: a helper left behind stays hidden from the lists.
+            // Best effort: a helper left behind stays hidden from the lists.
         }
     }
 }

@@ -5,8 +5,8 @@ namespace WslcAgent.UI.Dashboard;
 /// <summary>
 /// A dashboard stored while a chart was one object whose summary, legend and
 /// lines were parts of it: each such chart becomes its card again, three
-/// pieces over the cells it took (the owner, 26 September 2026: they are
-/// moved and changed inside the card, as today's card's parts are) — the
+/// pieces over the cells it took, so they are moved and changed inside the
+/// card — the
 /// summary at the top left, the legend at the top right, the chart under
 /// both — each piece as the part was: its size, its lines' look, hidden
 /// where the part was. A chart standing alone gets its card's frame round it.

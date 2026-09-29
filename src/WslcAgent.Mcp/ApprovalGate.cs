@@ -6,8 +6,8 @@ using ModelContextProtocol.Server;
 namespace WslcAgent.Mcp;
 
 /// <summary>
-/// The one gate every destructive tool passes before it acts, ported from the
-/// reference's <c>approval_gate</c> with both of its paths:
+/// The one gate every destructive tool passes before it acts, with both of
+/// its paths:
 /// <list type="number">
 /// <item>
 /// The client can show an elicitation prompt (Hermes draws it as its yes/no
@@ -79,7 +79,7 @@ public sealed class ApprovalGate(Func<bool> enabled)
             }
 
             // The client refused the prompt or could not deliver it: the token
-            // flow below is the fallback, as in the reference.
+            // flow below is the fallback.
         }
 
         return Token(tool, action, targetKey, target, confirm);
@@ -206,7 +206,7 @@ public sealed record ApprovalRequired(
     string Summary,
     string Instructions)
 {
-    /// <summary>The reference's own flag: what this answer is, without reading the prose.</summary>
+    /// <summary>An explicit flag: what this answer is, without reading the prose.</summary>
     public bool ConfirmationRequired => true;
 }
 

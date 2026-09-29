@@ -1,4 +1,4 @@
-@* Published ports as the reference's green mono link (host→container); a
+@* Published ports as a green mono link (host→container); a
    dash when there are none. With the container it belongs to, a click is the
    row menu's "Open with browser": the popup with every port and its ways in,
    Local (a tab at the agent's machine, the host browser pane anywhere else)
@@ -23,9 +23,9 @@ else if (Container.Length > 0)
     <span class="wslc-ports">
         <a class="wslc-ports-link wslc-mono" href="@Href" title="Open with browser"
            @onclick="OpenAsync" @onclick:preventDefault="true" @onclick:stopPropagation="true">@Text</a>
-        @* The mark of docs/remote-config/publish.md: blue when the container has a
+        @* The publication mark: blue when the container has a
            public name, grey when it has none; the names on hover. Theme colours;
-           the glyph one step under the icon size, at the owner's word, so it never
+           the glyph one step under the icon size, so it never
            takes the text's room. *@
         <MudIcon Icon="@Icons.Material.Filled.Public" Size="Size.Small" Class="wslc-ports-mark" Color="@(Publications.Count > 0 ? Color.Info : Color.Default)" Title="@MarkTitle" />
     </span>

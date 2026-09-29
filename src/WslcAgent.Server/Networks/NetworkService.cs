@@ -81,7 +81,7 @@ public sealed class NetworkService(IWslcRunner wslc, ContainerUsageScanner usage
     }
 
     /// <summary>
-    /// View &amp; edit's Save, the reference's recreate: create-time settings cannot
+    /// View &amp; edit's Save, a recreate: create-time settings cannot
     /// change in place, so the network is replaced and its containers are connected
     /// to the replacement. Renamed: the new one is created first, the containers
     /// move, then the old one goes. Same name: the containers are disconnected, the

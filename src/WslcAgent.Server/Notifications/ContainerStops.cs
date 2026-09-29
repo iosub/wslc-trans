@@ -6,7 +6,7 @@ namespace WslcAgent.Server.Notifications;
 
 /// <summary>
 /// A container that stopped without being asked to, heard from
-/// <c>wslc events</c> (docs/knowledge/wslc-events.md). A stop someone asked
+/// <c>wslc events</c>. A stop someone asked
 /// for — from the application, the MCP tools or a terminal, a restart or a
 /// recreate alike — is killed first: <c>kill</c>, then its <c>stop</c> with the
 /// exit code. A <c>stop</c> with no <c>kill</c> of the same container before it

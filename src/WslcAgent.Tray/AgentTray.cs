@@ -3,7 +3,7 @@ using System.Diagnostics;
 namespace WslcAgent.Tray;
 
 /// <summary>
-/// The agent's icon beside the clock (the owner, 26 September 2026): a click
+/// The agent's icon beside the clock: a click
 /// shows the agent's page in a window of its own, and the right button the
 /// menu of what the click does not — Open in browser and Dashboard, the page
 /// or the dashboard in the browser; Close icon, which takes the icon away and
@@ -48,7 +48,7 @@ internal sealed class AgentTray : ApplicationContext
         _toasts = new NotificationToasts(_agent, _icon.Text, _icon.Icon);
     }
 
-    /// <summary>The agent's window, maximized and brought to the front (the owner, 26 September 2026), made when there is none.</summary>
+    /// <summary>The agent's window, maximized and brought to the front, made when there is none.</summary>
     private void ShowWindow()
     {
         if (_window is not { IsDisposed: false })

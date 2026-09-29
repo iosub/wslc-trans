@@ -6,7 +6,7 @@ using WslcAgent.ApiClient.Contracts;
 
 namespace WslcAgent.Server.Tests;
 
-/// <summary>The agent's own login, as the reference's: local callers pass, everyone else signs in.</summary>
+/// <summary>The agent's own login: local callers pass, everyone else signs in.</summary>
 public sealed class AgentAuthTests(WebApplicationFactory<Program> factory)
     : IClassFixture<WebApplicationFactory<Program>>
 {

@@ -7,7 +7,7 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Networks;
 
 /// <summary>
-/// The network map's data, as the reference's <c>network_topology</c>: every
+/// The network map's data: every
 /// network, and one inspect per container (running or stopped, the file helpers
 /// left out) for the networks it is on and its address on each. Eight inspects
 /// at a time; a container that cannot be inspected is left off the map.

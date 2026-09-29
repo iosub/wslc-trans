@@ -4,9 +4,8 @@ using Microsoft.JSInterop;
 namespace WslcAgent.UI.Dashboard;
 
 /// <summary>
-/// Home v2.5's dashboard kept on this device (<c>wslcAgent.dashboardV25</c>),
-/// both its views as one text, as today's Home keeps its own there: a place
-/// of its own beside it, neither reading the other. A private window keeps
+/// The dashboard kept on this device (<c>wslcAgent.dashboardV25</c>),
+/// both its views as one text. A private window keeps
 /// nothing, and the dashboard still works for as long as the page is open.
 /// </summary>
 public sealed class DeviceDashboardStore(IJSRuntime js) : IDashboardStore

@@ -7,10 +7,9 @@ namespace WslcAgent.Server.Host;
 /// served from memory: what the operator saves is what the running agent obeys
 /// on its next call, with no restart, and it is still there after one. The
 /// file is read again whenever it changed since it was last read: another
-/// agent on the same data folder, or a hand, may write it (the owner,
-/// 26 September 2026: auto-update switched off from the development agent,
-/// and the production agent, which had read it hours before, updated
-/// itself).
+/// agent on the same data folder, or a hand, may write it (auto-update
+/// switched off from a development agent, while a production agent that had
+/// read it hours before updated itself).
 /// </summary>
 public abstract class SavedSettings<T> where T : class
 {

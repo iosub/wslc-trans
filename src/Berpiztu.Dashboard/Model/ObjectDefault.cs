@@ -4,11 +4,9 @@ using System.Text.Json.Serialization;
 namespace Berpiztu.Dashboard.Model;
 
 /// <summary>
-/// The two views a dashboard is designed for (the owner, 26 September 2026),
-/// one for a screen wider than it is tall and one for a screen taller than
-/// it is wide; the screen's orientation chooses between them, not its size
-/// (docs/home/v2.5/spec.md, decision 2). Their names are v2.5's own, so
-/// nothing v2 kept under its desktop and mobile views is read (decision 7).
+/// The two views a dashboard is designed for, one for a screen wider than it
+/// is tall and one for a screen taller than it is wide; the screen's
+/// orientation chooses between them, not its size.
 /// </summary>
 public static class DashboardView
 {
@@ -18,8 +16,8 @@ public static class DashboardView
 
     /// <summary>
     /// The columns the portrait view is designed on: a list page's card
-    /// across, 24 cells, 402px (the owner, 28 September 2026: a container card
-    /// has to fit a phone's view; its 390px held 23, one short). Out of design
+    /// across, 24 cells, 402px (a container card has to fit a phone's view;
+    /// its 390px held 23, one short). Out of design
     /// the view is fitted to the phone's own width.
     /// </summary>
     public const int PhoneColumns = 24;
@@ -27,13 +25,13 @@ public static class DashboardView
     /// <summary>
     /// The height a phone standing up leaves the dashboard, in the page's
     /// pixels: a 390 by 844px screen less the browser's bar and the
-    /// application's top and bottom bars, about 9:16 (the owner, 28 September
-    /// 2026: the whole screen's 9:19.5 left room at the sides).
+    /// application's top and bottom bars, about 9:16 (the whole screen's
+    /// 9:19.5 left room at the sides).
     /// </summary>
     public const int PhoneHeight = 670;
 
     /// <summary>
-    /// A view's frame while none is set (docs/home/v2.5/spec.md, decision 9):
+    /// A view's frame while none is set:
     /// the portrait one what a phone standing up leaves the dashboard, a list
     /// card across, 24 cells by 40; the landscape one a screen of 16:9, 64
     /// cells by 36.
@@ -43,8 +41,7 @@ public static class DashboardView
 }
 
 /// <summary>
-/// How a kind of object is born in one view (the owner, 26 September 2026):
-/// its cells, its type size, its alignment and margins, its colours and its
+/// How a kind of object is born in one view: its cells, its type size, its alignment and margins, its colours and its
 /// parts, designed for each kind on a board of every object and kept with
 /// the application. An object dropped from the toolbox takes it, and Reset
 /// brings it back; a kind with none is born as its descriptor says. An
@@ -90,9 +87,9 @@ public sealed record ObjectDefault(
 
     /// <summary>
     /// A card as it is born, kept under its template's type: its cells, and
-    /// its colours, its elevation and its anchor (the owner, 29 September
-    /// 2026: the Charts card given another background on the board was
-    /// dropped on the dashboard with the page's).
+    /// its colours, its elevation and its anchor (otherwise the Charts card
+    /// given another background on the board was dropped on the dashboard
+    /// with the page's).
     /// </summary>
     public static ObjectDefault Of(DashboardGroup card) =>
         new(card.W, card.H, Background: card.Background, Foreground: card.Foreground, Elevation: card.Elevation, Anchor: card.Anchor);

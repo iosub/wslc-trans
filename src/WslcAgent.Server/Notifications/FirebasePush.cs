@@ -13,7 +13,7 @@ namespace WslcAgent.Server.Notifications;
 
 /// <summary>
 /// The agent's notifications pushed to the registered phones through Firebase
-/// Cloud Messaging (docs/notifications/spec.md, option A): the agent hands
+/// Cloud Messaging: the agent hands
 /// each one to Google, which wakes the phone, whether or not the phone can
 /// reach the agent.
 /// <para>
@@ -98,7 +98,7 @@ public sealed class FirebasePush(IOptions<WslcOptions> options, NotificationDevi
     /// The FCM v1 message: data alone, high priority, so it reaches the app
     /// whether it is in front or not, and the app draws the notification —
     /// Android draws one with a title of its own itself, and that one cannot
-    /// carry a button (the update's Cancel; the owner, 27 September 2026).
+    /// carry a button (the update's Cancel).
     /// </summary>
     private static object Message(string token, AgentNotification notification) => new
     {

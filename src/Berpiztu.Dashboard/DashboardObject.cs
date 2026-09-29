@@ -7,8 +7,7 @@ using MudBlazor;
 namespace Berpiztu.Dashboard;
 
 /// <summary>
-/// What every object on the dashboard inherits (docs/home/v2/specv2.md,
-/// decision 15). An object draws only what it shows: the canvas draws the
+/// What every object on the dashboard inherits. An object draws only what it shows: the canvas draws the
 /// rest around it — its cells, its alignment, the selection and the handle in
 /// design, and the empty place while its source is not chosen — so every
 /// object gets them the same, and none draws them twice.
@@ -36,7 +35,7 @@ public abstract class DashboardObject : ComponentBase
     /// moving a cell, a frame being carried, the selection — and hands every
     /// object its instance again. An object is drawn again only when it is
     /// another instance or the mode changed; what it reads still draws it
-    /// when it changes (the owner, 29 September 2026: the Charts card
+    /// when it changes (otherwise the Charts card
     /// carried over a dashboard held the page for seconds, every chart drawn
     /// again at each step of the pointer).
     /// </summary>
@@ -79,7 +78,7 @@ public abstract class DashboardObject : ComponentBase
 
     /// <summary>
     /// It opens something fuller when it is tapped again once selected, or by
-    /// the page's Open verb, as a card of today's Home does (a chart its full
+    /// the page's Open verb (a chart its full
     /// chart, a count its page); false for one that opens nothing.
     /// </summary>
     public virtual bool Opens => false;
@@ -89,7 +88,7 @@ public abstract class DashboardObject : ComponentBase
 
     /// <summary>
     /// The object's source no longer exists (its container was deleted, not
-    /// renamed): it leaves the dashboard (decision 6). Called by the object
+    /// renamed): it leaves the dashboard. Called by the object
     /// once what it reads says so for certain — a read that failed says
     /// nothing either way.
     /// </summary>

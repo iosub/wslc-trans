@@ -7,7 +7,7 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Containers;
 
 /// <summary>
-/// The agent-owned restart policy, as the reference kept it: not a CLI flag
+/// The agent-owned restart policy: not a CLI flag
 /// but a file of enrolled containers (<c>unless-stopped</c> or <c>always</c>)
 /// with the state the user last asked for. <c>no</c> is never stored. Keyed by
 /// the container name (or a full id when it has none), looked up by name, id

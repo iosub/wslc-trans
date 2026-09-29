@@ -6,7 +6,7 @@ namespace WslcAgent.Server.Containers;
 
 /// <summary>
 /// <c>wslc container run|create</c> argument lists from the launch fields, in
-/// the reference's flag order. The restart policy is not a CLI flag and is
+/// a fixed flag order. The restart policy is not a CLI flag and is
 /// left to <see cref="RestartPolicyStore"/>.
 /// </summary>
 public static class LaunchArgs
@@ -65,7 +65,7 @@ public static class LaunchArgs
     public static bool AllowsStaticIp(string network) =>
         network.Trim().Length > 0 && !NetworkSummary.IsBuiltIn(network.Trim());
 
-    /// <summary>A host-looking workdir with no volume becomes the bind <c>workdir:/workspace</c>, as the reference did.</summary>
+    /// <summary>A host-looking workdir with no volume becomes the bind <c>workdir:/workspace</c>.</summary>
     private static List<string> ResolveVolumes(ContainerLaunchRequest request)
     {
         var volumes = request.Volumes.Where(v => v.Trim().Length > 0).Select(v => v.Trim()).ToList();

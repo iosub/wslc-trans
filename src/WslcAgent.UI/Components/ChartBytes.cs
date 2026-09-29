@@ -2,7 +2,7 @@ using System.Globalization;
 
 namespace WslcAgent.UI.Components;
 
-/// <summary>The reference's compact bytes for chart titles (<c>652.5MB</c>, <c>3.19GB</c>), the same the chart axis writes.</summary>
+/// <summary>Compact bytes for chart titles (<c>652.5MB</c>, <c>3.19GB</c>), the same the chart axis writes.</summary>
 public static class ChartBytes
 {
     private static readonly (string Unit, double Size)[] Units =

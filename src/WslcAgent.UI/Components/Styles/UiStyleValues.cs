@@ -66,7 +66,7 @@ public sealed class UiStyleValues
     /// <summary>The corners of a form's fields and selects, in pixels (the theme's radius).</summary>
     public int FormFieldRadius { get; set; } = 4;
 
-    /// <summary>The checkbox glyph of a row and of a header row, in pixels (the reference's 16).</summary>
+    /// <summary>The checkbox glyph of a row and of a header row, in pixels.</summary>
     public int CheckSize { get; set; } = 16;
 
     /// <summary>The glyphs of a bar — search, refresh, view toggle, the buttons' own — in pixels.</summary>
@@ -116,8 +116,8 @@ public sealed class UiStyleValues
     public bool CardSquare { get; set; }
 
     /// <summary>
-    /// The four type roles the application uses and nothing else
-    /// (docs/knowledge/layout/medidas.md): titles, the default text, the
+    /// The four type roles the application uses and nothing else:
+    /// titles, the default text, the
     /// secondary text and the overline. Each one takes a standard MudBlazor
     /// typo — its size, its weight, its line and its letter spacing — so the
     /// application never invents a size: it chooses one of the theme's.

@@ -1,5 +1,4 @@
-@* The reference's Files browser, feature for feature and column for column
-   (its `files.js` and its `.files-*` look):
+@* The Files browser:
 
    - path row: "↑ Up" and a breadcrumb whose segments are buttons, the last
      one the current folder; a status line under it (items, loading, error);
@@ -18,7 +17,7 @@
      container) and Refresh;
    - the editor opens in the table's place, with the path and Save / Close.
 
-   Ours, not the reference's (the owner, 24 September 2026): the container's
+   Beyond the listing: the container's
    mounts are marked — a mount point by what is mounted there, a folder with
    one further down more quietly, and the path row says when the folder shown
    lives in one — and in a read-only mount, or on a mount point, the verbs
@@ -57,7 +56,7 @@
             </nav>
             @* The folder being shown lives in a mount: what the user puts here
                outlives the container, and a host folder's shows on the host too.
-               Written out in blue (the owner, 24 September 2026): a tooltip is
+               Written out in blue: a tooltip is
                never seen on Android, so the line says it — the mount's icon and
                source:destination (mode), as --volume writes it. *@
             @if (_mounts.Holding(_path) is { } here)
@@ -122,8 +121,7 @@
                             <tr class="@RowClass(entry)" tabindex="0" aria-selected="@(Selected(entry) ? "true" : "false")"
                                 @onclick="@(mouse => ClickedAsync(entry, mouse))" @onkeydown="@(key => KeyedAsync(entry, key))">
                                 @* A mount point takes the name, the free column and
-                                   Size, which a folder never fills, in one cell (the
-                                   owner, 24 September 2026): its blue folder and its
+                                   Size, which a folder never fills, in one cell: its blue folder and its
                                    name, then source:destination (mode), written out
                                    because a tooltip is never seen on Android. Mode
                                    and the date are the folder's own, and stay. *@
@@ -397,7 +395,7 @@
         // listing: reading the mounts yields, and the render in between drew
         // the crumbs of the starting "/" under a volume's root
         // (/mnt/wslc-volume) and cut past its end — the volume's files never
-        // opened (the owner, 24 September 2026).
+        // opened.
         _path = Within(_path);
 
         // The mounts and the listing are asked for together: the inspect only
@@ -470,7 +468,7 @@
 
     /// <summary>
     /// The mark of a folder with a mount further down, in the free column where
-    /// the names end (the owner, 24 September 2026): the mount's icon in the
+    /// the names end: the mount's icon in the
     /// text's own colour, its tooltip naming where, so the mount can be found
     /// by walking to it. A mount point carries its icon across the size, mode
     /// and date columns instead, with the mount written out beside it.
@@ -512,7 +510,7 @@
 
     /// <summary>
     /// A mount and everything it holds, folders and files alike, reads in blue
-    /// — its line and its glyph (the owner, 24 September 2026) — so what lives
+    /// — its line and its glyph — so what lives
     /// on the volume or the host folder is told apart at a glance.
     /// </summary>
     private bool InMount(ContainerFileEntry entry) => _mounts.Holding(entry.Path) is not null;
@@ -549,7 +547,7 @@
         }
 
         // A mount point, and everything inside one, reads in blue across the
-        // whole row (the owner, 24 September 2026): told apart at a glance.
+        // whole row: told apart at a glance.
         if (InMount(entry))
         {
             classes.Add("is-mount");
@@ -778,7 +776,7 @@
     /// <summary>
     /// Takes a cut back: the rows stop being dimmed and the Paste button goes
     /// away. Without this the only ways out of a cut were pasting it or
-    /// deleting what was cut, which is how the reference leaves it.
+    /// deleting what was cut.
     /// </summary>
     private void CancelCut()
     {
@@ -789,7 +787,7 @@
     }
 
     /// <summary>
-    /// Paste, with the reference's rules: a copy that would land on a name
+    /// Paste, with these rules: a copy that would land on a name
     /// already there becomes <c>name-copy</c>, a cut into its own folder is
     /// nothing to do, and a folder cannot be pasted inside itself.
     /// </summary>
@@ -1089,7 +1087,7 @@
             _editorDirty = false;
             Snackbar.Add($"Saved {ContainerPath.Name(_editing)}", Severity.Success);
             Status($"Saved {_editing}", "");
-            // The editor stays open, as the reference leaves it: saving is not
+            // The editor stays open: saving is not
             // leaving. The listing behind is refreshed for when it is closed.
             await ReloadAsync();
         }

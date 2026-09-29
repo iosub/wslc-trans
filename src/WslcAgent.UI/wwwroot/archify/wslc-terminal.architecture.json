@@ -29,7 +29,7 @@
           "clients",
           "exec"
         ],
-        "note": "Client → start, stdin, resize, pong, close. Agent → ready (backend, pty), stdout, ping, warning, exit, error. The reference's, unchanged."
+        "note": "Client → start, stdin, resize, pong, close. Agent → ready (backend, pty), stdout, ping, warning, exit, error."
       },
       {
         "id": "pty",
@@ -289,7 +289,7 @@
       "title": "In the app",
       "items": [
         "Host shell and any container's shell, in the browser and the apps: xterm.js, vendored, loaded the first time a terminal opens",
-        "Copy, paste, the wheel, resize: the reference's terminal surface, feature for feature"
+        "Copy, paste, the wheel, resize: the terminal surface, feature for feature"
       ]
     },
     {

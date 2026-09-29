@@ -10,7 +10,7 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Browse;
 
 /// <summary>
-/// One pane's WebSocket to a host browser, in the reference's protocol 2.
+/// One pane's WebSocket to a host browser, in protocol 2.
 /// <code>
 /// pane  → {"type":"start","protocol":2,"width":W,"height":H,"viewerId":"…","sessionId":"…"}
 ///         {"type":"pointer","action":"click|down|move|up|wheel","x":…,"y":…,"button":"left","clickCount":1,"deltaX":…,"deltaY":…}

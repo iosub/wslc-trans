@@ -1,4 +1,4 @@
-@* The one table shell for list pages, following the reference contract:
+@* The one table shell for list pages (docs/list-pages.md):
    striped, bordered, fixed header, columns at the widths they declare,
    the last of them holding the spare width, drag-to-resize and
    drag-to-reorder, 50 rows per page, the pager as the last line, the loading
@@ -110,7 +110,7 @@
     /// virtualisation over <see cref="Items"/>): no pager, the whole list at
     /// hand. Measured against the "server data" kind: that one asks for the rows
     /// again at every stop of the scroll and rebuilds them all (1802 nodes for
-    /// 34 rows), which the owner saw as the log flickering; this one slices the
+    /// 34 rows), which showed as the log flickering; this one slices the
     /// list in memory and rebuilds nothing.
     /// </summary>
     [Parameter] public bool Virtualize { get; set; }

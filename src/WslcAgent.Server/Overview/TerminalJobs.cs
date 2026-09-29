@@ -5,8 +5,8 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Overview;
 
 /// <summary>
-/// Named commands the host terminal types into its shell once it is up, the
-/// reference's terminal jobs. Only <c>compact-vhdx</c> exists (System → Compact
+/// Named commands the host terminal types into its shell once it is up.
+/// Only <c>compact-vhdx</c> exists (System → Compact
 /// VHDX): its script is far longer than a command line allows, so it is written
 /// to <c>%TEMP%</c> and the line to type is a short <c>powershell -File</c>.
 /// </summary>
@@ -39,7 +39,7 @@ public sealed class TerminalJobs(IWslcRunner wslc, ISelectedSession selected)
 
         // The session whose VHDX this is, and no other: another store being in
         // use does not hold this file open, and refusing over it refused
-        // compactions that were perfectly possible (the owner, 22 September 2026).
+        // compactions that were perfectly possible.
         var session = selected.Name ?? "";
         if (active.FirstOrDefault(s => s.DisplayName == session) is { } running)
         {
@@ -47,7 +47,7 @@ public sealed class TerminalJobs(IWslcRunner wslc, ISelectedSession selected)
             // session list` goes on listing a session for a while after it is
             // stopped, so a user who has just stopped one and is told it is
             // running needs to see that the agent is repeating wslc rather
-            // than deciding anything (the owner, 23 September 2026).
+            // than deciding anything.
             throw new InvalidOperationException(
                 $"Compaction blocked: wslc still lists session {session} as running (id {running.Id}, creator pid {running.CreatorPid?.ToString() ?? "unknown"}), and a running session holds its VHDX open. "
                 + "If you have just stopped it, wslc can take a moment to let go; try again shortly.");

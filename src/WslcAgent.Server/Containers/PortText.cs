@@ -1,8 +1,8 @@
 namespace WslcAgent.Server.Containers;
 
 /// <summary>
-/// The one way a published port is shown: <c>hostPort->containerPort</c>, as
-/// the reference's PortsStr (no bind address, no protocol); the UI draws the
+/// The one way a published port is shown: <c>hostPort->containerPort</c>
+/// (no bind address, no protocol); the UI draws the
 /// arrow.
 /// </summary>
 internal static class PortText

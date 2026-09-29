@@ -95,7 +95,7 @@ public sealed class PlaywrightPage(ILogger<PlaywrightPage> logger) : IBrowserPag
         await SetViewportAsync(width, height);
     }
 
-    /// <summary>Edge first, as the reference launches it; the bundled Chromium only if Edge will not start.</summary>
+    /// <summary>Edge first; the bundled Chromium only if Edge will not start.</summary>
     private async Task<IBrowser> LaunchAsync(IPlaywright playwright)
     {
         Exception? last = null;

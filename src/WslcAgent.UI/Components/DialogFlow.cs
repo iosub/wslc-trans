@@ -35,7 +35,7 @@ public static class DialogFlow
         return result is { Canceled: false };
     }
 
-    /// <summary>A dialog the user can only leave through its own buttons (the backup job, a dialog whose changes wait for Save): no close button, no backdrop click, no Escape. True when it closed by submitting.</summary>
+    /// <summary>A dialog the user can only leave through its own buttons (the backup job, an image build): no close button, no backdrop click, no Escape. True when it closed by submitting.</summary>
     public static async Task<bool> ShowPersistentAsync<TDialog>(IDialogService dialogs, string title, DialogParameters? parameters = null)
         where TDialog : IComponent
     {

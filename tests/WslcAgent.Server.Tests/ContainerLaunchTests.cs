@@ -81,7 +81,7 @@ public sealed class ContainerLaunchTests
     }
 
     [Fact]
-    public void Run_arguments_follow_the_reference_order()
+    public void Run_arguments_follow_a_fixed_order()
     {
         var request = new ContainerLaunchRequest
         {

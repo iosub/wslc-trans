@@ -5,8 +5,8 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Resources;
 
 /// <summary>
-/// The one place that says which resource is which (the owner, 22 September
-/// 2026): every container, image, volume and network the agent has seen,
+/// The one place that says which resource is which:
+/// every container, image, volume and network the agent has seen,
 /// each with a number of its own — its uid — that no rename and no recreate
 /// changes, kept in <c>resources.json</c> in the agent's data folder. What the
 /// resource is called and which WSLC id it has now are read from here; the
@@ -29,7 +29,7 @@ public sealed class ResourceRegistry
     /// <summary>The kind every container entry carries: its WSLC id and its name.</summary>
     public const string Container = "container";
 
-    /// <summary>An image, by its <c>repository:tag</c> (the owner's slice 3): a new pull of the tag is the same entry, a new tag another; a dangling image has none.</summary>
+    /// <summary>An image, by its <c>repository:tag</c>: a new pull of the tag is the same entry, a new tag another; a dangling image has none.</summary>
     public const string Image = "image";
 
     /// <summary>A volume, by its name, which is all a volume has.</summary>

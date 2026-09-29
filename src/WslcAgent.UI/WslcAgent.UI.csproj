@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WslcAgent.ApiClient\WslcAgent.ApiClient.csproj" />
-    <!-- Home v2's dashboard: Berpiztu's, which knows nothing of WSLC. -->
+    <!-- The dashboard: Berpiztu's, which knows nothing of WSLC. -->
     <ProjectReference Include="..\Berpiztu.Dashboard\Berpiztu.Dashboard.csproj" />
   </ItemGroup>
 

@@ -32,8 +32,7 @@ public static class TestHost
                 // The event reader asks the scripted CLI in the background, at
                 // its own pace — whether the session runs, then its events — and
                 // a test that counts what a call made the agent run counted
-                // those too, one more command than the call's (27 tests since
-                // the reader began asking, 23 September 2026).
+                // those too, one more command than the call's.
                 foreach (var reader in services.Where(descriptor => descriptor.ImplementationType == typeof(WslcEventReader)).ToList())
                 {
                     services.Remove(reader);

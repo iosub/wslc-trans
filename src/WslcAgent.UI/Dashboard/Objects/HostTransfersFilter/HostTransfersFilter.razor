@@ -1,10 +1,10 @@
-@* The File transfers card's filter (TransfersCardObject; the owner,
-   28 September 2026: the header's three lines objects of their own, and the
-   filter one beside them): the select that filters the card to one
+@* The File transfers card's filter (TransfersCardObject; the
+   header's three lines objects of their own, and the filter one beside
+   them): the select that filters the card to one
    container, offering only the containers that have something right now,
    there only while more than one has. A verb, not a reading, and not kept.
-   The dashboard's own choice, not MudBlazor's select (the owner, 29 September
-   2026: as everywhere else on the dashboard, ChoiceField). *@
+   The dashboard's own choice, not MudBlazor's select, as everywhere
+   else on the dashboard (ChoiceField). *@
 @namespace WslcAgent.UI.Dashboard.Objects
 @using Berpiztu.Dashboard.Catalogue
 @using Berpiztu.Dashboard.Fields
@@ -13,12 +13,11 @@
 @attribute [DashboardObject("wslc.host-transfers-filter", "File transfers filter", Group = "System", Subgroup = "System", Icon = Icons.Material.Filled.FilterList, Columns = 7, Rows = 4, Horizontal = HorizontalAlign.Left, Vertical = VerticalAlign.Top, CardOnly = true)]
 
 <div class="@($"{TypeClass} wslc-dash-transfers")">
-    @* In design it is always drawn, as it would stand with nothing filtered
-       (the owner, 29 September 2026: blank, its properties could not be
-       seen changing). *@
+    @* In design it is always drawn, as it would stand with nothing filtered:
+       blank, its properties could not be seen changing. *@
     @if (Named.Count > 1 || Designing)
     {
-        @* No word on its line (the owner, 29 September 2026): what it shows,
+        @* No word on its line: what it shows,
            All containers or one, says what it is. Its text follows the
            object's type size, the list it drops too, which opens over the page
            and so carries the size itself. *@

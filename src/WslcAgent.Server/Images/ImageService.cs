@@ -104,8 +104,7 @@ public sealed class ImageService(IWslcRunner wslc, ContainerUsageScanner usage, 
         // id. A pull moves the tag to the new image and leaves the old one with
         // its repository and a <none> tag, and the repository alone is read by
         // wslc as repository:latest — the new image: Remove on the old row
-        // tried the new one and was refused as in use (the owner, 24 September
-        // 2026).
+        // tried the new one and was refused as in use.
         var reference = repository.Length > 0 && tag.Length > 0 ? $"{repository}:{tag}" : fullId;
         var containers = int.TryParse(row.GetString("Containers"), out var count) && count >= 0 ? count : (int?)null;
         var inUse = containers is int n ? n > 0 : UsageKeys(repository, tag, fullId).Overlaps(usage.ImageRefs);

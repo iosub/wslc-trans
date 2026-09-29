@@ -15,18 +15,16 @@
     --wslc-header-tone: color-mix(in srgb, var(--mud-palette-primary) 18%, var(--mud-palette-surface));
 
     /* The fifth type size, the one below the theme's overline (docs/RULES.md,
-       step 5, authorised by the owner on 24 September 2026): a dashboard
-       part's Small where its text already stands at overline. The ratio
-       between the theme's caption and body1 taken once more below overline:
-       0.68 / (0.82 / 0.72) = 0.597, so 0.6rem. */
+       step 5): a dashboard part's Small where its text already stands at
+       overline. The ratio between the theme's caption and body1 taken once
+       more below overline: 0.68 / (0.82 / 0.72) = 0.597, so 0.6rem. */
     --wslc-typography-tiny-size: 0.6rem;
-    /* An exception to the scale, not a sixth step (the owner, 24 September
-       2026: "una excepción, un tamaño sin que sea uno de los generales"): the
-       code an opened log or Activity row shows — the command and its JSON —
-       in a narrow table, a phone, where there is a great deal of it and step 5
-       still did not let it be read; and everything else that opened row says,
-       its summary line and its labels, so the detail reads as one piece (the
-       owner, same day). Used by that one rule and nowhere else. */
+    /* An exception to the scale, not a sixth step: the code an opened log or
+       Activity row shows — the command and its JSON — in a narrow table, a
+       phone, where there is a great deal of it and step 5 still did not let it
+       be read; and everything else that opened row says, its summary line and
+       its labels, so the detail reads as one piece. Used by that one rule and
+       nowhere else. */
     --wslc-typography-detail-code-size: 0.5rem;
 }
 
@@ -62,7 +60,7 @@
 
 /* A data grid (or a cards grid) that takes all remaining height of .wslc-page,
    in a thin frame of the theme's line colour and corners, rows and cards
-   alike (the owner, 20 September 2026). */
+   alike. */
 .wslc-fill {
     display: flex;
     flex-direction: column;
@@ -116,7 +114,7 @@
 
 /* Compact cells: MudBlazor pads 16px and small icon buttons are 30px tall.
    Cells are as tall as their text and as wide as their content plus a couple
-   of spaces (the reference rule). */
+   of spaces. */
 /* .wslc-fill > .mud-table .mud-table-cell,
 .mud-simple-table.wslc-fill-scroll td,
 .mud-simple-table.wslc-fill-scroll th {
@@ -124,8 +122,8 @@
     line-height: 1.25;
 } */
 
-/* The status dot: the reference's 0.42rem dot, not a 20px icon, wherever it
-   is (the toolbar's 18px icon rule included). */
+/* The status dot: a 0.42rem dot, not a 20px icon, wherever it is (the
+   toolbar's 18px icon rule included). */
 /* The dot is centred in its own box, not sat on the text's baseline: a
    6.7 px glyph aligned by baseline inside a 19 px line hangs 0.7 px low,
    which is exactly enough to look out of line next to its own label. */
@@ -151,24 +149,24 @@
 }
 
 /* Long values (64-hex volume names, mountpoints) are cut with an ellipsis at
-   the reference's widest column instead of stretching the table. */
+   a column's widest instead of stretching the table. */
 .wslc-fill > .mud-table .mud-table-body .mud-table-cell {
     max-width: 22rem;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-/* Checkboxes at the reference's size (16px glyph) in rows and in the header
-   row, not MudBlazor's 24px. A page's own filters (Running, Temporary) keep
-   MudBlazor's small checkbox, as the owner asked. */
+/* Checkboxes at a 16px glyph in rows and in the header row, not
+   MudBlazor's 24px. A page's own filters (Running, Temporary) keep
+   MudBlazor's small checkbox. */
 .wslc-fill > .mud-table .mud-checkbox .mud-icon-root {
     font-size: var(--wslc-check, 16px);
 }
 
 /* A finger on a column's resize handle resizes the column: left to the
    browser, the drag panned the table, the pointer was cancelled and the
-   column never moved (the owner, 24 September 2026, on the emulator, whose
-   mouse arrives as a finger). The rest of the table still pans under it. */
+   column never moved (seen on the emulator, whose mouse arrives as a finger).
+   The rest of the table still pans under it. */
 .wslc-fill > .mud-table .mud-resizer {
     touch-action: none;
 }
@@ -211,9 +209,9 @@
     width: 100% !important;
     /* The column that takes the spare width has none when the columns fill
        more than the table (a phone): in a fixed layout its own min-width is
-       not read, and it was drawn 0 px wide — Message, Command, gone (the
-       owner, 24 September 2026). The floor is the other columns and its own
-       minimum, measured by wslcTableFloor, and the table scrolls past it. */
+       not read, and it was drawn 0 px wide — Message, Command, gone. The
+       floor is the other columns and its own minimum, measured by
+       wslcTableFloor, and the table scrolls past it. */
     min-width: var(--wslc-table-min, 0px);
 }
 
@@ -336,8 +334,8 @@
    dashboard about while files arrive. It takes all the height it is given and
    scrolls inside that, which is the list pages' rule applied to a list that
    lives in a box. */
-/* The list is drawn exactly as Files draws its table (the owner, 24 September
-   2026), value for value from the .wslc-files-* rules as they apply: the box
+/* The list is drawn exactly as Files draws its table, value for value from
+   the .wslc-files-* rules as they apply: the box
    with its border, radius and surface; the header strip in the chrome tone
    with the secondary text at 600 and its line under it; every line with the
    table's padding and the table's line under it; the type at the scale's small
@@ -395,7 +393,7 @@
    files have in common is that they were chosen together, which the eye reads
    from the gap without being told. Two pixels and the inputs' tone, not the
    default one: at a hair's width in the dark theme it was a line nobody could
-   see, which is a line that is not there (the owner, 23 September 2026). */
+   see, which is a line that is not there. */
 .wslc-transfer-batch {
     flex: 0 0 auto;
     margin: 0.25rem 0;
@@ -463,8 +461,8 @@
 /* MudBlazor's own "no records" row is a cell with colspan="1000": in a fixed
    layout that is a thousand phantom columns sharing the spare width, and the
    column meant to take it (Message, .wslc-col-stretch) was left 0.5px wide
-   until the first rows arrived and the row went — the owner saw Message small
-   at first and growing with the data. The row is hidden (its cells then lay
+   until the first rows arrived and the row went — Message showed small at
+   first and grew with the data. The row is hidden (its cells then lay
    out nothing); the empty line every list shows is EmptyState's, over the rows'
    area, so nothing is lost. */
 .wslc-fill > .mud-table tr:has(> .mud-table-empty-row) {
@@ -485,9 +483,9 @@
     --wslc-col-pad: 16px;
 }
 
-/* A table steps down with the room it is given, not with the device (the
-   owner, 24 September 2026, on a phone: "quita tanto espacio de margen"): in
-   600 px or less its text takes the theme's overline size, the air between
+/* A table steps down with the room it is given, not with the device: on a
+   phone its margins took the room the data needed. In 600 px or less its
+   text takes the theme's overline size, the air between
    columns goes and each side of a cell keeps 2 px, so what a column
    declares in characters is less wide too, and the one that holds the row —
    Message, Command — gets to be seen. */
@@ -497,8 +495,7 @@
 
 @container (max-width: 600px) {
     /* No air between columns, and 2 px each side of a cell so one column's
-       text does not touch the next (the owner, 24 September 2026: "la
-       separación entre columnas, ese margen, quítamelo"). */
+       text does not touch the next. */
     /* The sides are the row rule's own variables (7 px and 10 px on a monitor):
        set by name here, not over it, because that rule outweighs a plain one
        and measured 17 px a cell on the emulator while the widths counted 4. */
@@ -514,18 +511,16 @@
     }
 
     /* The tick and the +/− come down with the text they stand beside: at
-       18 px against 11 px of text the tick was what the eye found first (the
-       owner, 24 September 2026, on the emulator). */
+       18 px against 11 px of text the tick was what the eye found first. */
     .wslc-grid > .mud-table {
         --wslc-check: 12px;
     }
 
     /* The tick's and the +/−'s columns: the 12 px glyph, a pixel of button
-       and a pixel of cell each side, and no more (the owner, 24 September
-       2026: "reduce la columna del checkbox, en las dos tablas"). */
+       and a pixel of cell each side, and no more. */
     /* An opened row's detail — its summary line, the command, its output and
-       their labels — smaller than any step of the scale: the owner's exception
-       (--wslc-typography-detail-code-size, 24 September 2026). A monospace
+       their labels — smaller than any step of the scale: the one exception
+       outside it (--wslc-typography-detail-code-size). A monospace
        letter is wider than the row's and a JSON is long; the words around it
        at a larger size made the detail two sizes at once. */
     .wslc-grid .wslc-cli-detail,
@@ -541,8 +536,8 @@
 
     /* The pinned columns pushed along by the tick's 18px, not the desktop's
        32px: at 32 the state stood 14px off the tick and the columns scrolling
-       under it showed through the gap (the owner, 24 September 2026). The
-       name, when it is pinned, after the state's 18px (below). */
+       under it showed through the gap. The name, when it is pinned, after
+       the state's 18px (below). */
     .wslc-grid.wslc-fill > .mud-table .mud-table-cell.sticky-left + .mud-table-cell.sticky-left {
         left: 18px;
     }
@@ -552,8 +547,7 @@
     }
 
     /* The state's dot in the 18px the tick and the +/− have: at the
-       desktop's 26px it was the widest of the three narrow columns (the
-       owner, 24 September 2026). */
+       desktop's 26px it was the widest of the three narrow columns. */
     .wslc-grid.wslc-fill > .mud-table .mud-table-cell.wslc-col-bullet {
         width: 18px !important;
         min-width: 18px;
@@ -855,9 +849,9 @@
 
 /* Page header row (stats left, tools right): a surface-toned bar with a
    line border. One height for every control and sentence-case button
-   labels, as in the reference. In the light theme the surface is the page's
-   own white, so the row takes the bars' grey there (the owner, 20 September
-   2026); in the dark one the surface already stands apart. */
+   labels. In the light theme the surface is the page's own white, so the
+   row takes the bars' grey there; in the dark one the surface already
+   stands apart. */
 .wslc-toolbar {
     background-color: var(--mud-palette-surface);
     border: 1px solid var(--mud-palette-lines-default);
@@ -926,8 +920,8 @@
     flex-shrink: 0;
 }
 
-/* The value gives way first (ellipsis), as the reference's stat-value does;
-   the tools on the right keep their width. */
+/* The value gives way first (ellipsis); the tools on the right keep their
+   width. */
 .wslc-stat-value {
     font-size: var(--mud-typography-body2-size);
     font-weight: 600;
@@ -937,9 +931,9 @@
 }
 
 /* The title bar in two columns: at the left the brand block and then the
-   page — its title and status over its search (the owner, 20 September
-   2026) — and at the right the verbs and the client's controls. The title
-   gives way (ellipsis) and the verbs keep their width. */
+   page — its title and status over its search — and at the right the verbs
+   and the client's controls. The title gives way (ellipsis) and the verbs
+   keep their width. */
 .wslc-appbar-row {
     flex: 1 1 auto;
     min-width: 0;
@@ -974,8 +968,8 @@
     max-width: 100%;
 }
 
-/* The brand block at the left of the title bar (the owner, 20 September
-   2026): the application's name, and under it the session selector at the
+/* The brand block at the left of the title bar: the application's name, and
+   under it the session selector at the
    name's own width, with the session's verbs beside the selector. A grid of
    two columns: the first is as wide as the name and the selector; the second
    holds the verbs. The page's title stands after the block and is what
@@ -983,7 +977,7 @@
    taken off (below). */
 .mud-appbar .mud-toolbar {
     padding-inline-start: 6px;
-    /* The far end the same (the owner, 22 September 2026): MudBlazor's gutter
+    /* The far end the same: MudBlazor's gutter
        left 16 px, growing to 24 px past 600 px wide, between the client's own
        controls — zoom, theme, Log out — and the window's edge, room the page's
        title and search were short of. Not nothing: 6 px is what the brand has
@@ -1008,9 +1002,8 @@
 
 /* The session line's parts are the grid's own cells: the selector under the
    name in the first column; in the second, the refresh button beside the
-   name and the power button beside the selector (the owner's 2×2,
-   20 September 2026). The status word is not shown: the power button's
-   colour and tooltip say it. */
+   name and the power button beside the selector, a 2×2. The status word is
+   not shown: the power button's colour and tooltip say it. */
 .wslc-session-row,
 .wslc-session-verbs {
     display: contents;
@@ -1023,8 +1016,7 @@
        width of zero keeps the selector out of a max-content track, and the
        min-width takes back every pixel the name gave. Without it the selector
        sized the column — a session name with its state in brackets made the
-       brand block twice the name's width and ate the page title's room (the
-       owner, 22 September 2026). */
+       brand block twice the name's width and ate the page title's room. */
     width: 0;
     min-width: 100%;
     /* …and the selector's text measures itself against that width, not the
@@ -1046,8 +1038,8 @@
     display: none;
 }
 
-/* The same session line as a part of the System card (the owner, 24 September
-   2026), an exception to the label-over-value readings: a grid of its own,
+/* The same session line as a part of the System card, an exception to the
+   label-over-value readings: a grid of its own,
    five columns by two rows. The first row is the label across three columns,
    then refresh and the power button a column each; the second row is the
    selector across all five. Its wrappers (VerbTaps, the line's row and its
@@ -1094,21 +1086,21 @@
 .wslc-session-pick .wslc-session-select {
     /* The column's whole width, which is the name's: so the select is as wide
        as the name whatever the zoom or the font, and the buttons of the second
-       column stand right beside both (the owner, 20 September 2026). */
+       column stand right beside both. */
     width: 100%;
 }
 
 /* The title gives its width up first: it never pushes the search off centre.
-   But never all of it: on a phone it went to nothing (the owner,
-   20 September 2026), and a bar with no page title says nothing. */
+   But never all of it: on a phone it went to nothing, and a bar with no page
+   title says nothing. */
 .wslc-appbar-row .wslc-title {
     contain: inline-size;
     flex: 1 1 auto;
     min-width: 6rem;
 }
 
-/* The client's own controls at the right edge (the owner, 20 September
-   2026): the page zoom on the second line — a magnifier, its box, a
+/* The client's own controls at the right edge: the page zoom on the second
+   line — a magnifier, its box, a
    magnifier — and on the first, over the box alone, split in two, the theme
    toggle at the left and Log out at the right. Four columns: the two
    magnifiers' 26px at the ends, the box's two halves between. A flex row
@@ -1173,7 +1165,7 @@
 
 /* The search box is the application's field, without a label: its text and
    glyph centred in its box, wherever it stands, instead of under the 23px a
-   filled field keeps free for a label (the owner's call, docs/RULES.md). */
+   filled field keeps free for a label (docs/RULES.md). */
 .wslc-search .mud-input > input.mud-input-root.mud-input-root-filled.mud-input-root-margin-dense {
     height: 100%;
     padding-top: 0;
@@ -1210,14 +1202,14 @@
 /* The sidebar's session selector has no label either, so it does not keep the
    23px a filled field leaves for one, and it sits on the drawer's own colour
    instead of the filled tint: inside the navigation a tinted box reads as a
-   second surface (the owner's call, docs/RULES.md). */
+   second surface (docs/RULES.md). */
 .wslc-session-select .mud-input.mud-input-filled,
 .wslc-session-select .mud-input.mud-input-filled:hover {
     height: 26px;
     background-color: transparent;
     /* The arrow at the field's edge, in the title bar and on the System card
        alike: MudBlazor keeps 12px after an end adornment, measured as empty
-       space right of the arrow (the owner, 24 September 2026). */
+       space right of the arrow. */
     padding-right: 0;
 }
 
@@ -1227,12 +1219,12 @@
     height: 100%;
     padding-top: 0;
     padding-bottom: 0;
-    /* Flush with the application's name above it (the owner, 20 September 2026). */
+    /* Flush with the application's name above it. */
     padding-left: 0;
     /* Body2, and smaller than Body2 when the name will not fit in the width the
-       application's name gives it — a fifth type size, below the four of
-       docs/RULES.md, authorised by the owner for this field on 22 September
-       2026 so that the block never grows and no name is ever cut.
+       application's name gives it — a size below the four of docs/RULES.md,
+       allowed for this field alone so that the block never grows and no name
+       is ever cut.
        The formula: the column's own width (100cqi) less the 26px the arrow
        takes, shared out among the name's characters, over the 0.6em that is
        the widest Roboto lowercase advance. The name's length arrives as
@@ -1278,8 +1270,7 @@
 }
 
 /* A large stat (the Activity header): label and value in body1, the size of
-   the row's buttons — the owner's order of 19 September 2026 — stepping down
-   by the same factors as the others. */
+   the row's buttons, stepping down by the same factors as the others. */
 .wslc-stat-large .wslc-stat-label,
 .wslc-stat-large .wslc-stat-value {
     font-size: var(--mud-typography-body1-size);
@@ -1353,7 +1344,7 @@
 }
 
 /* The page title yields (ellipsis) before the nav slot or the theme and menu
-   buttons do, as in the reference. */
+   buttons do. */
 .wslc-title {
     min-width: 0;
     overflow: hidden;
@@ -1369,8 +1360,8 @@
 
     /* The brand and the page title steps down, still bold: at the title's
        step the letters of a phone's bar ran into one another and the page
-       title was cut short (the owner, 24 September 2026). The brand to the
-       body's size, the page title one step under it. */
+       title was cut short. The brand to the body's size, the page title one
+       step under it. */
     .wslc-appbar-row .wslc-brand-name,
     .wslc-appbar-row .wslc-title {
         font-weight: 600;
@@ -1384,10 +1375,9 @@
         font-size: var(--mud-typography-body2-size);
     }
 
-    /* The client's controls at the right a size down with them (the owner,
-       24 September 2026): the theme, Log out and the zoom's magnifiers from
-       20px glyphs to 16px, and the percentage field lower, its
-       number and its % at step 5 (docs/RULES.md). */
+    /* The client's controls at the right a size down with them: the theme,
+       Log out and the zoom's magnifiers from 20px glyphs to 16px, and the
+       percentage field lower, its number and its % at step 5 (docs/RULES.md). */
     .wslc-appbar-client {
         grid-template-columns: 22px 1fr 1fr 22px;
     }
@@ -1415,8 +1405,8 @@
     }
 
     /* The field as wide as what it holds, without the desktop's padding at
-       its sides (the owner, 24 September 2026): 2px, a 100 at step 5 (about
-       17px), 1px, the % (about 7px) and 4px make some 31px, so 2.2rem. */
+       its sides: 2px, a 100 at step 5 (about 17px), 1px, the % (about 7px)
+       and 4px make some 31px, so 2.2rem. */
     .wslc-appbar-client .wslc-zoom .mud-input.mud-input-adorned-end {
         padding-right: 4px;
     }
@@ -1427,7 +1417,7 @@
 
     /* The page's column closer to the session block, and its search box all
        of the column's width, its text, glyph and height those of the zoom's
-       field beside it (the owner, 24 September 2026): at the desktop's sizes
+       field beside it: at the desktop's sizes
        the box was mostly its own padding and the fitter left it 7rem wide. The
        fitter's narrow step is overridden too: here the box takes what the
        column has, however much that is. */
@@ -1453,11 +1443,10 @@
         padding: 2px;
     }
 
-    /* The page's column on the client grid's two 22px rows, the title
-       beside the theme and Log out and the search box level with the zoom
-       (the owner, 24 September 2026, "como si fuera una cuadrícula"): 44px,
-       no gap, and none of the field's own 4px margin, which set the box
-       2.5px above the zoom. Its glyph and text keep 4px from the box's
+    /* The page's column on the client grid's two 22px rows, as one grid, the
+       title beside the theme and Log out and the search box level with the
+       zoom: 44px, no gap, and none of the field's own 4px margin, which set
+       the box 2.5px above the zoom. Its glyph and text keep 4px from the box's
        edges and 2px from each other instead of the desktop's 12px and 8px. */
     .wslc-appbar-row .wslc-appbar-page {
         gap: 0;
@@ -1614,7 +1603,7 @@
     overflow-y: auto;
 }
 
-/* Sidebar navigation: the reference's tighter link (icon, 10px, label). */
+/* Sidebar navigation: a tighter link (icon, 10px, label). */
 .mud-drawer .mud-navmenu .mud-nav-link {
     padding-left: 12px;
     padding-right: 12px;
@@ -1644,7 +1633,7 @@
 /* Details page: tabs fill the page; the active panel is a column whose
    content (the logs box, the form) owns the scrollbar. Tab titles in sentence
    case, as every other label. */
-/* The reference's tabs: small, medium weight, muted; the active one in the
+/* Tabs: small, medium weight, muted; the active one in the
    text colour on a faint accent tint with the accent underline. */
 .wslc-fill.mud-tabs .mud-tab {
     text-transform: none;
@@ -1683,9 +1672,8 @@
     background-color: var(--mud-palette-success);
 }
 
-/* The fields in the reference's two columns (one on phones); .wslc-span2
-   spans both. Labels bold at the body size, helper texts one step smaller,
-   as the reference. */
+/* The fields in two columns (one on phones); .wslc-span2
+   spans both. Labels bold at the body size, helper texts one step smaller. */
 .wslc-form-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1746,7 +1734,7 @@
     min-height: 0;
     padding: 0;
     /* Square, like the field it sits in: a round button inside a rectangle reads
-       as something else's control (owner, 2026-09-18). */
+       as something else's control. */
     border-radius: var(--mud-default-borderradius);
     box-shadow: var(--mud-elevation-2);
 }
@@ -1853,7 +1841,7 @@
 }
 
 /* Details header: two lines beside the verbs. */
-/* Details header, the reference's: the dot, the name and the state badge on
+/* Details header: the dot, the name and the state badge on
    one line, the id / image / ports line under it, the verbs at the right. */
 /* One line, one centre line: the header holds a 22 px row of text beside a
    26 px row of verbs, and resting both on the top edge left the verbs 1.9 px
@@ -1981,7 +1969,7 @@
     font-family: "Cascadia Code", "Fira Code", ui-monospace, monospace;
 }
 
-/* Published ports: the reference's green underlined link (better contrast
+/* Published ports: a green underlined link (better contrast
    than the accent on dark cells); a muted dash when there are none. */
 .wslc-ports-link {
     appearance: none;
@@ -2007,7 +1995,7 @@
 /* The link and the published mark in one cell: the link is the part that gives
    way (its ellipsis above), the mark keeps its width at the end, whatever the
    column's. The glyph is the 0.9rem step of the bars, one under the icon
-   size, at the owner's word. */
+   size. */
 .wslc-ports {
     display: inline-flex;
     align-items: center;
@@ -2037,7 +2025,7 @@
     color: var(--mud-palette-text-secondary);
 }
 
-/* Inspect summary: the reference's three-column card with small uppercase labels. */
+/* Inspect summary: a three-column card with small uppercase labels. */
 .wslc-summary {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2087,7 +2075,7 @@
     min-height: 0;
 }
 
-/* The tabs block is one card, as the reference: a border around the tab bar
+/* The tabs block is one card: a border around the tab bar
    and the panel, the panel on the surface tone with its own padding. */
 .wslc-fill.mud-tabs {
     border: 1px solid var(--mud-palette-lines-default);
@@ -2126,7 +2114,7 @@
     font-size: 0.9rem;
 }
 
-/* An action view, the reference's: the main column and the icon rail at
+/* An action view: the main column and the icon rail at
    the right (search / wrap / autorefresh / refresh / jump / copy / clear). */
 .wslc-action-body {
     display: flex;
@@ -2193,7 +2181,7 @@
     flex-shrink: 0;
 }
 
-/* The same rail laid across, in a header row (the Logs page, 2026-09-20: two
+/* The same rail laid across, in a header row (the Logs page: two
    rails of eight did not fit the height, the rows had the width): the same
    buttons, the same ring, the same drawing; only the direction and the gaps
    turn. It never wraps — a row of buttons on two lines is two rows — and it
@@ -2211,9 +2199,8 @@
 
 /* In a header row the toolbar's button rule (26px tall, square corners, side
    padding) reaches the ring too, and a square with the ring's round shadow read
-   as a box behind it — the box the owner had already taken away ("el fondo es
-   transparente"). The ring keeps its own geometry there: the 30px round button
-   with nothing inside it but the ring. */
+   as a box behind it — a box the ring does not have. The ring keeps its own
+   geometry there: the 30px round button with nothing inside it but the ring. */
 .wslc-toolbar .wslc-action-row .wslc-rail-ring.mud-button-root {
     height: 30px;
     min-height: 30px;
@@ -2224,17 +2211,17 @@
 }
 
 /* The Activity list's Autorefresh, a ring with a round button inside and no
-   box around it (the owner's word: "simplemente el redondel"), at the size
+   box around it, at the size
    of the rail's icons: the ring goes round while the list follows its end
    and stands still while the reader holds the list. */
 .wslc-action-rail .wslc-rail-ring.mud-button-root {
     /* Twice the square buttons' elevation (theirs is 4): a round shadow, since
-       the icon button is round, that lifts the ring off the rail the way the
-       owner asked once the box was gone. */
+       the icon button is round, that lifts the ring off the rail now that it
+       has no box. */
     box-shadow: var(--mud-elevation-8);
     background: transparent;
     /* No box, so no room kept for one: the ring is the whole 30px the square
-       buttons take, the owner's size for it once the box was gone. Every size
+       buttons take. Every size
        here is stated, none inferred: the button is the 30px square, its content
        centred as a flex item with no line box (line-height 0), so nothing sits
        on a text baseline and drifts up — which is what put the disc higher than
@@ -2287,7 +2274,7 @@
 
 /* On, the arc going round is a stronger blue than the disc, in each theme
    its own: indigo 800 over the primary disc in the light theme, indigo 400
-   over the light-blue disc in the dark one (owner, 19 September 2026). */
+   over the light-blue disc in the dark one. */
 .wslc-action-rail .wslc-rail-ring.mud-primary-text .mud-progress-circular-circle {
     stroke: #3730a3;
 }
@@ -2327,11 +2314,11 @@
     flex: 1 1 auto;
 }
 
-/* Narrow, so a phone's bar keeps its buttons (the owner, 24 September 2026:
-   "más pequeño el filtro"): the tools of a bar never give way (flex-shrink 0),
+/* Narrow, so a phone's bar keeps its buttons: the tools of a bar never give
+   way (flex-shrink 0),
    so the width is its own and fixed: 3rem. Measured on the emulator the
    log's bar had 379 px and needed 395 with it at 4rem, and Delete stood half
-   out of the bar (the owner, 24 September 2026). All and Info are read whole;
+   out of the bar. All and Info are read whole;
    a longer level ends in an ellipsis and is whole in the list. */
 .wslc-action-level {
     flex: 0 0 3rem;
@@ -2344,7 +2331,7 @@
 }
 
 /* The code block (logs, raw inspect): the page tone inside the card, the
-   reference's mono size; lines coloured by their level as the app Logs page. */
+   mono size; lines coloured by their level as the app Logs page. */
 .wslc-logs-output {
     flex: 1 1 auto;
     min-height: 0;
@@ -2416,14 +2403,13 @@
 
 /* In the dark theme the primary sits too close to the background for a label
    to read; the type and the labels take the light blue the log's INFO lines
-   wear (owner, 19 September 2026). The layout sets wslc-dark on its root. */
+   wear. The layout sets wslc-dark on its root. */
 .wslc-dark .wslc-cli-kind,
 .wslc-dark .wslc-cli-label { color: #a5b4fc; }
 
 /* The Activity's ring, on: the primary in the light theme, the same light
-   blue in the dark one, where the primary was too strong (owner, the same
-   day). MudBlazor colours a text-variant button with mud-primary-text; the
-   ring inside inherits it. */
+   blue in the dark one, where the primary was too strong. MudBlazor colours
+   a text-variant button with mud-primary-text; the ring inside inherits it. */
 .wslc-dark .wslc-action-rail .wslc-rail-ring.mud-primary-text { color: #a5b4fc; }
 
 /* The command in three levels, each one step (the +/− and its gap) further in:
@@ -2469,8 +2455,8 @@
 }
 
 /* Level and source in the light blue the log viewers give an INFO line
-   (#a5b4fc), the owner's choice of 19 September 2026 over the darker
-   primary; a debug message keeps its own blue, warnings and errors their tones. */
+   (#a5b4fc), rather than the darker primary; a debug message keeps its own
+   blue, warnings and errors their tones. */
 .wslc-log-entry.log-level-debug .wslc-log-message { color: #60a5fa; }
 .wslc-log-entry.log-level-debug .wslc-log-level,
 .wslc-log-entry.log-level-info .wslc-log-level { color: #a5b4fc; }
@@ -2497,14 +2483,14 @@
 
 /* The upper row stops short of the divider, so the grid's sideways scroll
    bar is not pressed against it: on a phone the finger took the divider
-   instead of the bar (the owner, 24 September 2026). */
+   instead of the bar. */
 .wslc-split-top {
     padding-bottom: 12px;
 }
 
 /* Until the page has put the divider where it belongs, the panel keeps its
    room and shows nothing: it opens at half and half, and the rows appearing
-   at one size and settling at another was a jump the owner would not have.
+   at one size and settling at another would be a jump.
    Visibility, not display, so the browser still measures it. */
 .wslc-split-unplaced {
     visibility: hidden;
@@ -2643,7 +2629,7 @@
     border-bottom-color: var(--mud-palette-success);
 }
 
-/* Form fields sit in a lighter box (the reference's card tone) so they read
+/* Form fields sit in a lighter box (the card tone) so they read
    as fields; the underline stays MudBlazor's. */
 .mud-input.mud-input-text {
     background-color: var(--mud-palette-background-gray);
@@ -2694,9 +2680,9 @@
 /* A dialog's title row stays one line on a phone: the title scales down with
    the window instead of breaking into three, and its verbs keep their words
    together. The cap is the theme's own h6 size, so nothing grows. Nothing in
-   the row leaves the window either (the owner, 22 September 2026: with Hide,
-   Save, Cancel and Close the Settings pushed Close out of sight and the
-   dialog had to be dragged sideways): the title gives way first, cut with an
+   the row leaves the window either (with Hide, Save, Cancel and Close a
+   dialog pushed Close out of sight and had to be dragged sideways): the
+   title gives way first, cut with an
    ellipsis, the verbs keep their size, and the row never scrolls. */
 .mud-dialog .wslc-dialog-title {
     white-space: nowrap;
@@ -2789,8 +2775,8 @@
     background-color: var(--mud-palette-action-default-hover);
 }
 
-/* The Files browser, the reference's own look (its `.files-*` block), in the
-   MudBlazor palette: the path row, the status line, and a table whose columns
+/* The Files browser in the MudBlazor palette: the path row, the status
+   line, and a table whose columns
    keep their share so the layout never jumps while the selection changes. */
 .wslc-files-toolbar {
     display: flex;
@@ -2970,8 +2956,8 @@
     margin-left: 0.3rem;
 }
 
-/* A folder that is a mount, or lives in one, in blue (the owner, 24 September
-   2026): the same 📁 glyph as every folder, so its size and its place on the
+/* A folder that is a mount, or lives in one, in blue: the
+   same 📁 glyph as every folder, so its size and its place on the
    line are exactly theirs, turned from the emoji's yellow to the theme's info
    blue. Measured, not guessed: the folder's yellow is hue 40° (#FFBE42 to
    #FFD258 on screen), the info blue 198° dark (#38bdf8) and 200° light
@@ -2989,9 +2975,8 @@
     filter: sepia(1) saturate(3) hue-rotate(160deg);
 }
 
-/* A reading of the System card, a part of its own (the owner, 24 September
-   2026): its label over its value in the inspect summary's tone, filling the
-   cells it was given. */
+/* A reading of the System card, a part of its own: its label over its
+   value in the inspect summary's tone, filling the cells it was given. */
 .wslc-system-reading {
     flex: 1 1 auto;
     min-width: 0;
@@ -3038,8 +3023,8 @@
     font-size: inherit;
 }
 
-/* The editor takes the table's place while a file is open, as the reference's
-   does: its own toolbar with the path and the verbs, the text filling the rest. */
+/* The editor takes the table's place while a file is open: its own toolbar
+   with the path and the verbs, the text filling the rest. */
 .wslc-files-editor {
     display: flex;
     flex-direction: column;
@@ -3061,13 +3046,13 @@
     flex-shrink: 0;
 }
 
-/* Entry names carry the weight in this table, as the reference gives them. */
+/* Entry names carry the weight in this table. */
 .wslc-files-entry {
     font-weight: 600;
 }
 
-/* The editor's text: the reference's own — monospaced, 12px on a 1.45 line,
-   with its padding. MudBlazor puts our class on the wrapper, so the rule has
+/* The editor's text: monospaced, 12px on a 1.45 line, with its padding.
+   MudBlazor puts our class on the wrapper, so the rule has
    to reach the textarea itself or the field falls back to the UI font. */
 .wslc-files-editor textarea {
     font-family: "Cascadia Code", "Fira Code", ui-monospace, monospace;
@@ -3076,7 +3061,7 @@
     padding: 0.55rem 0.65rem;
 }
 
-/* The editor's field fills its box and carries the reference's type. The
+/* The editor's field fills its box and carries the editor's type. The
    selectors are MudBlazor's own (.mud-input-root wins on specificity, and our
    sheet loads after theirs): a plainer `textarea` rule loses and the field
    silently falls back to the UI font, which is what happened. */
@@ -3103,9 +3088,7 @@
 /* Density of the details page and the Files browser, one set of numbers for
    every screen. There is no phone design and desktop design: a rule that only
    holds under 600px is a second product to keep in step, and with a dozen
-   screens ahead that is how both end up wrong. These are the reference's own
-   proportions, tightened where it had room to spare.
-
+   screens ahead that is how both end up wrong.
    The container's name lives in the page title; the card underneath said it
    again, and the state was said twice more (the dot and the badge). The name
    goes, the dot and the badge stay: they say different things. */
@@ -3122,7 +3105,7 @@
     gap: 0.2rem 0.7rem;
 }
 
-/* Tabs at the reference's height, and the panel under them without the band
+/* Tabs at a compact height, and the panel under them without the band
    of air that separated them from the path row. */
 .wslc-fill.mud-tabs .mud-tab {
     min-height: var(--wslc-tab-h, 26px);
@@ -3585,7 +3568,7 @@
     }
 }
 
-/* A card's header cut down by the owner step by step (20 September 2026):
+/* A card's header cut down step by step:
    50px for a 33px action row — the 40px avatar and 5px above and below it,
    where MudCardHeader gives 16. */
 .wslc-card .mud-card-header {
@@ -3596,8 +3579,8 @@
 /* A dashboard card's header part (EntityCardPart): its state chip — running,
    exited — in the middle of the header's height, beside the avatar and the
    name, which are. MudBlazor sets a header's actions at the top and 8px above
-   it, which in a part as tall as its cells left the chip over the middle (the
-   owner, 24 September 2026). The list pages' cards keep MudBlazor's. */
+   it, which in a part as tall as its cells left the chip over the middle.
+   The list pages' cards keep MudBlazor's. */
 .wslc-card-section .mud-card-header .mud-card-header-actions {
     align-self: center;
     margin-top: 0;
@@ -3832,8 +3815,7 @@
    doorway; the menu button never gives anything up, since without it the
    navigation cannot be opened at all. */
 /* The step between: the application's name and version over the session
-   line go, the session line stays. The zoom stays too (the owner,
-   20 September 2026). */
+   line go, the session line stays. The zoom stays too. */
 .wslc-appbar-row.wslc-fit-brand .wslc-appbar-brand > .mud-stack {
     display: none;
 }
@@ -3849,13 +3831,11 @@
 
 /* The steps the bar's own measurement picks (wslc-agent-ui.js). One line, always:
    what changes is what the line carries, never how many lines there are.
-
    [data-fit="tight"]: the verbs no longer fit with their words, so the texts at
    the left of the bar go — an action that cannot be read is worse than a figure
-   that has to be looked up in the page below, and this is the owner's order.
+   that has to be looked up in the page below.
    [data-fit="icons"]: not even without them, so the buttons fall back to their
    glyphs; the word lives on in the tooltip each of them already carries.
-
    .wslc-measure is the tape measure itself: the child is laid out at its own
    width for as long as it takes to read it, within one task, so nothing of it
    is ever painted. */
@@ -3883,7 +3863,7 @@
    that holds the tools against the right edge, exactly where they were. */
 /* The steps are picked by the bar's own measurement (wslc-agent-ui.js), never
    by a width: the bar stands as it does on a monitor and gives up one thing at
-   a time, in the owner's order, only when what it holds no longer fits the room
+   a time, in this order, only when what it holds no longer fits the room
    it has. They pile up — each class stays as the next is added:
      small    the texts of the stats at the left take the smallest size,
               and the bar closes up by what is still missing;
@@ -3907,16 +3887,15 @@
 }
 
 /* Before the stats' texts go, they take the theme's smallest size (the
-   owner, 24 September 2026: the Activity header's title was hidden on a phone
-   where a smaller one fits): a smaller word is still read. */
+   Activity header's title was hidden on a phone where a smaller one fits):
+   a smaller word is still read. */
 .wslc-toolbar.wslc-fit-small > .wslc-stats .wslc-stat-label,
 .wslc-toolbar.wslc-fit-small > .wslc-stats .wslc-stat-value {
     font-size: var(--wslc-typography-tiny-size);
 }
 
 /* The texts go, and only the texts: the verbs beside them (the log's Copy
-   and Delete) are verbs, and a bar closes up before it loses one (the owner,
-   24 September 2026). */
+   and Delete) are verbs, and a bar closes up before it loses one. */
 .wslc-toolbar.wslc-fit-tight > .wslc-stats > .wslc-stat,
 .wslc-toolbar.wslc-fit-tight > .wslc-stats > .wslc-stat-lines {
     display: none;
@@ -3998,7 +3977,7 @@
     max-width: 24rem;
 }
 
-/* The reference's stat value is bold (700) at the title size. */
+/* The stat value is bold (700) at the title size. */
 .wslc-home-card-value {
     font-weight: 700;
 }
@@ -4009,10 +3988,10 @@
     }
 }
 
-/* Home v2's object or card whose alarm is up (bz-dash-alarm, marked by the
-   dashboard): red and blinking as a card of today's Home, still where the
-   system asks for less motion. Its ground is written on the object, so the
-   red is the animation's own, which stands over it. */
+/* A dashboard object or group whose alarm is up (bz-dash-alarm, marked by
+   the dashboard): red and blinking, still where the system asks for less
+   motion. Its ground is written on the object, so the red is the
+   animation's own, which stands over it. */
 .bz-dash-object.bz-dash-alarm,
 .bz-dash-group.bz-dash-alarm {
     animation: wslc-dash-alarm 1.2s ease-in-out infinite;
@@ -4049,15 +4028,15 @@
     white-space: nowrap;
 }
 
-/* A card's three texts, stacked, each cut at the part's edge (the owner,
-   22 September 2026: nothing adjusts itself to the room). */
+/* A card's three texts, stacked, each cut at the part's edge: nothing
+   adjusts itself to the room. */
 .wslc-home-card-head {
     flex-shrink: 0;
     min-width: 0;
 }
 
-/* The summary spreads over the cells it was given (the owner, 22 September
-   2026): its three lines share the part's height instead of sitting at its
+/* The summary spreads over the cells it was given: its three lines share
+   the part's height instead of sitting at its
    top with the rows below left empty, and the label and the hint go on to
    another line in the width they have instead of being cut at its end. The
    value stays on one line, since it is a figure. What does not fit even so is
@@ -4123,7 +4102,7 @@
 /* The steps, by the theme's variables. The summary's lines keep their Typos
    (caption, h6, caption) and take a step by size alone — the overline Typo
    would also set its capitals, and a capitalised label is wider than its
-   cell (the owner, 22 September 2026). The chart's axis labels follow the
+   cell. The chart's axis labels follow the
    canvas's font, which the script reads. */
 .wslc-type-small .wslc-home-card-head .mud-typography-caption {
     font-size: var(--mud-typography-overline-size);
@@ -4152,9 +4131,9 @@
 
 /* Every dial in a dashboard part steps with the part's size, one ladder for
    all of them — an alarm's ring, the System card's, the dials of a resource's
-   Details (the owner, 24 September 2026: the same size has to draw the same
-   ring on every card; the container's were a rung smaller than the System
-   card's at the same Small). Small 44px, Medium 56px, Large 80px, whatever
+   Details: the same size has to draw the same ring on every card (the
+   container's were a rung smaller than the System card's at the same Small).
+   Small 44px, Medium 56px, Large 80px, whatever
    size the dial is drawn at elsewhere; its figure and its name a step of the
    theme's type with it, overline down and body1 up. The list pages' cards
    have no part and keep their own dials. */
@@ -4184,9 +4163,9 @@
 }
 
 /* A resource card's header on the dashboard steps too — the list card's own
-   header, with its avatar, its name, the line under it and its state chip
-   (the owner, 24 September 2026: Small, Medium and Large changed nothing on
-   it). The name is subtitle1, 0.82rem: body2 down, h6 up. The line under it
+   header, with its avatar, its name, the line under it and its state chip,
+   so that Small, Medium and Large change it. The name is subtitle1, 0.82rem:
+   body2 down, h6 up. The line under it
    is body2, 0.72rem: overline down, body1 up. The chip steps the same way.
    The avatar takes MudBlazor's own three sizes, 24, 40 and 56px. The System
    card's header is this header too. */
@@ -4221,8 +4200,8 @@
 }
 
 /* A resource card's Details on the dashboard steps too — a container's, an
-   image's, a volume's, a network's (the owner, 24 September 2026: Small,
-   Medium and Large changed nothing on them). Its lines are body2 and caption,
+   image's, a volume's, a network's — so that Small, Medium and Large change
+   them. Its lines are body2 and caption,
    0.72rem: a step down is overline, a step up body1. */
 .wslc-card-part-details.wslc-type-small .mud-typography-body2,
 .wslc-card-part-details.wslc-type-small .mud-typography-caption {
@@ -4234,18 +4213,17 @@
     font-size: var(--mud-typography-body1-size);
 }
 
-/* Home v2's objects drawn as a section of a list's card (WslcObject's
+/* The dashboard's objects drawn as a section of a list's card (WslcObject's
    SectionClass): their ground is the object's Background, which the canvas
-   paints, so the section leaves the card's tone out (the owner, 25 September
-   2026: a row of verbs set to Transparent drew the footer's blue). */
+   paints, so the section leaves the card's tone out (a row of verbs set to
+   Transparent drew the footer's blue). */
 .wslc-dash-section .wslc-card > .mud-card-header,
 .wslc-dash-section .wslc-card > .mud-card-actions {
     background-color: transparent;
 }
 
 /* The line a card's footer draws over its verbs parted them from the card's
-   body; a row of verbs standing alone has nothing above it to part from (the
-   owner, 25 September 2026). */
+   body; a row of verbs standing alone has nothing above it to part from. */
 .wslc-dash-section .wslc-card > .mud-card-actions {
     border-top: 0;
 }
@@ -4253,20 +4231,20 @@
 /* Their buttons are the size their Size property says: the list card's step
    down for a narrow card (the wslc-card container, below 17rem) held them at
    1.15rem whatever was chosen, since an object of three or four cells is
-   narrower than that (the owner, 25 September 2026). What does not fit is
+   narrower than that. What does not fit is
    the user's to widen. */
 .wslc-dash-section .wslc-card {
     container-type: normal;
 }
 
-/* Home v2's objects step in one proportion, everything in them alike — ring,
-   glyphs, avatar and text (the owner, 25 September 2026: Small to Medium was
-   a small step and Medium to Large a large one, and a ring and its text must
-   grow together). Medium is the object as the card draws it; Small is three
+/* The dashboard's objects step in one proportion, everything in them alike —
+   ring, glyphs, avatar and text: a ring and its text must grow together, and
+   Small to Medium should be as large a step as Medium to Large. Medium is the
+   object as the card draws it; Small is three
    quarters of it and Large a third more, so each size is about a third
    larger than the one below: a ring 45, 60, 80px, a glyph 20, 27, 36px, a
    body2 line 8.6, 11.5, 15.4px. The text is the theme's size times the
-   scale (docs/RULES.md, Home v2's exception). Today's Home keeps its ladder. */
+   scale (docs/RULES.md). */
 .wslc-dash-type.wslc-type-small {
     --wslc-dash-scale: 0.75;
 }
@@ -4279,8 +4257,8 @@
     --wslc-dash-scale: 1.3333;
 }
 
-/* An object given a text colour (bz-dash-foreground, the owner, 29 September
-   2026: the File transfers title kept its grey whatever Foreground said):
+/* An object given a text colour (bz-dash-foreground; the File transfers
+   title kept its grey whatever Foreground said):
    the quieter texts it draws in the theme's secondary take it too. A part's
    own colour, where one is set, still outranks it. */
 .bz-dash-foreground .mud-text-secondary {
@@ -4289,10 +4267,10 @@
 
 /* A choice inside an object (ChoiceField marked wslc-dash-choice: the File
    transfers card's filter) follows the object's type size, the one field
-   that does (the owner's authorisation, 29 September 2026, docs/RULES.md):
+   that does (docs/RULES.md):
    its value at a field value's body2 and the items of the list it drops at
    their body2, each times the object's scale; it has no label. Its ground
-   and its text are the object's (the owner, 29 September 2026: the form
+   and its text are the object's (the form
    fields' grey box stood as a second ground inside the object's, and its text
    kept its own colour whatever the object's was). The list opens over the
    page, so it carries the object's size classes itself
@@ -4310,8 +4288,8 @@
 /* Each part of a dial or a reading takes its own size on top of the
    object's (the dashboard's --bz-part-{key}-scale, 1 until the user changes
    it), and its own colour and weight once the user changes them, where the
-   object is marked bz-part-{key}-color or -weight (the owner, 26 September
-   2026). A dial's parts: ring, figure, label; a reading's: label, value, hint. */
+   object is marked bz-part-{key}-color or -weight. A dial's parts: ring,
+   figure, label; a reading's: label, value, hint. */
 .wslc-dash-type .wslc-dial .wslc-dial-ring.mud-progress-circular {
     width: calc(60px * var(--wslc-dash-scale) * var(--bz-part-ring-scale, 1));
     height: calc(60px * var(--wslc-dash-scale) * var(--bz-part-ring-scale, 1));
@@ -4319,15 +4297,14 @@
 }
 
 /* A dial of bytes — a volume's read and written, a network's received and
-   sent — is the list's card's 56px at Medium (the owner's authorisation,
-   28 September 2026, Home v2.5's resource cards as the list pages draw
-   theirs: it was 60px, as a dial of a percent). */
+   sent — is the list's card's 56px at Medium, so the dashboard's resource
+   cards draw it as the list pages do, not at a percent dial's 60px. */
 .wslc-dash-type .wslc-dial.wslc-dial-large .wslc-dial-ring.mud-progress-circular {
     width: calc(56px * var(--wslc-dash-scale) * var(--bz-part-ring-scale, 1));
     height: calc(56px * var(--wslc-dash-scale) * var(--bz-part-ring-scale, 1));
 }
 
-/* The ring's thickness (the owner, 26 September 2026): the arc MudBlazor
+/* The ring's thickness: the arc MudBlazor
    draws 3 units thick, and the track under it 3px, each a multiple of the
    design's, 1 until the user changes it. At Large the arc's outer half goes
    half a unit past the drawing's edge and is clipped by that much: its
@@ -4391,8 +4368,8 @@
 }
 
 /* A System card reading as an object (SummaryReading in a wslc-dash-summary):
-   its label at the theme's overline and its value at body2 at Medium, as
-   today's card has them, each times the object's scale and its part's. Its
+   its label at the theme's overline and its value at body2 at Medium, each
+   times the object's scale and its part's. Its
    ground is the object's Background (Background gray by default), so the
    reading paints none of its own. */
 .wslc-dash-summary .wslc-system-reading {
@@ -4423,7 +4400,7 @@
     font-weight: var(--bz-part-value-weight);
 }
 
-/* Home v2's Agent log and File transfers (AgentLog, the transfers card's pieces): a
+/* The dashboard's Agent log and File transfers (AgentLog, the transfers card's pieces): a
    column filling the object's cells, the log's grid and Activity, or the
    transfers' list, taking what the summary and the filter leave. */
 .wslc-dash-log,
@@ -4443,9 +4420,9 @@
 }
 
 /* The File transfers card's header of its lines and its lines, pieces of
-   their own (the owner, 27 September 2026): their type is the list's caption
-   times the piece's size, as every Home v2 object's is (docs/RULES.md, Home
-   v2's exception), the list's own captions with it. */
+   their own: their type is the list's caption times the piece's size, as
+   every dashboard object's is (docs/RULES.md), the list's own captions with
+   it. */
 .wslc-dash-type.wslc-dash-transfers > .wslc-transfers-box {
     font-size: calc(var(--mud-typography-caption-size) * var(--wslc-dash-scale, 1));
 }
@@ -4455,8 +4432,8 @@
 }
 
 /* On the dashboard the pieces' ground and text are the object's, which the
-   designer paints on its cells (the owner, 27 September 2026: the strip's own
-   tone and grey covered the colours chosen in its properties). The header of
+   designer paints on its cells (the strip's own tone and grey covered the
+   colours chosen in its properties). The header of
    the lines keeps its look as its kind's default colours (Primary tint, Text
    secondary); elsewhere the list keeps its own. */
 .wslc-dash-type.wslc-dash-transfers > .wslc-transfers-box,
@@ -4531,7 +4508,7 @@
 
 /* A legend spreads across its object's width when its entries wrap, so the
    canvas cannot move it: its entries stand where the object's alignment
-   says, left, centre or right (the owner, 26 September 2026). */
+   says, left, centre or right. */
 .wslc-dash-legend.wslc-dash-h-left .wslc-chart-legend {
     justify-content: flex-start;
 }
@@ -4545,18 +4522,16 @@
 }
 
 /* Every object's buttons — a card's shortcuts and verbs, the client's
-   download, the session's refresh and stop — step with its size from the
-   20px glyph a card of today's Home draws them at, which is their Medium
-   (the owner, 26 September 2026, authorising the change: Small was 20px, a
-   27px Medium scaled, and stood too large on a phone; the client's and the
-   session's stood at 20px at every size). */
+   download, the session's refresh and stop — step with its size from a
+   20px glyph, which is their Medium (scaled from a 27px Medium they stood
+   too large on a phone, and the client's and the session's did not step at
+   all). */
 .wslc-dash-type .mud-icon-button .mud-icon-root {
     font-size: calc(1.25rem * var(--wslc-dash-scale));
 }
 
 /* The avatar's letter is MudAvatar's own 1.25rem at Medium, as the list's
-   card draws it (the owner's authorisation, 28 September 2026, Home v2.5's
-   resource cards as the list pages draw theirs: it was h6, 1.06rem). */
+   card draws it, so the dashboard's resource cards match the list pages'. */
 .wslc-dash-section.wslc-dash-type .mud-card-header .mud-avatar {
     width: calc(40px * var(--wslc-dash-scale));
     height: calc(40px * var(--wslc-dash-scale));
@@ -4586,8 +4561,7 @@
 }
 
 /* The state chip is MudChip's own 0.75rem at Medium, as the list's card
-   draws it (the owner's authorisation, 28 September 2026, Home v2.5: it was
-   body2, 0.72rem). */
+   draws it. */
 .wslc-dash-section.wslc-dash-type .mud-card-header .mud-chip {
     font-size: calc(0.75rem * var(--wslc-dash-scale));
 }
@@ -4598,7 +4572,7 @@
 
 /* What they hold stands where their alignment says (WslcObject's
    SectionClass: wslc-dash-h-left|center|right, wslc-dash-v-top|middle|bottom),
-   every one of them (the owner, 25 September 2026). A row of verbs and a
+   every one of them. A row of verbs and a
    header are rows: across is their justification, down their items'. The
    details are a column: down is its justification, across its items'. A
    header set anywhere but Left packs its avatar, its name and its chip
@@ -4679,15 +4653,16 @@
     text-align: right;
 }
 
-/* The System card's body steps too (the owner, 24 September 2026: Small and
-   Large changed nothing on it). The theme has four sizes — overline 0.68rem,
+/* The System card's body steps too, so that Small and Large change it. The
+   theme has four sizes — overline 0.68rem,
    caption and body2 0.72rem, body1 0.82rem, h6 1.06rem (docs/RULES.md) — so a
    step has to land on a different one of them, not on another name for the
    same: caption is body2, and a label is already at overline, the theme's
    smallest. Medium is the label at overline and the value at body2. Small
    takes the label down to step 5, the one size below the theme's
    (--wslc-typography-tiny-size), and the value to overline. Large takes the
-   label up to body1 and the value to h6. The rings step with the alarm cards'. */
+   label up to body1 and the value to h6. The rings step on the dials' one
+   ladder. */
 .wslc-type-small .wslc-summary-label {
     font-size: var(--wslc-typography-tiny-size);
 }
@@ -4704,9 +4679,9 @@
     font-size: var(--mud-typography-h6-size);
 }
 
-/* Home's chart panels, the reference's home-chart-grid: two side by side while
+/* Home's chart panels: two side by side while
    each has 20rem, one per row below that; the canvas takes the panel's width at
-   the reference's 220px. */
+   a height of 220px. */
 .wslc-chart-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
@@ -4823,10 +4798,9 @@
    the bar's height (36px) and the application's body type — a message is read
    like any other text, not announced at the title's size — stacking downwards
    when several are shown.
-
    Held in the hand they are the same toast — same height, same type, same
-   timing — across the top, under the title bar (the owner, 22 September 2026:
-   the bottom edge is the status bar now); there they come down into view
+   timing — across the top, under the title bar (the bottom edge is the status
+   bar); there they come down into view
    instead of sliding in from the side, and they take the width the screen
    gives them (MudBlazor's 500px is the ceiling, not the width). Toasts.razor
    is what moves them there. */
@@ -4865,7 +4839,7 @@
 }
 
 /* A message keeps its line breaks: what the CLI printed when it failed is
-   shown whole, as printed (owner's rule), and its lines are the message. */
+   shown whole, as printed, and its lines are the message. */
 .mud-snackbar-location-top-right .mud-snackbar .mud-snackbar-content-message,
 .mud-snackbar-location-top-center .mud-snackbar .mud-snackbar-content-message {
     padding: 0;
@@ -5035,7 +5009,7 @@
    selector is not a form's field: it has no label and centres its value in
    its own 26px (.wslc-session-select), and on the System card, which stands in
    the page, this rule gave it back the label's 23px and pushed its value
-   below the arrow (the owner, 24 September 2026). */
+   below the arrow. */
 .wslc-toolbar {
     gap: var(--wslc-bar-gap, 8px);
 }
@@ -5101,8 +5075,8 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
 }
 
 /* How far a column's text stands from the next, on its own. The rule that used
-   to set this also set the height of a row, and that one is off by the owner's
-   own hand: this says only the sides, and names four classes because MudBlazor's
+   to set this also set the height of a row, and that one is off on purpose:
+   this says only the sides, and names four classes because MudBlazor's
    dense rule names three and writes them as logical properties. */
 .wslc-fill > .mud-table .mud-table-row .mud-table-cell {
     padding-inline-start: var(--wslc-row-pad-start, 7px);
@@ -5148,7 +5122,7 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
 }
 
 /* ── The navigation button and its list ───────────────────────────────────
-   The owner, 20 September 2026: one navigation for every host — a round
+   One navigation for every host — a round
    button floating at the bottom centre, where the thumb is and where a
    mouse finds it in the same place, and no bar under it: the page keeps
    the room. */
@@ -5156,14 +5130,13 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
 /* The height of the strip under the button, shared by the room the page
    leaves for it. */
 :root {
-    /* The bar's height: the title bar's 72 px (the owner, 20 September 2026)
-       until it became the status bar too, then a status alarm's 72 px — its
+    /* The bar's height: a status alarm's 72 px — its
        44 px ring, 2 px, and two lines of the theme's overline, 0.68 rem at a
-       line height of 1.2, 13 px each — and 6 px above and below it (the owner,
-       22 September 2026: its title on two lines). */
+       line height of 1.2, 13 px each — and 6 px above and below it (its
+       title on two lines). */
     --wslc-bottomnav-height: 84px;
-    /* Home v2's floating windows end above the bar (Berpiztu's dashboard knows
-       the page's foot only by this). */
+    /* The dashboard's floating windows end above the bar (Berpiztu's dashboard
+       knows the page's foot only by this). */
     --bz-dash-page-foot: var(--wslc-bottomnav-height);
     /* The narrowest a dashboard column may be: the grid lays its columns by
        it, wslcAgent.dashboardCell counts the ones that fit by it, and the
@@ -5188,14 +5161,13 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
    toolbar padding taken off so the button sits in its exact centre, and a
    phone's gesture strip kept clear. The button is not fixed: the strip is,
    and the button stands in it, its ring in the strip's own colour. Its top
-   corners are rounded like the boxes above it (the owner, 20 September 2026). */
+   corners are rounded like the boxes above it. */
 .wslc-bottomnav {
     border-radius: var(--mud-default-borderradius) var(--mud-default-borderradius) 0 0;
 }
 
-/* Both bars as wide as the page's box, not the window (the owner,
-   20 September 2026): inset by the page's own 8px at either side. MudAppBar
-   pins itself edge to edge. */
+/* Both bars as wide as the page's box, not the window: inset by the page's
+   own 8px at either side. MudAppBar pins itself edge to edge. */
 .mud-appbar.mud-appbar-fixed-top,
 .mud-appbar.mud-appbar-fixed-bottom {
     left: 8px;
@@ -5216,13 +5188,12 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
 
 /* The button and its ring fit the strip exactly (48px and 4px of ring in
    56px), centred in it, and the row of sections, measured from its centre,
-   sits inside the strip too (the owner, 20 September 2026: the open menu
-   within the footer). */
+   sits inside the strip too: the open menu within the footer. */
 .wslc-verbs-anchor {
     position: relative;
     /* The strip grew to the title bar's 72px, its centre rising 7px; the button
-       and its menu then went up four (the owner, 20 September 2026), so they
-       sit 1px under the strip's centre. */
+       and its menu then went up four, so they sit 1px under the strip's
+       centre. */
     bottom: -1px;
 }
 
@@ -5231,11 +5202,11 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
     height: 46px;
 }
 
-/* The strip's right end (the owner, 21 September 2026): the Architecture
+/* The strip's right end: the Architecture
    button, centred on the strip's line and clear of the centred button, which
    keeps the strip's exact centre because this one is taken out of the flow. */
 /* What the status bar measures the window by, to show the alarms of the
-   view its orientation asks for (DashboardStatus, Home v2.5): the whole
+   view its orientation asks for (DashboardStatus): the whole
    window, seen by nothing and taking no press. */
 .wslc-status-probe {
     position: fixed;
@@ -5244,7 +5215,7 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
     pointer-events: none;
 }
 
-/* The status bar's two sides (StatusAlarms): the dashboard's ticked alarms
+/* The status bar's two sides (DashboardStatus): the dashboard's ticked alarms
    at either side of the round button, each side stopping short of the
    button's ring so nothing ever covers it. */
 .wslc-status-side {
@@ -5265,8 +5236,8 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
     right: 4px;
 }
 
-/* One alarm of the bar, two cells of the dashboard wide and never more (the
-   owner, 22 September 2026) — two columns and the gap between them — side by
+/* One alarm of the bar, two cells of the dashboard wide and never more —
+   two columns and the gap between them — side by
    side with the next with no gap of its own: its ring at the containers' size
    with its percent inside, then two lines, the measure and the name, each cut
    at its edge. */
@@ -5308,7 +5279,7 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
     animation: wslc-status-alarm 1.2s ease-in-out infinite;
 }
 
-/* The mobile view's bar (the owner, 22 September 2026, a trial): one column
+/* The mobile view's bar: one column
    wide instead of two, where a phone holds only one alarm a side at two. The
    ring fits the 38 px column at 34 px — 3 px of track a side, 28 px inside —
    with its percent in the theme's overline; the two lines cut at the column.
@@ -5342,8 +5313,8 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
 
 /* The page ends above the strip, or a list's last row and the pager sit under
    it: MudMainContent knows about the top bar and the drawers, not about a
-   bar pinned to the bottom. The page's box ends a thin line above the strip
-   (the owner, 20 September 2026): 4px of gap — the page's own 8px of padding
+   bar pinned to the bottom. The page's box ends a thin line above the strip:
+   4px of gap — the page's own 8px of padding
    less this 4px — so the one value to move the box off the strip is this one. */
 .wslc-main {
     padding-bottom: calc(var(--wslc-bottomnav-height) - 4px + env(safe-area-inset-bottom, 0px));
@@ -5364,7 +5335,7 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
     left: 50%;
     /* Where the rectangle's centre falls against the button's: the two are
        cut from different edges, so this is what keeps the words where they
-       were (the owner, 20 September 2026). */
+       were. */
     bottom: calc(50% - 38.5px);
     transform: translateX(-50%);
     z-index: 1;
@@ -5374,7 +5345,7 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
     gap: 12px;
 }
 
-/* The row on the rectangle, as the owner drew it on 20 September 2026: one
+/* The row on the rectangle: one
    rectangle in the buttons' own colour, the round button over its middle,
    the row (44px) centred on the circle's centre so the sections stick out
    of it like horns — Home and the bar's four to the left, the others and
@@ -5392,8 +5363,7 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
     align-items: center;
     /* The window's width in the page's own scale: the app is zoomed as a
        browser zooms it (--wslc-zoom), and a plain 100vw inside it is the
-       window times the zoom — the row ran off both edges at 150 % (the owner,
-       20 September 2026). */
+       window times the zoom — the row ran off both edges at 150 %. */
     width: calc(100vw / var(--wslc-zoom, 1) - 16px);
     /* The rectangle's height whole (40px buttons and 18px of air above and
        below), and fixed: closing up shrinks the rectangle, and a bar whose
@@ -5407,15 +5377,14 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     flex: none;
-    /* The air around the buttons, trimmed by the owner step by step
-       (20 September 2026): 5.5px above and none below, so that the rectangle
-       stands two higher than it did while its buttons stay where they were;
+    /* The air around the buttons: 5.5px above and none below, so that the
+       rectangle stands higher while its buttons stay where they are;
        9.5px at the sides. */
     padding: 3.5px 9.5px 2px;
     background: var(--mud-palette-surface);
     border-radius: var(--mud-default-borderradius);
-    /* As far off the page as the theme's shadows go (the owner, 20 September
-       2026): 24 is the deepest; a 25 exists but is the app bar's fainter one. */
+    /* As far off the page as the theme's shadows go: 24 is the deepest; a 25
+       exists but is the app bar's fainter one. */
     box-shadow: var(--mud-elevation-24);
     zoom: var(--wslc-fit, 1);
 }
@@ -5461,7 +5430,7 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
     gap: 4px;
 }
 
-/* The section buttons as the owner drew them (20 September 2026): flat on
+/* The section buttons flat on
    the rectangle, which gives them their colour — no fill, no corners, no
    shadow of their own, so no seam shows between them. MudFab draws a pill
    with a deep shadow and a Surface fill that is a 6 % tint. Their words at
@@ -5479,7 +5448,7 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
 }
 
 /* The section on screen looks like a verb with no colour of its own (Build)
-   above it (the owner, 20 September 2026): the surface fill, the pill, and
+   above it: the surface fill, the pill, and
    the ring in the primary blue of a Pull button and MudFab's own shadow,
    in both themes. */
 .wslc-verbs-side .mud-fab.wslc-verbs-current {
@@ -5488,7 +5457,7 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
     border-radius: 999px;
     border: 4px solid var(--mud-palette-primary);
     /* The ring inside the button's own height, so the pressed one is no
-       taller than the rest (the owner, 20 September 2026). */
+       taller than the rest. */
     box-sizing: border-box;
     box-shadow: var(--mud-elevation-6);
 }
@@ -5501,9 +5470,8 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
 }
 
 /* In the dark theme the ring of the button and of the verbs is the light
-   blue the Logs page gives an INFO line (#a5b4fc, the owner's choice of
-   19 September 2026), not the bar's own dark tone, which vanished against
-   the page (the owner, 20 September 2026). */
+   blue the Logs page gives an INFO line (#a5b4fc), not the bar's own dark
+   tone, which vanished against the page. */
 .wslc-dark .wslc-bottomnav-fab > .mud-fab,
 .wslc-dark .wslc-verbs-list .mud-fab {
     border-color: #a5b4fc;
@@ -5540,7 +5508,7 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
 }
 
 /* The verbs' column on a window too short for it (wslcAgent, measured against
-   the window's height; the owner, 29 September 2026). Step one: the air
+   the window's height). Step one: the air
    between the verbs goes, and between them and the row. */
 .wslc-verbs-menu.wslc-fit-tight,
 .wslc-verbs-menu.wslc-fit-tight > .wslc-verbs-list {
@@ -5565,7 +5533,7 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
     zoom: var(--wslc-fit-verbs, 1);
 }
 
-/* The burst (the owner, 20 September 2026): when the button is pressed, every
+/* The burst: when the button is pressed, every
    button flies out of it to its place — the left side leftward, the right
    side rightward, the verbs upward — each a beat after the one before and
    with a small overshoot as it lands. The rectangle itself does not move:
@@ -5637,7 +5605,7 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
 .wslc-verbs-side > :nth-child(6),
 .wslc-verbs-list > :nth-child(6) { --wslc-i: 6; }
 
-/* The application before its first paint (the owner, 22 September 2026): while
+/* The application before its first paint: while
    it learns whether it is held in the hand, which theme and look this device
    was left with and whether the caller holds a session, there is a turning ring
    in the middle of the window and nothing else — no page drawn one way and
@@ -5649,22 +5617,17 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
     min-height: 100vh;
 }
 
-/* ── Dashboard ───────────────────────────────────────────────────────────
-   Cards of one size, as many per row as fit, every row the same height:
-   the reasoning of .wslc-home-cards with a fixed row, so a chart card is the
-   same box as a counter. MudDropContainer wraps every card in its own item
-   box, which has to fill the cell for the card to. */
-/* The dashboard's pane keeps its scroll bars in sight, both ways (the owner,
-   24 September 2026). Windows 11's overlay bars — Edge and the native
+/* ── Dashboard ─────────────────────────────────────────────────────────── */
+/* The dashboard's canvas frame keeps its scroll bars in sight, both ways.
+   Windows 11's overlay bars — Edge and the native
    client's WebView alike — take no room and show only while the wheel turns,
-   so the cards past the right edge could not be reached: there is no wheel
+   so what lay past the right edge could not be reached: there is no wheel
    for sideways. Chromium draws a bar styled through ::-webkit-scrollbar as a
    real one, which it does not do for scrollbar-width and scrollbar-color, and
    takes those pseudo-elements only while the two are auto. Measured with
-   Edge's overlay bars on: 0 px of bar before, 10 px after. Home v2.5's
-   canvas frame keeps them the same way (the owner, 29 September 2026): its
-   overlay bars came and went, and a press on one fell on the canvas under
-   it and began a selection instead of a scroll. */
+   Edge's overlay bars on: 0 px of bar before, 10 px after. Bars that came
+   and went also let a press on one fall on the canvas under it and begin a
+   selection instead of a scroll. */
 .bz-dash-canvas-frame {
     scrollbar-width: auto;
     scrollbar-color: auto;

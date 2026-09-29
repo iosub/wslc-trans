@@ -4,8 +4,7 @@ using WslcAgent.ApiClient.Contracts;
 namespace WslcAgent.UI.Components;
 
 /// <summary>
-/// A container's mounts as the Files view reads them (the owner, 24 September
-/// 2026): which folder is a mount, which mount a path lives in, and which
+/// A container's mounts as the Files view reads them: which folder is a mount, which mount a path lives in, and which
 /// folders hold one further down — so a folder that is a volume or a folder of
 /// the host says so, and a read-only one is not offered verbs that would fail.
 /// Destinations are cleaned the way every path of the view is, so one written
@@ -66,8 +65,7 @@ public sealed class ContainerMounts
     /// The mount as <c>--volume</c> writes it, source then where it lands, with
     /// a space after the colon so the host's side and the container's do not
     /// run together: <c>C:\data: /workspace</c>, and
-    /// <c>webui-data: /app/data (ro)</c> when it is read-only (the owner,
-    /// 24 September 2026). Read-write is the ordinary
+    /// <c>webui-data: /app/data (ro)</c> when it is read-only. Read-write is the ordinary
     /// case and the permissions beside it already say so; read-only is the one
     /// thing they do not show — a folder can read drwxrwxrwx on a mount that
     /// refuses every write.

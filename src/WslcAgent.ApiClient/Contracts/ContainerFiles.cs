@@ -113,7 +113,7 @@ public sealed record ContainerTransfer(
 
     /// <summary>
     /// Announced and waiting its turn in the agent's queue, with nothing
-    /// travelling yet (docs/transfers-queue.md): the client said it would send
+    /// travelling yet: the client said it would send
     /// this file, and it sends it when this is the head of the queue.
     /// </summary>
     public const string Waiting = "waiting";
@@ -156,8 +156,8 @@ public sealed record ContainerTransfer(
 public sealed record AnnouncedFile(string Name, long Size);
 
 /// <summary>
-/// A batch a client announces before it sends or fetches anything
-/// (docs/transfers-queue.md): this container, this direction, these files. The
+/// A batch a client announces before it sends or fetches anything:
+/// this container, this direction, these files. The
 /// agent appends them to its queue in this order and answers with the ids that
 /// make them the client's own.
 /// </summary>

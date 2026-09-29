@@ -10,7 +10,7 @@ namespace WslcAgent.Server.Wslc;
 /// log, and read back from there. One line carries the trace id, the status,
 /// the exit code, the duration and, for a command run under a name of its own
 /// (<see cref="CliTitle"/>), that name; what the command printed follows under
-/// <c>Output:</c> and <c>Errors:</c>, whole — never cut, the owner's rule: a
+/// <c>Output:</c> and <c>Errors:</c>, whole — never cut: a
 /// JSON cut short is no longer JSON, cannot be laid out and cannot be pasted
 /// anywhere. The file is the record of every command the agent ran; the id
 /// is what lets the Logs page see a command that was running turn into the

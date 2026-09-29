@@ -6,7 +6,7 @@ namespace WslcAgent.ApiClient;
 /// <summary>
 /// The agent's notifications as they arrive, for whoever shows them on
 /// Windows: the agent's tray icon on its own machine, the Windows client on
-/// another (docs/notifications/spec.md). It listens on the events stream and,
+/// another. It listens on the events stream and,
 /// on each <c>notification</c> — and on each connection, whose first notice is
 /// a full one — reads those after the last it handed over. The last id is
 /// kept by the caller, so an icon or a client started again, or an agent that

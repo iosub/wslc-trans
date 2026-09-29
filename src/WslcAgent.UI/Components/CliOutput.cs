@@ -3,8 +3,7 @@ using System.Text.Json;
 namespace WslcAgent.UI.Components;
 
 /// <summary>
-/// How CLI Activity shows what a command printed and how long it took, as the
-/// reference's cli_activity router does: a JSON document or JSON lines laid out
+/// How CLI Activity shows what a command printed and how long it took: a JSON document or JSON lines laid out
 /// indented, anything else left as it came; durations in ms, tenths of a second,
 /// or whole seconds; the start as its UTC month, day and clock.
 /// </summary>

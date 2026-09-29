@@ -34,7 +34,7 @@ public sealed class SessionsEndpointTests(WebApplicationFactory<Program> factory
     public async Task The_elevated_store_is_never_offered_as_a_session()
     {
         // The agent does not run elevated and has no way to: a row for that
-        // store could only be picked to be told no (the owner, 22 September 2026).
+        // store could only be picked to be told no.
         const string withAdmin =
             """{"Server":{"Sessions":[{"ID":1,"Name":"wslc-cli-user"},{"ID":2,"Name":"wslc-cli-admin-root"}]}}""";
         var runner = new FakeWslcRunner().Answer("system info --format json", withAdmin);

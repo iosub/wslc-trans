@@ -11,7 +11,7 @@
 
 <PageTitle>Sign in — WSLC AI Agent</PageTitle>
 
-@* The reference's sign-in screen: the agent keeps its own login, asked of anyone
+@* The sign-in screen: the agent keeps its own login, asked of anyone
    who does not sit at the agent's machine, whatever proxy stands in front. With
    no password set the fields wait and the screen says where to set one. *@
 <div class="wslc-login">
@@ -65,9 +65,9 @@
         catch (Exception ex) when ((ex is AgentApiException or HttpRequestException) && !Link.Online && Servers.Supported)
         {
             // Nothing of the agent answered: it is stopped, or a gateway in front
-            // of it is answering for it (the owner, 22 September 2026: an address
-            // whose agent was down said "Bad Gateway", which reads as a refused
-            // password). The password is not the matter; the address is.
+            // of it is answering for it (an address whose agent was down said
+            // "Bad Gateway", which reads as a refused password). The password is
+            // not the matter; the address is.
             _configured = false;
             _error = $"The agent at {Servers.Current} does not answer. Add the agent's address below (its LAN address or the public one) and connect to it.";
         }
@@ -91,7 +91,7 @@
         catch (Exception ex) when ((ex is AgentApiException or HttpRequestException) && !Link.Online)
         {
             // The agent is not there to take a password; saying "Bad Gateway" here
-            // would read as the password being wrong (the owner, 22 September 2026).
+            // would read as the password being wrong.
             _error = $"The agent at {Http.BaseAddress} does not answer, so there is nothing to sign in to yet. Check the address below, or that the agent is running.";
         }
         catch (Exception ex) when (ex is AgentApiException or HttpRequestException)

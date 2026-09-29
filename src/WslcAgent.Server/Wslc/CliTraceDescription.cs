@@ -3,9 +3,7 @@ namespace WslcAgent.Server.Wslc;
 /// <summary>
 /// What a <c>wslc</c> command line is, for CLI Activity: the group it belongs to
 /// (containers, images, networks, volumes, file transfers or general), a title a person reads
-/// before the raw line, and the session it ran in. The reference's
-/// <c>describe_cli_trace</c>, rule for rule, so the same command reads the same
-/// on both.
+/// before the raw line, and the session it ran in.
 /// </summary>
 public static class CliTraceDescription
 {
@@ -16,8 +14,8 @@ public static class CliTraceDescription
     public const string General = "general";
 
     /// <summary>
-    /// A file carried into or out of a container (the owner, 24 September 2026:
-    /// a group of its own, to follow a transfer through the log): the copy
+    /// A file carried into or out of a container (a group of its own,
+    /// to follow a transfer through the log): the copy
     /// itself, whichever way, and the steps around it inside the container,
     /// which work on the names a transfer travels under. A copy made inside a
     /// container — the Files view's paste — is the container's.
@@ -30,7 +28,7 @@ public static class CliTraceDescription
     /// <summary>
     /// What a file the agent carries is written as in CLI Activity and in the
     /// log, where a command is written as <c>wslc</c>: one row from the moment
-    /// a client announces it to its end (the owner, 24 September 2026: a file
+    /// a client announces it to its end (a file
     /// that started and never finished has to show).
     /// </summary>
     public const string TransferProgram = "transfer";

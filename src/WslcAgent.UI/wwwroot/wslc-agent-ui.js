@@ -31,9 +31,8 @@ function wslcAgentPark(chosen) {
 // wslcAgent.isHandheld (which side the narrow navigation opens from),
 // wslcAgent.clientPlatform (which native client Home offers) and
 // wslcAgent.zoom (the page zoom of the title bar's control), wslcAgent.views,
-// wslcAgent.logs, wslcAgent.theme, wslcAgent.dashboard and Home v2.5's
-// wslcAgent.dashboardV25 (what this device remembers of the lists, the Logs
-// page, the theme and the dashboards).
+// wslcAgent.logs, wslcAgent.theme and the wslcAgent.dashboard* keys (what this
+// device remembers of the lists, the Logs page, the theme and the dashboard).
 window.wslcAgent = {
     // The app scaled as a browser's zoom scales it, in the browser and both native
     // clients alike, remembered on this device: --wslc-zoom, which the stylesheet
@@ -53,7 +52,7 @@ window.wslcAgent = {
         return current;
     },
 
-    // The dashboard's own zoom, out of design (the owner, 27 September 2026):
+    // The dashboard's own zoom, out of design:
     // --bz-dash-zoom, which the dashboard's stylesheet applies to its canvas
     // alone, on top of the page's; remembered on this device apart from it,
     // one for each page and view ("system/desktop", "user/mobile"…), kept as
@@ -80,8 +79,8 @@ window.wslcAgent = {
     },
 
     // How the dashboard's view is fitted to a screen of another aspect, out of
-    // design — "fit", "fill", "width", "stretch" or "fluid", the first as a television offers them (the
-    // owner, 28 September 2026) — kept on this device beside the dashboard's
+    // design — "fit", "fill", "width", "stretch" or "fluid", the first as a television offers them —
+    // kept on this device beside the dashboard's
     // zoom, one for each page and view, as one JSON object. Without a mode it
     // only answers the one kept, "fit" where none is.
     dashboardViewFit(key, mode) {
@@ -276,7 +275,7 @@ window.wslcAgent = {
         }
     },
     // With `follow`, a box the reader has scrolled up in is left where it is,
-    // as the reference's pull console does; scrolling back down resumes it.
+    // as a pull console does; scrolling back down resumes it.
     // (The Logs page does not use it: it holds its list while the reader is on
     // it, and otherwise goes to the end every time.)
     // A grid is scrolled by the table MudBlazor puts inside it, so the box
@@ -318,8 +317,7 @@ window.wslcAgent = {
     // duplex, and the agent serves HTTP/1.1 — so .NET would have to hold the
     // whole file in memory, twice, before the first byte left. A backup of a
     // container is gigabytes. Handed to fetch, the browser reads it from the
-    // disk as it sends it and costs nothing, which is how the reference
-    // project sent files and why it never had a size limit.
+    // disk as it sends it and costs nothing, whatever the size.
     //
     // No progress here: the agent counts what it receives, and the ring on the
     // container's row is that count (GET /containers/uploads).
@@ -327,8 +325,8 @@ window.wslcAgent = {
     // them is reliable here. showOpenFilePicker (the File System Access API)
     // does not go through the element at all; the element's own chooser is
     // what stops answering — it takes a selection and does nothing with Open,
-    // again and again, until the page is reloaded (seen on Windows 11,
-    // 23 September 2026, with the picker alive and waiting on our side: the
+    // again and again, until the page is reloaded (seen on Windows 11, with
+    // the picker alive and waiting on our side: the
     // dialog answered Escape and refused Open). The API also opens where it
     // was left, per id, which the element's chooser cannot be told.
     //
@@ -414,7 +412,7 @@ window.wslcAgent = {
         return window.matchMedia('(pointer: coarse)').matches;
     },
 
-    // Back, in the order the reference's client walks it: whatever is over the
+    // Back, in the order a native client walks it: whatever is over the
     // page first, then the navigation that opened over it, and only then the
     // step before. False when there is nothing left, which is what lets the
     // native client leave the app instead of swallowing the gesture.
@@ -481,8 +479,8 @@ window.wslcAgent = {
 };
 
 // A page's verb bar (the row under the title bar) never wraps and never loses a
-// verb. When the room runs short it gives things up one at a time, in the order
-// the owner set: the texts of the stats at the left first, then the words on
+// verb. When the room runs short it gives things up one at a time, in this
+// order: the texts of the stats at the left first, then the words on
 // the filter switches, then the size of the tools, and only at the very end the
 // words on the buttons — a verb that cannot be read is the last thing to lose.
 //
@@ -492,7 +490,7 @@ window.wslcAgent = {
 // window and gives it up in a narrow one. CSS cannot ask whether its content
 // fits, which is why the measuring is here and the steps are there (the
 // .wslc-fit-* rules of wslc-agent-ui.css).
-// The texts a bar gives up when the room runs short, in the owner's order: the
+// The texts a bar gives up when the room runs short, in order: the
 // stats at the left first, then the words on the filter switches (their initial
 // and their tooltip stay), and the words on the buttons last of all.
 const wslcFitSteps = {
@@ -501,9 +499,9 @@ const wslcFitSteps = {
     // The title bar: the search box gives up width first — it is a box, not a
     // word — then the application's name over the session line (the session
     // line stays: it is what the bar is for), then the words on the buttons.
-    // The zoom stays at every width (the owner, 20 September 2026).
+    // The zoom stays at every width.
     '.wslc-appbar-row': ['search', 'brand', 'icons'],
-    // The navigation button's row of sections (the owner, 20 September 2026):
+    // The navigation button's row of sections:
     // the air between the buttons goes first, then the words drop to the
     // theme's smallest size, then the row closes up, and only when that is not
     // enough the words go and the glyphs stay.
@@ -566,7 +564,7 @@ function wslcBarNeeds(bar) {
         // Layout pixels, as the room is: the app is zoomed as a browser zooms
         // it, and a bounding rectangle answers in screen pixels — at 150 % a
         // row measured that way seemed half again as wide as its room and the
-        // steps came out wrong (the owner, 20 September 2026).
+        // steps came out wrong.
         const natural = child.offsetWidth;
         child.classList.remove('wslc-measure');
         if (child.matches(wslcFitGives)) {
@@ -592,8 +590,7 @@ function wslcBarGaps(bar) {
 // How much of its size the bar keeps to fit its room, never below the floor.
 // Only the children are zoomed, so only what the gaps leave is shared out:
 // divided whole, the gaps included, the bar came out a few pixels short every
-// time and a text went that a closer bar would have kept (the owner,
-// 24 September 2026).
+// time and a text went that a closer bar would have kept.
 function wslcCloseUp(bar, room) {
     const gaps = wslcBarGaps(bar);
     // What the bar draws as well as what its children measure: a pixel or two
@@ -614,8 +611,7 @@ function wslcBarFits(bar, room) {
 // A bar is measured again only when its room or what it holds has changed.
 // Each pass takes the bar back to its full size to measure it, and for that
 // moment a list under it is shorter: every refresh of the Logs page moved both
-// lists' scroll 3 px and back, over and over (the owner, 24 September 2026,
-// on the emulator: "sube y baja").
+// lists' scroll 3 px and back, over and over.
 function wslcFitBar(bar) {
     const style = getComputedStyle(bar);
     const room = bar.clientWidth - (parseFloat(style.paddingLeft) || 0) - (parseFloat(style.paddingRight) || 0);
@@ -628,7 +624,7 @@ function wslcFitBar(bar) {
     // size for a moment it grew a pixel or two, the pane under it shrank, and
     // a list at its end had its scroll cut and was sent back down by its
     // Autorefresh — with both of the Logs page's on, every entry that changed
-    // the log's count moved both lists (the owner, 24 September 2026).
+    // the log's count moved both lists.
     const height = bar.style.height;
     bar.style.height = `${bar.offsetHeight}px`;
     try {
@@ -644,8 +640,7 @@ function wslcFitBar(bar) {
 // are gone (tight) theirs is left out: the log's count changes with every
 // entry, and each change had the bar show it to measure it, find it did not
 // fit and hide it again — the log moved under the reader while Activity,
-// whose count stands still at its 200, did not (the owner, 24 September
-// 2026). A change of room still measures it again, and gives the texts back
+// whose count stands still at its 200, did not. A change of room still measures it again, and gives the texts back
 // where they fit.
 function wslcFitText(bar) {
     const stats = bar.classList.contains('wslc-fit-tight') ? bar.querySelector(':scope > .wslc-stats') : null;
@@ -677,7 +672,7 @@ function wslcFitBarAt(bar, room) {
 
         // A step that only makes a text smaller is tried with the bar closed up
         // too, before the next step takes a text away: a smaller word is still
-        // read, one that is gone is not (the owner, 24 September 2026).
+        // read, one that is gone is not.
         if (taken > 0 && wslcFitShrinks.has(wslcStepsOf(bar)[taken - 1])) {
             wslcFitScale(bar, wslcCloseUp(bar, room));
             if (wslcBarFits(bar, room)) {
@@ -705,9 +700,9 @@ function wslcFitBarAt(bar, room) {
 }
 
 // The page's verbs over the navigation button stand one over the other and
-// grow upwards, and on a short window the top ones went past its edge (the
-// owner, 29 September 2026). The column measures itself against the window's
-// height as a bar does against its width, and gives up in the owner's order:
+// grow upwards, and on a short window the top ones went past its edge. The
+// column measures itself against the window's height as a bar does against its
+// width, and gives up in this order:
 // the air between the verbs, then their size — MudBlazor's small FAB and the
 // theme's smallest words — and at the last it closes up by what is missing.
 // A verb keeps its word: it is what says what it does.
@@ -870,14 +865,13 @@ document.addEventListener('dblclick', event => {
 // header's drag to reorder the columns. The browser began that drag the moment
 // the handle was pressed, cancelled the pointer (pointercancel) and took the
 // resize's capture with it, so no column could be made wider or narrower —
-// the drag moved it instead (the owner, 24 September 2026; measured on the
-// Logs page: dragstart 1 ms after the press, the capture lost 5 ms later).
+// the drag moved it instead (measured on the Logs page: dragstart 1 ms after the press, the capture lost 5 ms later).
 // A drag from anywhere else on the header still reorders.
 // An opened row's detail is one cell MudBlazor spans over "1000" columns. In
 // the fixed layout the tables use, those are a thousand phantom columns that
 // share the spare width with the one column meant to hold it — the log's
 // Message, Activity's Command — and leave it one pixel wide the moment a row
-// opens (the owner, 24 September 2026; measured: Message 869 px closed, 1 px
+// opens (measured: Message 869 px closed, 1 px
 // open). The cell spans the columns the table has, once a frame at most.
 let wslcSpanQueued = false;
 function wslcSpanDetails() {

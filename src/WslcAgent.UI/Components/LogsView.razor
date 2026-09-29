@@ -1,4 +1,4 @@
-@* Container logs as the reference: the last lines in a code block that owns
+@* Container logs: the last lines in a code block that owns
    the scroll, lines coloured by level, and the action rail at the right
    (search / wrap / autorefresh / refresh / jump to end / copy / clear).
    Autorefresh is the Logs page's ring: every 2 s the lines are read again and
@@ -135,7 +135,7 @@
         }
     }
 
-    /// <summary>The snapshot; after a view clear only the lines past the cleared ones, as the reference's live-only follow.</summary>
+    /// <summary>The snapshot; after a view clear only the lines past the cleared ones.</summary>
     private async Task RefreshAsync()
     {
         if (_loading)
@@ -194,7 +194,7 @@
         {
             await RefreshAsync();
             // Turned on, the box goes to its last line at once, whether or not
-            // anything new came (the owner, 24 September 2026).
+            // anything new came.
             _scrollPending = true;
         }
     }

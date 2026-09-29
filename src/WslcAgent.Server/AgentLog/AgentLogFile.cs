@@ -6,12 +6,11 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.AgentLog;
 
 /// <summary>
-/// The agent's own log on disk, in the reference's file format
+/// The agent's own log on disk, in this format
 /// (<c>yyyy-MM-dd HH:mm:ss.fff | LEVEL    | source - message</c>, further lines
 /// of a message below it). One file per process, so an agent restarting while
 /// the old one still exits never shares a file; files of other processes older
-/// than a week or over 20 MB are dropped when the agent starts, the reference's
-/// retention. Lines are queued and written by one background writer that holds
+/// than a week or over 20 MB are dropped when the agent starts. Lines are queued and written by one background writer that holds
 /// <see cref="Gate"/>, which the Logs page's delete takes too.
 /// </summary>
 public sealed class AgentLogFile : IDisposable

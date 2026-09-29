@@ -4,7 +4,7 @@
    reads the same in both.
 
    The ones waiting their turn are lines like the rest — the queue is the
-   agent's, so every client sees them (docs/transfers-queue.md) — with their
+   agent's, so every client sees them — with their
    place in the queue instead of a percentage and no bar, because nothing of
    them has travelled. Their cross takes them out of the queue rather than
    stopping them.
@@ -15,7 +15,7 @@
    carries it on every one. *@
 @inject FileTransfers Mine
 
-@* Drawn as the other lists are (the owner, 24 September 2026): a header strip
+@* Drawn as the other lists are: a header strip
    in the chrome tone, like a table's header row, over the lines in the tone of
    the fields, so the title above and the files below no longer read as one
    surface. The dashboard's card draws the two apart (Head, Lines). *@
@@ -87,8 +87,7 @@
     /// <summary>
     /// The header strip is drawn; and the lines are. Both, but for the
     /// dashboard's File transfers card, whose header of the lines and lines
-    /// are pieces of their own, each with its own properties (the owner, 27
-    /// September 2026).
+    /// are pieces of their own, each with its own properties.
     /// </summary>
     [Parameter] public bool Head { get; set; } = true;
 

@@ -5,9 +5,8 @@ using Microsoft.JSInterop;
 namespace WslcAgent.UI.Dashboard;
 
 /// <summary>
-/// Home v2.5's designs not saved yet, kept on this device
-/// (<c>wslcAgent.dashboardV25Draft</c>; the owner, 28 September 2026, as Home
-/// v3 kept its own): nothing reaches where the dashboard is kept without
+/// The dashboard's designs not saved yet, kept on this device
+/// (<c>wslcAgent.dashboardV25Draft</c>): nothing reaches where the dashboard is kept without
 /// Save, and a power cut or a lost connection loses nothing. One text holds
 /// every draft, each under the name of the place, the page and the view it
 /// is of — the server's System page in landscape, this device's User page

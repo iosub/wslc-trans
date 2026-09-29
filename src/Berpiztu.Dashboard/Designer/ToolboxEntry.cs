@@ -4,7 +4,7 @@ namespace Berpiztu.Dashboard.Designer;
 
 /// <summary>
 /// One thing the toolbox offers: an object of a kind, or a card made already
-/// (a template), in three steps (the owner, 27 September 2026): its group —
+/// (a template), in three steps: its group —
 /// Cards, or Objects for every kind of object —, its subgroup within it (User,
 /// System), and, an object, its section within that (the kind's own group:
 /// Container, Host dials…); each step a heading indented under the one above.

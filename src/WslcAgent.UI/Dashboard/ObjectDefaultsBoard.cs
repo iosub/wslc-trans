@@ -6,13 +6,13 @@ using Berpiztu.Dashboard.Storage;
 namespace WslcAgent.UI.Dashboard;
 
 /// <summary>
-/// The board of every object (the owner, 26 September 2026): each kind drawn
+/// The board of every object: each kind drawn
 /// once as it is born in one view — its default where one was designed, its
 /// descriptor's otherwise — so how each is born is designed where it can be
 /// seen, the landscape view's and the portrait one's apart. Every card made already is
 /// drawn whole, as it is dropped — a container's, an image's, a volume's, a
 /// network's, the System card, the charts' — and an object of one is
-/// designed in it, never taken out of it (the owner, same day); the objects
+/// designed in it, never taken out of it; the objects
 /// row each. Each reads the first of its family. It is not a dashboard and
 /// keeps nothing of its own: each change made to an object — its look, its
 /// cells, its place in its card — or to a card's size is written as its
@@ -90,8 +90,8 @@ public sealed class ObjectDefaultsBoard(
     /// <summary>
     /// What the board says each kind is born with: every object's look and
     /// cells, and its place in its card; every card's size, under its
-    /// template's type (the owner, 26 September 2026: a card's size and where
-    /// its objects stand are designed here too).
+    /// template's type (a card's size and where its objects stand are
+    /// designed here too).
     /// </summary>
     private IEnumerable<(string Type, ObjectDefault Value)> Designed(DashboardLayout board) =>
         board.Objects.Select(o => (KeyOf(o), ObjectDefault.Of(o, board.FindGroup(o.Group))))

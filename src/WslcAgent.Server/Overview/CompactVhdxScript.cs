@@ -1,8 +1,8 @@
 namespace WslcAgent.Server.Overview;
 
 /// <summary>
-/// The PowerShell the <c>compact-vhdx</c> terminal job runs, the reference's
-/// script step for step. Typed into the host terminal as
+/// The PowerShell the <c>compact-vhdx</c> terminal job runs.
+/// Typed into the host terminal as
 /// <c>powershell -File</c>, so everything it prints lands where the user
 /// watches. It never terminates a session: it checks the session list first and
 /// stops when one is active. Optimize-VHD only reclaims blocks the guest has

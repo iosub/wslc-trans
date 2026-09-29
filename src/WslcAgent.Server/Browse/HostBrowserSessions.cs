@@ -223,7 +223,7 @@ public sealed class HostBrowserSessions(
     }
 }
 
-/// <summary>Runs the idle reaper on the reference's 30-second tick.</summary>
+/// <summary>Runs the idle reaper on a 30-second tick.</summary>
 public sealed class HostBrowserReaper(HostBrowserSessions sessions) : BackgroundService
 {
     private static readonly TimeSpan Tick = TimeSpan.FromSeconds(30);

@@ -4,7 +4,7 @@ using Microsoft.Web.WebView2.WinForms;
 namespace WslcAgent.Tray;
 
 /// <summary>
-/// The agent's window (the owner, 26 September 2026): its own page in
+/// The agent's window: its own page in
 /// WebView2, the same page the browser shows, so there is one UI. Its
 /// browsing data lives beside the agent's data, apart from any browser's.
 /// </summary>

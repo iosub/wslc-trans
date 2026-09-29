@@ -1,6 +1,6 @@
-@* How many containers run of how many there are, as today's Home's
-   Containers card says it: one of the host's counts. It reads the overview
-   the host's counts share (HostOverviewRead); it has no source to choose. *@
+@* How many containers run of how many there are: one of the host's
+   counts. It reads the overview the host's counts share
+   (HostOverviewRead); it has no source to choose. *@
 @namespace WslcAgent.UI.Dashboard.Objects
 @using Berpiztu.Dashboard.Catalogue
 @inherits WslcObject
@@ -21,7 +21,7 @@
 
     protected override void OnInitialized() => Follow(Overview);
 
-    /// <summary>A count opens its page, as its card on today's Home does.</summary>
+    /// <summary>A count opens its page.</summary>
     public override bool Opens => true;
 
     public override Task OpenAsync()

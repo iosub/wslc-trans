@@ -6,7 +6,7 @@ namespace WslcAgent.UI.Components;
 /// How a toggle in an action rail says its state, the same in every rail: off,
 /// it is green and stands proud of the rail like every other button there;
 /// on, it turns blue (the primary) and is drawn pressed into the rail
-/// (<c>wslc-rail-on</c>). The owner's rule of 19 September 2026.
+/// (<c>wslc-rail-on</c>).
 /// </summary>
 public static class RailToggle
 {

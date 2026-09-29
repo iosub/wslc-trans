@@ -52,7 +52,7 @@
         Dialog.StateHasChanged();
     }
 
-    /// <summary>Blank rows are dropped, as the reference's list editors do.</summary>
+    /// <summary>Blank rows are dropped.</summary>
     private void Save() =>
         Dialog.Close(DialogResult.Ok<IReadOnlyList<string>>([.. _rows.Select(r => r.Trim()).Where(r => r.Length > 0)]));
 }

@@ -19,7 +19,7 @@ public sealed record WslcEvent(DateTimeOffset Time, string Type, string Action, 
 
 /// <summary>
 /// Reads the lines <c>wslc events</c> prints. Its shape, measured on wslc
-/// 2.9.13 (docs/knowledge/wslc-events.md):
+/// 2.9.13:
 /// <code>
 /// 2026-09-22T19:33:11.000000000-05:00 container stop 8449a1cce27f… (exitCode=137, image=alpine:latest, name=jade_wasatch)
 /// </code>

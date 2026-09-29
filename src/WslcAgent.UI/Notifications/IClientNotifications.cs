@@ -3,7 +3,7 @@ using WslcAgent.ApiClient.Contracts;
 namespace WslcAgent.UI.Notifications;
 
 /// <summary>
-/// The agent's notifications on a native client (docs/notifications/spec.md),
+/// The agent's notifications on a native client,
 /// two ways. The Android client gets a Firebase token, which the agent pushes
 /// to, whether the app runs or not. The Windows client shows the agent's
 /// feed itself while it runs (<see cref="ShowsFeed"/>), when its agent is on

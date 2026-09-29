@@ -2,8 +2,7 @@ namespace Berpiztu.Dashboard.Model;
 
 /// <summary>
 /// Which of its card's edges an object keeps to as the card widens with the
-/// screen out of design (the owner, 28 September 2026, as the old Visual
-/// Basic's and Windows Forms' Anchor; docs/home/v2.5/spec.md, decision 16):
+/// screen out of design, as the old Visual Basic's and Windows Forms' Anchor:
 /// so a card widened by a fluid view behaves as the list pages' card does —
 /// its words taking the room, its dials together at its right edge.
 /// </summary>

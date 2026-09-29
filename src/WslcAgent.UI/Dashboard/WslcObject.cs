@@ -4,10 +4,10 @@ namespace WslcAgent.UI.Dashboard;
 
 /// <summary>
 /// What every WSLC object on the dashboard adds to the SDK's base: its type
-/// size as the ladder today's Home steps its parts by (<c>wslc-type-small</c>,
+/// size as the ladder the UI steps a card's parts by (<c>wslc-type-small</c>,
 /// <c>-medium</c>, <c>-large</c>), so a dial, a header or a row of verbs of
-/// the same size draws the same here as on a card of today's Home, and Small
-/// and Medium differ (the owner, 25 September 2026: they drew the same).
+/// the same size draws the same wherever it stands, and Small and Medium
+/// differ.
 /// </summary>
 public abstract class WslcObject : DashboardObject, IDisposable
 {
@@ -60,7 +60,7 @@ public abstract class WslcObject : DashboardObject, IDisposable
     }
 
     /// <summary>
-    /// What a reading says under its value, as today's Home says it: Loading…
+    /// What a reading says under its value: Loading…
     /// until it is read, Unavailable when the read failed, or what it means.
     /// </summary>
     protected static string ReadingHint(bool read, bool failed, string meaning) =>
@@ -77,9 +77,9 @@ public abstract class WslcObject : DashboardObject, IDisposable
 
     /// <summary>
     /// The class of the type size, for the element the object draws around
-    /// what it shows: today's Home's ladder, and <c>wslc-dash-type</c>, where
-    /// Home v2 steps in one proportion what that ladder did not (a dial's ring,
-    /// a button's glyph).
+    /// what it shows: the type ladder, and <c>wslc-dash-type</c>, where the
+    /// dashboard steps in one proportion what that ladder does not (a dial's
+    /// ring, a button's glyph).
     /// </summary>
     protected string TypeClass => $"wslc-dash-type wslc-type-{Instance.Size.ToString().ToLowerInvariant()}";
 
@@ -93,10 +93,9 @@ public abstract class WslcObject : DashboardObject, IDisposable
     /// The classes of an object drawn as a section of a list's card (a header,
     /// the details, a row of verbs), which fills its cells: its type size
     /// steps it; its ground is the object's Background, not the card's tone
-    /// (the owner, 25 September 2026: Transparent drew the footer's blue); and
-    /// what it holds stands where its alignment says, across and down — its
-    /// kind's, where it stands on the card, until one is chosen — (the owner,
-    /// same day: every object honours both). The canvas cannot place what an
+    /// (Transparent drew the footer's blue); and what it holds stands where
+    /// its alignment says, across and down — its kind's, where it stands on
+    /// the card, until one is chosen. The canvas cannot place what an
     /// object that fills its cells holds, so the section does
     /// (<c>wslc-dash-h-*</c>, <c>wslc-dash-v-*</c>).
     /// </summary>

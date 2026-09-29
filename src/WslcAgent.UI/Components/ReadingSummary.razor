@@ -1,6 +1,6 @@
 @* A reading's three texts, stacked: its label, its value and the hint under
-   it, each line cut at the edge. A dashboard card's summary (HomeCard) and
-   Home v2's readings draw it, so the two say a reading alike. *@
+   it, each line cut at the edge. The dashboard's objects draw it, so they
+   all say a reading alike. *@
 
 <div class="wslc-home-card-head">
     @if (LabelShown)
@@ -27,7 +27,7 @@
     /// <summary>The reading failed: the hint says so in the error colour.</summary>
     [Parameter] public bool Error { get; set; }
 
-    /// <summary>The label is drawn; a Home v2 chart lets the user hide each of its summary's lines.</summary>
+    /// <summary>The label is drawn; a dashboard chart lets the user hide each of its summary's lines.</summary>
     [Parameter] public bool LabelShown { get; set; } = true;
 
     /// <summary>The value is drawn.</summary>

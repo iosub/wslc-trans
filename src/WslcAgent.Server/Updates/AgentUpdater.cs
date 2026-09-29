@@ -18,7 +18,7 @@ namespace WslcAgent.Server.Updates;
 /// With Auto update on, a newer installer is announced to every client, which
 /// counts a minute down and offers Cancel — and as a notification, whose own
 /// button cancels it without opening anything, to every device that gets them
-/// (the owner, 27 September 2026: ten seconds was too short for a phone);
+/// (ten seconds was too short for a phone);
 /// nobody cancelling, it installs, and a cancel is notified to all of them.
 /// A version cancelled, or one whose install failed, is not offered again on
 /// its own: Update now still takes it. Update now installs at once, as soon as
@@ -43,8 +43,7 @@ public sealed class AgentUpdater(
     /// What every line the update writes to the agent's log begins with, and
     /// what puts it under File transfers on the Logs page (AgentLogs.KindOf):
     /// the update waits for the transfers and is followed beside them, not in a
-    /// group of its own, which the filter bar has no room for (the owner,
-    /// 24 September 2026).
+    /// group of its own, which the filter bar has no room for.
     /// </summary>
     public const string LogPrefix = "update: ";
 
@@ -135,7 +134,7 @@ public sealed class AgentUpdater(
         }
 
         // Every device that was told it was coming is told it is not: the
-        // one that cancelled, and the others (the owner, 27 September 2026).
+        // one that cancelled, and the others.
         if (cancelled is not null)
         {
             notifier.Raise(NotificationKind.UpdateCancelled, NotificationSeverity.Info, "Agent update cancelled",
@@ -251,7 +250,7 @@ public sealed class AgentUpdater(
     /// The installer's result, looked for until it is there. The update script
     /// writes it once msiexec returns, and the MSI starts the new agent before
     /// that: one look at start-up found nothing, and "Agent updated" was never
-    /// said, nor Settings' Last update (the owner, 27 September 2026). So the
+    /// said, nor Settings' Last update. So the
     /// file is looked for every two seconds for the first two minutes.
     /// </summary>
     private async Task AwaitResultAsync(CancellationToken stoppingToken)

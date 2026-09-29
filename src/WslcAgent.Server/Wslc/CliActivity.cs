@@ -65,11 +65,10 @@ public sealed class CliActivity(ILogger<CliActivity> logger) : ICliActivity
             return;
         }
 
-        // A command that failed is an error, as the reference logs it (its runner's
-        // "failed (exit N)" line is logger.error): the Logs page's Error filter is
-        // where the owner looks for what went wrong, and at Warning it found nothing.
-        // A container that was not there is not something that went wrong (the
-        // reference's "not_found"): it stays in the record, out of that filter.
+        // A command that failed is an error: the Logs page's Error filter is where
+        // a user looks for what went wrong, and at Warning it found nothing.
+        // A container that was not there is not something that went wrong
+        // ("not_found"): it stays in the record, out of that filter.
         var level = status is "success" or "cancelled" or "not_found" ? LogLevel.Information : LogLevel.Error;
         logger.Log(level, "{Program} {Args}\n{Outcome}", trace.Program, string.Join(' ', trace.Args), CliTraceBlock.Write(id, status, exitCode, duration, stdout, stderr, Named(trace)));
     }

@@ -1,4 +1,4 @@
-@* The reference's backup modal: the job's three steps with their marks, the
+@* The backup window: the job's three steps with their marks, the
    archive size while it is written, "Save as…" once it is ready, and a
    Cancel that asks the right question for the state (cancel the export,
    discard the archive, or confirm the download finished). The dialog is
@@ -96,7 +96,7 @@
         Dialog.StateHasChanged();
     }
 
-    /// <summary>The reference's step marks: pending, in progress, done, failed, skipped.</summary>
+    /// <summary>The step marks: pending, in progress, done, failed, skipped.</summary>
     private string Mark(string step)
     {
         if (_job is null)

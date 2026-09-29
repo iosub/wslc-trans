@@ -89,7 +89,7 @@ public sealed partial class ContainerService(
         LaunchAsync(request, start: true, cancellationToken);
 
     /// <summary>
-    /// The reference's recreate — snapshot by inspect, stop (best effort),
+    /// The recreate — snapshot by inspect, stop (best effort),
     /// remove --force, launch the new one, launch the snapshot again if that
     /// fails — with a rehearsal before the destructive step: the new settings
     /// are launched first under a throwaway name, ports, volumes and networks
@@ -468,7 +468,7 @@ public sealed partial class ContainerService(
     }
 
     /// <summary>
-    /// Port bindings as the reference showed them: <c>hostPort->containerPort</c>,
+    /// Port bindings as <c>hostPort->containerPort</c>,
     /// no bind address and no protocol. Prefers the rendered <c>Ports</c> text
     /// when WSLC fills it (<c>0.0.0.0:8080->80/tcp</c>); otherwise reads the
     /// metadata label (<c>{"V1":{"Ports":[{"BindingAddress","HostPort","ContainerPort","Protocol"}]}}</c>).

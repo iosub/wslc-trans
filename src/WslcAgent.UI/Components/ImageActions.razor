@@ -1,6 +1,6 @@
-@* Per-image actions in the reference's layout: [＋ create] [▶ run] [⋮ more] [remove].
+@* Per-image actions: [＋ create] [▶ run] [⋮ more] [remove].
    Create and run open the launch form with this image in it; the menu lists
-   every reference entry. *@
+   every other verb. *@
 @inherits EntityActionsBase
 @using WslcAgent.UI.Components.Dialogs
 @using WslcAgent.UI.Components.Launch
@@ -24,7 +24,7 @@
     <MudIconButton Icon="@Icons.Material.Filled.Add" Size="Size.Small" title="@Title("Create a container from this image")" Disabled="Pulling" OnClick="@(() => LaunchAsync(LaunchMode.Create))" />
     <MudIconButton Icon="@Icons.Material.Filled.PlayArrow" Size="Size.Small" Color="Color.Success" title="@Title("Run a container from this image")" Disabled="Pulling" OnClick="@(() => LaunchAsync(LaunchMode.Run))" />
     <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small" Dense="true" title="@Title("More actions")" Disabled="@(Busy || Pulling)" OpenChanged="MenuOpenChanged">
-        @* View & edit leads the menu, then view files: the owner's order. *@
+        @* View & edit leads the menu, then view files. *@
         @if (!Shortcuts)
         {
             <MudMenuItem Icon="@Icons.Material.Filled.EditNote" OnClick="InspectAsync">View &amp; edit</MudMenuItem>
@@ -53,14 +53,14 @@
     /// <summary>The shortcuts with nothing else: the dashboard's object of them, the resource's own verbs being another.</summary>
     [Parameter] public bool ShortcutsAlone { get; set; }
 
-    /// <summary>A pull of this image is under way (or just failed): every verb waits for it, as in the reference.</summary>
+    /// <summary>A pull of this image is under way (or just failed): every verb waits for it.</summary>
     [Parameter] public bool Pulling { get; set; }
 
     protected override string Key => Image.Reference;
 
     private string Title(string title) => Pulling ? "Disabled while pulling" : title;
 
-    /// <summary>The reference's openCreateForm / openRunForm: the same form the Containers page opens, the image already in it.</summary>
+    /// <summary>The same form the Containers page opens, the image already in it.</summary>
     private async Task LaunchAsync(LaunchMode mode)
     {
         var parameters = new DialogParameters<ContainerFormDialog>
@@ -96,7 +96,7 @@
                 new("Cmd", InspectFact.Words(InspectFact.Child(item, "Config"), "Cmd")),
             ]);
 
-    /// <summary>The reference's sizes: GB with two decimals from a gigabyte, MB with one below it.</summary>
+    /// <summary>Sizes: GB with two decimals from a gigabyte, MB with one below it.</summary>
     private static string SizeText(string bytes) =>
         long.TryParse(bytes, out var size) && size > 0
             ? size >= 1_000_000_000
@@ -130,7 +130,7 @@
         }
     }
 
-    /// <summary>The reference asks for the archive path, named after the image; the archive is written on the agent's machine.</summary>
+    /// <summary>Asks for the archive path, named after the image; the archive is written on the agent's machine.</summary>
     private async Task SaveAsync()
     {
         var suggested = System.Text.RegularExpressions.Regex.Replace(Image.Reference, "[:/]", "-") + ".tar";

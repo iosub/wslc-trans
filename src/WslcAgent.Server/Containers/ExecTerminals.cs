@@ -11,7 +11,7 @@ namespace WslcAgent.Server.Containers;
 /// <summary>
 /// The interactive terminals: one <c>wslc exec --interactive</c> process, or the
 /// Terminal page's host shell (<see cref="HostShell"/>),
-/// bridged to one WebSocket, in the reference's protocol.
+/// bridged to one WebSocket.
 /// <code>
 /// client → {"type":"start","command":"/bin/sh -i"} {"type":"stdin","data":"…"}
 ///          {"type":"resize","cols":120,"rows":30} {"type":"pong"} {"type":"close"}
@@ -22,7 +22,7 @@ namespace WslcAgent.Server.Containers;
 /// On Windows the process runs behind a pseudo console, so <c>pty</c> is true:
 /// the shell echoes, draws its own prompt and answers a resize, and the client
 /// only renders. Without one the backend is <c>pipe</c>, <c>pty</c> is false
-/// and the client echoes and sends whole lines, as the reference does over SSH.
+/// and the client echoes and sends whole lines.
 /// </summary>
 public sealed class ExecTerminals(
     IWslcRunner wslc,
@@ -43,7 +43,7 @@ public sealed class ExecTerminals(
 
     /// <summary>
     /// The Terminal page's host shell over the same protocol and limits. It is not a
-    /// <c>wslc</c> command, so CLI Activity does not list it, as in the reference.
+    /// <c>wslc</c> command, so CLI Activity does not list it.
     /// </summary>
     public Task RunHostAsync(WebSocket socket, CancellationToken cancellationToken) =>
         RunSessionAsync(
@@ -82,7 +82,7 @@ public sealed class ExecTerminals(
         }
     }
 
-    /// <summary><c>wslc exec --interactive [--tty] ID SHELL</c>, the shell resolved as the reference does.</summary>
+    /// <summary><c>wslc exec --interactive [--tty] ID SHELL</c>.</summary>
     private async Task<Started> StartExecAsync(string container, JsonElement start, CancellationToken cancellationToken)
     {
         var id = WslcArgs.Require(container, "container");

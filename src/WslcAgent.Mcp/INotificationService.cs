@@ -3,7 +3,7 @@ using WslcAgent.ApiClient.Contracts;
 namespace WslcAgent.Mcp;
 
 /// <summary>
-/// The agent's notifications (docs/notifications/spec.md): Settings ›
+/// The agent's notifications: Settings ›
 /// Notifications, and what was raised. Implemented by the server, which
 /// watches the host, the containers and its own jobs whether a client is
 /// open or not.

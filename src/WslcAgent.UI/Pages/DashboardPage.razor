@@ -1,14 +1,11 @@
 @page "/"
 @page "/dashboard"
-@* Home v2 (docs/home/v2/specv2.md): Berpiztu's dashboard, with WSLC's
-   objects, the Home since the owner made it so (26 September 2026,
-   decision 39); today's Home stays as code with no address, and
-   /dashboard, where v2 was built, still leads here. Designing it is a step of its own in the history: the
+@* Berpiztu's dashboard with WSLC's objects, the Home page; /dashboard leads
+   here too. Designing it is a step of its own in the history: the
    address carries it, so Back takes the dashboard out of design.
 
-   Two views, the landscape's and the portrait's (Home v2.5,
-   docs/home/v2.5/spec.md, decision 2), each laid out on its own and kept
-   together (decision 34). Out of design the window's orientation chooses —
+   Two views, the landscape's and the portrait's, each laid out on its own
+   and kept together. Out of design the window's orientation chooses —
    wider than tall, or taller than wide — and chooses again as the window is
    reshaped or a phone turned; in design the view is chosen (ViewVerb) and
    laid out in a frame of its size in the middle of the page — a phone's for
@@ -16,8 +13,8 @@
    toolbox's top — and out of design it is zoomed to fit the screen. The
    view designed can be given to the other, to start it from it.
 
-   Nothing designed reaches where the dashboard is kept without Save (the
-   owner, 28 September 2026, as Home v3): each change is a draft on this
+   Nothing designed reaches where the dashboard is kept without Save: each
+   change is a draft on this
    device, the place's, the page's and the view's own (DeviceDashboardDrafts),
    which a power cut or a lost connection does not lose and which design
    opens again; Discard lets it go, and leaving design with one asks first.
@@ -25,21 +22,19 @@
    a draft.
 
    Kept with the user on the agent or on this device, the device's choice
-   (DashboardPlace), as today's Home: in View the round button names the
+   (DashboardPlace): in View the round button names the
    place and the view and switches to the other place, showing what it holds
    and writing nothing; in design Copy writes the page and the view being
-   designed over the same page and view of the other place, and nothing else
-   (the owner, 27 September 2026), asking first where there is one.
+   designed over the same page and view of the other place, and nothing
+   else, asking first where there is one.
 
-   Two pages (the owner, 26 September 2026: each seen at a glance, with no
-   scrolling): System, the host's, and User, what the user runs, each a
+   Two pages (each seen at a glance, with no scrolling): System, the host's, and User, what the user runs, each a
    dashboard of its own with its two views, switched by the round button's
    Page verb in view; design designs the page it was opened on. The page is in the address
    (?page=user) and remembered on the device, the last one opening again;
    the verb is red while one of the other page's alarms is up.
 
-   Out of design, as today's Home in View (the owner, 26 September 2026): a
-   tap selects a card or an object standing alone, and the round button then
+   Out of design a tap selects a card or an object standing alone, and the round button then
    offers its verbs alone — a resource's family's page verbs, the very ones
    its list page offers, and Open where what is selected opens something —
    and the dashboard's own come back when nothing is. *@
@@ -68,11 +63,10 @@
 @inject VolumeRows Volumes
 @inject WslcAgent.UI.Dashboard.NetworkRows Networks
 
-@* The title bar names the page on screen and where the dashboard is kept
-   (the owner, 26 September 2026): "Dashboard (System, server)", and between
-   the two the view on screen, landscape or portrait (the owner, 27 September
-   2026), in design as out of it, so which of the dashboard's alarms are in
-   force is read at a glance. *@
+@* The title bar names the page on screen and where the dashboard is kept:
+   "Dashboard (System, server)", and between the two the view on screen,
+   landscape or portrait, in design as out of it, so which of the
+   dashboard's alarms are in force is read at a glance. *@
 <PageShell Title="@Title">
     <TitleContent>
         Dashboard
@@ -120,9 +114,9 @@
             }
             @if (Designing)
             {
-                @* Nothing reaches where the dashboard is kept without Save (the
-                   owner, 28 September 2026): until then what is designed is a
-                   draft on this device, which Discard lets go. *@
+                @* Nothing reaches where the dashboard is kept without Save:
+                   until then what is designed is a draft on this device,
+                   which Discard lets go. *@
                 <VerbFab StartIcon="@Icons.Material.Filled.Save" Label="Save" Disabled="@(_designer?.Unsaved != true)" OnClick="SaveAsync"
                          Title="@($"Save this {PageName(PageKey)} {_view} view where the dashboard is kept, {Named(Place.Scope)}; until then it is kept on this device only")" />
                 <VerbFab StartIcon="@Icons.Material.Filled.RestorePage" Label="Discard" Disabled="@(_designer?.Unsaved != true)" OnClick="DiscardAsync"
@@ -132,21 +126,20 @@
                          Title="@(Place.Scope == DashboardScope.User
                                     ? $"Write this {PageName(PageKey)} {_view} view over the one this device keeps, and stay with the user's; everything else is left as it is"
                                     : $"Write this {PageName(PageKey)} {_view} view over the one the user keeps, and stay with this device's; everything else is left as it is")" />
-                @* Which of this view's alarms the status bar shows too (the
-                   owner, 26 September 2026, as today's Home's Edit). *@
+                @* Which of this view's alarms the status bar shows too. *@
                 <VerbFab StartIcon="@Icons.Material.Filled.NotificationsActive" Label="Status alarms" OnClick="@(() => _designer?.ShowStatusAlarmsAsync() ?? Task.CompletedTask)"
                          Title="Choose which of this view's alarms the status bar shows, on every screen" />
                 <ViewVerb Portrait="@(_view == BoardView.Portrait)" />
-                @* The server's dashboard made the one a user with none is given
-                   (the owner, 26 September 2026), on a development agent alone,
+                @* The server's dashboard made the one a user with none is given,
+                   on a development agent alone,
                    which writes it back to the repository for the installer. *@
                 @if (Defaults.Writable && Place.Scope == DashboardScope.User)
                 {
                     <VerbFab StartIcon="@Icons.Material.Filled.Inventory2" Label="Save as default" OnClick="SaveAsDefaultAsync"
                              Title="@($"Ship this {PageName(PageKey)} {_view} view in the dashboard a user with none is given, the rest of it left as it is; what reads one of this machine's containers, images, volumes or networks is left out")" />
                 }
-                @* The view designed given to the other (the owner, 26 September
-                   2026), to start one from the other: for every user. *@
+                @* The view designed given to the other, to start one from the
+                   other: for every user. *@
                 @if (_view is not null)
                 {
                     <VerbFab StartIcon="@Icons.Material.Filled.ContentCopy" Label="@($"Copy {_view} → {Other}")" OnClick="CopyViewAsync"
@@ -155,28 +148,27 @@
             }
             else
             {
-                @* The other page, in view (the owner, 26 September 2026: a
-                   verb, not tabs, which took a row of the dashboard's room;
+                @* The other page, in view (a verb, not tabs, which took a row
+                   of the dashboard's room;
                    design designs the page it was opened on, and its button
                    holds enough), named as the place is: where it is, and
                    after the arrow where a tap takes it; red while one of the
                    other page's alarms is up, so it is seen unopened. Its
-                   icon is the page it is on, as the place's is (the owner,
-                   27 September 2026). *@
+                   icon is the page it is on, as the place's is. *@
                 <VerbFab StartIcon="@(PageKey == UserPage ? Icons.Material.Filled.Person : Icons.Material.Filled.Computer)"
                          Label="@($"Page: {PageName(PageKey)} → {PageName(OtherPage)}")" OnClick="SwitchPageAsync"
                          Color="@(PageUp(OtherPage) ? Color.Error : Color.Default)"
                          Title="@(PageUp(OtherPage) ? $"Show the {PageName(OtherPage)} page: one of its alarms is up" : $"Show the {PageName(OtherPage)} page")" />
                 @* Where the dashboard is kept, and which of its views is on
-                   screen, named in the one place either is named, as today's
-                   Home does; a tap takes it to the other place. *@
+                   screen, named in the one place either is named; a tap takes
+                   it to the other place. *@
                 <VerbFab StartIcon="@(Place.Scope == DashboardScope.User ? Icons.Material.Filled.Cloud : Icons.Material.Filled.Devices)"
                          Label="@PlaceLabel" OnClick="SwitchPlaceAsync"
                          Title="@(Place.Scope == DashboardScope.User
                                     ? "Kept with the user on the agent, the same on every client; tap to keep it on this device instead"
                                     : "Kept on this device alone; tap to keep it with the user, the same on every client")" />
-                @* The dashboard's own zoom, out of design (the owner, 27 September
-                   2026): shown or hidden from here, in a window of its own
+                @* The dashboard's own zoom, out of design: shown or hidden from
+                   here, in a window of its own
                    floating over the dashboard, since the dashboard does not
                    scroll while this list is open. *@
                 <VerbFab StartIcon="@Icons.Material.Filled.ZoomIn" Label="@(_zooming ? "Hide zoom" : "Show zoom")" OnClick="@(() => _zooming = !_zooming)"
@@ -194,20 +186,20 @@
                    being remembered (an await) made it with the store of the
                    place before, and it kept that one — a switch showed the
                    previous place's dashboard, the server's User page blank
-                   after coming back from the device (the owner, 27 September 2026). *@
+                   after coming back from the device. *@
                 <DashboardDesigner @key="_store" @ref="_designer" Store="_store" Draft="_draft" Framed="true" Fitting="_fitting" CardElevation="Style.Applied.CardElevation" DraftChanged="@(() => StateHasChanged())" Designing="Designing" View="@(_view!)" Defaults="Defaults" Measures="Measures"
                                    SelectionChanged="OnSelectionChanged" />
             }
         </div>
         @* Not modal, moved by its title, over the dashboard's top-left corner
            when it opens; the zoom scales the dashboard alone, never this
-           window (the owner, 27 September 2026). *@
+           window. *@
         @if (_zooming && !Designing)
         {
             <FloatingWindow Name="Zoom" Anchor="@(() => _pane)" OnClose="@(() => _zooming = false)">
                 <ZoomControl @key="ZoomOf" Remembered="wslcAgent.dashboardZoom" Of="@ZoomOf" Label="@($"Dashboard zoom, {ZoomOf}")" />
-                @* How the view meets a screen of another aspect (the owner,
-                   28 September 2026, as a television offers it): whole, filling
+                @* How the view meets a screen of another aspect (as a
+                   television offers it): whole, filling
                    it, or stretched to it; this page's and view's, on this device. *@
                 <MudToggleGroup T="ViewFit" Value="@(_fitting ?? ViewFit.Fit)" ValueChanged="FitAsync" Size="Style.Applied.ToggleSize" Color="Style.Applied.ToggleColor"
                                 Outlined="Style.Applied.ToggleOutlined" Delimiters="Style.Applied.ToggleDelimiters"
@@ -374,8 +366,7 @@
 
     /// <summary>
     /// Which of the dashboard's zooms is in force: one per page and view,
-    /// kept on the device — System's landscape, User's portrait… (the owner,
-    /// 27 September 2026).
+    /// kept on the device — System's landscape, User's portrait….
     /// </summary>
     private string ZoomOf => $"{PageName(_page)}/{_view}".ToLowerInvariant();
 
@@ -446,8 +437,8 @@
     /// The page and the view being designed — System's portrait view, say —
     /// written over the same page and view of the other place, this one
     /// staying where it is, and everything else the other place keeps left as
-    /// it was (the owner, 27 September 2026: System designed on a phone and
-    /// copied is System's portrait view copied, never User, never the landscape).
+    /// it was (System designed on a phone and copied is System's portrait
+    /// view copied, never User, never the landscape).
     /// It copies what this place keeps of its own, not what it shows: a view
     /// kept nowhere shows the default, and copying that wrote the default over
     /// the user's dashboard, its User page gone. It asks first where the other
@@ -514,8 +505,8 @@
     /// The page and the view being designed, as the server keeps them, written
     /// into the default the agent ships, after asking, without what reads one
     /// of this machine's resources (ShippedDashboard); the default's other
-    /// page and view left as they are, as Copy does (the owner, 27 September
-    /// 2026). A release agent refuses it, and says so.
+    /// page and view left as they are, as Copy does. A release agent refuses
+    /// it, and says so.
     /// </summary>
     private async Task SaveAsDefaultAsync()
     {
@@ -603,7 +594,7 @@
 
     /// <summary>
     /// Leaving design with changes not saved — Done, Back, a link, Objects —
-    /// asks first (CLAUDE.md, leaving with unsaved work); the answer to leave
+    /// asks first, as every screen with unsaved work does; the answer to leave
     /// lets them go, as Discard does. A step that stays in design on this page
     /// — the other view — asks nothing: each view keeps its own draft.
     /// </summary>

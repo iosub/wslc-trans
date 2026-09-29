@@ -1,6 +1,5 @@
 @* A window floating over the dashboard while it is designed: the properties
-   window and the toolbox (the owner, 25 September 2026: the toolbox a
-   window too, that can be hidden). Outlined as the fields are, its name sits
+   window and the toolbox, which can be hidden. Outlined as the fields are, its name sits
    on its top line, in the gap the line leaves for it, and its verbs on its
    bottom line at its right. The top line moves it, so it is put where it
    hides nothing being worked on. One that can be hidden has a key on its top
@@ -11,13 +10,12 @@
 
 @if (_hidden)
 {
-    @* The button moves as the window does (the owner, 26 September 2026):
-       carried, it goes where it is let go, and the window opens there; a
+    @* The button moves as the window does: carried, it goes where it is let go, and the window opens there; a
        press let go without moving opens it. *@
     <div class="@($"bz-dash-window bz-dash-window-folded {Class}")" @ref="_folded" style="@Position"
          @onpointerdown="@(pointer => PressAsync(_folded, _folded, pointer))" @onpointermove="Move" @onpointerup="ReleaseFolded">
-        @* Filled, so the button is seen on any card it stands over (the owner, 27
-           September 2026: outlined, it had next to no ground), and without
+        @* Filled, so the button is seen on any card it stands over (outlined,
+           it had next to no ground), and without
            MudBlazor's drop shadow, which read as a thin black edge on the magenta. *@
         <MudIconButton Icon="@FoldedIcon" Color="FoldedColor" Variant="Variant.Filled" DropShadow="false" Class="bz-dash-window-unfold"
                        title="@($"{Name}: press to show it, drag to move it")" aria-label="@($"Show {Name}")" OnClick="@(() => _hidden = _carried)" />
@@ -26,8 +24,8 @@
 else
 {
     <div class="@(_at is null && Anchor is not null ? $"bz-dash-window bz-dash-window-placing {Class}" : $"bz-dash-window {Class}")" @ref="_window" style="@Position">
-        @* Outlined as the fields are, and raised as MudBlazor raises its popovers
-           (the owner, 26 September 2026): MudPaper leaves its Elevation off an
+        @* Outlined as the fields are, and raised as MudBlazor raises its
+           popovers: MudPaper leaves its Elevation off an
            outlined paper, so the elevation is MudBlazor's own class. *@
         <MudPaper Outlined="true" Class="bz-dash-window-frame mud-elevation-8 pa-2 pt-4 pb-4">
             <div class="bz-dash-window-title" @ref="_title" title="Drag to move the window"
@@ -93,18 +91,17 @@ else
 
     /// <summary>
     /// One that cannot be folded may be closed instead, by a key at the same
-    /// place on its top line (the dashboard's zoom; the owner, 27 September
-    /// 2026): whoever shows it takes it away.
+    /// place on its top line (the dashboard's zoom): whoever shows it takes it away.
     /// </summary>
     [Parameter] public EventCallback OnClose { get; set; }
 
     /// <summary>The folded button's glyph.</summary>
     [Parameter] public string FoldedIcon { get; set; } = Icons.Material.Filled.Widgets;
 
-    /// <summary>The folded button's colour: the toolbox's the theme's magenta, told from the green buttons it may stand beside (the owner, 27 September 2026).</summary>
+    /// <summary>The folded button's colour: the toolbox's the theme's magenta, told from the green buttons it may stand beside.</summary>
     [Parameter] public Color FoldedColor { get; set; } = Color.Success;
 
-    /// <summary>One that can be hidden opens folded into its button, and is opened when it is wanted (the toolbox; the owner, 27 September 2026).</summary>
+    /// <summary>One that can be hidden opens folded into its button, and is opened when it is wanted (the toolbox).</summary>
     [Parameter] public bool StartsFolded { get; set; }
 
     protected override void OnInitialized() => _hidden = Hideable && StartsFolded;

@@ -5,7 +5,7 @@ namespace WslcAgent.Server.Wslc;
 /// starts them again. Stopping a session is not enough to keep it stopped: any
 /// command that names a session opens it, so the next list a screen polled, a
 /// client's stats or the restart policy brought it back within a second of the
-/// terminate (the owner, 23 September 2026). <see cref="WslcRunner"/> asks here
+/// terminate. <see cref="WslcRunner"/> asks here
 /// before it runs anything, and refuses what would open a session held down.
 /// A session opened from somewhere else — a terminal on the machine — is a new
 /// session with a new ID, and that is the user's word too: the hold lets go.
@@ -72,7 +72,7 @@ public sealed class StoppedSessions(ILogger<StoppedSessions> logger)
     /// <summary>
     /// Why <paramref name="args"/> may not run in <paramref name="session"/>, or
     /// null when it may: the session is not held, or the command is one of those
-    /// measured to leave a stopped session down (<c>docs/knowledge/wslc-events.md</c>).
+    /// measured to leave a stopped session down.
     /// </summary>
     public string? Refusal(IReadOnlyList<string> args, string session)
     {

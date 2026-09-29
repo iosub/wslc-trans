@@ -27,7 +27,7 @@ public static class ImageReference
     /// <summary>
     /// The reference trimmed, its registry and repository in lower case: an image
     /// name is lower case by rule and wslc refuses any other, while a phone's
-    /// keyboard capitalises the first letter typed (the owner, 24 September 2026).
+    /// keyboard capitalises the first letter typed.
     /// A tag keeps its case, which may be mixed; a digest is left as it is.
     /// </summary>
     public static string Normalize(string image)

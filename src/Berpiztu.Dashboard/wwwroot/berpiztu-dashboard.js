@@ -1,5 +1,5 @@
-// Berpiztu's dashboard: what only the browser can answer, and nothing else
-// (docs/home/v2/specv2.md, decision 23). Everything the dashboard decides is
+// Berpiztu's dashboard: what only the browser can answer, and nothing else;
+// C# first, JavaScript only where C# cannot. Everything the dashboard decides is
 // C# (DashboardInterop); these only measure — once, or as the window turns —
 // and hold the pointer.
 
@@ -28,7 +28,7 @@ export function measureInside(element) {
 
 // That the element's size changed, told to C# once it has stood still a tenth
 // of a second — a window resized, a phone turned, a pane opened beside it — so
-// the dashboard's zoom fits it again (docs/home/v2.5/spec.md, decision 6).
+// the dashboard's zoom fits it again.
 // Answers what stops it.
 export function watchSize(element, receiver) {
     let settling;
@@ -47,9 +47,8 @@ export function watchSize(element, receiver) {
 
 // A finger held still on the element — the canvas: its floor, an object, a
 // card; not a handle, which answers at once — for half a second, told to C#
-// with where it is and its pointer (the owner, 29 September 2026: in design a
-// finger's swipe scrolls the dashboard, and held still it takes what it is on,
-// as today's Home's cards do). A finger that moves first is a scroll, the
+// with where it is and its pointer: in design a finger's swipe scrolls the
+// dashboard, and held still it takes what it is on. A finger that moves first is a scroll, the
 // browser's. Once held, the browser is kept from scrolling until the finger is
 // lifted, so the drag that follows moves what was taken or draws the
 // rectangle. Answers what stops it.
@@ -106,8 +105,8 @@ export function watchHold(element, receiver) {
 }
 
 // Whether the window is taller than it is wide, told to C# now and each time
-// that changes, a phone turned or a window reshaped (docs/home/v2.5/spec.md,
-// decision 2: the screen's orientation chooses the view). Answers what stops it.
+// that changes, a phone turned or a window reshaped: the screen's orientation
+// chooses the view. Answers what stops it.
 export function watchOrientation(receiver) {
     const portrait = window.matchMedia('(orientation: portrait)');
     const told = () => receiver.invokeMethodAsync('Turned', portrait.matches);

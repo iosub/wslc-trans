@@ -41,7 +41,7 @@ public sealed class ContainerTransfers(WslcEvents events, ILogger<ContainerTrans
 
     /// <summary>
     /// What the head of a queue has to start sending in before its whole batch
-    /// is let go (docs/transfers-queue.md). The batch and not the file: if the
+    /// is let go. The batch and not the file: if the
     /// client that announced it is gone, it is gone for all of them, and
     /// expiring them one at a time would make everyone else wait a minute per
     /// file to find that out.
@@ -108,7 +108,7 @@ public sealed class ContainerTransfers(WslcEvents events, ILogger<ContainerTrans
     /// <summary>
     /// A client says what it is about to move: the files go to the back of
     /// their direction's queue, in the order given, and the ids that come back
-    /// are what make them that client's own (docs/transfers-queue.md). Nothing
+    /// are what make them that client's own. Nothing
     /// travels yet — the head of the queue is told its turn has come by the
     /// change stream, and sends then.
     /// </summary>
@@ -215,7 +215,7 @@ public sealed class ContainerTransfers(WslcEvents events, ILogger<ContainerTrans
     /// travelling. Empty when nothing is waiting, or while a file is on its way.
     /// Called under <see cref="_queue"/>.
     /// <para>
-    /// The turn waits for the one travelling (the owner, 24 September 2026). It
+    /// The turn waits for the one travelling. It
     /// was given to the next file the moment the one before it started, so its
     /// minute ran out while the first was still going up: an installer over a
     /// slow link takes longer than that, the whole rest of the batch was let go,
@@ -439,9 +439,8 @@ public sealed class ContainerTransfers(WslcEvents events, ILogger<ContainerTrans
 
     /// <summary>
     /// Each step of a file's way — announced, started, ended, and let go —
-    /// in the agent's log under File transfers (the owner, 24 September 2026:
-    /// "por lo menos el inicio y el fin", so a file that never arrives says
-    /// where it stopped).
+    /// in the agent's log under File transfers, so a file that never
+    /// arrives says where it stopped.
     /// </summary>
     private void Log(LogLevel level, string what) => logger?.Log(level, "{Prefix}{What}", LogPrefix, what);
 
@@ -451,8 +450,8 @@ public sealed class ContainerTransfers(WslcEvents events, ILogger<ContainerTrans
 
     /// <summary>A time taken, the way a person reads it: tenths of a second under a minute, minutes and seconds past it.</summary>
     /// <summary>
-    /// The file's row in CLI Activity, from the moment it is announced (the
-    /// owner, 24 September 2026): it runs while the file waits and travels,
+    /// The file's row in CLI Activity, from the moment it is announced: it
+    /// runs while the file waits and travels,
     /// and it ends — done, failed, cancelled or let go — with it, so a file
     /// that started and never finished is a row that says so.
     /// </summary>

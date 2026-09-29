@@ -4,7 +4,7 @@ namespace WslcAgent.ApiClient.Contracts;
 /// What the agent sends over <c>/api/v1/events/stream</c>: the kinds of thing
 /// that changed since the last notice, so a screen listing one of them reads it
 /// again. Never the objects themselves — an event says a list is stale, and the
-/// list is where the data comes from (docs/knowledge/wslc-events.md).
+/// list is where the data comes from.
 /// </summary>
 /// <param name="Kinds">
 /// The kinds, as <c>wslc</c> names them: <c>container</c>, <c>network</c>,

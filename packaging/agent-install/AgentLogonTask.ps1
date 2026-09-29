@@ -57,8 +57,7 @@ $InstallDir = if ($ScheduleUpdate -or $Update) {
     Split-Path -Parent $MyInvocation.MyCommand.Path
 }
 $AgentExe = Join-Path $InstallDir "wslc-ai-agent.exe"
-# The agent's icon beside the clock, which opens its window (the owner,
-# 26 September 2026): the agent itself runs with no console.
+# The agent's icon beside the clock, which opens its window: the agent itself runs with no console.
 $TrayExe = Join-Path $InstallDir "tray\wslc-ai-agent-tray.exe"
 
 function Get-AgentPort {
@@ -128,8 +127,7 @@ function Get-AgentBindHost {
     return "127.0.0.1"
 }
 
-# A task's PowerShell run through a console that is never drawn (the owner,
-# 26 September 2026: a black window flashed up at every logon and install;
+# A task's PowerShell run through a console that is never drawn (a black window flashed up at every logon and install;
 # -WindowStyle Hidden hides it only once it has been drawn). conhost's
 # --headless has been there since Windows 10 1809, and WSLC needs Windows 11.
 function New-HiddenAction([string]$Arguments, [string]$WorkingDirectory) {

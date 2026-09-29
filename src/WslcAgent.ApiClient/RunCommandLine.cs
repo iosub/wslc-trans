@@ -10,7 +10,7 @@ namespace WslcAgent.ApiClient;
 /// <param name="FromDocker">The line was a <c>docker run</c>, read as the wslc one.</param>
 public sealed record RunCommandParse(ContainerLaunchRequest? Request, IReadOnlyList<string> Unsupported, string Error, bool FromDocker = false)
 {
-    /// <summary>The reference's status line: what was read, what was filled, what has no field here.</summary>
+    /// <summary>The status line: what was read, what was filled, what has no field here.</summary>
     public string Summary => Request is null
         ? Error
         : (FromDocker ? "Read as a wslc run. " : "")
@@ -27,13 +27,13 @@ public sealed record RunCommandParse(ContainerLaunchRequest? Request, IReadOnlyL
 
 /// <summary>
 /// Reads a pasted <c>wslc run …</c> line (or a <c>docker run …</c> one, read as
-/// wslc) into the launch fields, as the reference's Fill bar did: value flags
+/// wslc) into the launch fields: value flags
 /// to their fields, list flags accumulated, the first bare token is the image
 /// and everything after it the command.
 /// </summary>
 public static partial class RunCommandLine
 {
-    /// <summary>Switches the form has no field for: named in the status, as the reference does.</summary>
+    /// <summary>Switches the form has no field for: named in the status.</summary>
     private static readonly HashSet<string> UnsupportedSwitches = ["-i", "-t", "-it", "-ti", "--interactive", "--tty", "--rm", "-P", "--publish-all", "--privileged"];
 
     /// <summary>Flags known to take a value the form has no field for.</summary>

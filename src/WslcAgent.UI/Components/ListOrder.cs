@@ -2,7 +2,7 @@ namespace WslcAgent.UI.Components;
 
 /// <summary>
 /// The order each list was shown in, kept while the application runs, so a
-/// refresh does not move a row (the owner, 24 September 2026). <c>wslc</c>
+/// refresh does not move a row. <c>wslc</c>
 /// lists what was created or started last first: a container started, or
 /// recreated by a change to it, and an image pulled again jumped to the top
 /// of a list that was not sorted by any of that. Rows already on screen keep

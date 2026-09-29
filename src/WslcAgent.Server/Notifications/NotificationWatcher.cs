@@ -6,7 +6,7 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Notifications;
 
 /// <summary>
-/// The readings Settings › Notifications watches (docs/notifications/spec.md),
+/// The readings Settings › Notifications watches,
 /// read by the agent itself on its own beat, whether a client is open or not:
 /// the drive always, and the host's and the containers' CPU and memory while
 /// the session runs — known by the events stream being open, which asks
@@ -25,7 +25,7 @@ public sealed class NotificationWatcher(
     ILogger<NotificationWatcher> logger) : BackgroundService
 {
     /// <summary>
-    /// A screen's five seconds (the owner, 27 September 2026): at thirty, a
+    /// A screen's five seconds: at thirty, a
     /// container's burst at start-up, which the dashboard's dial showed at
     /// 100 %, fell between two reads and a threshold of 0 minutes never
     /// notified. With a screen open the runner answers from the read it just

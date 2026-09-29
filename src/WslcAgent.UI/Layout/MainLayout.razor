@@ -26,7 +26,7 @@
 <WslcAgent.UI.Notifications.ClientNotificationsWatcher />
 
 @* Nothing of the application is drawn until it knows what it is drawing on and
-   for whom (the owner, 22 September 2026): the hand or the mouse, the theme and
+   for whom: the hand or the mouse, the theme and
    the look this device was left with, and whether the caller holds a session.
    With no session and away from the agent's machine the sign-in screen takes
    over, and this screen is never shown at all. Whatever the address asks for —
@@ -51,8 +51,8 @@ else
 {
 
 @*
-    The composition, drawn with MudBlazor (the owner, 20 September 2026: one
-    navigation button on every host, the phone and the desktop alike):
+    The composition, drawn with MudBlazor (one navigation button on every
+    host, the phone and the desktop alike):
     - top bar row 1: at the left the application's name over the
       session line (selector, refresh, power, status), then the page title and
       its status slot; the page's search centred; then on the right the page's
@@ -74,18 +74,17 @@ else
            gives way before the search moves off centre, and nothing ever overlaps. *@
         <div class="@($"wslc-appbar-row{(Chrome.TopbarSearch is null ? "" : " has-search")}{(_handheld ? " is-handheld" : "")}")">
             <div class="wslc-appbar-start">
-                @* The brand and the session, two lines in one block (the owner,
-                   20 September 2026): what this client is and what it is on. *@
+                @* The brand and the session, two lines in one block: what this client is and what it is on. *@
                 <div class="wslc-appbar-brand">
                     @* The client's version is not beside the name any more: it
                        pushed the bar off a phone's width, and it lives on the
-                       System card and the System page (the owner, 24 September 2026). *@
+                       System card and the System page. *@
                     <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
                         <MudText Typo="Typo.h6" Class="wslc-brand-name">WSLC AI Agent</MudText>
                     </MudStack>
                     <SessionPanel />
                 </div>
-                @* The page, two lines (the owner, 20 September 2026): its title
+                @* The page, two lines: its title
                    and status on the first, its search on the second. *@
                 <div class="wslc-appbar-page">
                     <div class="wslc-appbar-page-title">
@@ -106,15 +105,14 @@ else
                 {
                     <div class="@($"wslc-topnav mr-2{SessionOffClass}")" inert="@SessionOff">@Chrome.TopbarNav</div>
                 }
-                @* This client's own things as a 2×2 at the right edge (the owner,
-                   20 September 2026): the theme toggle and Log out on the first
+                @* This client's own things as a 2×2 at the right edge: the theme toggle and Log out on the first
                    line, the page zoom across the second, so the search keeps its
                    room. The Styles page, the style guide, is reached from
                    Settings › User. *@
                 <div class="wslc-appbar-client">
                     <MudIconButton Icon="@(_darkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)" Size="Size.Small" Color="Color.Inherit"
                                    title="Theme" aria-label="Theme" OnClick="ToggleTheme" />
-                    @* The doorway, always in sight (the owner, 20 September 2026), even
+                    @* The doorway, always in sight, even
                        with no session to end: it then only goes to the sign-in screen.
                        The tooltip says it for anyone unsure of the glyph. *@
                     <MudIconButton Icon="@Icons.Material.Filled.Logout" Size="Size.Small" Color="Color.Inherit" OnClick="LogOutAsync" title="Log out" aria-label="Log out" />
@@ -152,7 +150,7 @@ else
        it, so the screen waits under this, deaf to pointer and keyboard, instead
        of every page and every poll saying "Failed to fetch" on its own; the
        layout asks for the agent's health until it answers, and then every page
-       reads again. The way out (owner, 2026-09-20): a native client can go and
+       reads again. The way out: a native client can go and
        choose another agent — the sign-in screen, which has the chooser and its
        own layout, so the veil goes with this one — or close itself; a browser
        page can do neither, so it offers to reload. *@
@@ -181,8 +179,7 @@ else
     private bool _ready;
 
     /// <summary>
-    /// Everything the first paint depends on, before there is a first paint (the
-    /// owner, 22 September 2026): the device, the theme and the look this device
+    /// Everything the first paint depends on, before there is a first paint: the device, the theme and the look this device
     /// was left with, then the session. A caller with no session away from the
     /// agent's machine is sent to the sign-in screen from here, so no page is
     /// drawn and then taken away; whatever answer comes, the screen opens once.
@@ -216,8 +213,7 @@ else
         {
             // The agent did not say who this caller is. When it is not there at
             // all — stopped, or a gateway in front of it answering for it — none
-            // of the application is drawn (the owner, 22 September 2026: an
-            // address whose agent was down opened a dashboard that was nobody's,
+            // of the application is drawn (an address whose agent was down opened a dashboard that was nobody's,
             // with the failure as a toast over it). A native client goes where
             // the agent is chosen, since that is what the user has to change; a
             // browser page, which has no chooser, waits on the panel that names

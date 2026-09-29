@@ -17,11 +17,10 @@ public enum DashboardScope
 }
 
 /// <summary>
-/// Where this device keeps Home v2's dashboard (the owner, 26 September 2026,
-/// as today's Home, docs/home/spec.md, section 7): with the user on the agent
+/// Where this device keeps the dashboard: with the user on the agent
 /// (<see cref="AgentDashboardStore"/>), the same on every client, or on this
 /// device alone (<see cref="DeviceDashboardStore"/>). The choice is the
-/// device's, remembered apart from today's Home's
+/// device's, remembered on it
 /// (<c>wslcAgent.dashboardV2Scope</c>); a device that never chose keeps it
 /// with the user. It remembers too which of the dashboard's pages the
 /// device looked at last (<c>wslcAgent.dashboardV2Page</c>).
@@ -45,7 +44,7 @@ public sealed class DashboardPlace(IJSRuntime js, WslcAgentApi api, AgentDashboa
     /// <summary>
     /// The view the dashboard is being designed in, landscape or portrait, whose
     /// alarms the status bar shows instead of those of the view the window's
-    /// width asks for (the owner, 27 September 2026); null out of design.
+    /// width asks for; null out of design.
     /// </summary>
     public string? Designed { get; private set; }
 
@@ -94,7 +93,7 @@ public sealed class DashboardPlace(IJSRuntime js, WslcAgentApi api, AgentDashboa
         }
     }
 
-    /// <summary>The page this device looked at last (the owner, 26 September 2026: it opens again); null for the main page, or where nothing is remembered.</summary>
+    /// <summary>The page this device looked at last, which opens again; null for the main page, or where nothing is remembered.</summary>
     public async Task<string?> LastPageAsync()
     {
         try

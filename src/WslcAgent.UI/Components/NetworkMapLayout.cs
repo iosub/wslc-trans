@@ -1,8 +1,7 @@
 namespace WslcAgent.UI.Components;
 
 /// <summary>
-/// Where the network map puts its boxes, the reference's networks-map.js
-/// layout number for number: networks in one row of hubs, containers in a row of
+/// Where the network map puts its boxes: networks in one row of hubs, containers in a row of
 /// nodes with one address line per network they are on, spokes between them.
 /// The fit goes in order: boxes shrink to their minimum width, then the whole
 /// drawing scales down to <see cref="MinScale"/>, and only then the card

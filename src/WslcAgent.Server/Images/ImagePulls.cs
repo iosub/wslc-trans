@@ -12,9 +12,9 @@ namespace WslcAgent.Server.Images;
 /// Pulls the agent owns, so the dialog that asked for one can close: the
 /// Images table shows the progress, stops a pull, and opens its live output.
 /// <c>wslc image pull</c> reports progress only to a terminal, so it runs
-/// behind one, as the reference's worker does; the progress is read from what
+/// behind one; the progress is read from what
 /// it draws. A finished pull stays listed a few seconds; a failed or cancelled
-/// one keeps its message five minutes, the reference's error TTL, unless the
+/// one keeps its message five minutes, unless the
 /// user dismisses it first.
 /// </summary>
 public sealed class ImagePulls(IWslcRunner wslc, ICliActivity activity, Notifier notifier, ILogger<ImagePulls> logger)

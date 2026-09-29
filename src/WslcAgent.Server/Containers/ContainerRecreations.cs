@@ -4,7 +4,7 @@ namespace WslcAgent.Server.Containers;
 
 /// <summary>
 /// The containers being recreated right now, so the list does not lose them
-/// in the middle (the owner, 24 September 2026). A change to a container is a
+/// in the middle. A change to a container is a
 /// recreate — stop, rehearse, remove, launch again — and a list read between
 /// the remove and the launch had no row for it: it vanished from every client
 /// and came back. While a recreate runs, its row stays, in the state

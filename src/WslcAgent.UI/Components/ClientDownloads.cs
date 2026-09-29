@@ -11,7 +11,7 @@ namespace WslcAgent.UI.Components;
 /// The native client a browser is offered: the APK on an Android device, the
 /// Windows installer on anything else; iOS has no client yet and is offered
 /// nothing. One place for the download button and the System card's client
-/// version (the owner, 24 September 2026), so both ask and fetch alike. The
+/// version, so both ask and fetch alike. The
 /// agent says first whether it has the package, so a missing one is a notice
 /// rather than a broken download.
 /// </summary>

@@ -226,7 +226,7 @@ public sealed class ContainersEndpointTests(WebApplicationFactory<Program> facto
         Assert.Empty(check.Errors);
     }
 
-    /// <summary>The UI removes with force, as the reference did: a running container goes without a stop first.</summary>
+    /// <summary>The UI removes with force: a running container goes without a stop first.</summary>
     [Fact]
     public async Task Remove_forces_only_when_asked()
     {

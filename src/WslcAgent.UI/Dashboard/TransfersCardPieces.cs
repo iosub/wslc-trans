@@ -6,8 +6,8 @@ namespace WslcAgent.UI.Dashboard;
 /// <summary>
 /// The File transfers card's pieces (TransfersCardObject): its header's three
 /// lines — title, count and hint — each an object of its own, the filter
-/// beside them (the owner, 28 September 2026), the header of its lines and its
-/// lines (27 September 2026). And a dashboard stored while the card was one
+/// beside them, the header of its lines and its lines. And a dashboard stored
+/// while the card was one
 /// object: each such object becomes its card again, over the cells it took —
 /// its header's lines at the top, one row each where there is room and hidden
 /// where there is none, so they can be shown again; the header of its lines

@@ -5,7 +5,7 @@ namespace Berpiztu.Dashboard.Catalogue;
 /// reading's label, value and hint — written on the object's component beside
 /// its descriptor, one per part, in the order the properties window shows
 /// them. Each part takes a size of its own on top of the object's, and a
-/// part of text a colour and a weight too (the owner, 26 September 2026).
+/// part of text a colour and a weight too.
 /// What a part looks like until then is the object's design, and stays so
 /// until the user changes it.
 /// </summary>
@@ -24,13 +24,13 @@ public sealed class DashboardObjectPartAttribute(string key, string label) : Att
     /// <summary>The part is bold in the object's design until the user says otherwise.</summary>
     public bool Bold { get; init; }
 
-    /// <summary>A part drawn as a line — a dial's ring — which takes a thickness too, in the sizes' proportion (the owner, 26 September 2026).</summary>
+    /// <summary>A part drawn as a line — a dial's ring — which takes a thickness too, in the sizes' proportion.</summary>
     public bool Line { get; init; }
 
     /// <summary>
-    /// The user can hide the part, and the object draws itself without it (the
-    /// owner, 26 September 2026: a chart is its summary, its legend and its
-    /// lines, each shown or not, none an object of its own).
+    /// The user can hide the part, and the object draws itself without it (a
+    /// chart is its summary, its legend and its lines, each shown or not, none
+    /// an object of its own).
     /// </summary>
     public bool Optional { get; init; }
 }

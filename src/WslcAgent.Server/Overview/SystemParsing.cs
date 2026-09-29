@@ -8,8 +8,8 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Overview;
 
 /// <summary>
-/// What the System page reads out of the CLI's text, as the reference's system
-/// router and <c>services/wslc.py</c> read it: <c>wslc info</c>, the session
+/// What the System page reads out of the CLI's text:
+/// <c>wslc info</c>, the session
 /// list, image dates, a prune's reclaimed space, and which VHDX compaction is
 /// about.
 /// </summary>
@@ -128,8 +128,8 @@ public static partial class SystemParsing
     /// Which session VHDX compaction talks about: the selected one, and no
     /// other. It is that session's <c>storage.vhdx</c> that gets compacted, and
     /// only that session holds that file open — another session running holds
-    /// its own, in its own folder, and has nothing to do with this one (the
-    /// owner, 22 September 2026). The name comes back only while it runs, which
+    /// its own, in its own folder, and has nothing to do with this one.
+    /// The name comes back only while it runs, which
     /// is what blocks compaction; the path is the selected store's either way.
     /// </summary>
     public static (string Session, string StoragePath) CompactionTarget(

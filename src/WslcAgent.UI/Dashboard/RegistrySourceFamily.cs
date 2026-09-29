@@ -6,10 +6,10 @@ namespace WslcAgent.UI.Dashboard;
 
 /// <summary>
 /// One of the agent's resource families as a family objects take their
-/// source from (docs/home/v2/specv2.md, decision 2): each row's value is the
+/// source from: each row's value is the
 /// resource's uid in the agent's resource registry, which no rename and no
 /// recreate changes, and it reads by the resource's name. The properties
-/// window drops them as a list under the field (the owner, 25 September 2026).
+/// window drops them as a list under the field.
 /// </summary>
 public abstract class RegistrySourceFamily<TList, TRow>(RegistryRows<TList, TRow> rows) : ISourceFamily
     where TList : class

@@ -21,8 +21,8 @@ No runtime, no package, no process on the client side.
 | on the far end of an SSH tunnel to that port | `http://127.0.0.1:<tunnel port>/api/v1/mcp` | none (loopback for the agent) |
 | anywhere else | `https://<public-host>/api/v1/mcp` | `Authorization: Bearer <API token>` |
 
-Port **8069 is the installed agent, 8070 the development build**, as in the
-reference project, so one host can run both at once. The path is `/api/v1/mcp`:
+Port **8069 is the installed agent, 8070 the development build**, so one
+host can run both at once. The path is `/api/v1/mcp`:
 the endpoint is versioned with the API, because the tools are what a client
 depends on and a tool that changes shape has to leave the old ones reachable.
 That is the only path: nothing answers at `/mcp`.

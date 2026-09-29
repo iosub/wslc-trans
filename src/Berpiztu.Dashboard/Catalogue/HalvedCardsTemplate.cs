@@ -4,8 +4,7 @@ using Berpiztu.Dashboard.Storage;
 namespace Berpiztu.Dashboard.Catalogue;
 
 /// <summary>
-/// A card made of other cards made already (the owner, 29 September 2026: the
-/// four charts in one), <see cref="PerRow"/> to a row, each born at half its
+/// A card made of other cards made already (the four charts in one), <see cref="PerRow"/> to a row, each born at half its
 /// cells and a type size smaller, so its words fit the half. It is designed
 /// on the board of every object as any card is, but its objects stand in
 /// other cards there too, so what is designed of each here is kept under
@@ -13,8 +12,7 @@ namespace Berpiztu.Dashboard.Catalogue;
 /// </summary>
 /// <param name="Above">
 /// Objects of its own over the cards, at their own cells and size, not halved
-/// (the owner, 29 September 2026: the name of what the charts show, on the
-/// card's first line); the cards stand under the lowest of them.
+/// (the name of what the charts show, on the card's first line); the cards stand under the lowest of them.
 /// </param>
 public sealed record HalvedCardsTemplate(string Type, string Label, string Icon, string Group, string Subgroup,
     IReadOnlyList<IDashboardTemplate> Cards, int PerRow, IReadOnlyList<TemplateItem>? Above = null) : IDashboardTemplate

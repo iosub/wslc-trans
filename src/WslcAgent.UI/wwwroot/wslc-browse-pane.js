@@ -1,8 +1,8 @@
 // The host browser pane: a browser on the agent's machine showing a container's
 // published port, painted here from its screencast, with this device's pointer,
-// keys and clipboard sent back (BrowseStream, protocol 2). The behaviour is the
-// reference's pane v2, feature for feature; its toolbar is the Blazor component
-// around this surface (BrowserPane.razor), which calls the verbs below.
+// keys and clipboard sent back (BrowseStream, protocol 2). Its toolbar is the
+// Blazor component around this surface (BrowserPane.razor), which calls the
+// verbs below.
 //
 // One rule: the hole is the truth. The browser's viewport is the surface's size
 // in CSS px, on every platform and at all times (open, resume, rotate, the soft

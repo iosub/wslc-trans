@@ -8,11 +8,10 @@
 @inject LogsPreference Preference
 @inject AgentLink Link
 
-@* The reference's Logs page as a list page, holding what its CLI Activity page
-   held too: the selection's count in the title bar (no search box:
-   typing in it sent the page back to its start at every letter, and the owner
-   had it taken away on 24 September 2026),
-   Delete all beside it; one header row, the entry count at the left and the
+@* The Logs page as a list page, holding the CLI activity too: the
+   selection's count in the title bar (no search box: typing in it sent the
+   page back to its start at every letter), Delete all beside it; one header
+   row, the entry count at the left and the
    tools at the right — Select all, Clear, Expand all (Collapse all once every
    entry is open), the level filter, Refresh; then two rows fill the page. The
    first is the grid every list uses, pager and all: every entry the agent
@@ -23,8 +22,8 @@
    bottom as in a chat — its time, its state, how long it took, its title and
    its line — the running ones included; it follows its end while the reader
    is there. In the grid, a row that has more than its own line
-   has the reference's +/−: a stack trace, or a wslc command, which opens the
-   way CLI Activity opened it — its type and title, how it ended, how long it
+   has a +/−: a stack trace, or a wslc command, which opens the
+   way the Activity list opens it — its type and title, how it ended, how long it
    took, the line itself and what it printed. A command still running is a row
    too, listed as RUNNING until the entry that says how it ended takes its
    place, under the same key, so an open row stays open through the change.
@@ -32,9 +31,7 @@
    message taking the level's colour from debug up. What is shown lives in the
    URL: the level, the page, the types the list hides. The
    log is a log: its level and its type filters to find things, and — since
-   2026-09-20, the owner's ask: "repetimos
-   arriba y abajo", then "en horizontal en la cabecera", since two rails of
-   eight did not fit the height — its controls across that same row
+   two rails of eight did not fit the height — its controls across that same row
    (LogsControls), the Activity list's twin, closing it from the right: its
    Autorefresh last, off by default so what is being read never moves; its
    type filters before it, so a search can be narrowed to the commands of one
@@ -55,8 +52,7 @@
 <OptionalShell Shell="@(!Embedded)" Title="@Title">
     <TopbarNav>
         @* The count alone: Delete of the ticked entries is the bin beside the
-           grid's count, and a second one up here said the same thing twice (the
-           owner, 24 September 2026). *@
+           grid's count, and a second one up here said the same thing twice. *@
         <BulkBar Count="_selected.Count" />
     </TopbarNav>
     <Verbs>
@@ -66,18 +62,18 @@
     <ChildContent>
         @Above
         <MudStack Row="true" AlignItems="AlignItems.Center" Wrap="Wrap.NoWrap" Spacing="2" Class="wslc-toolbar mb-1 flex-shrink-0">
-            @* The owner's row (2026-09-20), the Activity list's shape: at the left the
+            @* The row has the Activity list's shape: at the left the
                title and the count — how many of the loaded entries the level and the
                search leave, "23 of 24 entries", the count alone when they leave all —
                then the spare width, then at the right the level and the two verbs.
                No Select all and no Clear: the grid's header tick does both. No
                Expand all: the +/− in the grid's header, beside that tick, opens every
                row with something to show and closes them again. *@
-            @* The owner's order (2026-09-20), from the right: the ring, the type
+            @* The order, from the right: the ring, the type
                filters, the level; at the left the count with the verbs beside it —
                Copy, Delete of the ticked entries — the spare width between. No Refresh:
                the grid reads again on its own Autorefresh, on a link that came back,
-               and after a delete; the owner wanted no button for it. *@
+               and after a delete, so no button is needed for it. *@
             <PageStats>
                 <PageStat Label="Log" Value="@EntriesText" Large="true" />
                 <MudIconButton Icon="@Icons.Material.Filled.ContentCopy" Color="Color.Info" Size="Size.Small" Variant="Variant.Filled" Class="align-self-center" OnClick="CopyAsync" Disabled="Visible.Count == 0" title="@CopyTitle" />
@@ -119,8 +115,7 @@
                                FirstPanelInitialSize="@(Halved ? null : Preference.Grid)" Class="@(_placed ? "wslc-fill" : "wslc-fill wslc-split-unplaced")"
                                ClassFirstPanel="wslc-split-pane wslc-split-top" ClassSecondPanel="wslc-split-pane" ClassDivider="wslc-split-divider">
                 <FirstPanel>
-                @* MudBlazor's own grid, as its docs draw it (owner, 2026-09-20: "sigue
-                   estos ejemplos"): virtualised — the rows in view asked for as the reader
+                @* MudBlazor's own grid, as its docs draw it: virtualised — the rows in view asked for as the reader
                    scrolls, no pager, a measured row height — and the row detail view its
                    HierarchyColumn gives, with the +/− in the header that opens and closes
                    every row (EnableHeaderToggle), the button greyed on a row with nothing
@@ -141,12 +136,12 @@
                             <CellTemplate><span class="wslc-log-time">@(context.Item.DisplayTimestamp.Length > 0 ? context.Item.DisplayTimestamp : "n/a")</span></CellTemplate>
                         </PropertyColumn>
                         <PropertyColumn T="AgentLogEntry" TProperty="string" Property="e => e.Level" Title="Level" HeaderClass="@GridColumn.Width(5)" CellClass="@GridColumn.Width(5)">
-                            @* Three letters, the whole word in the tooltip (the owner, 24 September
-                               2026: narrower): WARNING in bold is 9.9 characters of Inter and was
+                            @* Three letters, the whole word in the tooltip, to be narrower:
+                               WARNING in bold is 9.9 characters of Inter and was
                                cut short in the 8 it had; WRN is 4.9. *@
                             <CellTemplate><span class="wslc-log-level" title="@context.Item.Level">@ShortLevel(context.Item.Level)</span></CellTemplate>
                         </PropertyColumn>
-                        @* Message before Source, the owner's order: the source says the same
+                        @* Message before Source: the source says the same
                            thing row after row, and on a phone what has to fit is the message.
                            Message keeps the spare width wherever it stands (the stretch is a
                            class, not the last column). *@
@@ -235,15 +230,15 @@
 
     /// <summary>
     /// The log beneath or inside something else opens with the entries and the
-    /// Activity half and half (the owner, 26 September 2026: the Activity in
-    /// sight), and its divider is its own, the Logs page's left as it was.
+    /// Activity half and half (the Activity in sight), and its divider is its
+    /// own, the Logs page's left as it was.
     /// </summary>
     private bool Halved => Embedded || Above is not null;
 
-    /// <summary>Everything the agent hands over: its cap, not the reference's 500, so the page holds the whole log the API can give.</summary>
+    /// <summary>Everything the agent hands over: its cap, not a tail of 500, so the page holds the whole log the API can give.</summary>
     private const int Tail = 5000;
 
-    /// <summary>What the page shows first, the reference's tail: on screen at once, while the rest is still on its way.</summary>
+    /// <summary>What the page shows first, the tail: on screen at once, while the rest is still on its way.</summary>
     private const int FirstTail = 500;
 
     /// <summary>
@@ -287,7 +282,7 @@
     /// <summary>
     /// What the Activity list is made of, as the grid has <see cref="_shown"/>: every
     /// full read, and the polls only while its own Autorefresh is on. Off, the list
-    /// stays as it is whatever the grid's switch says (the owner, 24 September 2026).
+    /// stays as it is whatever the grid's switch says.
     /// </summary>
     private IReadOnlyList<AgentLogEntry>? _stripEntries;
     private IReadOnlyList<CliTraceEntry> _strip = [];
@@ -323,7 +318,7 @@
     /// <summary>The types the Activity list's rail hides, comma-separated; absent, every type is listed.</summary>
     [SupplyParameterFromQuery(Name = "hide")] public string? HideQuery { get; set; }
 
-    /// <summary>The types the grid's rail hides, the same way: the grid filters by type on its own (owner, 2026-09-20: "que nos guste solamente de contenedores").</summary>
+    /// <summary>The types the grid's rail hides, the same way: the grid filters by type on its own.</summary>
     [SupplyParameterFromQuery(Name = "hidelog")] public string? HideLogQuery { get; set; }
 
     /// <summary>The level shown lives in the URL, so back returns to the previous filter.</summary>
@@ -343,9 +338,9 @@
     /// happening, not what is being searched for; the grid holds the rest.
     /// Cached like <see cref="Visible"/>.
     /// <para>
-    /// In the order they started, running ones among them (the owner,
-    /// 24 September 2026). Running ones used to come last: the agent's event
-    /// reader, which never ends, stood at the bottom for good, and a short
+    /// In the order they started, running ones among them. Running ones
+    /// used to come last: the agent's event reader, which never ends, stood
+    /// at the bottom for good, and a short
     /// command went in after it while it ran and before it once it ended — the
     /// list moved a row up and back every two seconds. By its start a running
     /// command already stands where its finished entry will, under the same
@@ -390,8 +385,7 @@
             {
                 // The same rows stay the same list: an entry the filters hide
                 // changed nothing the grid shows, and a new list had it draw
-                // every row again and move under the reader (the owner,
-                // 24 September 2026).
+                // every row again and move under the reader.
                 List<AgentLogEntry> visible = _shown is null ? [] : [.. _shown.Where(Shown)];
                 if (!SameEntries(_visible, visible))
                 {
@@ -425,7 +419,7 @@
         ? $"{Visible.Count} of {loaded} entries"
         : $"{Visible.Count} entries";
 
-    /// <summary>The row carries its level, so time, level, source and message take the reference's colours.</summary>
+    /// <summary>The row carries its level, so time, level, source and message take the level's colours.</summary>
     private static string RowClass(AgentLogEntry entry, int index) => $"wslc-log-entry log-level-{entry.Level.ToLowerInvariant()}";
 
     /// <summary>
@@ -496,8 +490,7 @@
     /// The screen settles before the log is read: the page, the drawer closing
     /// behind the tap that chose it. Reading and drawing five hundred entries
     /// holds the one thread the browser gives the application, and started at
-    /// once it held the drawer half-closed for as long as it took (owner,
-    /// 2026-09-20: "dale un poquito de tiempo a que la interfaz se estabilice").
+    /// once it held the drawer half-closed for as long as it took.
     /// </summary>
     private static readonly TimeSpan Settle = TimeSpan.FromMilliseconds(500);
 
@@ -529,7 +522,7 @@
             {
                 // One read serves both Autorefreshes, and each takes it only with its
                 // own switch on, so with it off what is being read never moves (the
-                // Activity list took every read until the owner, 24 September 2026).
+                // Activity list once took every read).
                 // With the agent gone the layout's probe is the only call made.
                 if ((_followCli || _followLog) && Link.Online)
                 {
@@ -724,8 +717,7 @@
             // A read that brought nothing new leaves the list as it was, the same
             // list: a new one every two seconds — the commands still running come
             // back as new objects each time — had both grids draw every row again
-            // and the log shake up and down under the reader (the owner,
-            // 24 September 2026, on a phone).
+            // and the log shake up and down under the reader, on a phone.
             if (!SameEntries(_entries!, read))
             {
                 _entries = read;
@@ -919,7 +911,7 @@
                 Show(_entries);
             }
 
-            // Turned on, the grid goes to its last row at once, whether or not anything new came (the owner, 24 September 2026).
+            // Turned on, the grid goes to its last row at once, whether or not anything new came.
             _gridToEnd = true;
         }
     }

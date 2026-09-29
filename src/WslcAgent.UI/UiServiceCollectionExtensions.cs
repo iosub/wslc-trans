@@ -39,7 +39,7 @@ public static class UiServiceCollectionExtensions
 
     public static IServiceCollection AddWslcAgentUi(this IServiceCollection services)
     {
-        // Toasts top right over the title bar, as the owner placed them, and errors that
+        // Toasts top right over the title bar, and errors that
         // wait to be closed (ErrorsStaySnackbar wraps MudBlazor's own service).
         services.AddMudServices(options =>
         {
@@ -84,7 +84,7 @@ public static class UiServiceCollectionExtensions
         services.AddScoped<AgentChanges>();
         services.AddScoped<FileTransfers>();
         services.AddScoped<AgentBuild>();
-        // Home v2 (docs/home/v2/specv2.md): Berpiztu's dashboard, with WSLC's
+        // The dashboard: Berpiztu's, with WSLC's
         // objects found in this assembly, their container family, and the
         // agent keeping the dashboard.
         services.AddBerpiztuDashboard(typeof(UiServiceCollectionExtensions).Assembly);

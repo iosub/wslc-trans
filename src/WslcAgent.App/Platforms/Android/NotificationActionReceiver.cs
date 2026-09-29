@@ -4,7 +4,7 @@ using WslcAgent.ApiClient.Contracts;
 namespace WslcAgent.App;
 
 /// <summary>
-/// A notification's button pressed (docs/notifications/spec.md): its work done
+/// A notification's button pressed: its work done
 /// without opening the app — the update cancelled — kept alive by
 /// <c>GoAsync</c> while the agent is asked.
 /// </summary>

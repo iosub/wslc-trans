@@ -1,4 +1,4 @@
-@* The reference's chart panel, shared by Home's metrics and the container stats:
+@* The chart panel, shared by Home's metrics and the container stats:
    the title and the latest value on one line at the left (with the zoom tools
    at the right when asked for: zoom in, zoom out, reset), the chart filling the
    panel (wslc-line-chart.js), the legend under it. *@
@@ -62,7 +62,7 @@
     /// <summary>The zoom tools in the header, as the container stats have them.</summary>
     [Parameter] public bool Zoom { get; set; }
 
-    /// <summary>A sparkline: the lines alone, filling the box they are given, for a dashboard card whose own three lines say the title and the value and whose legend, if any, is a part of its own (ChartLegend).</summary>
+    /// <summary>A sparkline: the lines alone, filling the box they are given, for a dashboard chart whose title, value and legend are objects of their own (ChartLegend).</summary>
     [Parameter] public bool Compact { get; set; }
 
     /// <summary>
@@ -90,7 +90,7 @@
 
             // Only what is new is sent: the panel is drawn again for many reasons
             // — a tap, a selection — and each sent the whole history and redrew
-            // the canvas with the same lines (the owner, 24 September 2026).
+            // the canvas with the same lines.
             // A sample is new when the count or the last time moved; the same
             // times always carry the same values.
             var fed = (Times.Count, Times.Count > 0 ? Times[^1] : 0, Values.Count, ForceYMax);

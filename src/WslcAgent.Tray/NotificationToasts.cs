@@ -6,7 +6,7 @@ using WslcAgent.Toasts;
 namespace WslcAgent.Tray;
 
 /// <summary>
-/// The agent's notifications on its own machine (docs/notifications/spec.md):
+/// The agent's notifications on its own machine:
 /// the agent's feed (<see cref="NotificationFeed"/>), from the loopback, which
 /// needs no sign-in, shown as Windows toasts (<see cref="WindowsToasts"/>)
 /// under the agent's name and picture, a click opening its page in the

@@ -8,7 +8,7 @@ using WslcAgent.Server.Publishing;
 namespace WslcAgent.Server.Tests;
 
 /// <summary>
-/// Publish: a container port on a public name (docs/remote-config/publish.md).
+/// Publish: a container port on a public name.
 /// The map is the proxy's whole configuration; a save with public names does the
 /// four manual steps, and one that cannot be done fails before anything moves.
 /// </summary>

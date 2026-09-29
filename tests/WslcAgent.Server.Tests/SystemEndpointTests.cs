@@ -66,8 +66,8 @@ public sealed class SystemEndpointTests(WebApplicationFactory<Program> factory)
         Assert.Equal(("a", "C:\\s\\a\\storage.vhdx"), SystemParsing.CompactionTarget(store, active, "a"));
 
         // Nothing running, and another session running, come to the same thing:
-        // the selected store's file, and no name to block it (the owner,
-        // 22 September 2026 — a compaction was refused over someone else's store).
+        // the selected store's file, and no name to block it (a compaction
+        // was refused over someone else's store).
         Assert.Equal(("", "C:\\s\\b\\storage.vhdx"), SystemParsing.CompactionTarget(store, [], "b"));
         Assert.Equal(("", "C:\\s\\b\\storage.vhdx"), SystemParsing.CompactionTarget(store, [new("1", null, "a")], "b"));
     }

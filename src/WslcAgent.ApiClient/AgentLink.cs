@@ -52,8 +52,8 @@ public sealed class AgentLinkHandler(AgentLink link) : DelegatingHandler
             // The same failure as Android's own handler throws it: a connection
             // cut under a request (the app relaunched, the tunnel reopened) is a
             // WebException "Canceled", not the HttpRequestException every screen
-            // catches, and it brought the Images page down to the error panel
-            // (the owner, 24 September 2026, on the emulator). Our own
+            // catches, and it brought the Images page down to the error panel.
+            // Our own
             // cancellation stays one; anything else is nothing having answered.
             cancellationToken.ThrowIfCancellationRequested();
             link.Set(false);
@@ -65,8 +65,7 @@ public sealed class AgentLinkHandler(AgentLink link) : DelegatingHandler
     }
 
     /// <summary>
-    /// A gateway answered for an agent that is not there (the owner,
-    /// 22 September 2026: an address whose agent had not been started answered
+    /// A gateway answered for an agent that is not there (an address whose agent had not been started answered
     /// 502 to every call, and the application drew itself around the error).
     /// The status alone does not say it — the agent answers 502 itself when a
     /// <c>wslc</c> command fails, 503 when <c>wslc</c> is missing and 504 when

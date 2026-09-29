@@ -4,12 +4,12 @@ using Microsoft.Extensions.Options;
 namespace WslcAgent.Server.Wslc;
 
 /// <summary>
-/// The reference's short-lived read cache, in front of <see cref="WslcRunner"/>.
+/// A short-lived read cache, in front of <see cref="WslcRunner"/>.
 /// Every open client polls <c>container list</c> and <c>container stats</c> on
 /// its own timer, and Home, the containers list and the usage scanner each ask
 /// for the stats again, so one tick cost several launches — and wslc makes
-/// every other command wait while a <c>stats</c> samples (1.6–2 s measured,
-/// 24 September 2026: a Files listing of 90 ms took 1.7 s behind one).
+/// every other command wait while a <c>stats</c> samples (1.6–2 s measured:
+/// a Files listing of 90 ms took 1.7 s behind one).
 /// <list type="bullet">
 /// <item>A read younger than <see cref="WslcOptions.ReadCacheSeconds"/> is served from memory.</item>
 /// <item>Identical reads at the same time share one launch, which none of them can cancel for the others.</item>
@@ -24,7 +24,7 @@ public sealed class CachingWslcRunner(IWslcRunner inner, ISelectedSession select
     /// <summary>How many windows old a <c>stats</c> answer may be and still be handed out while a fresh one is read.</summary>
     private const double StaleWindows = 3;
 
-    /// <summary>The window's bounds, the reference's: below half a second nothing is shared, above thirty a list is too old.</summary>
+    /// <summary>The window's bounds: below half a second nothing is shared, above thirty a list is too old.</summary>
     private const double MinSeconds = 0.5, MaxSeconds = 30;
 
     private static readonly TimeSpan ReportEvery = TimeSpan.FromMinutes(1);

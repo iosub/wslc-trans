@@ -3,8 +3,7 @@ using Berpiztu.Dashboard.Model;
 namespace Berpiztu.Dashboard.Designer;
 
 /// <summary>
-/// What is selected while the dashboard is shown (the owner, 26 September
-/// 2026, as today's Home selects a card): an object standing alone, or a
+/// What is selected while the dashboard is shown: an object standing alone, or a
 /// card — a group — whole, and the objects that are, so the page can offer
 /// their verbs. Nothing selected is <see cref="None"/>.
 /// </summary>

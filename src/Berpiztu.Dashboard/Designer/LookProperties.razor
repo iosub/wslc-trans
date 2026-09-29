@@ -1,5 +1,4 @@
-@* How one object or several look, the same fields for either (the owner,
-   26 September 2026): its type size, its colours, its elevation, its alignment across and
+@* How one object or several look, the same fields for either: its type size, its colours, its elevation, its alignment across and
    down each with its margin at the end of its row. With one object each
    field shows its value; with several, the value they share, or nothing
    while theirs differ, and a change is made to them all in one step. The
@@ -13,8 +12,7 @@
                  ValueChanged="@(size => SetAsync((o, _) => size is { } chosen ? o with { Size = chosen } : o))"
                  Options="SomeSizeOptions" Label="Size" Class="bz-dash-prop-wide"
                  Title="Type size: Medium is how the object draws itself; Small a step down, Large a step up" />
-    @* Its colours, the theme's by name, its kind's until another is chosen
-       (the owner, 25 September 2026). *@
+    @* Its colours, the theme's by name, its kind's until another is chosen. *@
     <ChoiceField T="ThemeColor?" Value="@Alike(Kinds.Select(k => k.Object.Background ?? k.Kind.About.Background))"
                  ValueChanged="@(color => SetAsync((o, kind) => color is { } chosen ? o with { Background = Kept(chosen, kind.About.Background) } : o))"
                  Options="SomeColorOptions" Label="Background"
@@ -23,21 +21,20 @@
                  ValueChanged="@(color => SetAsync((o, kind) => color is { } chosen ? o with { Foreground = Kept(chosen, kind.About.Foreground) } : o))"
                  Options="SomeColorOptions" Label="Foreground"
                  Title="The colour of its text; Inherited takes its card's" />
-    @* How far it stands off what is under it (the owner, 28 September 2026,
-       Home v2.5): every object has one, as every card has. *@
+    @* How far it stands off what is under it: every object has one, as every
+       card has. *@
     <ChoiceField T="int?" Value="@(Objects.Select(o => o.Elevation).Distinct().ToList() is [var elevation] ? elevation : null)"
                  ValueChanged="@(elevation => SetAsync((o, _) => o with { Elevation = elevation }))"
                  Options="ElevationOptions" Label="Elevation"
                  Title="How far it stands off what is under it; Settings is its design's: standing alone, the Settings page's card elevation, in a card none" />
     @* Which of its card's edges it keeps to as a fluid view widens the card
-       (the owner, 28 September 2026, as Visual Basic's Anchor). *@
+       (as Visual Basic's Anchor). *@
     <ChoiceField T="HorizontalAnchor?" Value="@Alike(Kinds.Select(k => k.Kind.AnchorOf(k.Object)))"
                  ValueChanged="@(anchor => SetAsync((o, kind) => anchor is { } chosen ? o with { Anchor = Kept(chosen, kind.About.Anchor) } : o))"
                  Options="AnchorOptions" Label="Anchor"
                  Title="As a fluid view widens its card: Scale spreads it in proportion; Left or Right keeps its size and its distance to that edge; Both keeps both distances and widens it" />
 </div>
-@* Each alignment with its margin at its end (the owner, 26 September 2026):
-   left, centre, right and the margin across; top, middle, bottom and the
+@* Each alignment with its margin at its end: left, centre, right and the margin across; top, middle, bottom and the
    margin down. *@
 <div class="bz-dash-align-rows mt-2">
     <div class="bz-dash-align-row">

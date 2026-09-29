@@ -30,7 +30,7 @@ public sealed record SentFile(bool Ok, int Status, string Error);
 /// application and not by the screen that asked: the Files view closes, the
 /// user walks to another page, and the bytes keep going.
 /// <para>
-/// The queue is the agent's, not this client's (docs/transfers-queue.md). A
+/// The queue is the agent's, not this client's. A
 /// batch is announced before anything of it travels, the agent answers with an
 /// id for the batch and one per file, and each file is sent when its id is the
 /// head of the agent's queue. So the waiting files are everybody's to see and
@@ -89,8 +89,7 @@ public sealed class FileTransfers(WslcAgentApi api, ISnackbar snackbar, IDialogS
     /// Writes down what is not worth a line on the screen but is worth a trace:
     /// a file somebody cancelled, an order for something that had already
     /// stopped. None of it is news to the person who did it, and all of it is
-    /// what a question a week later is answered with (the owner,
-    /// 23 September 2026).
+    /// what a question a week later is answered with.
     /// </summary>
     public void Note(string what) => log.LogInformation("transfers: {What}", what);
 
@@ -100,8 +99,7 @@ public sealed class FileTransfers(WslcAgentApi api, ISnackbar snackbar, IDialogS
     /// <summary>
     /// Whether that file of the agent's queue is one this client announced.
     /// Only its own may be taken out of the queue from a container's screens;
-    /// the dashboard's card is the administrator's view and takes out any
-    /// (docs/transfers-queue.md).
+    /// the dashboard's card is the administrator's view and takes out any.
     /// </summary>
     public bool IsMine(string id) => _mine.ContainsKey(id);
 
@@ -313,7 +311,7 @@ public sealed class FileTransfers(WslcAgentApi api, ISnackbar snackbar, IDialogS
     /// and it answers with the names that clash instead of queueing anything,
     /// so nothing takes a turn while the user is being asked.
     /// <para>
-    /// One question per file, which is the owner's (23 September 2026): a
+    /// One question per file: a
     /// batch is the rare case, and the common one is a single file, where
     /// being asked once is no burden at all. Saying no to one leaves it behind
     /// and the rest go; saying no to all of them leaves nothing to announce.

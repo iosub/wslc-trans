@@ -1,4 +1,4 @@
-// The metrics line chart, the reference's WslcLineChart: a canvas that fills its
+// The metrics line chart: a canvas that fills its
 // panel, five horizontal and eight vertical grid lines, a formatted Y axis, up to
 // six clock labels, one line per series, and on hover a dashed cursor, the
 // points and a tooltip with the time and every value. Colours and the label size
@@ -25,7 +25,7 @@ function clock(ms, seconds) {
     return seconds ? `${two(d.getHours())}:${two(d.getMinutes())}:${two(d.getSeconds())}` : `${two(d.getHours())}:${two(d.getMinutes())}`;
 }
 
-/** The reference's compact bytes: 2 decimals under ten of a unit, 1 above. */
+/** Compact bytes: 2 decimals under ten of a unit, 1 above. */
 function bytes(n) {
     const v = Number(n) || 0;
     const abs = Math.abs(v);
@@ -38,7 +38,7 @@ function bytes(n) {
     return `${Math.round(v)}B`;
 }
 
-/** The reference's chart window: zoom shows the latest max(8, 120 / zoom) points. */
+/** The chart window: zoom shows the latest max(8, 120 / zoom) points. */
 const MAX_POINTS = 120;
 const MIN_POINTS = 8;
 
@@ -85,7 +85,7 @@ function hideTooltip() {
     }
 }
 
-/** The reference's Y range: a little headroom, a fixed ceiling kept only once the data comes near it. */
+/** The Y range: a little headroom, a fixed ceiling kept only once the data comes near it. */
 function yRange(options, arrays) {
     let lo = Infinity;
     let hi = -Infinity;
@@ -183,7 +183,7 @@ export function create(host, options) {
         const axis = Array.from({ length: 6 }, (_, i) => format.axis(range.max - (span * i) / 5));
 
         // The left margin is what this chart's own labels take, not one width
-        // for every chart (the owner, 24 September 2026: a percent chart's
+        // for every chart (a percent chart's
         // "23%" sat far from the edge in the room a disk chart's "2.51GB"
         // needs): the widest value label and the 6px between it and the grid,
         // or half the first time label, which is centred on the grid's edge.

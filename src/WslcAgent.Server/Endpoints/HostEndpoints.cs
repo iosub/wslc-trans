@@ -14,7 +14,7 @@ public static class HostEndpoints
             .WithName("ListHostFolders");
 
         // The answer is the parent listed again, with the new folder in it: the
-        // picker stays where it was and selects it, as the reference does.
+        // picker stays where it was and selects it.
         group.MapPost("/folders", (CreateHostFolderRequest request) =>
             {
                 HostFolders.Create(request.Parent, request.Name);

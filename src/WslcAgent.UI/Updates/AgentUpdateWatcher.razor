@@ -1,8 +1,8 @@
 @* Mounted once by the layout, on every client: listens for the agent's update
    notices and shows what the agent is about to do. An automatic update is a
    countdown with Cancel (AgentUpdateToast), which any client can press; an
-   update under way says so and stays said (the owner, 26 September 2026: it
-   went by itself while the update went on), until the agent comes back as
+   update under way says so and stays said (a toast that went by itself left
+   the update going on unannounced), until the agent comes back as
    the new version, when it goes and AgentBuild offers the reload. A client that connects in the middle of a
    countdown sees it too: the first notice of every connection is a complete
    one. Renders nothing. *@

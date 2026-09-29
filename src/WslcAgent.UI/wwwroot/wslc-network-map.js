@@ -1,8 +1,7 @@
 // The network map's one need from the browser: the size of the card it draws
 // in, now and whenever it changes (chips wrapping to a second line, a window
 // resized). The border box minus the borders, so a scrollbar the drawing itself
-// brings does not change the size and set off a redraw loop, as the reference
-// found.
+// brings does not change the size and set off a redraw loop.
 
 function cardSize(element) {
     const style = getComputedStyle(element);

@@ -4,8 +4,8 @@ using Berpiztu.Dashboard.Model;
 namespace Berpiztu.Dashboard.Storage;
 
 /// <summary>
-/// A dashboard's two views kept as one text (the owner, 26 September 2026:
-/// the landscape and the portrait one, each laid out on its own): the landscape
+/// A dashboard's two views kept as one text (the landscape and the portrait
+/// one, each laid out on its own): the landscape
 /// layout at the top, and the portrait one under <c>portrait</c>, absent
 /// until it is first laid out. A text with the landscape view alone is the
 /// landscape's alone.
@@ -38,12 +38,12 @@ public static class DashboardViews
     }
 
     /// <summary>
-    /// A view's layout given to the other (the owner, 26 September 2026: the
-    /// dashboard designed for one view is where the other starts from): what
+    /// A view's layout given to the other (the dashboard designed for one
+    /// view is where the other starts from): what
     /// it shows, where it shows it — each object and card at its place — each
     /// object as its kind is born in the other view (<see cref="IObjectDefaults"/>):
     /// its look and cells, its place in its card; where none was designed, at
-    /// Medium, in either view alike (Home v2.5: a card on a phone as the list
+    /// Medium, in either view alike (a card on a phone as the list
     /// pages draw it on a phone). A card dropped as a card made
     /// already takes that card's size there, and every card holds its objects.
     /// </summary>

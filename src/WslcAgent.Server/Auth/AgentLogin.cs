@@ -7,7 +7,7 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Auth;
 
 /// <summary>
-/// The agent's own login, as the reference keeps it: one username and password
+/// The agent's own login: one username and password
 /// for whoever reaches the agent from anywhere but its own machine, an optional
 /// API token for scripts and AI agents, and the signed session value a sign-in
 /// hands out. Kept in <c>login.json</c> in the agent's data folder; the password
@@ -18,7 +18,7 @@ public sealed class AgentLogin
 {
     public const string DefaultUsername = "admin";
 
-    /// <summary>How long a session lasts from sign-in, as the reference's cookie.</summary>
+    /// <summary>How long a session lasts from sign-in.</summary>
     public static readonly TimeSpan SessionLifetime = TimeSpan.FromDays(7);
 
     private const int HashIterations = 100_000;

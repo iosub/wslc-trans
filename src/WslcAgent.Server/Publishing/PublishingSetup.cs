@@ -5,8 +5,8 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Publishing;
 
 /// <summary>
-/// Settings → Publish's Set up: steps 1 and 2 of docs/remote-config/checklistremote.md
-/// done by the agent. Its own class, not the publishing service's, because it
+/// Settings → Publish's Set up: the network, the map file and the
+/// proxy container set up by the agent. Its own class, not the publishing service's, because it
 /// runs a container and the container service is what publishing is a
 /// dependency of.
 /// </summary>
@@ -24,9 +24,9 @@ public sealed class PublishingSetup(
     public const string MapMount = "/etc/nginx/conf.d/default.conf";
 
     /// <summary>
-    /// The port the proxy publishes on the loopback: the `published` row of
-    /// docs/remote-config/vps-tunnels.ps1 forwards the VPS's 8081 to it, so the
-    /// two are one number written twice, on purpose, and named in both places.
+    /// The port the proxy publishes on the loopback: the VPS's tunnel for
+    /// published names forwards its 8081 to it, so the two are one number
+    /// written twice, on purpose.
     /// </summary>
     public const int PublishedPort = 8081;
 

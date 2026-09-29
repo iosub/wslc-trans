@@ -5,9 +5,8 @@ using WslcAgent.ApiClient;
 namespace WslcAgent.UI.Dashboard;
 
 /// <summary>
-/// Home v2's dashboard, kept by the agent for each user (docs/home/v2/specv2.md,
-/// decision 20), so every client shows the same one. A place of its own beside
-/// today's Home's (<c>/me/dashboard-v2</c>): neither ever reads the other.
+/// The dashboard, kept by the agent for each user (<c>/me/dashboard-v2</c>),
+/// so every client shows the same one.
 /// </summary>
 public sealed class AgentDashboardStore(WslcAgentApi api) : IDashboardStore
 {
@@ -21,8 +20,8 @@ public sealed class AgentDashboardStore(WslcAgentApi api) : IDashboardStore
         api.SetUserDashboardV2Async(text, cancellationToken);
 
     /// <summary>
-    /// A dashboard stored before each chart had a legend of its own (the owner,
-    /// 26 September 2026): each chart legend becomes its chart's legend, whose
+    /// A dashboard stored before each chart had a legend of its own: each
+    /// chart legend becomes its chart's legend, whose
     /// subject is the host, as it showed. Anything else is left as it was.
     /// </summary>
     private static string? OneLegendPerChart(string? stored)

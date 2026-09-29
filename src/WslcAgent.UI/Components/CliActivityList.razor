@@ -1,20 +1,17 @@
 @* CLI Activity's list: the Logs page's strip, the commands the agent is running
    and has just run, the latest at the bottom. It is the grid of the log above
-   it, ListGrid, virtualised (the owner, 24 September 2026: "así no inventamos
-   nosotros la piedra") — a box of panels per command drew all two hundred with
+   it, ListGrid, virtualised — a box of panels per command drew all two hundred with
    their outputs, and Expand all nearly froze the application. A row is the
    start, the type, the status, the title with its session, the time taken and
-   a failure's exit, the owner's order; opened by its +/−, the command and its output
+   a failure's exit; opened by its +/−, the command and its output
    (CliCommandDetail), read by id when it opens. The header's +/− opens and
    closes every row. *@
 <div class="wslc-fill">
-    @* The list's header row, as every list has one: the owner's order
-       (2026-09-20), from the right: the ring, the type filters; at the left
+    @* The list's header row, as every list has one, from the right: the ring, the type filters; at the left
        the count. The spare width between. *@
     <MudStack Row="true" AlignItems="AlignItems.Center" Wrap="Wrap.NoWrap" Spacing="2" Class="wslc-toolbar mb-1 flex-shrink-0">
         <PageStats>
-            @* Two lines, the count and under it what waits (the owner, 24 September
-               2026): side by side they shared a narrow panel's one line and both gave
+            @* Two lines, the count and under it what waits: side by side they shared a narrow panel's one line and both gave
                way until neither showed. The second line is always there, blank when
                nothing waits, so the list under it never moves when it fills. *@
             <div class="wslc-stat-lines">
@@ -46,8 +43,8 @@
                 <PropertyColumn T="CliTraceEntry" TProperty="string" Property="c => c.Status" Title="Status" HeaderClass="@GridColumn.Width(9)" CellClass="@GridColumn.Width(9)">
                     <CellTemplate><span class="@StatusClass(context.Item.Status)">@CliOutput.StatusLabel(context.Item.Status)</span></CellTemplate>
                 </PropertyColumn>
-                @* What a row is about, so it takes the spare width (the owner, 24 September
-                   2026: the command is what is read, not the exit); its declared width
+                @* What a row is about, so it takes the spare width (the command is what is read, not the
+                   exit); its declared width
                    is its floor, and a longer title ends in "…", whole in its tooltip
                    with the command line. *@
                 <PropertyColumn T="CliTraceEntry" TProperty="string" Property="c => c.Title" Title="Command" HeaderClass="@GridColumn.Stretch(26)" CellClass="@GridColumn.Stretch(26)">
@@ -59,8 +56,8 @@
                     <CellTemplate><span class="mud-text-secondary">@CliOutput.Duration(context.Item.Duration, context.Item.Status)</span></CellTemplate>
                 </PropertyColumn>
                 <PropertyColumn T="CliTraceEntry" TProperty="int?" Property="c => c.ExitCode" Title="Exit" HeaderClass="@GridColumn.Width(4)" CellClass="@GridColumn.Width(4)">
-                    @* The code alone: the column says it is the exit (the owner, 24 September
-                       2026, on a phone: no room to spare for a word written in every row). *@
+                    @* The code alone: the column says it is the exit (on a phone there is no room to
+                       spare for a word written in every row). *@
                     <CellTemplate><span class="wslc-cli-exit">@(context.Item.Status != "success" && context.Item.ExitCode is { } exitCode ? exitCode.ToString(System.Globalization.CultureInfo.InvariantCulture) : "")</span></CellTemplate>
                 </PropertyColumn>
             </Columns>
@@ -91,7 +88,7 @@
     /// The commands drawn: the page's while the list is free, the ones it had
     /// when the reader took hold while it is held. Nothing arrives, leaves or
     /// changes under a reader; what comes meanwhile waits, counted in the
-    /// header, and is drawn when they let go (the owner, 24 September 2026).
+    /// header, and is drawn when they let go.
     /// </summary>
     private IReadOnlyList<CliTraceEntry> _shown = [];
     private bool _pointerOn;
@@ -134,8 +131,7 @@
     /// <summary>
     /// The header's count: the commands listed, adding up as they come. While
     /// the reader holds the list, a stat of its own beside it says how many
-    /// arrived since they took hold and wait — "3 in buffer to view" (the
-    /// owner's words).
+    /// arrived since they took hold and wait — "3 in buffer to view".
     /// </summary>
     private string Summary => $"{_shown.Count} command{(_shown.Count == 1 ? "" : "s")}";
 
@@ -144,8 +140,7 @@
     /// stand. Not the ones after the last seen: running commands are listed
     /// last, and the agent's event reader is one that never ends, so the last
     /// command was always it and every new one landed before it, uncounted —
-    /// the count showed a 1 that came and went and never grew (the owner,
-    /// 24 September 2026). A running command that ends keeps its id, and is not
+    /// the count showed a 1 that came and went and never grew. A running command that ends keeps its id, and is not
     /// new.
     /// </summary>
     private int Pending => Commands.Count(command => !_shownIds.Contains(command.Id));

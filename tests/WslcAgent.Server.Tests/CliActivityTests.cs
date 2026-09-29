@@ -5,8 +5,7 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Tests;
 
 /// <summary>
-/// The reference's own cases for <c>describe_cli_trace</c>
-/// (tests/test_cli_classify.py), so a command reads the same on both; the
+/// How a command line is classified and titled for CLI Activity; the
 /// running-then-written life of a command; and the block that carries it
 /// through the log file and back.
 /// </summary>

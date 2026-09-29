@@ -73,7 +73,7 @@ public sealed class WslcAgentApi(HttpClient http, AgentAccessToken? access = nul
         GetAsync<ObjectDefaultsResponse>("api/v1/dashboard/object-defaults", cancellationToken);
 
     /// <summary>
-    /// How one kind of Home v2's object is born in one view (desktop, mobile),
+    /// How one kind of dashboard object is born in one view (desktop, mobile),
     /// merged by a development agent into the rest and written back to its
     /// repository; a release agent refuses it (409).
     /// </summary>
@@ -271,7 +271,7 @@ public sealed class WslcAgentApi(HttpClient http, AgentAccessToken? access = nul
     public Task<ClientPackageInfo> GetClientPackageAsync(string platform, CancellationToken cancellationToken = default) =>
         GetAsync<ClientPackageInfo>($"api/v1/clients/{Escape(platform)}", cancellationToken);
 
-    /// <summary>Where a browser downloads the client installer (the reference's Home download button).</summary>
+    /// <summary>Where a browser downloads the client installer.</summary>
     public Uri ClientPackageDownloadUrl(string platform) => new(http.BaseAddress!, $"api/v1/clients/{Escape(platform)}/download");
 
     /// <summary>
@@ -382,8 +382,8 @@ public sealed class WslcAgentApi(HttpClient http, AgentAccessToken? access = nul
         SendAsync(HttpMethod.Delete, $"api/v1/containers/transfers/{Escape(id)}", cancellationToken);
 
     /// <summary>
-    /// Says what this client is about to move before any of it moves
-    /// (docs/transfers-queue.md): the files take their places at the back of
+    /// Says what this client is about to move before any of it moves:
+    /// the files take their places at the back of
     /// the agent's queue, in this order, and the ids that come back are what
     /// make them this client's own.
     /// </summary>
@@ -799,8 +799,7 @@ public sealed class WslcAgentApi(HttpClient http, AgentAccessToken? access = nul
         if (response.IsSuccessStatusCode && response.Content.Headers.ContentType?.MediaType == "text/html")
         {
             // An agent older than this client answers a route it does not know
-            // with the application's page, not with 404 (the owner, 27
-            // September 2026: a new Windows client on a 0.2.15 agent failed
+            // with the application's page, not with 404 (a new Windows client on a 0.2.15 agent failed
             // with "'<' is an invalid start of a value" in Settings).
             throw new AgentApiException(404,
                 "The agent does not know this request: it is older than this client. Update the agent.");

@@ -8,7 +8,7 @@ namespace WslcAgent.Server.Wslc;
 /// <summary>
 /// Keeps <c>wslc events</c> open for as long as the agent runs, and turns what
 /// it prints into notices (<see cref="WslcEvents"/>). Measured behaviour, which
-/// is why this is a loop and not a single read (docs/knowledge/wslc-events.md):
+/// is why this is a loop and not a single read:
 /// the stream belongs to the session, so stopping the session aborts it with
 /// <c>E_ABORT</c> — and says nothing at all about the containers that went down
 /// with it. So every reconnection announces that everything is stale, rather
@@ -16,9 +16,9 @@ namespace WslcAgent.Server.Wslc;
 /// stream on a session that is down: like any command, <c>wslc events</c>
 /// opens the store it names, so listening again brought back the session the
 /// user had just stopped, and compacting its VHDX, which needs it stopped, was
-/// refused a few seconds later (the owner, 23 September 2026).
+/// refused a few seconds later.
 /// <para>
-/// It is where the notifications hear what happens (docs/notifications/spec.md):
+/// It is where the notifications hear what happens:
 /// every container event goes to <see cref="ContainerStops"/>, and a stream
 /// that died with a session the user did not stop from the agent is a session
 /// lost.

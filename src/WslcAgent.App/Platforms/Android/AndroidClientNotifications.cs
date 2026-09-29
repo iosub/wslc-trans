@@ -12,7 +12,7 @@ using Channels = WslcAgent.ApiClient.Contracts.NotificationChannel;
 namespace WslcAgent.App;
 
 /// <summary>
-/// The agent's notifications on this phone (docs/notifications/spec.md):
+/// The agent's notifications on this phone:
 /// pushed by the agent through Firebase Cloud Messaging as data, and drawn
 /// here, in front or not (<see cref="PushService"/>), on the channel of its
 /// severity and with its button when it has one. A tap starts the app, or
@@ -82,7 +82,7 @@ internal sealed class AndroidClientNotifications(ILogger<AndroidClientNotificati
         try
         {
             // The binding marks getToken "deprecated"; Firebase does not, and
-            // it is the one way to ask for the token (27 September 2026, 125.1.3).
+            // it is the one way to ask for the token (as of 125.1.3).
 #pragma warning disable CS0618
             return (await FirebaseMessaging.Instance.GetToken().AsAsync<Java.Lang.Object>())?.ToString();
 #pragma warning restore CS0618

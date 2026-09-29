@@ -1,7 +1,7 @@
 namespace WslcAgent.Server.Containers;
 
 /// <summary>
-/// Once, shortly after the agent starts (the reference's start-up reconcile):
+/// Once, shortly after the agent starts:
 /// <see cref="RestartPolicyReconciler"/> starts every enrolled container the
 /// policy says should run. The other time the policy is applied is when a
 /// session is started from the app, which <c>SessionService</c> does.

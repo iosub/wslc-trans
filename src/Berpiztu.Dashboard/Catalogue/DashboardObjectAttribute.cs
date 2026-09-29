@@ -6,7 +6,7 @@ namespace Berpiztu.Dashboard.Catalogue;
 /// An object's descriptor, written on its own component: this is all it
 /// takes for the catalogue to find it and the toolbox to offer it, so adding
 /// an object is adding a folder with its component, and nothing central
-/// changes (docs/home/v2/specv2.md, decision 15).
+/// changes.
 /// </summary>
 /// <param name="type">
 /// Its type id, written in the user's stored dashboard and never changed:
@@ -23,15 +23,14 @@ public sealed class DashboardObjectAttribute(string type, string label) : Attrib
 
     /// <summary>
     /// The toolbox's group it stands in, under a heading of this name and a
-    /// line above it (the owner, 25 September 2026); groups go by name, and
+    /// line above it; groups go by name, and
     /// the objects in each by theirs. Empty stands in a group with no heading.
     /// </summary>
     public string Group { get; init; } = "";
 
     /// <summary>
     /// The branch of the toolbox's Objects its group stands in, as the cards
-    /// stand in theirs under Cards (the owner, 27 September 2026: User,
-    /// System): each a heading with its line, indented under Objects, its
+    /// stand in theirs under Cards (User, System): each a heading with its line, indented under Objects, its
     /// groups indented under it. Empty stands straight under Objects.
     /// </summary>
     public string Subgroup { get; init; } = "";
@@ -69,7 +68,7 @@ public sealed class DashboardObjectAttribute(string type, string label) : Attrib
 
     /// <summary>
     /// The ground it has until another is chosen, shown by name in its
-    /// Background (decision 26): a card's header or its row of verbs is born
+    /// Background: a card's header or its row of verbs is born
     /// in the tone it has on the card, not painted there behind the property.
     /// </summary>
     public ThemeColor Background { get; init; } = ThemeColors.ObjectBackground;
@@ -79,8 +78,8 @@ public sealed class DashboardObjectAttribute(string type, string label) : Attrib
 
     /// <summary>
     /// Where what it shows stands across its cells until another alignment is
-    /// chosen, marked as chosen in the properties window (the owner,
-    /// 26 September 2026: with none marked, nobody knew where it stood). A
+    /// chosen, marked as chosen in the properties window (with none marked,
+    /// nobody knew where it stood). A
     /// card's header, its details and its shortcuts stand at the left, its
     /// verbs at the right.
     /// </summary>
@@ -91,23 +90,21 @@ public sealed class DashboardObjectAttribute(string type, string label) : Attrib
 
     /// <summary>
     /// Which of its card's edges it keeps to as a fluid view widens the card,
-    /// until another anchor is chosen (the owner, 28 September 2026, Home v2.5):
-    /// a resource card's header, details and verbs to both, its dials to the
+    /// until another anchor is chosen: a resource card's header, details and verbs to both, its dials to the
     /// right, its shortcuts to the left, as the list pages' card behaves; every
     /// other kind spreads in proportion.
     /// </summary>
     public HorizontalAnchor Anchor { get; init; } = HorizontalAnchor.Scale;
 
     /// <summary>
-    /// A piece of a card made already, which lives only in it (the owner,
-    /// 26 September 2026: a chart card's summary, legend and chart are moved
-    /// and changed inside it, as the parts of today's card are, never taken
+    /// A piece of a card made already, which lives only in it (a chart card's
+    /// summary, legend and chart are moved and changed inside it, never taken
     /// out): the toolbox does not offer it, it never leaves its card, the card
     /// takes no other object and is never ungrouped, and removing it hides it
     /// (<see cref="Model.ObjectInstance.Hidden"/>), so it can be shown again.
     /// </summary>
     public bool CardOnly { get; init; }
 
-    /// <summary>The user writes its words (a free text, decision 13): the properties window offers its Text, kept on the object.</summary>
+    /// <summary>The user writes its words (a free text): the properties window offers its Text, kept on the object.</summary>
     public bool Writes { get; init; }
 }

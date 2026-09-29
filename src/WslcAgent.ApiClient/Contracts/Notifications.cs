@@ -1,7 +1,7 @@
 namespace WslcAgent.ApiClient.Contracts;
 
 /// <summary>
-/// One of the agent's notifications (docs/notifications/spec.md): something
+/// One of the agent's notifications: something
 /// happened that someone has to know of while no screen is open — a container
 /// that stopped on its own, a disk filling up, a job that failed. The system's,
 /// not a dashboard's: raised by the agent from Settings › Notifications,
@@ -19,7 +19,7 @@ public sealed record AgentNotification(long Id, DateTimeOffset Time, string Kind
 
 /// <summary>
 /// What a notification's button does, done by whoever shows it without the
-/// application being opened (the owner, 27 September 2026: the update's
+/// application being opened (the update's
 /// countdown answered from the notification itself).
 /// </summary>
 public static class NotificationAction
@@ -69,8 +69,8 @@ public static class NotificationSeverity
 }
 
 /// <summary>
-/// A phone the agent's notifications reach through Firebase Cloud Messaging
-/// (docs/notifications/spec.md): the agent hands each one to Google, which
+/// A phone the agent's notifications reach through Firebase Cloud Messaging:
+/// the agent hands each one to Google, which
 /// wakes the phone, so the phone need not be connected to the agent to get
 /// it — only once, to register. Its Firebase token is the agent's alone and
 /// never leaves it.
@@ -109,7 +109,7 @@ public static class NotificationChannel
 
 /// <summary>
 /// The page a notification opens: the list of what it is about, never one
-/// object's details (the owner, 27 September 2026: a container's opened its
+/// object's details (a container's opened its
 /// details on the Logs tab, and the list is where to look from).
 /// </summary>
 public static class NotificationLink
@@ -144,8 +144,8 @@ public sealed record NotificationThreshold(bool On, int Percent, int Minutes);
 
 /// <summary>
 /// Settings › Notifications (<c>GET</c> and <c>PUT /api/v1/notifications/settings</c>):
-/// what the agent notifies, the same for every client. The defaults are the
-/// owner's (27 September 2026): on, what needs someone to act; off, what only
+/// what the agent notifies, the same for every client. The defaults:
+/// on, what needs someone to act; off, what only
 /// says that something went well.
 /// </summary>
 /// <param name="HostDisk">The drive the sessions are kept on.</param>
@@ -180,8 +180,8 @@ public sealed record NotificationSettings(
     bool UpdateAnnounced = true,
     bool UpdateCancelled = true)
 {
-    // Every reading at once, 0 minutes, while notifications are being tried
-    // (the owner, 27 September 2026); the minutes come back once they are.
+    // Every reading at once, 0 minutes, while notifications are being tried;
+    // the minutes come back once they are.
     public static readonly NotificationSettings Defaults = new(
         HostDisk: new(true, 90, 0),
         HostMemory: new(true, 90, 0),

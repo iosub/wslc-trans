@@ -5,8 +5,7 @@ namespace WslcAgent.Server.Wslc;
 /// log, in place of the title their arguments give (<see cref="CliTraceDescription"/>).
 /// A file carried into a container runs <c>wslc container cp</c> on a staged
 /// copy under a temporary name, and the title read from that was "Copy
-/// C:\…\wslc-files-upload-…\wslc-cp-3f9a…": nothing a person recognises (the
-/// owner, 24 September 2026). The code carrying the file knows its real name
+/// C:\…\wslc-files-upload-…\wslc-cp-3f9a…": nothing a person recognises. The code carrying the file knows its real name
 /// and where it goes, and says so here, once, around everything it runs.
 /// <para>
 /// Ambient, not a parameter: the commands are run several calls down, through

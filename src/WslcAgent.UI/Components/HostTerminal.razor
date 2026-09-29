@@ -1,4 +1,4 @@
-@* The reference's host terminal (features/terminal.js): the agent machine's own
+@* The host terminal: the agent machine's own
    shell, drawn as the exec window — the pane and nothing else, with every verb
    in the rail at its right and the session state on the buttons that act on it.
    Its own two verbs live there as well: a tab for itself and a terminal window
@@ -80,7 +80,7 @@
 
     private string Banner => IsCompactJob ? "$ compact VHDX (System → Compact VHDX)" : "$ local host shell";
 
-    /// <summary>The session state the toolbar used to show, on the buttons that act on it.</summary>
+    /// <summary>The session state, on the buttons that act on it.</summary>
     private string ConnectTitle => _live ? _status : $"Connect to {Target} — {_status}";
 
     private string ReconnectTitle => IsCompactJob ? $"Run the job again — {_status}" : $"Reconnect — {_status}";
@@ -173,7 +173,7 @@
         _status = "Closed";
     }
 
-    /// <summary>Asks the agent for the job's command line and types it into the shell, as the reference's runJobCommand.</summary>
+    /// <summary>Asks the agent for the job's command line and types it into the shell.</summary>
     private async Task RunJobAsync()
     {
         try

@@ -4,8 +4,8 @@ using Berpiztu.Dashboard.Sources;
 namespace WslcAgent.UI.Dashboard;
 
 /// <summary>
-/// What a chart, its legend and its summary show (the owner, 26 September
-/// 2026): the host, as they always did, or one of the user's containers, the
+/// What a chart, its legend and its summary show: the host, or one of the
+/// user's containers, the
 /// containers' own list, by registry uid as a container object's source is.
 /// </summary>
 public sealed class SubjectSourceFamily(ContainerSourceFamily containers) : ISourceFamily
