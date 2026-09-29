@@ -13,16 +13,20 @@ products are **WSLC AI Agent** (the agent, `wslc-ai-agent.exe`) and
 
 ## Features
 
-- **A dashboard you design yourself**: live objects dragged onto a grid, a
-  System and a User page, a landscape and a portrait view, kept on the agent
-  for every client or on the device, alarms, and a fit for any screen.
-- **All of WSLC in one place**: containers, images, volumes, networks and
-  sessions; paste a `docker run` line to fill the form; live stats, a network
-  map, restart policies kept by the agent.
+- **An agent for WSLC**: one Windows program beside `wslc` that starts at
+  logon, keeps working with every window closed, and serves the web
+  interface, the clients, a REST API and an MCP server. Per user, no
+  administrator rights.
+- **Easy container management with WSLC**: containers, images, volumes,
+  networks and sessions from one place; paste a `docker run` line to fill the
+  form; live stats, a network map, restart policies kept by the agent.
 - **Terminals** on the host and in any container, in the browser.
 - **Files** inside containers, images and volumes, with transfers that keep
   running when you leave.
 - **Logs**: the agent's own, and every `wslc` command it ran.
+- **A dashboard you design yourself**: live objects dragged onto a grid, a
+  System and a User page, a landscape and a portrait view, kept on the agent
+  for every client or on the device, alarms, and a fit for any screen.
 - **Publishing**: a built-in nginx proxy puts a container on a public HTTPS name.
 - **A remote browser** for the containers' pages that are not published.
 - **AI assistants through MCP**: 53 tools, destructive ones behind your
@@ -31,8 +35,7 @@ products are **WSLC AI Agent** (the agent, `wslc-ai-agent.exe`) and
 - **Notifications** on Windows and Android.
 - **Every client, one interface**: browser, Windows app, Android app and tray
   icon; several clients per agent, several agents per client.
-- **Secure remote access**, **self-updating** agent and clients, **per-user
-  installers** with no administrator rights.
+- **Secure remote access**, and a **self-updating** agent and clients.
 
 Every feature, explained: [docs/features.md](docs/features.md).
 

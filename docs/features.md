@@ -4,6 +4,21 @@ Everything WSLC AI Agent does, first at a glance, then area by area.
 
 ## At a glance
 
+- **An agent for WSLC on your Windows machine**
+  - A small Windows program that sits next to `wslc`, Microsoft's container CLI, and runs it for you
+  - Starts at every logon and keeps working when every window is closed: jobs, restart policies, alarms and notifications
+  - Serves everything itself: the web interface, the native clients, a REST API (`/api/v1`) and an MCP server
+  - Installed per user, with no administrator rights; an icon beside the clock
+- **Easy container management with WSLC**, all of it from one place
+  - Containers, images, volumes, networks and sessions, as lists or cards
+  - Run, create, edit, recreate, start, stop, restart, kill, remove, back up, export
+  - Paste a `docker run` or `wslc run` line and get the form filled in, checked before it runs
+  - Pull, build, tag, push, save, import and load images; create and prune everything
+  - Live stats, a live network map, per-session disk usage and VHDX compaction
+  - Restart policies enforced by the agent itself
+- **Terminals**: the host's terminal and a shell in any container, in the browser
+- **A file browser inside containers, images and volumes**, with transfers that keep running when you leave
+- **Logs**: the agent's own log and every `wslc` command it ran, filterable, live
 - **A dashboard you design yourself**
   - Drag, resize and group live objects on a grid: readings, dials, charts, logs, containers, images, volumes, networks
   - Two pages (System and User), each with a landscape and a portrait layout that follows the screen
@@ -11,15 +26,6 @@ Everything WSLC AI Agent does, first at a glance, then area by area.
   - Drafts that survive a power cut; Save and Discard
   - Alarms with thresholds that turn a card red and appear in a status bar on every screen
   - Zoom and five ways to fit any screen: Fit, Fill, Width, Stretch, Fluid
-- **Containers, images, volumes, networks and sessions**, all of WSLC from one place
-  - Run, create, edit, recreate, start, stop, restart, kill, remove, back up, export
-  - Paste a `docker run` or `wslc run` line and get the form filled in
-  - Pull, build, tag, push, save, import and load images; create and prune everything
-  - A live network map; live stats; per-session disk usage and VHDX compaction
-  - Restart policies enforced by the agent itself
-- **Terminals**: the host's terminal and a shell in any container, in the browser
-- **A file browser inside containers, images and volumes**, with transfers that keep running when you leave
-- **Logs**: the agent's own log and every `wslc` command it ran, filterable, live
 - **Publishing**: a built-in nginx proxy puts a container's port on a public HTTPS name
 - **A remote browser**: open a container's web page that is not published, streamed from the agent's machine
 - **AI assistants through MCP**: 53 tools, destructive ones behind your approval, and a skill that installs itself into Claude Code, Hermes Agent or OpenClaw
@@ -28,45 +34,34 @@ Everything WSLC AI Agent does, first at a glance, then area by area.
 - **Multi-client and multi-agent**: several clients on one agent share jobs and state; one client knows several agents
 - **Secure remote access**: trusted at the machine, login or API token from anywhere else
 - **Self-updating**: the agent and its clients update from one folder, with a countdown anyone can cancel
-- **Per-user installers**: no administrator rights; starts at logon
 - **Personalisable**: dark and light themes, page zoom, table or cards per list, and the look of every control
 
-## Dashboard
+## The agent
 
-The Home page is a dashboard designed by each user, not a fixed screen.
+WSLC AI Agent is one Windows program, `wslc-ai-agent.exe`, that runs beside
+`wslc` in your user session and does the work: every screen, client and
+assistant asks the agent, and the agent runs `wslc`.
 
-- **Pages**: *System* shows the machine, *User* what the user runs. The one
-  looked at last opens again.
-- **Views**: a landscape and a portrait layout, each designed on its own.
-  Outside design the window's shape picks the view, and picks again when the
-  window is resized or a phone is turned.
-- **Where it is kept**: with the user on the agent, so every client opens the
-  same dashboard, or on the device alone. Either can be copied onto the other.
-- **Design mode**: a toolbox of every object and ready-made card, dragged onto
-  a grid; objects never overlap. Select several with a marquee, group them
-  into a card (Ctrl+G), undo (Ctrl+Z), delete. A floating properties window
-  sets each object's source, size, type size, colours, elevation, alignment,
-  margins, the parts it shows and how it widens on a wider screen.
-- **Drafts**: every change is kept on the device until Save; a lost
-  connection or a power cut loses nothing. Leaving with unsaved changes asks
-  first.
-- **Objects**: host CPU, memory and disk readings and dials; counts of
-  containers, images, volumes and networks; CPU, memory, disk and network
-  charts of the host or of any container, with legends; container, image,
-  volume and network headers, details, dials, shortcuts and action buttons;
-  the session selector; agent, client, `wslc`, Windows and kernel versions;
-  the live events status; the agent's log; file transfers; free text.
-- **Ready-made cards**: container, image, volume, network, system, charts.
-- **Alarms**: each measure has a threshold; past it the object turns red and
-  blinks. Chosen alarms also show as rings in a status bar on every screen.
-- **Zoom and fit**: zoom in and out, and fit the view to any screen: Fit, Fill,
-  Width, Stretch or Fluid. Each page and view keeps its own on each device;
-  portrait opens Fluid and landscape Fill until you choose.
-- **Charts**: any chart opens full size, with zoom.
-- Out of design, tapping a card offers its actions (Run, Pull, Create…) and
-  opens its page.
+- **Always on**: it starts at every logon, and whatever it began goes on
+  without any window open: runs, pulls, builds, transfers, backups, updates.
+- **It keeps watch**: it brings containers back by their restart policy when
+  it starts and when a session starts, and watches the host and the
+  containers for the alarms and notifications below.
+- **It serves everything**: the web interface, the Windows and Android
+  clients, the REST API `/api/v1` and the MCP server `/api/v1/mcp`, all on
+  one address and port (`127.0.0.1:8069` unless you choose another).
+- **Per user, no administrator rights**: installed for your user alone, as
+  `wslc` works inside a user session; its icon beside the clock opens its own
+  page, with the System card over its log.
+- **Updates itself** from a folder you choose (see [Updates](#updates)).
 
-## Containers
+## Easy container management with WSLC
+
+Everything `wslc` does, without typing it: lists that refresh themselves,
+forms that check what you typed before it runs, and every action one click
+away, in a table or as cards.
+
+### Containers
 
 - **List** with state, image, ports, CPU, memory, disk, id and restart
   policy; totals of CPU and memory; search; show only running ones; select
@@ -95,7 +90,7 @@ The Home page is a dashboard designed by each user, not a fixed screen.
   brings containers back when it starts and when a session starts.
 - **Backup**: a stopped container exported to an archive and downloaded.
 
-## Images
+### Images
 
 - **List** with usage, name, tag, id, date and size; disk usage; search;
   remove several at once.
@@ -107,7 +102,7 @@ The Home page is a dashboard designed by each user, not a fixed screen.
 - Which containers use an image; run or create a container from it.
 - **Prune** dangling images; Docker Hub one click away to find images.
 
-## Volumes
+### Volumes
 
 - **List**, search, remove several at once.
 - **Create** on the guest or as a virtual disk (VHD) with a size, fixed or
@@ -115,7 +110,7 @@ The Home page is a dashboard designed by each user, not a fixed screen.
 - **Files of a volume**, browsed through a temporary container.
 - Which containers use a volume; read and written traffic; **prune**.
 
-## Networks
+### Networks
 
 - **List** with driver, subnet, gateway, scope; search; remove several.
 - **Create** with subnet, gateway, address range, internal, options, labels.
@@ -125,7 +120,7 @@ The Home page is a dashboard designed by each user, not a fixed screen.
   addresses, filtered by network or by container.
 - Received and sent traffic; **prune**.
 
-## Sessions and system
+### Sessions and system
 
 - **Session** selector in the title bar, with start and stop; screens that
   need a running session grey out while it is stopped, and a session stopped
@@ -164,6 +159,41 @@ The Home page is a dashboard designed by each user, not a fixed screen.
   included, with its time, exit code, command line and output.
 - **Container logs**: coloured by level, searchable, live.
 - The two share one page, with a divider you can move.
+
+## Dashboard
+
+The Home page is a dashboard designed by each user, not a fixed screen.
+
+- **Pages**: *System* shows the machine, *User* what the user runs. The one
+  looked at last opens again.
+- **Views**: a landscape and a portrait layout, each designed on its own.
+  Outside design the window's shape picks the view, and picks again when the
+  window is resized or a phone is turned.
+- **Where it is kept**: with the user on the agent, so every client opens the
+  same dashboard, or on the device alone. Either can be copied onto the other.
+- **Design mode**: a toolbox of every object and ready-made card, dragged onto
+  a grid; objects never overlap. Select several with a marquee, group them
+  into a card (Ctrl+G), undo (Ctrl+Z), delete. A floating properties window
+  sets each object's source, size, type size, colours, elevation, alignment,
+  margins, the parts it shows and how it widens on a wider screen.
+- **Drafts**: every change is kept on the device until Save; a lost
+  connection or a power cut loses nothing. Leaving with unsaved changes asks
+  first.
+- **Objects**: host CPU, memory and disk readings and dials; counts of
+  containers, images, volumes and networks; CPU, memory, disk and network
+  charts of the host or of any container, with legends; container, image,
+  volume and network headers, details, dials, shortcuts and action buttons;
+  the session selector; agent, client, `wslc`, Windows and kernel versions;
+  the live events status; the agent's log; file transfers; free text.
+- **Ready-made cards**: container, image, volume, network, system, charts.
+- **Alarms**: each measure has a threshold; past it the object turns red and
+  blinks. Chosen alarms also show as rings in a status bar on every screen.
+- **Zoom and fit**: zoom in and out, and fit the view to any screen: Fit, Fill,
+  Width, Stretch or Fluid. Each page and view keeps its own on each device;
+  portrait opens Fluid and landscape Fill until you choose.
+- **Charts**: any chart opens full size, with zoom.
+- Out of design, tapping a card offers its actions (Run, Pull, Create…) and
+  opens its page.
 
 ## Publishing and remote access
 
