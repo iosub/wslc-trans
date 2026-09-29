@@ -47,6 +47,19 @@ function Get-WslcAgentTrackedValue {
     return $Matches[1].Trim()
 }
 
+function Set-WslcAgentTrackedValue {
+    <# Writes one element of a tracked project file: only deploy-release.ps1 does, when a release is published. #>
+    param([string]$File, [string]$Element, [string]$Value)
+    $text = [System.IO.File]::ReadAllText($File)
+    if ($text -notmatch "<$Element>([^<]+)</$Element>") {
+        throw "No <$Element> in $File"
+    }
+    # The bare element only: the csproj's line that takes the local version
+    # carries a Condition, so it is never this one.
+    $text = ([regex]"<$Element>[^<]+</$Element>").Replace($text, "<$Element>$Value</$Element>", 1)
+    [System.IO.File]::WriteAllText($File, $text, (New-Object System.Text.UTF8Encoding $false))
+}
+
 function Read-WslcAgentLocalVersions {
     <#
     The versions this checkout's builds have reached, from

@@ -63,8 +63,12 @@ if (-not (Test-Path -LiteralPath (Join-Path $Stage "tray\wslc-ai-agent-tray.exe"
 # agent's data folder (data\ under the install folder): WSLC_AGENT_PUSH_KEY,
 # else private\firebase-service-account.json. Without it the agent pushes
 # nothing; the key can still be copied into the data folder by hand.
+# Never into a release: the key is a secret, and a published installer hands
+# it to whoever downloads it, who could then push through your Firebase project.
 $PushKey = if ($env:WSLC_AGENT_PUSH_KEY) { $env:WSLC_AGENT_PUSH_KEY } else { Join-Path (Get-WslcAgentPrivateFolder) "firebase-service-account.json" }
-if (Test-Path -LiteralPath $PushKey) {
+if ($Release) {
+    Write-Host "A release carries no Firebase key: its agent pushes no notifications until one is copied into its data folder." -ForegroundColor Yellow
+} elseif (Test-Path -LiteralPath $PushKey) {
     New-Item -ItemType Directory -Force -Path (Join-Path $Stage "data") | Out-Null
     Copy-Item -LiteralPath $PushKey -Destination (Join-Path $Stage "data\firebase-service-account.json")
 } elseif ($env:WSLC_AGENT_PUSH_KEY) {
