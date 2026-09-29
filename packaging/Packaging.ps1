@@ -333,7 +333,9 @@ function Set-WslcAgentMsiExplorerVersion {
 function Write-WslcAgentCheck {
     <#
     One line of a check script's report: what was checked, its state, and what
-    it means or how to fix it. When it is not ok, -Guide (a page of the
+    it means or how to fix it. -Run is the fix itself: each command on a line
+    of its own, so one copy takes one whole command (-Admin: it needs a
+    PowerShell run as administrator). When it is not ok, -Guide (a page of the
     repository, with its section) is printed under it: where the fix is
     explained step by step. Counts the broken ones in
     $script:WslcAgentCheckBroken of the script that called it.
@@ -342,15 +344,22 @@ function Write-WslcAgentCheck {
         [ValidateSet("ok", "absent", "broken")][string]$State,
         [string]$What,
         [string]$Detail,
-        [string]$Guide
+        [string]$Guide,
+        [string[]]$Run,
+        [switch]$Admin
     )
     $colour = @{ ok = "Green"; absent = "Yellow"; broken = "Red" }[$State]
+    $indent = " " * 13
     if ($State -eq "broken") { $script:WslcAgentCheckBroken++ }
     Write-Host ("  {0,-9} " -f "[$State]") -ForegroundColor $colour -NoNewline
     Write-Host "$What  " -NoNewline
     Write-Host $Detail
+    if ($Run) {
+        Write-Host "${indent}run$(if ($Admin) { ', from a PowerShell opened as administrator' }):" -ForegroundColor DarkGray
+        foreach ($command in $Run) { Write-Host "$indent  $command" -ForegroundColor Cyan }
+    }
     if ($Guide -and $State -ne "ok") {
-        Write-Host ("  {0,-9}  how: {1}" -f "", $Guide) -ForegroundColor DarkGray
+        Write-Host "${indent}how: $Guide" -ForegroundColor DarkGray
     }
 }
 

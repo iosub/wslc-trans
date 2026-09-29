@@ -56,7 +56,7 @@ if (-not (Test-Path -LiteralPath $keystore)) {
     if ($env:WSLC_AGENT_KEYSTORE) {
         Write-WslcAgentCheck broken $source "points to a missing file: $keystore" -Guide "$PrivateGuide#1-the-android-signing-key"
     } else {
-        Write-WslcAgentCheck absent "android.keystore" "build-client-apk.ps1 generates one in private\ the first time; Debug builds use the SDK's debug key." -Guide "$PrivateGuide#1-the-android-signing-key"
+        Write-WslcAgentCheck absent "android.keystore" "build-client-apk.ps1 generates one in private\ the first time it builds the APK; Debug builds use the SDK's debug key." -Run "& `"$(Join-Path $RepoRoot 'build-client-apk.ps1')`"" -Guide "$PrivateGuide#1-the-android-signing-key"
     }
 } else {
     $storePass = $env:WSLC_AGENT_KEYSTORE_PASS
@@ -123,7 +123,8 @@ Write-Host ""
 Write-Host "Git" -ForegroundColor Cyan
 $tracked = @(git -C $RepoRoot ls-files -- private | Where-Object { $_ -notin @("private/README.md", "private/env.example.psd1") })
 if ($tracked.Count -gt 0) {
-    Write-WslcAgentCheck broken "private\" "git tracks $($tracked -join ', '): remove it with git rm --cached, and replace the secret it held." -Guide "$PrivateGuide#where-they-go"
+    $quoted = ($tracked | ForEach-Object { '"' + $_ + '"' }) -join ' '
+    Write-WslcAgentCheck broken "private\" "git tracks $($tracked -join ', '): take it out of git, and replace the secret it held." -Run "git -C `"$RepoRoot`" rm --cached -- $quoted" -Guide "$PrivateGuide#where-they-go"
 } else {
     Write-WslcAgentCheck ok "private\" "git tracks nothing in it but README.md and env.example.psd1."
 }

@@ -168,10 +168,11 @@ Get-ChildItem -Recurse | Unblock-File
 ```
 
 **4. Check what this machine needs.** It installs nothing. All is well when
-the last line is green: **Ready to build**. Otherwise every missing piece
-names the section of
-[docs/developer/prerequisites.md](docs/developer/prerequisites.md) that
-installs it (VS Code, Visual Studio or no IDE); install it, **close every
+the last line is green: **Ready to build**. Otherwise, under every missing
+piece, it prints the command that installs it, one line to copy and run
+(and says when it needs a PowerShell opened as administrator), and the
+section of [docs/developer/prerequisites.md](docs/developer/prerequisites.md)
+that explains it (VS Code, Visual Studio or no IDE); install it, **close every
 terminal and VS Code and open them again** (a terminal only sees what was
 installed before it started), and run this line again.
 
