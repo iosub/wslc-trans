@@ -18,6 +18,8 @@ Import-WslcAgentPrivateSettings
 
 $Private = Get-WslcAgentPrivateFolder
 $script:WslcAgentCheckBroken = 0
+# Where each file is explained and made, section by section.
+$PrivateGuide = "docs\developer\private-files.md"
 
 
 function Read-JsonFile([string]$Path) {
@@ -52,9 +54,9 @@ if (-not $keystore) {
 }
 if (-not (Test-Path -LiteralPath $keystore)) {
     if ($env:WSLC_AGENT_KEYSTORE) {
-        Write-WslcAgentCheck broken $source "points to a missing file: $keystore"
+        Write-WslcAgentCheck broken $source "points to a missing file: $keystore" -Guide "$PrivateGuide#1-the-android-signing-key"
     } else {
-        Write-WslcAgentCheck absent "android.keystore" "build-client-apk.ps1 generates one in private\ the first time; Debug builds use the SDK's debug key."
+        Write-WslcAgentCheck absent "android.keystore" "build-client-apk.ps1 generates one in private\ the first time; Debug builds use the SDK's debug key." -Guide "$PrivateGuide#1-the-android-signing-key"
     }
 } else {
     $storePass = $env:WSLC_AGENT_KEYSTORE_PASS
@@ -63,7 +65,7 @@ if (-not (Test-Path -LiteralPath $keystore)) {
     }
     $alias = if ($env:WSLC_AGENT_KEY_ALIAS) { $env:WSLC_AGENT_KEY_ALIAS } else { "wslc-agent" }
     if (-not $storePass) {
-        Write-WslcAgentCheck broken $source "has no password: add $keystore.pass or set WSLC_AGENT_KEYSTORE_PASS."
+        Write-WslcAgentCheck broken $source "has no password: add $keystore.pass or set WSLC_AGENT_KEYSTORE_PASS." -Guide "$PrivateGuide#1-the-android-signing-key"
     } else {
         $keytool = try { Find-WslcAgentKeytool } catch { $null }
         if (-not $keytool) {
@@ -73,7 +75,7 @@ if (-not (Test-Path -LiteralPath $keystore)) {
             if ($LASTEXITCODE -eq 0) {
                 Write-WslcAgentCheck ok $source "opens with its password and holds the alias '$alias': APKs are signed with it."
             } else {
-                Write-WslcAgentCheck broken $source "does not open with its password, or has no alias '$alias'."
+                Write-WslcAgentCheck broken $source "does not open with its password, or has no alias '$alias'." -Guide "$PrivateGuide#1-the-android-signing-key"
             }
         }
     }
@@ -86,15 +88,15 @@ $appId = Get-AppId
 $clientProject = $null
 $googleServices = if ($env:WSLC_AGENT_GOOGLE_SERVICES) { $env:WSLC_AGENT_GOOGLE_SERVICES } else { Join-Path $Private "google-services.json" }
 if (-not (Test-Path -LiteralPath $googleServices)) {
-    if ($env:WSLC_AGENT_GOOGLE_SERVICES) { Write-WslcAgentCheck broken "WSLC_AGENT_GOOGLE_SERVICES" "points to a missing file: $googleServices" }
-    else { Write-WslcAgentCheck absent "google-services.json" "the Android client builds and receives no push." }
+    if ($env:WSLC_AGENT_GOOGLE_SERVICES) { Write-WslcAgentCheck broken "WSLC_AGENT_GOOGLE_SERVICES" "points to a missing file: $googleServices" -Guide "$PrivateGuide#2-the-firebase-project-and-google-servicesjson" }
+    else { Write-WslcAgentCheck absent "google-services.json" "the Android client builds and receives no push." -Guide "$PrivateGuide#2-the-firebase-project-and-google-servicesjson" }
 } else {
     $json = Read-JsonFile $googleServices
     $packages = @($json.client | ForEach-Object { $_.client_info.android_client_info.package_name })
     if (-not $json -or -not $json.project_info.project_id) {
-        Write-WslcAgentCheck broken "google-services.json" "is not the file Firebase's console downloads for an Android app."
+        Write-WslcAgentCheck broken "google-services.json" "is not the file Firebase's console downloads for an Android app." -Guide "$PrivateGuide#2-the-firebase-project-and-google-servicesjson"
     } elseif ($appId -and $packages -notcontains $appId) {
-        Write-WslcAgentCheck broken "google-services.json" "registers $($packages -join ', '), not this app's id $appId (WslcAgent.App.csproj)."
+        Write-WslcAgentCheck broken "google-services.json" "registers $($packages -join ', '), not this app's id $appId (WslcAgent.App.csproj)." -Guide "$PrivateGuide#2-the-firebase-project-and-google-servicesjson"
     } else {
         $clientProject = $json.project_info.project_id
         Write-WslcAgentCheck ok "google-services.json" "project ${clientProject}, app ${appId}: the Android client registers for push."
@@ -103,14 +105,14 @@ if (-not (Test-Path -LiteralPath $googleServices)) {
 
 $pushKey = if ($env:WSLC_AGENT_PUSH_KEY) { $env:WSLC_AGENT_PUSH_KEY } else { Join-Path $Private "firebase-service-account.json" }
 if (-not (Test-Path -LiteralPath $pushKey)) {
-    if ($env:WSLC_AGENT_PUSH_KEY) { Write-WslcAgentCheck broken "WSLC_AGENT_PUSH_KEY" "points to a missing file: $pushKey" }
-    else { Write-WslcAgentCheck absent "firebase-service-account.json" "the agent installer carries no key; the agent sends no push." }
+    if ($env:WSLC_AGENT_PUSH_KEY) { Write-WslcAgentCheck broken "WSLC_AGENT_PUSH_KEY" "points to a missing file: $pushKey" -Guide "$PrivateGuide#3-the-service-account-key" }
+    else { Write-WslcAgentCheck absent "firebase-service-account.json" "the agent installer carries no key; the agent sends no push." -Guide "$PrivateGuide#3-the-service-account-key" }
 } else {
     $json = Read-JsonFile $pushKey
     if (-not $json -or $json.type -ne "service_account" -or -not $json.private_key -or -not $json.client_email) {
-        Write-WslcAgentCheck broken "firebase-service-account.json" "is not a service account key (Firebase console > Project settings > Service accounts)."
+        Write-WslcAgentCheck broken "firebase-service-account.json" "is not a service account key (Firebase console > Project settings > Service accounts)." -Guide "$PrivateGuide#3-the-service-account-key"
     } elseif ($clientProject -and $json.project_id -ne $clientProject) {
-        Write-WslcAgentCheck broken "firebase-service-account.json" "belongs to project $($json.project_id), the client to ${clientProject}: pushes would never arrive."
+        Write-WslcAgentCheck broken "firebase-service-account.json" "belongs to project $($json.project_id), the client to ${clientProject}: pushes would never arrive." -Guide "$PrivateGuide#3-the-service-account-key"
     } else {
         Write-WslcAgentCheck ok "firebase-service-account.json" "project $($json.project_id): the agent installer carries it and the agent pushes."
     }
@@ -121,14 +123,14 @@ Write-Host ""
 Write-Host "Git" -ForegroundColor Cyan
 $tracked = @(git -C $RepoRoot ls-files -- private | Where-Object { $_ -notin @("private/README.md", "private/env.example.psd1") })
 if ($tracked.Count -gt 0) {
-    Write-WslcAgentCheck broken "private\" "git tracks $($tracked -join ', '): remove it with git rm --cached, and replace the secret it held."
+    Write-WslcAgentCheck broken "private\" "git tracks $($tracked -join ', '): remove it with git rm --cached, and replace the secret it held." -Guide "$PrivateGuide#where-they-go"
 } else {
     Write-WslcAgentCheck ok "private\" "git tracks nothing in it but README.md and env.example.psd1."
 }
 $files = @(Get-ChildItem -LiteralPath $Private -File -ErrorAction SilentlyContinue | Where-Object { $_.Name -notin @("README.md", "env.example.psd1") })
 foreach ($file in $files) {
     git -C $RepoRoot check-ignore -q -- "private/$($file.Name)"
-    if ($LASTEXITCODE -ne 0) { Write-WslcAgentCheck broken "private\$($file.Name)" "is not ignored by git: check .gitignore." }
+    if ($LASTEXITCODE -ne 0) { Write-WslcAgentCheck broken "private\$($file.Name)" "is not ignored by git: check .gitignore." -Guide "$PrivateGuide#where-they-go" }
 }
 Write-Host ""
 

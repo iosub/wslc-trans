@@ -36,7 +36,10 @@ No git yet? `winget install --id Git.Git -e`, then open a new terminal.
 .\check-prereqs.ps1
 ```
 
-It looks at what this machine has and changes nothing. Each line is one of:
+It looks at what this machine has and changes nothing. Each line is one of
+the following, and every line that is not `[ok]` is followed by `how:` and
+the section of [prerequisites.md](prerequisites.md) that installs it (for VS
+Code, Visual Studio or no IDE at all):
 
 - `[ok]`: present.
 - `[absent]`: missing, and only the part it names is switched off (the APK,
@@ -57,8 +60,8 @@ And for the parts that need them:
 
 | Prerequisite | For | Install |
 |---|---|---|
-| Android SDK | The APK, `debug-android.ps1` | Installed by the `android` workload on the first Android build, or with Android Studio; elsewhere, set `ANDROID_HOME` |
-| A JDK (`keytool`) | The APK and its signing key | `winget install --id Microsoft.OpenJDK.21 -e`, or set `JAVA_HOME` |
+| Android SDK | The APK, `debug-android.ps1` | [With VS Code or no IDE, Android Studio or Visual Studio](prerequisites.md#android-sdk) |
+| A JDK (`keytool`) | The APK and its signing key | `winget install --id Microsoft.OpenJDK.17 -e`, or set `JAVA_HOME` |
 | WebView2 Runtime | The Windows client, the tray window | `winget install --id Microsoft.EdgeWebView2Runtime -e` |
 | WSLC **2.9.13 or later** (`wslc` on the PATH) | The agent's containers | [WSL 2.9.13](https://github.com/microsoft/WSL/releases/tag/2.9.13) or a later release, then open a new terminal |
 

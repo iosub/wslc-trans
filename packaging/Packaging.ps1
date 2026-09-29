@@ -260,19 +260,25 @@ function Set-WslcAgentMsiExplorerVersion {
 function Write-WslcAgentCheck {
     <#
     One line of a check script's report: what was checked, its state, and what
-    it means or how to fix it. Counts the broken ones in $script:WslcAgentCheckBroken
-    of the script that called it.
+    it means or how to fix it. When it is not ok, -Guide (a page of the
+    repository, with its section) is printed under it: where the fix is
+    explained step by step. Counts the broken ones in
+    $script:WslcAgentCheckBroken of the script that called it.
     #>
     param(
         [ValidateSet("ok", "absent", "broken")][string]$State,
         [string]$What,
-        [string]$Detail
+        [string]$Detail,
+        [string]$Guide
     )
     $colour = @{ ok = "Green"; absent = "Yellow"; broken = "Red" }[$State]
     if ($State -eq "broken") { $script:WslcAgentCheckBroken++ }
     Write-Host ("  {0,-9} " -f "[$State]") -ForegroundColor $colour -NoNewline
     Write-Host "$What  " -NoNewline
     Write-Host $Detail
+    if ($Guide -and $State -ne "ok") {
+        Write-Host ("  {0,-9}  how: {1}" -f "", $Guide) -ForegroundColor DarkGray
+    }
 }
 
 function Find-WslcAgentAndroidSdk {

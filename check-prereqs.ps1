@@ -17,6 +17,8 @@ $RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $script:WslcAgentCheckBroken = 0
 # The oldest WSLC the agent works with.
 $MinimumWslc = [version]"2.9.13"
+# Where each prerequisite is explained and installed, section by section.
+$Guide = "docs\developer\prerequisites.md"
 
 function Get-CommandVersion([string]$Name, [string[]]$Arguments) {
     if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) { return $null }
@@ -32,14 +34,14 @@ $build = [Environment]::OSVersion.Version.Build
 if ($build -ge 22000) {
     Write-WslcAgentCheck ok "Windows" "build $build."
 } elseif ($build -ge 17763) {
-    Write-WslcAgentCheck absent "Windows 11" "build $build is Windows 10: everything builds, and WSLC needs Windows 11 to run the agent against containers."
+    Write-WslcAgentCheck absent "Windows 11" "build $build is Windows 10: everything builds, and WSLC needs Windows 11 to run the agent against containers." -Guide "$Guide#windows"
 } else {
-    Write-WslcAgentCheck broken "Windows" "build $build is older than 10.0.17763, the oldest the Windows client supports."
+    Write-WslcAgentCheck broken "Windows" "build $build is older than 10.0.17763, the oldest the Windows client supports." -Guide "$Guide#windows"
 }
 
 $git = Get-CommandVersion git @("--version")
 if ($git) { Write-WslcAgentCheck ok "git" $git }
-else { Write-WslcAgentCheck broken "git" "not found. Install it: winget install --id Git.Git -e" }
+else { Write-WslcAgentCheck broken "git" "not found. Install it: winget install --id Git.Git -e" -Guide "$Guide#git" }
 Write-Host ""
 
 # --- .NET ------------------------------------------------------------------
@@ -56,9 +58,9 @@ $dotnetOk = $usable.Count -gt 0
 if ($dotnetOk) {
     Write-WslcAgentCheck ok ".NET SDK" "$($usable[0]) (global.json asks for $wanted or a later feature band)."
 } elseif ($sdks.Count -gt 0) {
-    Write-WslcAgentCheck broken ".NET SDK" "found $($sdks -join ', '); global.json asks for $wanted or later in $($wanted.Major).$($wanted.Minor). Install it: winget install --id Microsoft.DotNet.SDK.$($wanted.Major) -e"
+    Write-WslcAgentCheck broken ".NET SDK" "found $($sdks -join ', '); global.json asks for $wanted or later in $($wanted.Major).$($wanted.Minor). Install it: winget install --id Microsoft.DotNet.SDK.$($wanted.Major) -e" -Guide "$Guide#net-sdk"
 } else {
-    Write-WslcAgentCheck broken ".NET SDK" "dotnet not found. Install it: winget install --id Microsoft.DotNet.SDK.$($wanted.Major) -e"
+    Write-WslcAgentCheck broken ".NET SDK" "dotnet not found. Install it: winget install --id Microsoft.DotNet.SDK.$($wanted.Major) -e" -Guide "$Guide#net-sdk"
 }
 
 if ($dotnetOk) {
@@ -67,7 +69,7 @@ if ($dotnetOk) {
         if ($installed -contains $workload) {
             Write-WslcAgentCheck ok "workload $workload" "installed."
         } else {
-            Write-WslcAgentCheck broken "workload $workload" "missing; the client project needs it. Install every workload the solution uses: dotnet workload restore WslcAgent.slnx"
+            Write-WslcAgentCheck broken "workload $workload" "missing; the client project needs it. Install every workload the solution uses: dotnet workload restore WslcAgent.slnx" -Guide "$Guide#maui-workloads"
         }
     }
 }
@@ -76,7 +78,7 @@ try {
     Invoke-WebRequest -Uri "https://api.nuget.org/v3/index.json" -Method Head -TimeoutSec 15 -UseBasicParsing | Out-Null
     Write-WslcAgentCheck ok "nuget.org" "reachable: the packages, WiX included, are restored on the first build."
 } catch {
-    Write-WslcAgentCheck broken "nuget.org" "not reachable: the first build downloads every package, WiX included, from it. Check the network or proxy."
+    Write-WslcAgentCheck broken "nuget.org" "not reachable: the first build downloads every package, WiX included, from it. Check the network or proxy." -Guide "$Guide#nuget-access"
 }
 Write-Host ""
 
@@ -86,13 +88,13 @@ $androidSdk = Find-WslcAgentAndroidSdk
 if ($androidSdk) {
     Write-WslcAgentCheck ok "Android SDK" $androidSdk
 } else {
-    Write-WslcAgentCheck absent "Android SDK" "no APK, no debug-android.ps1. The android workload installs it on the first Android build, or install Android Studio; if it lives elsewhere, set ANDROID_HOME."
+    Write-WslcAgentCheck absent "Android SDK" "no APK, no debug-android.ps1. Install it with the android workload (VS Code, no IDE), Android Studio or Visual Studio; if it lives elsewhere, set ANDROID_HOME." -Guide "$Guide#android-sdk"
 }
 $keytool = try { Find-WslcAgentKeytool } catch { $null }
 if ($keytool) {
     Write-WslcAgentCheck ok "JDK (keytool)" $keytool
 } else {
-    Write-WslcAgentCheck absent "JDK (keytool)" "no Android build nor signing key. Install it: winget install --id Microsoft.OpenJDK.21 -e, or set JAVA_HOME."
+    Write-WslcAgentCheck absent "JDK (keytool)" "no Android build nor signing key. Install it: winget install --id Microsoft.OpenJDK.17 -e, or set JAVA_HOME." -Guide "$Guide#jdk"
 }
 Write-Host ""
 
@@ -105,7 +107,7 @@ $webView2 = @("HKLM:\SOFTWARE\WOW6432Node\$webView2Key", "HKLM:\SOFTWARE\$webVie
 if ($webView2) {
     Write-WslcAgentCheck ok "WebView2 Runtime" $webView2.pv
 } else {
-    Write-WslcAgentCheck absent "WebView2 Runtime" "the Windows client and the tray window need it to run. Install it: winget install --id Microsoft.EdgeWebView2Runtime -e"
+    Write-WslcAgentCheck absent "WebView2 Runtime" "the Windows client and the tray window need it to run. Install it: winget install --id Microsoft.EdgeWebView2Runtime -e" -Guide "$Guide#webview2-runtime"
 }
 Write-Host ""
 
@@ -115,11 +117,11 @@ $wslcRelease = "https://github.com/microsoft/WSL/releases/tag/$MinimumWslc"
 $wslc = Get-CommandVersion wslc @("version")
 $wslcVersion = if ($wslc -match '(\d+\.\d+\.\d+(\.\d+)?)') { [version]$Matches[1] } else { $null }
 if (-not $wslc) {
-    Write-WslcAgentCheck absent "wslc" "not on the PATH: everything builds and the tests pass, and the agent has no containers to manage. Install WSLC $MinimumWslc or later ($wslcRelease), then open a new terminal."
+    Write-WslcAgentCheck absent "wslc" "not on the PATH: everything builds and the tests pass, and the agent has no containers to manage. Install WSLC $MinimumWslc or later ($wslcRelease), then open a new terminal." -Guide "$Guide#wslc"
 } elseif (-not $wslcVersion) {
-    Write-WslcAgentCheck broken "wslc" "answers '$wslc', with no version in it; the agent needs $MinimumWslc or later ($wslcRelease)."
+    Write-WslcAgentCheck broken "wslc" "answers '$wslc', with no version in it; the agent needs $MinimumWslc or later ($wslcRelease)." -Guide "$Guide#wslc"
 } elseif ($wslcVersion -lt $MinimumWslc) {
-    Write-WslcAgentCheck broken "wslc" "$wslcVersion is older than $MinimumWslc, the oldest the agent works with. Update it: $wslcRelease"
+    Write-WslcAgentCheck broken "wslc" "$wslcVersion is older than $MinimumWslc, the oldest the agent works with. Update it: $wslcRelease" -Guide "$Guide#wslc"
 } else {
     Write-WslcAgentCheck ok "wslc" "$wslcVersion (the agent needs $MinimumWslc or later)."
 }

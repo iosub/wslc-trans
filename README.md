@@ -74,7 +74,7 @@ cd wslc-ai-agent
 
 | Step | All is well when |
 |---|---|
-| `check-prereqs.ps1` | The last line is green: **Ready to build**. Otherwise install each `[broken]` line with the command it gives, open a new terminal, run it again. |
+| `check-prereqs.ps1` | The last line is green: **Ready to build**. Otherwise each missing piece names the section of [docs/developer/prerequisites.md](docs/developer/prerequisites.md) that installs it (VS Code, Visual Studio or no IDE); install it, open a new terminal, run it again. |
 | `check-private.ps1` | The last line is green: **Nothing broken**. `[absent]` only switches off what it names. |
 | `build.ps1` | The tests pass and it ends in **Done.** |
 | `start-agent.ps1` | http://127.0.0.1:8070 opens the dashboard. `Ctrl+C` stops it. |
