@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [main]
 
+# A newer push to the same branch makes the running build pointless.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 # A clean machine on every push, driven by the same scripts as the README's
 # Quick start: when a step breaks for a new user, it breaks here first.
 jobs:
