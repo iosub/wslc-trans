@@ -8,7 +8,7 @@ Everything WSLC AI Agent does, first at a glance, then area by area.
   - 53 MCP tools: your AI assistant runs your containers, and asks your approval before anything destructive
   - Its skill, which teaches the assistant WSLC, installed with one click into Claude Code, Hermes Agent or OpenClaw
   - A small Windows program that sits next to `wslc`, Microsoft's container CLI, and runs it for you
-  - Runs in the background of your Windows session from logon until you sign out: close the browser and the apps, and its jobs, restart policies, alarms and notifications go on
+  - Runs in the background of your Windows session: close the browser and the apps, and its jobs, restart policies, alarms and notifications go on
   - Serves everything itself: the web interface, the native clients, a REST API (`/api/v1`) and an MCP server
   - Installed per user, with no administrator rights; an icon beside the clock
 - **Easy container management with WSLC**, all of it from one place
@@ -61,11 +61,9 @@ from the start, with its skill included for Claude, Hermes, OpenClaw, etc.
 
 ### The agent
 
-- **In the background of your session**: it starts when you log on to
-  Windows and runs until you sign out, as `wslc` itself only works inside a
-  user session. Close the browser and the apps and whatever it began goes
-  on: runs, pulls, builds, transfers, backups, updates. Signing out stops it;
-  the next logon starts it again.
+- **In the background of your Windows session**: close the browser and the
+  apps and whatever it began goes on: runs, pulls, builds, transfers,
+  backups, updates.
 - **It keeps watch**: it brings containers back by their restart policy when
   it starts and when a session starts, and watches the host and the
   containers for the alarms and notifications below.

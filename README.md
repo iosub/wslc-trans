@@ -16,8 +16,8 @@ products are **WSLC AI Agent** (the agent, `wslc-ai-agent.exe`) and
 - **An MCP agent for WSLC, skill included for Claude, Hermes, OpenClaw,
   etc.**: 53 tools, destructive ones behind your approval, and a skill
   installed with one click. One Windows program beside `wslc` that runs in
-  the background of your session from logon until you sign out, goes on with
-  the browser and the apps closed, and serves the web interface, the clients
+  the background of your Windows session, goes on with the browser and the
+  apps closed, and serves the web interface, the clients
   and a REST API too. Per user, no administrator rights.
 - **Easy container management with WSLC**: containers, images, volumes,
   networks and sessions from one place; paste a `docker run` line to fill the
