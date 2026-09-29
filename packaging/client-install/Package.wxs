@@ -25,6 +25,11 @@
 
     <Property Id="WSLC_AGENTURL" Value="http://127.0.0.1:8069/" Secure="yes" />
     <WixVariable Id="WixUILicenseRtf" Value="..\license.rtf" />
+    <!-- The client's own icon in Installed apps and Programs and Features, as
+         the agent's installer shows its own: the one MAUI generates into the
+         payload build-client-installer.ps1 publishes. -->
+    <Icon Id="ClientIcon" SourceFile="..\..\dist\client-msi-payload\appicon.ico" />
+    <Property Id="ARPPRODUCTICON" Value="ClientIcon" />
 
     <Feature Id="Main" Title="WSLC AI Client" Level="1">
       <ComponentGroupRef Id="PublishedFiles" />
