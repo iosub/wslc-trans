@@ -82,7 +82,7 @@ window.wslcAgent = {
     // design — "fit", "fill", "width", "stretch" or "fluid", the first as a television offers them —
     // kept on this device beside the dashboard's
     // zoom, one for each page and view, as one JSON object. Without a mode it
-    // only answers the one kept, "fit" where none is.
+    // only answers the one kept, null where none is: the page chooses then.
     dashboardViewFit(key, mode) {
         let kept = {};
         try {
@@ -99,7 +99,7 @@ window.wslcAgent = {
                 // Private windows: the mode still applies, it is just not remembered.
             }
         }
-        return mode || kept[key] || 'fit';
+        return mode || kept[key] || null;
     },
 
     // Table or cards per list, as one string ("Container=cards;ImageSummary=table"),
