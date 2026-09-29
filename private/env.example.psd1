@@ -28,7 +28,7 @@
     WSLC_DEPLOY_PORT            = ''
     # A jump host, user@host, when the target is not reachable directly.
     WSLC_DEPLOY_JUMP            = ''
-    # With forward slashes: C:/wslc/dist.
+    # With forward slashes: C:/Berpiztu/wslc-ai-agent.
     WSLC_DEPLOY_DIST            = ''
 
     # vps-tunnels.ps1: the VPS the reverse forwards go to, user@host.

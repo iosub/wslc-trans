@@ -121,6 +121,16 @@ function Remove-LogonTask {
     }
 }
 
+function Get-AgentPackagesFolder {
+    # The folder the installer asked for, from the plain-text file it wrote
+    # beside the agent: an update keeps it. Settings may override it, but that
+    # choice lives in the agent's data folder and needs nothing from here.
+    $ini = Join-Path $InstallDir "wslc-ai-agent.ini"
+    $line = if (Test-Path -LiteralPath $ini) { Select-String -LiteralPath $ini -Pattern '^\s*ClientPackagesPath\s*=\s*(.+?)\s*$' | Select-Object -First 1 }
+    if ($line) { return $line.Matches[0].Groups[1].Value }
+    return "C:\Berpiztu\wslc-ai-agent"
+}
+
 function Get-AgentBindHost {
     $value = (Get-ItemProperty -Path $RegistryKey -Name BindHost -ErrorAction SilentlyContinue).BindHost
     if ($value) { return $value.Trim() }
@@ -175,7 +185,7 @@ function Install-Update {
     Stop-Agent
 
     $log = [IO.Path]::ChangeExtension($Msi, ".log")
-    $arguments = "/i `"$Msi`" /qn /norestart WSLC_BINDHOST=$(Get-AgentBindHost) WSLC_AGENTPORT=$(Get-AgentPort) /l*v `"$log`""
+    $arguments = "/i `"$Msi`" /qn /norestart WSLC_BINDHOST=$(Get-AgentBindHost) WSLC_AGENTPORT=$(Get-AgentPort) WSLC_PACKAGESFOLDER=`"$(Get-AgentPackagesFolder)`" /l*v `"$log`""
     $code = (Start-Process -FilePath "msiexec.exe" -ArgumentList $arguments -Wait -PassThru).ExitCode
     $ok = $code -eq 0 -or $code -eq 3010
     $outcome = if ($ok) { "ok" } else { "failed" }

@@ -34,6 +34,10 @@
 
     <Property Id="WSLC_BINDHOST" Value="127.0.0.1" Secure="yes" />
     <Property Id="WSLC_AGENTPORT" Value="8069" Secure="yes" />
+    <!-- Where the agent looks for its own newer installer and the clients':
+         asked by the wizard, and written beside the agent as plain text
+         (wslc-ai-agent.ini), not in the registry. -->
+    <Property Id="WSLC_PACKAGESFOLDER" Value="$(var.PackagesFolder)" Secure="yes" />
     <WixVariable Id="WixUILicenseRtf" Value="..\license.rtf" />
     <Icon Id="AgentIcon" SourceFile="..\..\src\WslcAgent.Server\wslc-ai-agent.ico" />
     <Property Id="ARPPRODUCTICON" Value="AgentIcon" />
@@ -56,6 +60,9 @@
       <RegistryValue Root="HKCU" Key="Software\Berpiztu\wslc-agent\Agent" Name="Port" Type="string" Value="[WSLC_AGENTPORT]" />
       <RegistryValue Root="HKCU" Key="Software\Berpiztu\wslc-agent\Agent" Name="InstallDir" Type="string" Value="[INSTALLFOLDER]" />
       <RegistryValue Root="HKCU" Key="Software\Berpiztu\wslc-agent\Agent" Name="Version" Type="string" Value="[ProductVersion]" />
+      <!-- Read by the agent as Wslc:ClientPackagesPath; removed on uninstall. -->
+      <IniFile Id="PackagesFolderIni" Action="addLine" Directory="INSTALLFOLDER" Name="wslc-ai-agent.ini"
+               Section="Wslc" Key="ClientPackagesPath" Value="[WSLC_PACKAGESFOLDER]" />
       <RemoveFolder Id="RemoveAgentFolder" Directory="INSTALLFOLDER" On="uninstall" />
     </Component>
 

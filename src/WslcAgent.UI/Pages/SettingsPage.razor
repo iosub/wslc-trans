@@ -1,6 +1,7 @@
 @page "/settings"
 @inject WslcAgentApi Api
 @inject ISnackbar Snackbar
+@inject IDialogService Dialogs
 @using Microsoft.JSInterop
 @inject IJSRuntime Js
 @inject SimulatedRemote Simulated
@@ -276,6 +277,16 @@
                     <MudText Typo="Typo.body2" Class="mb-2">Now: <b>@UpdateStateText</b></MudText>
                     <MudSwitch T="bool" Value="_update.Settings.AutoUpdate" ValueChanged="SaveUpdateAsync"
                                Label="Auto update" LabelPlacement="Placement.Start" Color="Color.Primary" Disabled="_updateBusy" />
+                    @* Empty is the folder the agent was installed with, shown as the placeholder. *@
+                    <div class="wslc-field-pick has-note mt-3">
+                        <MudTextField T="string" @bind-Value="_packageFolder" Label="Package folder" Placeholder="@_update.AutomaticPackageFolder"
+                                      Immediate="true" Variant="Variant.Filled" Margin="Margin.Dense" Class="wslc-mono" Disabled="_updateBusy"
+                                      HelperTextOnFocus="true" HelperText="Where newer installers of the agent and its clients are put; empty for the folder it was installed with. Created if missing."
+                                      autocapitalize="none" autocorrect="off" spellcheck="false" />
+                        <MudFab Color="Color.Success" StartIcon="@Icons.Material.Filled.MoreVert" Size="Size.Small" title="Pick a folder" OnClick="PickPackageFolderAsync" Disabled="_updateBusy" />
+                    </div>
+                    <MudButton Variant="Variant.Filled" Color="Color.Success" StartIcon="@Icons.Material.Filled.Save" Class="mt-2"
+                               Disabled="@(_updateBusy || !PackageFolderChanged)" OnClick="SavePackageFolderAsync">Save folder</MudButton>
                     <MudStack Row="true" Spacing="2" Class="mt-3">
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.SystemUpdateAlt"
                                    Disabled="@(_updateBusy || !_update.Installed || !_update.Newer || _update.State == AgentUpdateState.Installing)"
@@ -968,7 +979,7 @@
     {
         null => "",
         { Installed: false } => $"{_update.Version}, a development build: no installer replaces it",
-        { AvailableVersion.Length: 0 } => $"{_update.Version}; there is no agent installer in the package folder",
+        { AvailableVersion.Length: 0 } => $"{_update.Version}; there is no agent installer in {_update.PackageFolder}: put a newer wslc-ai-agent.msi there to update",
         { Newer: false } => $"{_update.Version}, up to date (the installer there is {_update.AvailableVersion})",
         { State: AgentUpdateState.Waiting } => $"{_update.Version}; {_update.AvailableVersion} waits for {_update.InFlight} transfer{(_update.InFlight == 1 ? "" : "s")} to finish",
         { State: AgentUpdateState.Announced } => $"{_update.Version}; {_update.AvailableVersion} is about to install, and every client can cancel it",
@@ -989,7 +1000,24 @@
     private Task ReadUpdateAsync() => AskUpdateAsync(() => Api.GetAgentUpdateAsync(), done: null);
 
     private Task SaveUpdateAsync(bool on) =>
-        AskUpdateAsync(() => Api.SetAgentUpdateSettingsAsync(new AgentUpdateSettings(on)), on ? "Auto update on" : "Auto update off: only Update now installs");
+        AskUpdateAsync(() => Api.SetAgentUpdateSettingsAsync(_update!.Settings with { AutoUpdate = on }), on ? "Auto update on" : "Auto update off: only Update now installs");
+
+    /// <summary>The package folder as typed, apart from the one saved, so a refresh from the agent does not overwrite what is being typed.</summary>
+    private string _packageFolder = "";
+
+    private bool PackageFolderChanged => _update is not null && _packageFolder.Trim() != (_update.Settings.PackageFolder ?? "");
+
+    private async Task PickPackageFolderAsync()
+    {
+        if (await Pickers.HostFolderAsync(Dialogs, _packageFolder.Length > 0 ? _packageFolder : _update?.PackageFolder ?? "") is { } folder)
+        {
+            _packageFolder = folder;
+        }
+    }
+
+    private Task SavePackageFolderAsync() =>
+        AskUpdateAsync(() => Api.SetAgentUpdateSettingsAsync(_update!.Settings with { PackageFolder = _packageFolder.Trim() }),
+            _packageFolder.Trim().Length > 0 ? $"Package folder: {_packageFolder.Trim()}" : "Package folder: the one the agent was installed with");
 
     private Task UpdateNowAsync() =>
         AskUpdateAsync(() => Api.UpdateAgentAsync(), "The agent updates itself as soon as nothing is being transferred");
@@ -1003,7 +1031,12 @@
         _updateBusy = true;
         try
         {
+            var typing = PackageFolderChanged;
             _update = await call();
+            if (!typing)
+            {
+                _packageFolder = _update.Settings.PackageFolder ?? "";
+            }
             if (done is not null)
             {
                 Snackbar.Add(done, Severity.Success);

@@ -2,10 +2,12 @@ namespace WslcAgent.ApiClient.Contracts;
 
 /// <summary>
 /// Body of <c>PUT /api/v1/agent/update/settings</c>: whether the agent installs
-/// a newer version of itself as soon as one is in its package folder.
+/// a newer version of itself as soon as one is in its package folder, and
+/// which folder that is.
 /// </summary>
 /// <param name="AutoUpdate">On, the agent updates itself when a newer installer appears and nothing is being transferred; off, only Update now does.</param>
-public sealed record AgentUpdateSettings(bool AutoUpdate);
+/// <param name="PackageFolder">The package folder chosen in Settings, a full path; empty for the one the agent was installed with (<see cref="AgentUpdateStatus.AutomaticPackageFolder"/>).</param>
+public sealed record AgentUpdateSettings(bool AutoUpdate, string PackageFolder = "");
 
 /// <summary>
 /// Body of <c>GET /api/v1/agent/update</c>: Settings → Agent update, the
@@ -23,6 +25,15 @@ public sealed record AgentUpdateSettings(bool AutoUpdate);
 /// <param name="State"><see cref="AgentUpdateState"/>.</param>
 /// <param name="SecondsLeft">While <see cref="AgentUpdateState.Announced"/>, the seconds before it starts; a client counts down from its own clock, not the agent's.</param>
 /// <param name="LastResult">How the last update ended, in words, or empty when there has been none.</param>
+/// <param name="PackageFolder">
+/// The folder the agent looks in for its own installer and the clients':
+/// the one chosen in Settings, else <paramref name="AutomaticPackageFolder"/>.
+/// Where a newer <c>wslc-ai-agent.msi</c> is put for the agent to update itself.
+/// </param>
+/// <param name="AutomaticPackageFolder">
+/// The package folder with nothing chosen in Settings: the one its installer
+/// asked for, else <c>C:\Berpiztu\wslc-ai-agent</c>.
+/// </param>
 public sealed record AgentUpdateStatus(
     AgentUpdateSettings Settings,
     string Version,
@@ -32,7 +43,9 @@ public sealed record AgentUpdateStatus(
     int InFlight,
     string State,
     int SecondsLeft,
-    string LastResult);
+    string LastResult,
+    string PackageFolder,
+    string AutomaticPackageFolder);
 
 /// <summary>Where an update stands.</summary>
 public static class AgentUpdateState

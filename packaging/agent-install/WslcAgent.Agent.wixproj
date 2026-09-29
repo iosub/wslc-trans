@@ -4,7 +4,11 @@
        server, writes GeneratedFiles.wxs from the payload and builds this. -->
   <PropertyGroup>
     <MsiVersion Condition="'$(MsiVersion)' == ''">0.0.0</MsiVersion>
-    <DefineConstants>$(DefineConstants);MsiVersion=$(MsiVersion)</DefineConstants>
+    <!-- The package folder the wizard offers: a release's is the fixed one,
+         an installer built from a checkout the checkout's dist
+         (build-agent-installer.ps1). -->
+    <PackagesFolder Condition="'$(PackagesFolder)' == ''">C:\Berpiztu\wslc-ai-agent</PackagesFolder>
+    <DefineConstants>$(DefineConstants);MsiVersion=$(MsiVersion);PackagesFolder=$(PackagesFolder)</DefineConstants>
     <OutputType>Package</OutputType>
     <OutputName>wslc-ai-agent</OutputName>
     <InstallerPlatform>x64</InstallerPlatform>

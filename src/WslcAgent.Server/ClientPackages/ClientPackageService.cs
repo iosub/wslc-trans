@@ -12,10 +12,8 @@ public sealed class ClientPackageService(PackageFolders folders) : IClientPackag
 {
     private static readonly IReadOnlyDictionary<string, PackageSpec> Specs = new Dictionary<string, PackageSpec>(StringComparer.OrdinalIgnoreCase)
     {
-        ["windows"] = new("wslc-ai-client.msi", "application/x-msi",
-            "The Windows client installer is not on this agent. Build it with .\\build-client-installer.ps1 to dist\\wslc-ai-client.msi."),
-        ["android"] = new("wslc-ai-client.apk", "application/vnd.android.package-archive",
-            "The Android APK is not on this agent. Build it with .\\build-client-apk.ps1 to dist\\wslc-ai-client.apk."),
+        ["windows"] = new("wslc-ai-client.msi", "application/x-msi", "The Windows client installer", "build-client-installer.ps1"),
+        ["android"] = new("wslc-ai-client.apk", "application/vnd.android.package-archive", "The Android APK", "build-client-apk.ps1"),
     };
 
     public ClientPackageInfo Describe(string platform)
@@ -24,7 +22,8 @@ public sealed class ClientPackageService(PackageFolders folders) : IClientPackag
         var path = Locate(platform);
         if (path is null)
         {
-            return new ClientPackageInfo(platform.ToLowerInvariant(), spec.Filename, false, "", 0, spec.MissingMessage);
+            return new ClientPackageInfo(platform.ToLowerInvariant(), spec.Filename, false, "", 0,
+                $"{spec.What} is not on this agent. Put {spec.Filename} in {folders.Folder}: it comes with every release, or .\\{spec.BuildScript} builds it.");
         }
 
         var (version, build) = spec.Filename.EndsWith(".apk", StringComparison.OrdinalIgnoreCase)
@@ -42,5 +41,5 @@ public sealed class ClientPackageService(PackageFolders folders) : IClientPackag
             ? spec
             : throw new ArgumentException("Platform must be 'windows' or 'android'.", nameof(platform));
 
-    private sealed record PackageSpec(string Filename, string MediaType, string MissingMessage);
+    private sealed record PackageSpec(string Filename, string MediaType, string What, string BuildScript);
 }

@@ -24,7 +24,7 @@
     WSLC_DEPLOY_PORT   SSH port on that host (default 22)
     WSLC_DEPLOY_JUMP   SSH jump host, user@host (optional)
     WSLC_DEPLOY_DIST   destination folder on the target (required), with
-                       forward slashes: C:/wslc/dist
+                       forward slashes: C:/Berpiztu/wslc-ai-agent
 
   An account that is a local administrator on the target keeps its public key
   in C:\ProgramData\ssh\administrators_authorized_keys, not in its own profile.
@@ -91,7 +91,7 @@ $JumpHost = Get-WslcAgentSetting WSLC_DEPLOY_JUMP $JumpHost
 # escape character in SFTP, so "C:\wslc/..." reaches the target as "C:wslc/..."
 # — a path relative to the SSH session's folder — and every file fails to open
 # at the destination, which reads exactly like the file being locked.
-$RemoteDist = (Get-WslcAgentSetting WSLC_DEPLOY_DIST $RemoteDist -Required -What "the destination folder on the target, with forward slashes (C:/wslc/dist)") -replace '\\', '/'
+$RemoteDist = (Get-WslcAgentSetting WSLC_DEPLOY_DIST $RemoteDist -Required -What "the destination folder on the target, with forward slashes (C:/Berpiztu/wslc-ai-agent)") -replace '\\', '/'
 
 $SshExe = Join-Path $env:SystemRoot "System32\OpenSSH\ssh.exe"
 $ScpExe = Join-Path $env:SystemRoot "System32\OpenSSH\scp.exe"

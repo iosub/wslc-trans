@@ -650,7 +650,7 @@ environment ([environment.md](environment.md)):
 | `WSLC_DEPLOY_HOST` | `127.0.0.1`, the PC as the VPS reaches it |
 | `WSLC_DEPLOY_PORT` | `2222` |
 | `WSLC_DEPLOY_JUMP` | `user@vps.example.com` |
-| `WSLC_DEPLOY_DIST` | `C:/wslc/dist`, with forward slashes |
+| `WSLC_DEPLOY_DIST` | `C:/Berpiztu/wslc-ai-agent`, with forward slashes |
 
 Then, from the root of the repository:
 

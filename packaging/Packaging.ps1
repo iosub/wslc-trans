@@ -213,16 +213,22 @@ function Test-WslcAgentVersionedFile {
 }
 
 function Build-WslcAgentMsi {
-    <# Build a WiX project and return the path of the produced .msi. #>
+    <#
+    Build a WiX project and return the path of the produced .msi.
+    -PackagesFolder is the package folder the agent's wizard offers; the
+    project's own default stands without it.
+    #>
     param(
         [Parameter(Mandatory = $true)][string]$WixProj,
-        [Parameter(Mandatory = $true)][string]$Version
+        [Parameter(Mandatory = $true)][string]$Version,
+        [string]$PackagesFolder
     )
     $outDir = Join-Path (Split-Path -Parent $WixProj) "bin\Release"
     New-Item -ItemType Directory -Force -Path $outDir | Out-Null
+    $extra = if ($PackagesFolder) { @("-p:PackagesFolder=$PackagesFolder") } else { @() }
     # Out-Host keeps the build output off the pipeline: this function's only
     # return value must be the .msi path.
-    & dotnet build $WixProj -c Release -nologo -v q -p:OutputPath="$outDir\" -p:MsiVersion=$Version | Out-Host
+    & dotnet build $WixProj -c Release -nologo -v q -p:OutputPath="$outDir\" -p:MsiVersion=$Version @extra | Out-Host
     if ($LASTEXITCODE -ne 0) { throw "WiX build failed with exit code $LASTEXITCODE" }
     $msi = Get-ChildItem -LiteralPath $outDir -Filter *.msi -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1
     if (-not $msi) { throw "WiX build succeeded but no .msi was found under $outDir" }

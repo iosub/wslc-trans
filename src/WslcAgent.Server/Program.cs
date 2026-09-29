@@ -25,6 +25,11 @@ using WslcAgent.Server.Wslc;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// What the installer's wizard chose, written beside the executable as plain
+// text rather than in the registry: the package folder. A run from the
+// checkout has none.
+builder.Configuration.AddIniFile(Path.Combine(AppContext.BaseDirectory, "wslc-ai-agent.ini"), optional: true);
+
 // Installed agents listen where the installer said (HKCU); --urls,
 // ASPNETCORE_URLS and launchSettings still take precedence.
 if (string.IsNullOrWhiteSpace(builder.Configuration["urls"]))
@@ -126,6 +131,9 @@ builder.Services
     .WithOperatorSwitches();
 
 var app = builder.Build();
+
+// Waiting for the installers before anyone asks where to put them.
+app.Services.GetRequiredService<PackageFolders>().EnsureExists();
 
 if (app.Environment.IsDevelopment())
 {

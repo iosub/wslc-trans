@@ -24,6 +24,9 @@ public static class TestHost
         factory.WithWebHostBuilder(builder =>
         {
             builder.UseSetting("Wslc:DataDirectory", TempDataDirectory());
+            // Never the machine's own package folder: an agent installer there
+            // would be offered to the updater under test.
+            builder.UseSetting("Wslc:ClientPackagesPath", TempDataDirectory());
             builder.ConfigureServices(services =>
             {
                 services.Replace(ServiceDescriptor.Singleton(runner));

@@ -59,17 +59,20 @@
         <Control Id="Title" Type="Text" X="15" Y="6" Width="340" Height="15" Transparent="yes" NoPrefix="yes"
                  Text="{\WixUI_Font_Title}Agent listen settings" />
         <Control Id="Description" Type="Text" X="25" Y="23" Width="330" Height="15" Transparent="yes" NoPrefix="yes"
-                 Text="Choose the server address and port. You can keep the defaults or change them." />
+                 Text="Choose the server address, the port and the package folder, or keep the defaults." />
         <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
 
-        <Control Id="ServerLabel" Type="Text" X="25" Y="70" Width="320" Height="15" Text="Server:" />
-        <Control Id="ServerEdit" Type="Edit" X="25" Y="86" Width="320" Height="18" Property="WSLC_BINDHOST" />
+        <Control Id="ServerLabel" Type="Text" X="25" Y="52" Width="320" Height="15" Text="Server:" />
+        <Control Id="ServerEdit" Type="Edit" X="25" Y="66" Width="320" Height="18" Property="WSLC_BINDHOST" />
 
-        <Control Id="PortLabel" Type="Text" X="25" Y="120" Width="320" Height="15" Text="Port:" />
-        <Control Id="PortEdit" Type="Edit" X="25" Y="136" Width="120" Height="18" Property="WSLC_AGENTPORT" Integer="yes" />
+        <Control Id="PortLabel" Type="Text" X="25" Y="92" Width="320" Height="15" Text="Port:" />
+        <Control Id="PortEdit" Type="Edit" X="25" Y="106" Width="120" Height="18" Property="WSLC_AGENTPORT" Integer="yes" />
 
-        <Control Id="Hint" Type="Text" X="25" Y="175" Width="320" Height="40" Transparent="yes" NoPrefix="yes"
-                 Text="Default is 127.0.0.1 on port 8069 (this PC only). Enter this PC's LAN address to reach the agent from other devices." />
+        <Control Id="PackagesLabel" Type="Text" X="25" Y="132" Width="320" Height="15" Text="Package folder (updates and client downloads):" />
+        <Control Id="PackagesEdit" Type="Edit" X="25" Y="146" Width="320" Height="18" Property="WSLC_PACKAGESFOLDER" />
+
+        <Control Id="Hint" Type="Text" X="25" Y="172" Width="320" Height="56" Transparent="yes" NoPrefix="yes"
+                 Text="Default is 127.0.0.1 on port 8069 (this PC only); enter this PC's LAN address to reach the agent from other devices. Newer installers of the agent and its clients go in the package folder, created if missing; Settings, Update changes it later." />
 
         <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
         <Control Id="Back" Type="PushButton" X="156" Y="243" Width="56" Height="17" Text="&amp;Back">
@@ -77,7 +80,7 @@
         </Control>
         <Control Id="Install" Type="PushButton" X="212" Y="243" Width="80" Height="17" Default="yes" Text="&amp;Install">
           <Publish Event="SpawnWaitDialog" Value="WaitForCostingDlg" Condition="CostingComplete = 1" />
-          <Publish Event="EndDialog" Value="Return" Condition="WSLC_BINDHOST AND WSLC_AGENTPORT AND OutOfDiskSpace &lt;&gt; 1" />
+          <Publish Event="EndDialog" Value="Return" Condition="WSLC_BINDHOST AND WSLC_AGENTPORT AND WSLC_PACKAGESFOLDER AND OutOfDiskSpace &lt;&gt; 1" />
           <Publish Event="SpawnDialog" Value="OutOfRbDiskDlg" Condition="OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST=&quot;P&quot; OR NOT PROMPTROLLBACKCOST)" />
           <Publish Event="SpawnDialog" Value="OutOfDiskDlg" Condition="(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST=&quot;F&quot;)" />
         </Control>

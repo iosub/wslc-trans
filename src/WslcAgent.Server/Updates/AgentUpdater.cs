@@ -81,13 +81,20 @@ public sealed class AgentUpdater(
         {
             var left = _state == AgentUpdateState.Announced ? (int)Math.Ceiling(Math.Max(0, (_startsAt - time.GetUtcNow()).TotalSeconds)) : 0;
             return new AgentUpdateStatus(settings.Get(), info.Version, _installed, package?.Version ?? "", package is not null && IsNewer(package.Version),
-                InFlight, _state, left, _last?.Text ?? "");
+                InFlight, _state, left, _last?.Text ?? "", folders.Folder, folders.Automatic);
         }
     }
 
     public AgentUpdateStatus Save(AgentUpdateSettings chosen)
     {
-        settings.Set(chosen);
+        var folder = (chosen.PackageFolder ?? "").Trim();
+        if (folder.Length > 0 && !Path.IsPathFullyQualified(Environment.ExpandEnvironmentVariables(folder)))
+        {
+            throw new ArgumentException($"The package folder has to be a full path, such as {PackageFolders.DefaultFolder}.");
+        }
+
+        settings.Set(chosen with { PackageFolder = folder });
+        folders.EnsureExists();
         Wake();
         return Status();
     }

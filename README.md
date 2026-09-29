@@ -189,6 +189,22 @@ Every step, what it shows and what to do when it shows something else:
 The signing key and the Firebase files, when you want signed APKs or push
 notifications: [docs/developer/private-files.md](docs/developer/private-files.md).
 
+## How to update
+
+The agent updates itself, and offers its clients their updates, from its
+**package folder**: put newer installers there and, with **Auto update** on
+(Settings → Update), the rest follows.
+
+- **Installed a release?** The package folder is `C:\Berpiztu\wslc-ai-agent`
+  unless you chose another when installing: copy the new
+  `wslc-ai-agent.msi`, `wslc-ai-client.msi` and `wslc-ai-client.apk` there.
+- **Built it yourself?** The agent takes its updates from your clone's
+  `dist`, where the build scripts put them. To keep it from updating itself
+  every time you build, turn **Auto update** off in Settings → Update.
+
+The package folder can be changed in Settings → Update at any time. How it
+all works, step by step: [docs/updating.md](docs/updating.md).
+
 ## Scripts
 
 All scripts live in the repository root and work from any current directory.

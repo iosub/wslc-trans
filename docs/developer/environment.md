@@ -47,7 +47,7 @@ that runs the agent over SSH and can install the agent there.
 | `WSLC_DEPLOY_HOST` | required | The target as SSH reaches it; behind a jump host, the address on the jump host's side | `agent-pc`, or `127.0.0.1` behind a jump host |
 | `WSLC_DEPLOY_PORT` | `22` | The SSH port on that host | `2222` behind a jump host |
 | `WSLC_DEPLOY_JUMP` | none | An SSH jump host, `user@host`, when the target is not reachable directly | `user@vps.example.com` |
-| `WSLC_DEPLOY_DIST` | required | The destination folder on the target, with forward slashes | `C:/wslc/dist` |
+| `WSLC_DEPLOY_DIST` | required | The target agent's package folder ([updating.md](../updating.md)), with forward slashes | `C:/Berpiztu/wslc-ai-agent` |
 
 The target needs the OpenSSH server and your public key in its authorized
 keys. For an account that is a local administrator there, that is
@@ -74,13 +74,6 @@ chosen when it is installed, and its Publishing settings (domain, name
 suffix, proxy, network, map file) are set in its UI, **Settings →
 Publish**.
 
-One setting of the agent is worth knowing on a machine that builds the
-installers: where the agent finds the client installers it offers to the
-clients for updating themselves, and its own installer for its self-update.
-It is `Wslc:ClientPackagesPath`; an installed agent has no `dist` folder of its
-own, so without it the agent offers no update. Set it for your user, pointing
-at the `dist` folder the build scripts write to, then restart the agent:
-
-```powershell
-[Environment]::SetEnvironmentVariable("Wslc__ClientPackagesPath", "C:\src\wslc-ai-agent\dist", "User")
-```
+Where it looks for its own updates and its clients', the package folder, is
+asked by its installer and can be changed in **Settings → Update**:
+[updating.md](../updating.md).

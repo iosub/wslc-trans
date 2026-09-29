@@ -10,11 +10,18 @@
     defaults 127.0.0.1 / 8069), stores them under HKCU, registers the logon
     task that starts the agent now and at every logon, and adds a Start Menu
     shortcut to the dashboard URL.
+    The wizard also asks for the package folder, where the agent finds its own
+    newer installer and the clients' (WSLC_PACKAGESFOLDER, written to
+    wslc-ai-agent.ini beside the agent). It offers this checkout's dist, where
+    the build scripts put the installers, so an agent built here updates
+    itself from what is built here; -Release offers C:\Berpiztu\wslc-ai-agent,
+    the folder of the published releases.
     -NoBump rebuilds the current version; -Clean deletes previous outputs.
 #>
 param(
     [switch]$NoBump,
-    [switch]$Clean
+    [switch]$Clean,
+    [switch]$Release
 )
 
 $ErrorActionPreference = "Stop"
@@ -77,12 +84,16 @@ Write-WslcAgentWixFileList -Stage $Stage -OutFile (Join-Path $RepoRoot "packagin
 
 $msiVersion = ConvertTo-WixProductVersion $version
 Write-Host "Building wslc-ai-agent.msi $msiVersion (WiX)..." -ForegroundColor Cyan
-$built = Build-WslcAgentMsi -WixProj $WixProj -Version $msiVersion
+# The package folder the wizard offers: where this checkout puts the
+# installers, or the releases' fixed one.
+$PackagesFolder = if ($Release) { "C:\Berpiztu\wslc-ai-agent" } else { Join-Path $RepoRoot "dist" }
+Write-Host "Package folder offered by the wizard: $PackagesFolder" -ForegroundColor DarkGray
+$built = Build-WslcAgentMsi -WixProj $WixProj -Version $msiVersion -PackagesFolder $PackagesFolder
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $MsiDest) | Out-Null
 Copy-Item -LiteralPath $built -Destination $MsiDest -Force
 Set-WslcAgentMsiExplorerVersion -Path $MsiDest -Name "WSLC AI Agent" -Version $msiVersion
 
 Write-Host ""
 Write-Host "WSLC AI Agent MSI ready: $MsiDest (version $msiVersion)" -ForegroundColor Green
-Write-Host "Install (per-user): msiexec /i `"$MsiDest`" [WSLC_BINDHOST=127.0.0.1] [WSLC_AGENTPORT=8069]"
+Write-Host "Install (per-user): msiexec /i `"$MsiDest`" [WSLC_BINDHOST=127.0.0.1] [WSLC_AGENTPORT=8069] [WSLC_PACKAGESFOLDER=`"$PackagesFolder`"]"
 Write-Host "Remember to commit the version bump in Directory.Build.props."

@@ -39,9 +39,11 @@ public sealed class WslcOptions
         string.IsNullOrWhiteSpace(LogDirectory) ? Path.Combine(DataDirectory, "logs") : LogDirectory;
 
     /// <summary>
-    /// Folder holding the client installers the agent hands out
-    /// (<c>wslc-ai-client.msi</c>, <c>wslc-ai-client.apk</c>). Empty: the agent's
-    /// own <c>dist</c>, which an installed agent does not have.
+    /// The package folder the agent was installed with: the installers it hands
+    /// out to the clients (<c>wslc-ai-client.msi</c>, <c>wslc-ai-client.apk</c>)
+    /// and its own (<c>wslc-ai-agent.msi</c>) for updating itself. The installer
+    /// writes it to <c>wslc-ai-agent.ini</c>; Settings → Update overrides it.
+    /// Empty: <c>C:\Berpiztu\wslc-ai-agent</c>. Created at start when missing.
     /// </summary>
     public string? ClientPackagesPath { get; set; }
 }
