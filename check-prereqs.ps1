@@ -97,9 +97,11 @@ if ($dotnetOk) {
             $missing += $needed
         }
     }
-    # One command installs every missing one: a line for all of them.
+    # One command installs every missing one: a line for all of them. It
+    # names the workloads of the project's two targets, maui-android bringing
+    # android, rather than leaving the choice to dotnet workload restore.
     if ($missing.Count -gt 0) {
-        Write-WslcAgentCheck broken "workload $($missing -join ', ')" "missing; the client project needs it." -Run "dotnet workload restore `"$(Join-Path $RepoRoot 'WslcAgent.slnx')`"" -Admin -Guide "$Guide#maui-workloads"
+        Write-WslcAgentCheck broken "workload $($missing -join ', ')" "missing; the client project needs it." -Run "dotnet workload install maui-windows maui-android" -Admin -Guide "$Guide#maui-workloads"
     }
 }
 

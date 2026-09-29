@@ -68,7 +68,7 @@ What you need at the least, and how to install it:
 |---|---|
 | Windows 11 (Windows 10 builds everything, but WSLC runs on Windows 11) | — |
 | The .NET SDK that `global.json` names, or a later feature band of it | `winget install --id Microsoft.DotNet.SDK.10 -e` |
-| The `maui-windows` and `android` workloads | `dotnet workload restore WslcAgent.slnx`, in the repository, from a PowerShell run as administrator |
+| The `android` and `maui-blazor` workloads | `dotnet workload install maui-windows maui-android`, from a PowerShell run as administrator |
 | Access to nuget.org (the first build downloads every package, WiX included) | — |
 
 And for the parts that need them:
