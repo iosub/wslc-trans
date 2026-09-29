@@ -141,6 +141,14 @@ git clone https://github.com/berpiztu/wslc-ai-agent.git
 cd wslc-ai-agent
 ```
 
+Downloaded the ZIP from GitHub instead of cloning? Windows marks every file
+of it as coming from the internet, and PowerShell refuses to run the scripts
+("is not digitally signed"). Unblock them once, from the folder you unzipped:
+
+```powershell
+Get-ChildItem -Recurse | Unblock-File
+```
+
 **4. Check what this machine needs.** It installs nothing. All is well when
 the last line is green: **Ready to build**. Otherwise every missing piece
 names the section of

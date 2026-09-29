@@ -35,6 +35,16 @@ cd wslc-ai-agent
 
 No git yet? `winget install --id Git.Git -e`, then open a new terminal.
 
+**Downloaded the ZIP instead of cloning?** Windows marks every file that
+comes out of a ZIP downloaded from the internet, and with the policy of step 1
+(`RemoteSigned`) PowerShell refuses to run a marked script that is not
+signed: `check-prereqs.ps1 cannot be loaded … is not digitally signed`. A
+clone carries no such mark. Remove it once, from the folder you unzipped:
+
+```powershell
+Get-ChildItem -Recurse | Unblock-File
+```
+
 ## 3. Check the prerequisites
 
 ```powershell
