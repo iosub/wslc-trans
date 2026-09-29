@@ -79,7 +79,7 @@ if ($Device) {
     Start-Process -FilePath $emulator -ArgumentList @("-avd", $Avd, "-no-boot-anim") -WindowStyle Minimized | Out-Null
     & $adb wait-for-device | Out-Null
     for ($i = 0; $i -lt 120; $i++) {
-        $booted = (& $adb shell getprop sys.boot_completed 2>$null) -join ""
+        $booted = (Invoke-WslcAgentNative $adb @("shell", "getprop", "sys.boot_completed")) -join ""
         if ($booted.Trim() -eq "1") { break }
         Start-Sleep -Seconds 2
     }

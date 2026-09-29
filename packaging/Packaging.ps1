@@ -290,6 +290,29 @@ function Find-WslcAgentAndroidSdk {
     return $null
 }
 
+function Invoke-WslcAgentNative {
+    <#
+    Runs a native command and returns its standard output, its standard error
+    dropped; $LASTEXITCODE holds its exit code. Windows PowerShell turns every
+    line a native command writes to standard error into an error record once
+    that stream is redirected, and under $ErrorActionPreference = "Stop" the
+    first one ends the script: keytool, dotnet, wsl, adb and ssh all write
+    progress or notices there. PowerShell 7 does not, which is how it goes
+    unseen.
+    #>
+    param(
+        [string]$FilePath,
+        [string[]]$Arguments
+    )
+    $previous = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    try {
+        & $FilePath @Arguments 2>$null
+    } finally {
+        $ErrorActionPreference = $previous
+    }
+}
+
 function Get-WslcAgentSolutionScope {
     <#
     The MSBuild properties a build of the whole solution takes on this
@@ -384,8 +407,8 @@ function Resolve-WslcAgentAndroidSigning {
             $storePass = -join ((1..32) | ForEach-Object { [char](Get-Random -InputObject ([int[]](48..57 + 65..90 + 97..122))) })
             [System.IO.File]::WriteAllText($passFile, $storePass, (New-Object System.Text.UTF8Encoding $false))
             Write-Host "No Android signing key found; generating $keystore" -ForegroundColor Yellow
-            & $keytool -genkeypair -v -keystore $keystore -alias $alias -keyalg RSA -keysize 2048 -validity 10000 `
-                -storepass $storePass -keypass $storePass -dname "CN=wslc-agent" 2>&1 | Out-Null
+            Invoke-WslcAgentNative $keytool @("-genkeypair", "-v", "-keystore", $keystore, "-alias", $alias, "-keyalg", "RSA", "-keysize", "2048", "-validity", "10000",
+                "-storepass", $storePass, "-keypass", $storePass, "-dname", "CN=wslc-agent") | Out-Null
             if ($LASTEXITCODE -ne 0) { throw "keytool failed with exit code $LASTEXITCODE" }
             Write-Host "Back up $keystore and its .pass file: every later APK has to be signed with this key to update the installed app." -ForegroundColor Yellow
         }

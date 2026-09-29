@@ -71,7 +71,7 @@ if (-not (Test-Path -LiteralPath $keystore)) {
         if (-not $keytool) {
             Write-WslcAgentCheck ok $source "present; keytool not found, so its password and alias were not checked."
         } else {
-            & $keytool -list -keystore $keystore -storepass $storePass -alias $alias *> $null
+            Invoke-WslcAgentNative $keytool @("-list", "-keystore", $keystore, "-storepass", $storePass, "-alias", $alias) | Out-Null
             if ($LASTEXITCODE -eq 0) {
                 Write-WslcAgentCheck ok $source "opens with its password and holds the alias '$alias': APKs are signed with it."
             } else {

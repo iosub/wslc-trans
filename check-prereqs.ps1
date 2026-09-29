@@ -23,7 +23,7 @@ $Guide = "docs\developer\prerequisites.md"
 
 function Get-CommandVersion([string]$Name, [string[]]$Arguments) {
     if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) { return $null }
-    try { return ((& $Name @Arguments 2>$null) | Select-Object -First 1) } catch { return $null }
+    try { return ((Invoke-WslcAgentNative $Name $Arguments) | Select-Object -First 1) } catch { return $null }
 }
 
 Write-Host "Prerequisites of $RepoRoot" -ForegroundColor Cyan
@@ -50,7 +50,7 @@ Write-Host ".NET" -ForegroundColor Cyan
 $wanted = [version](Get-Content -LiteralPath (Join-Path $RepoRoot "global.json") -Raw | ConvertFrom-Json).sdk.version
 $sdks = @()
 if (Get-Command dotnet -ErrorAction SilentlyContinue) {
-    $sdks = @(& dotnet --list-sdks 2>$null | ForEach-Object { [version](($_ -split " ")[0] -replace "-.*$", "") })
+    $sdks = @(Invoke-WslcAgentNative dotnet @("--list-sdks") | ForEach-Object { [version](($_ -split " ")[0] -replace "-.*$", "") })
 }
 # global.json rolls forward to the latest feature band and patch of the same
 # major.minor, never to another major.minor.
@@ -65,7 +65,7 @@ if ($dotnetOk) {
 }
 
 if ($dotnetOk) {
-    $installed = @(& dotnet workload list 2>$null | ForEach-Object { ($_.Trim() -split "\s+")[0] })
+    $installed = @(Invoke-WslcAgentNative dotnet @("workload", "list") | ForEach-Object { ($_.Trim() -split "\s+")[0] })
     foreach ($workload in @("maui-windows", "android")) {
         if ($installed -contains $workload) {
             Write-WslcAgentCheck ok "workload $workload" "installed."

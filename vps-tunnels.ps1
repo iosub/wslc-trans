@@ -98,7 +98,7 @@ function Remove-Task($taskName) {
 function Test-VpsListener($remotePort) {
     # $true / $false, or $null when the VPS could not be asked.
     try {
-        $out = & $SshExe -o BatchMode=yes -o ConnectTimeout=10 $VpsHost "ss -ltn | grep -q '127.0.0.1:$remotePort ' && echo UP || echo DOWN" 2>$null
+        $out = Invoke-WslcAgentNative $SshExe @("-o", "BatchMode=yes", "-o", "ConnectTimeout=10", $VpsHost, "ss -ltn | grep -q '127.0.0.1:$remotePort ' && echo UP || echo DOWN")
         if ($LASTEXITCODE -ne 0) { return $null }
         return ($out -join '') -match 'UP'
     } catch {
