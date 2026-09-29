@@ -36,11 +36,11 @@ public sealed class LogsPreference(IJSRuntime js)
     /// <summary>The level chosen ("all" for none); null when nothing was ever chosen.</summary>
     public string? Level => _values.GetValueOrDefault(LevelKey);
 
-    /// <summary>The Activity list's Autorefresh.</summary>
-    public bool FollowCli => _values.GetValueOrDefault(FollowCliKey) == "1";
+    /// <summary>The Activity list's Autorefresh: on until the user switches it off.</summary>
+    public bool FollowCli => _values.GetValueOrDefault(FollowCliKey) != "0";
 
-    /// <summary>The grid's Autorefresh.</summary>
-    public bool FollowLog => _values.GetValueOrDefault(FollowLogKey) == "1";
+    /// <summary>The grid's Autorefresh: on until the user switches it off.</summary>
+    public bool FollowLog => _values.GetValueOrDefault(FollowLogKey) != "0";
 
     /// <summary>The divider's place — the grid's height in pixels, what is left going to the strip; null until the divider was dragged.</summary>
     public int? Grid => int.TryParse(_values.GetValueOrDefault(GridKey), NumberStyles.Integer, CultureInfo.InvariantCulture, out var px) ? px : null;

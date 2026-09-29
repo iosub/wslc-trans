@@ -2480,14 +2480,6 @@
     padding-bottom: 12px;
 }
 
-/* Until the page has put the divider where it belongs, the panel keeps its
-   room and shows nothing: it opens at half and half, and the rows appearing
-   at one size and settling at another would be a jump.
-   Visibility, not display, so the browser still measures it. */
-.wslc-split-unplaced {
-    visibility: hidden;
-}
-
 /* The divider itself: a line through the middle of its gap, so there is
    something to see where there is something to drag. */
 .wslc-split-divider {

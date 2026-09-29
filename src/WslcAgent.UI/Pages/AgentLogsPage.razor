@@ -17,7 +17,8 @@
    first is the grid every list uses, pager and all: every entry the agent
    will hand over is loaded, the pager at the bottom walks through them 50 at
    a time as on Containers, and the headers sort, so the reader orders and
-   pages the log as they like. The second, a tenth of the height, is the
+   pages the log as they like. The second, half the height until the divider
+   is moved, is the
    strip of what is happening: one line per wslc command, the latest at the
    bottom as in a chat — its time, its state, how long it took, its title and
    its line — the running ones included; it follows its end while the reader
@@ -33,7 +34,8 @@
    log is a log: its level and its type filters to find things, and — since
    two rails of eight did not fit the height — its controls across that same row
    (LogsControls), the Activity list's twin, closing it from the right: its
-   Autorefresh last, off by default so what is being read never moves; its
+   Autorefresh last, on until switched off, holding still while the reader
+   is on the grid so what is being read never moves; its
    type filters before it, so a search can be narrowed to the commands of one
    kind; the level before those. At the left, beside the count: Copy, which
    takes the ticked entries in the agent's own text form, or every entry
@@ -107,12 +109,10 @@
         <div class="wslc-fill" @onpointerup="RememberDividerAsync" @onkeyup="RememberDividerAsync">
                 @* MudBlazor's split panel between the two rows: the divider drags up and
                    down, so a reader watching the strip can give it the room, and a double
-                   click puts it back where it opened. It opens where it was left; the first
-                   time, it would open at half and half, so it stays out of sight until the
-                   page has put the divider where the strip gets a tenth — nothing is shown
-                   at one size and then at another. *@
+                   click puts it back where it opened. It opens where it was left, and at
+                   half and half on a device where it never was moved. *@
                 <MudSplitPanel @ref="_split" Horizontal="true" Transparent="true" Elevation="0" MinPanelSize="MinPane" PanelGap="PaneGap" ResetOnDoubleClick="true"
-                               FirstPanelInitialSize="@(Halved ? null : Preference.Grid)" Class="@(_placed ? "wslc-fill" : "wslc-fill wslc-split-unplaced")"
+                               FirstPanelInitialSize="@(Halved ? null : Preference.Grid)" Class="wslc-fill"
                                ClassFirstPanel="wslc-split-pane wslc-split-top" ClassSecondPanel="wslc-split-pane" ClassDivider="wslc-split-divider">
                 <FirstPanel>
                 @* MudBlazor's own grid, as its docs draw it: virtualised — the rows in view asked for as the reader
@@ -294,8 +294,6 @@
 
     /// <summary>The ids on their way, so a row drawn twice asks once.</summary>
     private readonly HashSet<int> _fetching = [];
-    private bool _placeDivider = true;
-    private bool _placed;
     private bool _jumpToEnd;
     private bool _followEnd;
 
@@ -463,14 +461,6 @@
         await Preference.ReadyAsync();
         _followCli = Preference.FollowCli;
         _followLog = Preference.FollowLog;
-        if (Halved || Preference.Grid is not null)
-        {
-            // The panel opens where it was left, by its own initial size, or
-            // at half and half beneath or inside something else: nothing to
-            // place, nothing to hide.
-            _placed = true;
-            _placeDivider = false;
-        }
 
         if (HideQuery is null && HideLogQuery is null && LevelQuery is null
             && (Preference.Hidden is { Length: > 0 } || Preference.HiddenLog is { Length: > 0 } || Preference.Level is { Length: > 0 } and not "all"))
@@ -564,13 +554,6 @@
     /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (_placeDivider && _split is not null && await PlaceDividerAsync())
-        {
-            _placeDivider = false;
-            _placed = true;
-            StateHasChanged();
-        }
-
         if (_jumpToEnd)
         {
             _jumpToEnd = false;
@@ -596,33 +579,6 @@
             {
                 await Js.InvokeVoidAsync("wslcAgent.scrollToEnd", GridId);
             }
-        }
-    }
-
-    /// <summary>
-    /// The first time on this device, the strip gets a tenth of the two rows'
-    /// height. The split panel knows no percentages and the page knows no
-    /// pixels, but the panel opens at half and half, so the divider's place then
-    /// is half the height it has to share. True once placed; false while the
-    /// panel is not built on the browser's side yet, to try again next render.
-    /// </summary>
-    private async Task<bool> PlaceDividerAsync()
-    {
-        try
-        {
-            var half = await _split!.GetDividerPositionAsync();
-            if (half <= 0)
-            {
-                return false;
-            }
-
-            var total = half * 2 + PaneGap;
-            await _split.SetDividerPositionAsync(Math.Max(MinPane, total - PaneGap - Math.Max(MinPane, total / 10)));
-            return true;
-        }
-        catch (JSException)
-        {
-            return false;
         }
     }
 
