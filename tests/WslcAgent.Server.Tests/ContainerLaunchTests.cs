@@ -25,7 +25,7 @@ public sealed class ContainerLaunchTests
             Memory = "512m",
             Cpus = "1.5",
             Publish = ["3000:8080", "127.0.0.1:9000:9000"],
-            Volumes = ["open-webui:/app/backend/data", @"c:\IA\datos\mio:/a0/usr:ro"],
+            Volumes = ["open-webui:/app/backend/data", @"c:\data\app:/a0/usr:ro"],
             Workdir = "/app",
             Env = ["KEY=value", "OTHER=a b"],
             Network = "appnet",
@@ -90,7 +90,7 @@ public sealed class ContainerLaunchTests
             Memory = "512m",
             Cpus = "1.5",
             Publish = ["8080:80", "8443:443"],
-            Volumes = ["C:\\IA\\datos:/data:ro"],
+            Volumes = ["C:\\data:/data:ro"],
             Workdir = "app",
             Env = ["A=1"],
             Entrypoint = "/bin/sh",
@@ -108,7 +108,7 @@ public sealed class ContainerLaunchTests
 
         Assert.Equal(
             ["container", "run", "--detach", "--name", "web", "--memory", "512m", "--cpus", "1.5", "--publish", "8080:80", "--publish", "8443:443",
-             "--volume", "C:\\IA\\datos:/data:ro", "--workdir", "/app", "--env", "A=1", "--entrypoint", "/bin/sh", "--network", "appnet", "--ip", "172.28.0.5",
+             "--volume", "C:\\data:/data:ro", "--workdir", "/app", "--env", "A=1", "--entrypoint", "/bin/sh", "--network", "appnet", "--ip", "172.28.0.5",
              "--network-alias", "api", "--user", "1000", "--stop-timeout", "0", "--health-cmd", "curl -f http://localhost/", "--health-retries", "3",
              "nginx:1.25", "python", "app.py", "--port", "80"],
             args);
@@ -131,9 +131,9 @@ public sealed class ContainerLaunchTests
     [Fact]
     public void A_host_workdir_becomes_a_workspace_bind_and_the_ip_is_dropped_on_bridge()
     {
-        var args = LaunchArgs.Create(new ContainerLaunchRequest { Image = "alpine", Workdir = "C:\\IA\\proj", Network = "bridge", Ip = "172.17.0.9", NoHealthcheck = true, HealthCmd = "ignored" });
+        var args = LaunchArgs.Create(new ContainerLaunchRequest { Image = "alpine", Workdir = "C:\\projects\\app", Network = "bridge", Ip = "172.17.0.9", NoHealthcheck = true, HealthCmd = "ignored" });
 
-        Assert.Equal(["container", "create", "--volume", "C:\\IA\\proj:/workspace", "--workdir", "/workspace", "--network", "bridge", "--no-healthcheck", "alpine"], args);
+        Assert.Equal(["container", "create", "--volume", "C:\\projects\\app:/workspace", "--workdir", "/workspace", "--network", "bridge", "--no-healthcheck", "alpine"], args);
     }
 
     [Fact]
@@ -149,13 +149,13 @@ public sealed class ContainerLaunchTests
         Assert.True(inspection.IsRunning);
         Assert.Equal(["8085->80"], inspection.Ports);
         Assert.Equal(2, inspection.Mounts.Count);
-        Assert.Equal(new MountInfo("bind", "C:\\IA\\datos", "/data", "ro"), inspection.Mounts[1]);
+        Assert.Equal(new MountInfo("bind", "C:\\data", "/data", "ro"), inspection.Mounts[1]);
         var form = inspection.Form;
         Assert.Equal("python app.py", form.Command);
         Assert.Equal("512m", form.Memory);
         Assert.Equal("1.5", form.Cpus);
         Assert.Equal(["127.0.0.1:8085:80"], form.Publish);
-        Assert.Equal(["a0_usr:/a0/usr", "C:\\IA\\datos:/data:ro"], form.Volumes);
+        Assert.Equal(["a0_usr:/a0/usr", "C:\\data:/data:ro"], form.Volumes);
         Assert.Equal("/a0", form.Workdir);
         Assert.Equal("appnet", form.Network);
         Assert.Equal("172.28.0.5", form.Ip);
@@ -217,13 +217,13 @@ public sealed class ContainerLaunchTests
     [Fact]
     public void A_pasted_run_line_fills_the_form()
     {
-        var parse = RunCommandLine.Parse("docker run -d --name web -p 85:80 -v c:\\IA\\datos\\mio:/a0/usr \\\n  -e KEY=value --network appnet --hostname h agent0ai/agent-zero python app.py");
+        var parse = RunCommandLine.Parse("docker run -d --name web -p 85:80 -v c:\\data\\app:/a0/usr \\\n  -e KEY=value --network appnet --hostname h agent0ai/agent-zero python app.py");
 
         Assert.NotNull(parse.Request);
         Assert.Equal("agent0ai/agent-zero", parse.Request.Image);
         Assert.Equal("web", parse.Request.Name);
         Assert.Equal(["85:80"], parse.Request.Publish);
-        Assert.Equal(["c:\\IA\\datos\\mio:/a0/usr"], parse.Request.Volumes);
+        Assert.Equal(["c:\\data\\app:/a0/usr"], parse.Request.Volumes);
         Assert.Equal(["KEY=value"], parse.Request.Env);
         Assert.Equal("appnet", parse.Request.Network);
         Assert.Equal("python app.py", parse.Request.Command);

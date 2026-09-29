@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using WslcAgent.ApiClient.Contracts;
+using WslcAgent.Server.Containers;
 using WslcAgent.Server.Publishing;
 
 namespace WslcAgent.Server.Tests;
@@ -160,8 +161,14 @@ public sealed class PublishingTests(WebApplicationFactory<Program> factory)
     [Fact]
     public async Task Saving_the_form_publishes_the_rows_and_reads_them_back_in_the_details()
     {
+        // The recreate rehearses the new settings under a throwaway name first,
+        // extra networks included, and removes it before touching the container.
+        var rehearsal = ContainerService.RehearsalName("web");
         var runner = new FakeWslcRunner()
             .Answer(Inspect, FakeWslcRunner.Fixture("container-inspect.json"))
+            .Answer($"container rm --force {rehearsal}", "")
+            .Answer($"container run --detach --name {rehearsal} nginx", "beefbeefbeef\n")
+            .Answer($"network connect published {rehearsal}", "")
             .Answer("container stop web", "")
             .Answer("container rm --force web", "")
             .Answer("container run --detach --name web nginx", "cafecafecafe\n")
