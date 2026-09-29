@@ -371,14 +371,15 @@ Export JSON (`/containers/{id}/inspect.json` download) · Backup
   repeatable rows. `ContainerFormDialog` hosts it as a dialog; the details
   page embeds it in the Inspect tab.
 - What the page is showing lives in the query, so Back is real navigation:
-  `?q=` the searched text, `?view=cards`, `?page=` the grid page (`ListPageBase`
+  `?q=` the searched text, `?view=cards` or `?view=table` (always written, so a
+  step Back never depends on what was remembered), `?page=` the grid page (`ListPageBase`
   reads them in `OnParametersSet` and writes them with
   `GetUriWithQueryParameters`). A deliberate change — the view, the page — adds
   a history entry; typing in the search replaces the current one so a filter is
-  not a trail of steps. Sorting and column widths are not kept yet (the
-  reference persists them through Tabulator).
+  not a trail of steps. Sorting and column widths are not kept yet.
 - Table or cards is remembered per list and per client (`ViewPreference`,
-  keyed by the row type): containers can be cards while images stay rows, and
+  keyed by the row type), cards until the user picks the table: containers can
+  be cards while images stay rows, and
   coming back to a list opens it the way it was left. It lives in this device's
   storage (`wslcAgent.views`), not in the agent: each client keeps its own, and
   closing the app and opening it again finds every list as it was left. The

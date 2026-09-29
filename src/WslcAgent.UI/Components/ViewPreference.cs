@@ -28,8 +28,8 @@ public sealed class ViewPreference(IJSRuntime js)
     /// </summary>
     public Task ReadyAsync() => _loading ??= LoadAsync();
 
-    /// <summary>How that list was last shown; rows until the user says otherwise.</summary>
-    public ViewMode For(string section) => _bySection.GetValueOrDefault(section, ViewMode.Table);
+    /// <summary>How that list was last shown; cards until the user says otherwise.</summary>
+    public ViewMode For(string section) => _bySection.GetValueOrDefault(section, ViewMode.Cards);
 
     public void Set(string section, ViewMode view)
     {

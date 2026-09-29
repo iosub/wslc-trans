@@ -17,6 +17,8 @@ public abstract class ListPageBase<TItem> : ComponentBase, IDisposable
 {
     private const string Cards = "cards";
 
+    private const string Table = "table";
+
     /// <summary>The clock, for as long as the agent is not telling us what changes.</summary>
     private static readonly TimeSpan RefreshEvery = TimeSpan.FromSeconds(5);
 
@@ -61,7 +63,7 @@ public abstract class ListPageBase<TItem> : ComponentBase, IDisposable
     /// <summary>The searched text, from the query (<c>?q=</c>).</summary>
     [SupplyParameterFromQuery(Name = "q")] public string? SearchQuery { get; set; }
 
-    /// <summary><c>?view=cards</c>; anything else is the table.</summary>
+    /// <summary><c>?view=cards</c> or <c>?view=table</c>, always written: without it the list opens as it was last left, which a step Back must not depend on.</summary>
     [SupplyParameterFromQuery(Name = "view")] public string? ViewQuery { get; set; }
 
     /// <summary><c>?page=</c>, zero-based; absent is the first.</summary>
@@ -236,7 +238,7 @@ public abstract class ListPageBase<TItem> : ComponentBase, IDisposable
             Navigation.GetUriWithQueryParameters(new Dictionary<string, object?>
             {
                 ["q"] = _search.Length > 0 ? _search : null,
-                ["view"] = _view == ViewMode.Cards ? Cards : null,
+                ["view"] = _view == ViewMode.Cards ? Cards : Table,
                 ["page"] = _page > 0 ? _page : null,
             }),
             replace: replace);
