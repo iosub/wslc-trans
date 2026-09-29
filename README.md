@@ -57,8 +57,8 @@ One UI, one language, one API contract.
 
 ## Quick start
 
-Needs Windows 11 and **WSLC 2.9.13 or later**
-([WSL 2.9.13 release](https://github.com/microsoft/WSL/releases/tag/2.9.13)).
+Needs Windows 11 and **WSLC**, generally available since WSL 3.0.1: install
+the [latest WSL release](https://github.com/microsoft/WSL/releases/latest). The agent works with 2.9.13 or later.
 
 Two ways in:
 

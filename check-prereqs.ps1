@@ -15,8 +15,9 @@ $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 . (Join-Path $RepoRoot "packaging\Packaging.ps1")
 $script:WslcAgentCheckBroken = 0
-# The oldest WSLC the agent works with.
+# The oldest WSLC the agent works with, and the first generally available one.
 $MinimumWslc = [version]"2.9.13"
+$RecommendedWslc = [version]"3.0.1"
 # Where each prerequisite is explained and installed, section by section.
 $Guide = "docs\developer\prerequisites.md"
 
@@ -113,15 +114,17 @@ Write-Host ""
 
 # --- WSLC ----------------------------------------------------------------------
 Write-Host "WSLC" -ForegroundColor Cyan
-$wslcRelease = "https://github.com/microsoft/WSL/releases/tag/$MinimumWslc"
+$wslcRelease = "https://github.com/microsoft/WSL/releases/latest"
 $wslc = Get-CommandVersion wslc @("version")
 $wslcVersion = if ($wslc -match '(\d+\.\d+\.\d+(\.\d+)?)') { [version]$Matches[1] } else { $null }
 if (-not $wslc) {
-    Write-WslcAgentCheck absent "wslc" "not on the PATH: everything builds and the tests pass, and the agent has no containers to manage. Install WSLC $MinimumWslc or later ($wslcRelease), then open a new terminal." -Guide "$Guide#wslc"
+    Write-WslcAgentCheck absent "wslc" "not on the PATH: everything builds and the tests pass, and the agent has no containers to manage. Install WSLC $RecommendedWslc or later ($wslcRelease), then open a new terminal." -Guide "$Guide#wslc"
 } elseif (-not $wslcVersion) {
     Write-WslcAgentCheck broken "wslc" "answers '$wslc', with no version in it; the agent needs $MinimumWslc or later ($wslcRelease)." -Guide "$Guide#wslc"
 } elseif ($wslcVersion -lt $MinimumWslc) {
     Write-WslcAgentCheck broken "wslc" "$wslcVersion is older than $MinimumWslc, the oldest the agent works with. Update it: $wslcRelease" -Guide "$Guide#wslc"
+} elseif ($wslcVersion -lt $RecommendedWslc) {
+    Write-WslcAgentCheck ok "wslc" "$wslcVersion works; $RecommendedWslc, the first generally available WSLC, is recommended: $wslcRelease"
 } else {
     Write-WslcAgentCheck ok "wslc" "$wslcVersion (the agent needs $MinimumWslc or later)."
 }

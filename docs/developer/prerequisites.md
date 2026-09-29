@@ -12,7 +12,7 @@ every line it reports as `[absent]` or `[broken]` points to its section here.
 | [.NET SDK](#net-sdk) | Building | Yes |
 | [MAUI workloads](#maui-workloads) | Building the clients (the solution includes them) | Yes |
 | [NuGet access](#nuget-access) | The first build | Yes |
-| [WSLC 2.9.13 or later](#wslc) | Running the agent against containers | To run the agent |
+| [WSLC 3.0.1 or later](#wslc) (2.9.13 at the least) | Running the agent against containers | To run the agent |
 | [JDK](#jdk) | The Android client and its signing key | For Android |
 | [Android SDK](#android-sdk) | The Android client, the emulator | For Android |
 | [WebView2 Runtime](#webview2-runtime) | Running the Windows client and the tray window | For the Windows client |
@@ -82,9 +82,10 @@ install by hand). Behind a proxy, configure it for `dotnet`
 
 ## WSLC
 
-**WSLC 2.9.13 or later**: the oldest the agent works with. Install
-[WSL 2.9.13](https://github.com/microsoft/WSL/releases/tag/2.9.13) or a later
-release, then open a new terminal; `wslc version` prints the one you have.
+**WSLC 3.0.1 or later**, the first generally available release: install the
+[latest WSL release](https://github.com/microsoft/WSL/releases/latest), then open a new terminal; `wslc version`
+prints the one you have. The agent works with 2.9.13 or later; an older
+`wslc` is reported as `[broken]`.
 
 Without it everything builds and the tests pass (they do not call `wslc`),
 and the agent runs with no containers to manage.
