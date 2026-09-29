@@ -9,12 +9,24 @@
     SDK and a JDK for the APK, WebView2 for the Windows client, wslc to run the
     agent against containers) is reported as absent with what it switches off;
     a wslc older than the agent works with is an error.
+    Under everything missing it prints the command that installs it;
+    install-prereqs.ps1 runs them all.
     The private files (signing key, Firebase) are checked by check-private.ps1.
+.PARAMETER PassThru
+    Also return the fixes (what, the commands, what has to follow), for
+    install-prereqs.ps1.
 #>
+param([switch]$PassThru)
+
 $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 . (Join-Path $RepoRoot "packaging\Packaging.ps1")
 $script:WslcAgentCheckBroken = 0
+$script:WslcAgentCheckFixes = @()
+if ($PassThru) { $script:WslcAgentCheckInstalling = $true }
+# winget installs without asking to accept its terms, so install-prereqs.ps1
+# runs it unattended.
+$Winget = "winget install -e --accept-source-agreements --accept-package-agreements --id"
 # The oldest WSLC the agent works with, and the first generally available one.
 $MinimumWslc = [version]"2.9.13"
 $RecommendedWslc = [version]"3.0.1"
@@ -46,7 +58,7 @@ if ($build -ge 22000) {
 
 $git = Get-CommandVersion git @("--version")
 if ($git) { Write-WslcAgentCheck ok "git" $git }
-else { Write-WslcAgentCheck broken "git" "not found." -Run "winget install --id Git.Git -e" -Then $NewTerminal -Guide "$Guide#git" }
+else { Write-WslcAgentCheck broken "git" "not found." -Run "$Winget Git.Git" -Then $NewTerminal -Guide "$Guide#git" }
 Write-Host ""
 
 # --- .NET ------------------------------------------------------------------
@@ -63,9 +75,9 @@ $dotnetOk = $usable.Count -gt 0
 if ($dotnetOk) {
     Write-WslcAgentCheck ok ".NET SDK" "$($usable[0]) (global.json asks for $wanted or a later feature band)."
 } elseif ($sdks.Count -gt 0) {
-    Write-WslcAgentCheck broken ".NET SDK" "found $($sdks -join ', '); global.json asks for $wanted or later in $($wanted.Major).$($wanted.Minor)." -Run "winget install --id Microsoft.DotNet.SDK.$($wanted.Major) -e" -Then $NewTerminal -Guide "$Guide#net-sdk"
+    Write-WslcAgentCheck broken ".NET SDK" "found $($sdks -join ', '); global.json asks for $wanted or later in $($wanted.Major).$($wanted.Minor)." -Run "$Winget Microsoft.DotNet.SDK.$($wanted.Major)" -Then $NewTerminal -Guide "$Guide#net-sdk"
 } else {
-    Write-WslcAgentCheck broken ".NET SDK" "dotnet not found." -Run "winget install --id Microsoft.DotNet.SDK.$($wanted.Major) -e" -Then $NewTerminal -Guide "$Guide#net-sdk"
+    Write-WslcAgentCheck broken ".NET SDK" "dotnet not found." -Run "$Winget Microsoft.DotNet.SDK.$($wanted.Major)" -Then $NewTerminal -Guide "$Guide#net-sdk"
 }
 
 # The workloads of the client's two targets, maui-android bringing android,
@@ -129,7 +141,7 @@ $keytool = try { Find-WslcAgentKeytool } catch { $null }
 if ($keytool) {
     Write-WslcAgentCheck ok "JDK (keytool)" $keytool
 } else {
-    Write-WslcAgentCheck absent "JDK (keytool)" "build.ps1 builds without the Android client; no APK, no signing key. Installed elsewhere? Set JAVA_HOME." -Run "winget install --id Microsoft.OpenJDK.17 -e" -Then $NewTerminal -Guide "$Guide#jdk"
+    Write-WslcAgentCheck absent "JDK (keytool)" "build.ps1 builds without the Android client; no APK, no signing key. Installed elsewhere? Set JAVA_HOME." -Run "$Winget Microsoft.OpenJDK.17" -Then $NewTerminal -Guide "$Guide#jdk"
 }
 $androidSdk = Find-WslcAgentAndroidSdk
 if ($androidSdk) {
@@ -152,7 +164,7 @@ $webView2 = @("HKLM:\SOFTWARE\WOW6432Node\$webView2Key", "HKLM:\SOFTWARE\$webVie
 if ($webView2) {
     Write-WslcAgentCheck ok "WebView2 Runtime" $webView2.pv
 } else {
-    Write-WslcAgentCheck absent "WebView2 Runtime" "the Windows client and the tray window need it to run." -Run "winget install --id Microsoft.EdgeWebView2Runtime -e" -Guide "$Guide#webview2-runtime"
+    Write-WslcAgentCheck absent "WebView2 Runtime" "the Windows client and the tray window need it to run." -Run "$Winget Microsoft.EdgeWebView2Runtime" -Guide "$Guide#webview2-runtime"
 }
 Write-Host ""
 
@@ -181,7 +193,7 @@ if (-not $wslVersion) {
 if (Get-Service vmcompute -ErrorAction SilentlyContinue) {
     Write-WslcAgentCheck ok "Virtual Machine Platform" "the Host Compute Service is installed."
 } else {
-    Write-WslcAgentCheck absent "Virtual Machine Platform" "not enabled: WSL cannot start its virtual machine (HCS_E_SERVICE_NOT_AVAILABLE), so no container runs. In a virtual machine the host has to expose virtualization to it too." -Run "Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -All" -Admin -Then $Restart -Guide "$Guide#wsl"
+    Write-WslcAgentCheck absent "Virtual Machine Platform" "not enabled: WSL cannot start its virtual machine (HCS_E_SERVICE_NOT_AVAILABLE), so no container runs. In a virtual machine the host has to expose virtualization to it too." -Run "Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -All -NoRestart" -Admin -Then $Restart -Guide "$Guide#wsl"
 }
 
 $wslcRelease = "https://github.com/microsoft/WSL/releases/latest"
@@ -202,6 +214,14 @@ if (-not $wslc) {
 }
 Write-Host ""
 
+if ($PassThru) {
+    $script:WslcAgentCheckFixes
+    Write-Host "$($script:WslcAgentCheckBroken) problem(s) above." -ForegroundColor $(if ($script:WslcAgentCheckBroken -gt 0) { "Red" } else { "Green" })
+    return
+}
+if ($script:WslcAgentCheckFixes.Count -gt 0) {
+    Write-Host "To install everything above in one go, with one administrator prompt: .\install-prereqs.ps1" -ForegroundColor Cyan
+}
 if ($script:WslcAgentCheckBroken -gt 0) {
     Write-Host "$($script:WslcAgentCheckBroken) problem(s) above. Fix them, close every terminal and VS Code, open them again and run this again." -ForegroundColor Red
     exit 1

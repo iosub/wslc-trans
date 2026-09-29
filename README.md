@@ -168,17 +168,29 @@ Get-ChildItem -Recurse | Unblock-File
 ```
 
 **4. Check what this machine needs.** It installs nothing. All is well when
-the last line is green: **Ready to build**. Otherwise, under every missing
-piece, it prints the command that installs it, one line to copy and run
-(and says when it needs a PowerShell opened as administrator), and the
-section of [docs/developer/prerequisites.md](docs/developer/prerequisites.md)
-that explains it (VS Code, Visual Studio or no IDE); install it, **close every
-terminal and VS Code and open them again** (a terminal only sees what was
-installed before it started), and run this line again.
+the last line is green: **Ready to build**, and you can go on to step 5.
+Otherwise, under every missing piece, it prints the command that installs
+it and the section of
+[docs/developer/prerequisites.md](docs/developer/prerequisites.md) that
+explains it (VS Code, Visual Studio or no IDE).
 
 ```powershell
 .\check-prereqs.ps1
 ```
+
+**Install what is missing, all at once.** Windows asks once for
+administrator rights, and it goes on in an administrator window of its own:
+the .NET SDK and its workloads, the JDK, the Android SDK, WSL, in the right
+order.
+
+```powershell
+.\install-prereqs.ps1
+```
+
+When it ends, **close every terminal and VS Code and open them again** (a
+terminal only sees what was installed before it started; restart Windows
+if it says so), and run `.\check-prereqs.ps1` again. You can also run each
+printed command yourself, one at a time.
 
 **5. Check the private files.** They are optional (the signing key, push
 notifications) and a fresh clone has none. All is well when the last line is
@@ -230,7 +242,8 @@ All scripts live in the repository root and work from any current directory.
 
 | Script | What it does |
 |---|---|
-| `check-prereqs.ps1` | What the machine needs to build, test, run and package, and how to install what is missing. Changes nothing. |
+| `check-prereqs.ps1` | What the machine needs to build, test, run and package, and the command that installs what is missing. Changes nothing. |
+| `install-prereqs.ps1` | Install everything `check-prereqs.ps1` finds missing, in order, after one administrator prompt. |
 | `check-private.ps1` | The private files this checkout has and what each enables, without printing a secret. |
 | `deploy-release.ps1` | Publish a release: raise the repository's version above every build, build the three installers at it, commit, tag and push; `-Publish` also creates the GitHub release ([releasing.md](docs/developer/releasing.md)). |
 | `deploy-server.ps1` | Copy the built installers to the machine that runs the agent over SSH, and install the agent there ([environment.md](docs/developer/environment.md)). |

@@ -340,7 +340,8 @@ function Write-WslcAgentCheck {
     is not missed. When it is not ok, -Guide (a page of the
     repository, with its section) is printed under it: where the fix is
     explained step by step. Counts the broken ones in
-    $script:WslcAgentCheckBroken of the script that called it.
+    $script:WslcAgentCheckBroken of the script that called it, and keeps every
+    fix in $script:WslcAgentCheckFixes, for install-prereqs.ps1 to run.
     #>
     param(
         [ValidateSet("ok", "absent", "broken")][string]$State,
@@ -358,10 +359,14 @@ function Write-WslcAgentCheck {
     Write-Host "$What  " -NoNewline
     Write-Host $Detail
     if ($Run) {
+        if (Test-Path Variable:script:WslcAgentCheckFixes) {
+            $script:WslcAgentCheckFixes += [pscustomobject]@{ What = $What; Run = $Run; Then = $Then }
+        }
         Write-Host "${indent}run$(if ($Admin) { ', from a PowerShell opened as administrator' }):" -ForegroundColor DarkGray
         foreach ($command in $Run) { Write-Host "$indent  $command" -ForegroundColor Cyan }
     }
-    if ($Then) {
+    # install-prereqs.ps1 does what -Then asks between its commands itself.
+    if ($Then -and -not (Test-Path Variable:script:WslcAgentCheckInstalling)) {
         Write-Host "${indent}then: $Then" -ForegroundColor Yellow
     }
     if ($Guide -and $State -ne "ok") {

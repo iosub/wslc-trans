@@ -52,15 +52,28 @@ Get-ChildItem -Recurse | Unblock-File
 ```
 
 It looks at what this machine has and changes nothing. Each line is one of
-the following, and every line that is not `[ok]` is followed by `how:` and
-the section of [prerequisites.md](prerequisites.md) that installs it (for VS
-Code, Visual Studio or no IDE at all):
+the following, and every line that is not `[ok]` is followed by `run:`, the
+command that installs it on a line of its own, and `how:`, the section of
+[prerequisites.md](prerequisites.md) that explains it (for VS Code, Visual
+Studio or no IDE at all):
 
 - `[ok]`: present.
 - `[absent]`: missing, and only the part it names is switched off (the APK,
-  the Windows client, containers to manage). The line says how to install it.
-- `[broken]`: missing, and nothing builds without it. The line gives the
-  command that installs it.
+  the Windows client, containers to manage).
+- `[broken]`: missing, and nothing builds without it.
+
+To install everything it reports missing in one go:
+
+```powershell
+.\install-prereqs.ps1
+```
+
+Windows asks once for administrator rights, and the script goes on in an
+administrator window of its own, which stays open to read. It runs the
+printed commands in order (the .NET SDK before its workloads, the JDK and the
+workloads before the Android SDK), reloading the PATH between them so each
+sees what the one before installed, then checks again. A command that fails
+is reported and not run twice.
 
 What you need at the least, and how to install it:
 
@@ -85,8 +98,8 @@ The agent works with WSLC 2.9.13 or later; 3.0.1 is the first generally
 available release and the one to install. An older `wslc` is reported as
 `[broken]` with the link to update it. `wslc version` prints the one you have.
 
-Install what is marked `[broken]`, then **close every terminal and VS Code
-and open them again** (a terminal only sees what was installed before it, or
+Whether you installed with `install-prereqs.ps1` or command by command,
+**close every terminal and VS Code and open them again** afterwards (a terminal only sees what was installed before it, or
 before VS Code, started), and run the script again until the last line is
 green: **Ready to build**.
 

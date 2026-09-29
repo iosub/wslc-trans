@@ -2,7 +2,9 @@
 
 What a machine needs to build, test, run and package WSLC AI Agent, and how
 to install each piece. `.\check-prereqs.ps1` tells you which ones you have;
-every line it reports as `[absent]` or `[broken]` points to its section here.
+every line it reports as `[absent]` or `[broken]` prints the command that
+installs it and points to its section here. `.\install-prereqs.ps1` runs
+all those commands in order, after one administrator prompt.
 
 | Prerequisite | Needed for | Required |
 |---|---|---|
