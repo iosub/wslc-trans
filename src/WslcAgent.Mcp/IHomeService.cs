@@ -14,9 +14,6 @@ public interface IHomeService
     /// <summary>One sample of the containers' aggregate disk and network I/O.</summary>
     Task<HomeIo> IoAsync(CancellationToken cancellationToken = default);
 
-    /// <summary>The image catalog size and the WSLC session VHDX files.</summary>
-    Task<HomeStorage> StorageAsync(CancellationToken cancellationToken = default);
-
     /// <summary>What is used of the Windows drive the sessions' VHDX files are on, and its size.</summary>
     HomeDisk Disk();
 }

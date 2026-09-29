@@ -22,9 +22,8 @@
        (Security), a container port on a public name (Publish), the MCP server and
        its skill (MCP), the agent updating itself (Update), what the person's own devices keep — the agents a client
        knows, the saved logins, the testing switch (User) — and what the
-       application looks like (Layout). Layout is a smaller Styles page with one
-       difference that matters: what is chosen here is not a sample, it is the
-       application; Apply puts it on every screen without writing it down, so the
+       application looks like (Layout). What is chosen in Layout is not a
+       sample, it is the application; Apply puts it on every screen without writing it down, so the
        person can walk through the app, see it in place and come back here to
        carry on; Save is what makes this device open that way tomorrow. The tab
        is in the address, so Back returns to the one left. *@
@@ -315,14 +314,6 @@
                     switch it off.
                 </MudText>
                 <MudSwitch T="bool" Value="Simulated.Enabled" ValueChanged="SimulateRemoteAsync" Label="Simulate remote access" LabelPlacement="Placement.Start" Color="Color.Warning" />
-            </MudPaper>
-            @* The style guide lives here, not in the title bar. *@
-            <MudPaper Outlined="true" Class="pa-4">
-                <MudText Typo="Typo.h6">Styles</MudText>
-                <MudText Typo="Typo.body2" Class="mud-text-secondary mb-2">
-                    Every control of the application on one page, the way it is drawn everywhere: the style guide a new screen is checked against.
-                </MudText>
-                <MudButton Size="Size.Small" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Palette" Href="styles" title="Open the style guide">Open Styles</MudButton>
             </MudPaper>
         </div>
             </div>

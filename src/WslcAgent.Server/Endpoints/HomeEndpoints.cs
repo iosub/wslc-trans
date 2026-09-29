@@ -64,9 +64,6 @@ public static class HomeEndpoints
         group.MapGet("/metrics/io", (IHomeService home, CancellationToken ct) => home.IoAsync(ct))
             .WithName("HomeIo");
 
-        group.MapGet("/metrics/storage", (IHomeService home, CancellationToken ct) => home.StorageAsync(ct))
-            .WithName("HomeStorage");
-
         group.MapGet("/metrics/disk", (IHomeService home) => home.Disk())
             .WithName("HomeDisk");
 

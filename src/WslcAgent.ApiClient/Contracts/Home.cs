@@ -35,6 +35,3 @@ public sealed record HomeDisk(string Drive, long UsedBytes, long TotalBytes, lon
 
 /// <summary>Aggregate container disk and network I/O (<c>GET /api/v1/home/metrics/io</c>), as the CLI's cumulative counters.</summary>
 public sealed record HomeIo(long DiskReadBytes, long DiskWriteBytes, long NetworkReceivedBytes, long NetworkSentBytes, long Timestamp, bool Error);
-
-/// <summary>Body of <c>GET /api/v1/home/metrics/storage</c>: the image catalog size and the WSLC session VHDX files (allocation, not free host disk).</summary>
-public sealed record HomeStorage(HomeImages Images, SessionStoreUsage Vhdx);

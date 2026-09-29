@@ -236,14 +236,6 @@
     white-space: nowrap;
 }
 
-/* The style guide shows the progress cell at several column widths. */
-.wslc-styles-progress {
-    border: 1px solid var(--mud-palette-lines-default);
-    border-radius: var(--mud-default-borderradius);
-    padding: 4px 8px;
-    overflow: hidden;
-}
-
 /* Cards waiting for their rows: the ring in the middle of the area they will
    fill. The table keeps its line across the top; in this view everything that
    is under way is a ring. */
@@ -2537,85 +2529,6 @@
     flex: 1 1 auto;
     min-height: 0;
     overflow: auto;
-}
-
-/* The Styles page: one row per control, the control at the left and its
-   style properties at the right; a sample that fills (grid, tabs) gets a
-   fixed height so the page keeps scrolling. */
-.wslc-styles {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.wslc-style-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 15rem;
-    gap: 12px;
-    padding: 8px 12px;
-    background-color: var(--mud-palette-surface);
-    border: 1px solid var(--mud-palette-lines-default);
-    border-radius: var(--mud-default-borderradius);
-    flex-shrink: 0;
-}
-
-.wslc-style-control {
-    min-width: 0;
-}
-
-.wslc-style-fixed {
-    display: block;
-    margin-bottom: 4px;
-}
-
-.wslc-style-sample {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-width: 0;
-}
-
-.wslc-style-sample > .wslc-fill,
-.wslc-style-sample > .wslc-action-body {
-    height: 14rem;
-    flex: 0 0 auto;
-}
-
-.wslc-style-sample > .wslc-action-body {
-    height: 7rem;
-}
-
-.wslc-style-props {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    border-left: 1px solid var(--mud-palette-lines-default);
-    padding-left: 12px;
-}
-
-.wslc-style-icons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 14px;
-}
-
-.wslc-style-icons > span {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-
-@media (max-width: 700px) {
-    .wslc-style-row {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .wslc-style-props {
-        border-left: none;
-        border-top: 1px solid var(--mud-palette-lines-default);
-        padding-left: 0;
-        padding-top: 8px;
-    }
 }
 
 /* The focused field in the success tone (label and underline): MudBlazor

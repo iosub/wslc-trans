@@ -1,6 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-
 namespace WslcAgent.UI.Components;
 
 /// <summary>
@@ -8,7 +5,6 @@ namespace WslcAgent.UI.Components;
 /// SVG text so they fit every MudBlazor <c>Icon</c> slot (nav links, menus,
 /// buttons). Symbols take the current colour; pictograms keep their own.
 /// </summary>
-[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)]
 public static class WslcIcons
 {
     public static readonly string Home = Symbol("⌂");
@@ -75,11 +71,6 @@ public static class WslcIcons
     public static readonly string Upload = Symbol("⬆");
     public static readonly string Up = Symbol("↑");
     public static readonly string UpFolder = UpArrowOver(Files);
-
-    /// <summary>Every glyph with its name, for the Styles page.</summary>
-    public static IEnumerable<KeyValuePair<string, string>> All() =>
-        typeof(WslcIcons).GetFields(BindingFlags.Public | BindingFlags.Static)
-            .Select(f => new KeyValuePair<string, string>(f.Name, (string)f.GetValue(null)!));
 
     /// <summary>A plain symbol (⌂ ◎ ↻ ▶ ■ ⋮): monochrome font first, so it takes the current colour.</summary>
     private static string Symbol(string text) =>

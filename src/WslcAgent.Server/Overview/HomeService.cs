@@ -86,9 +86,6 @@ public sealed class HomeService(
         return new HomeIo(disk.Sum(p => p.First), disk.Sum(p => p.Second), network.Sum(p => p.First), network.Sum(p => p.Second), now, Error: false);
     }
 
-    public async Task<HomeStorage> StorageAsync(CancellationToken cancellationToken = default) =>
-        new(ImagesOf(await Probe(() => images.ListAsync(cancellationToken))), SessionStoreReader.Read());
-
     private static HomeImages ImagesOf(ImageListResponse? list) =>
         list is null ? new HomeImages(0, 0, true) : new HomeImages(list.Aggregate.Count, list.Aggregate.SizeBytes, false);
 

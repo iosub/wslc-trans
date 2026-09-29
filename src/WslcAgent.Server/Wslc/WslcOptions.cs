@@ -40,8 +40,8 @@ public sealed class WslcOptions
 
     /// <summary>
     /// Folder holding the client installers the agent hands out
-    /// (<c>wslc-ai-client.msi</c>, <c>wslc-ai-client.apk</c>). Empty: the build
-    /// machine's checkout <c>dist</c>, then the agent's own <c>dist</c>.
+    /// (<c>wslc-ai-client.msi</c>, <c>wslc-ai-client.apk</c>). Empty: the agent's
+    /// own <c>dist</c>, which an installed agent does not have.
     /// </summary>
     public string? ClientPackagesPath { get; set; }
 }

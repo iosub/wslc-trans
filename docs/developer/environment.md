@@ -73,3 +73,14 @@ The agent reads none of these. Its own settings (bind address and port) are
 chosen when it is installed, and its Publishing settings (domain, name
 suffix, proxy, network, map file) are set in its UI, **Settings →
 Publish**.
+
+One setting of the agent is worth knowing on a machine that builds the
+installers: where the agent finds the client installers it offers to the
+clients for updating themselves, and its own installer for its self-update.
+It is `Wslc:ClientPackagesPath`; an installed agent has no `dist` folder of its
+own, so without it the agent offers no update. Set it for your user, pointing
+at the `dist` folder the build scripts write to, then restart the agent:
+
+```powershell
+[Environment]::SetEnvironmentVariable("Wslc__ClientPackagesPath", "C:\src\wslc-ai-agent\dist", "User")
+```

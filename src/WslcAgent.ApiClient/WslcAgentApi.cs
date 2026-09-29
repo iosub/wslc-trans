@@ -30,9 +30,6 @@ public sealed class WslcAgentApi(HttpClient http, AgentAccessToken? access = nul
     public Task<HomeIo> GetHomeIoAsync(CancellationToken cancellationToken = default) =>
         GetAsync<HomeIo>("api/v1/home/metrics/io", cancellationToken);
 
-    public Task<HomeStorage> GetHomeStorageAsync(CancellationToken cancellationToken = default) =>
-        GetAsync<HomeStorage>("api/v1/home/metrics/storage", cancellationToken);
-
     public Task<HomeDisk> GetHomeDiskAsync(CancellationToken cancellationToken = default) =>
         GetAsync<HomeDisk>("api/v1/home/metrics/disk", cancellationToken);
 

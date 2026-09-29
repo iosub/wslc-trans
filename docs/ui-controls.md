@@ -519,7 +519,7 @@ One icon per action, the same wherever the action appears — a row, a card, a
 menu, a page verb, a rail, a dialog — so a button is read before its tooltip
 is. Actions are `Icons.Material.Filled.*`; `WslcIcons.*` (the reference's
 glyphs, in colour) keeps the navigation, the session block and the Files
-browser, and the Styles page shows both sets. A new action takes its icon
+browser. A new action takes its icon
 from this table, or adds a row to it; nothing is inlined twice with two icons.
 
 | Action | Icon | Colour | Where |
