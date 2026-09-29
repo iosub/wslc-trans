@@ -69,6 +69,19 @@ Two ways in:
 
 ### Install it
 
+> [!WARNING]
+> **Our installers are not digitally signed.** We recommend building your own
+> ([Build it yourself](#build-it-yourself)): you then run exactly the code you
+> read. For convenience we publish ready-made installers too, and Windows and
+> your browser will warn about them because nobody signed them:
+>
+> - **The browser**, when downloading ("isn't commonly downloaded" or similar):
+>   open the download's **…** menu → **Keep** → **Show more** → **Keep anyway**.
+> - **Windows**, when opening it ("Windows protected your PC"): **More info** →
+>   **Run anyway**.
+>
+> The PowerShell download below avoids the browser's warning.
+
 **1. Download the agent's installer**, `wslc-ai-agent.msi`, from the
 [latest release](https://github.com/berpiztu/wslc-ai-agent/releases/latest),
 or from PowerShell:
@@ -79,8 +92,9 @@ Invoke-WebRequest https://github.com/berpiztu/wslc-ai-agent/releases/latest/down
 
 **2. Install it.** It installs for your user only, with no administrator
 rights; its wizard asks for the address and port the agent listens on
-(`127.0.0.1` and `8069` unless you change them). Windows may warn that the
-installer is from an unknown publisher: **More info → Run anyway**.
+(`127.0.0.1` and `8069` unless you change them) and for its package folder
+([How to update](#how-to-update)). If Windows warns that the installer is
+from an unknown publisher: **More info → Run anyway**.
 
 ```powershell
 Start-Process "$env:USERPROFILE\Downloads\wslc-ai-agent.msi"
