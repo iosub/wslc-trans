@@ -19,6 +19,7 @@ $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $RepoRoot
 . (Join-Path $RepoRoot "packaging\Packaging.ps1")
+Import-WslcAgentPrivateSettings
 
 $Csproj = Join-Path $RepoRoot "src\WslcAgent.App\WslcAgent.App.csproj"
 $WixProj = Join-Path $RepoRoot "packaging\client-install\WslcAgent.Client.wixproj"

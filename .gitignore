@@ -481,20 +481,25 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 
-# --- wslc-agent: secrets and per-machine settings never enter the repository ---
+# --- secrets and per-machine settings never enter the repository ---
+# Every private file of a checkout lives in private/: nothing in it is tracked
+# but its README and the example of its settings. private/README.md lists the
+# files, docs/developer/private-files.md says how to make each one.
+/private/*
+!/private/README.md
+!/private/env.example.psd1
+# The same files anywhere else in the tree are refused too.
 .env
 .env.*
 !.env.example
 *.keystore
-# The Android signing key travels with the repository while it is private, so a
-# second machine builds APKs Android accepts as updates (see CLAUDE.md and
-# packaging/signing/README.md). It leaves before the repository is published.
-!packaging/signing/android.keystore
-!packaging/signing/android.keystore.pass
+*.keystore.pass
 *.jks
 *.pfx
 *.p12
 *.snk
+google-services.json
+firebase-service-account*.json
 appsettings.*.local.json
 appsettings.Local.json
 secrets.json
@@ -502,10 +507,3 @@ secrets.json
 # --- build outputs and generated packaging inputs ---
 dist/
 packaging/**/GeneratedFiles.wxs
-
-# The Firebase service account key the agent pushes to phones with
-# (docs/notifications/spec.md): only in packaging/signing/, while the
-# repository is private (the owner, 27 September 2026), for the installer to
-# carry; a copy anywhere else in the tree is refused.
-firebase-service-account*.json
-!packaging/signing/firebase-service-account.json

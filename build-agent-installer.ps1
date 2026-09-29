@@ -21,6 +21,7 @@ $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $RepoRoot
 . (Join-Path $RepoRoot "packaging\Packaging.ps1")
+Import-WslcAgentPrivateSettings
 
 $Project = Join-Path $RepoRoot "src\WslcAgent.Server\WslcAgent.Server.csproj"
 $WixProj = Join-Path $RepoRoot "packaging\agent-install\WslcAgent.Agent.wixproj"
@@ -53,15 +54,17 @@ if ($LASTEXITCODE -ne 0) { throw "dotnet publish of the tray icon failed with ex
 if (-not (Test-Path -LiteralPath (Join-Path $Stage "tray\wslc-ai-agent-tray.exe"))) { throw "Publish produced no tray\wslc-ai-agent-tray.exe in $Stage" }
 
 # The Firebase key the agent pushes notifications to phones with, into the
-# agent's data folder (data\ under the install folder), while the repository is
-# private: the owner's decision of 27 September 2026, a debt like the Android
-# key's (packaging/signing/README.md). Without it the agent pushes nothing.
-$PushKey = Join-Path $RepoRoot "packaging\signing\firebase-service-account.json"
+# agent's data folder (data\ under the install folder): WSLC_AGENT_PUSH_KEY,
+# else private\firebase-service-account.json. Without it the agent pushes
+# nothing; the key can still be copied into the data folder by hand.
+$PushKey = if ($env:WSLC_AGENT_PUSH_KEY) { $env:WSLC_AGENT_PUSH_KEY } else { Join-Path (Get-WslcAgentPrivateFolder) "firebase-service-account.json" }
 if (Test-Path -LiteralPath $PushKey) {
     New-Item -ItemType Directory -Force -Path (Join-Path $Stage "data") | Out-Null
     Copy-Item -LiteralPath $PushKey -Destination (Join-Path $Stage "data\firebase-service-account.json")
+} elseif ($env:WSLC_AGENT_PUSH_KEY) {
+    throw "WSLC_AGENT_PUSH_KEY points to a missing file: $PushKey"
 } else {
-    Write-Host "No packaging\signing\firebase-service-account.json: the agent will push no notifications to phones." -ForegroundColor Yellow
+    Write-Host "No private\firebase-service-account.json: the agent will push no notifications to phones (docs/developer/private-files.md)." -ForegroundColor Yellow
 }
 
 Remove-WslcAgentDebugFiles -Path $Stage

@@ -19,8 +19,8 @@ namespace WslcAgent.Server.Notifications;
 /// <para>
 /// It sends with a Firebase service account's key, the JSON Firebase's console
 /// gives, kept as <c>firebase-service-account.json</c> in the agent's data
-/// folder, where the installer puts it while the repository is private
-/// (packaging/signing/README.md) and where it can be copied by hand. Without
+/// folder, where the installer puts it when it was built with one
+/// (docs/developer/private-files.md) and where it can be copied by hand. Without
 /// it nothing is sent. Signed here, with the RSA .NET has, rather than with
 /// Google's library: one JWT exchanged for an hour's access token (OAuth 2.0
 /// for service accounts), then one HTTP call per phone (FCM HTTP v1).

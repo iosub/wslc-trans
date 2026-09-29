@@ -57,11 +57,13 @@
        another key, so a release APK could not replace a build deployed over a
        cable — Android says only "App not installed" and leaves you to guess.
        The key is found the way packaging/Packaging.ps1 finds it: the
-       WSLC_AGENT_KEYSTORE override, then this checkout, then the per-user copy.
-       With none of them the build falls back to the SDK's debug key, so a fresh
-       clone still runs; it just cannot update an installed release. -->
+       WSLC_AGENT_KEYSTORE override, then the checkout's private/ folder, then
+       the per-user copy. With none of them the build falls back to the SDK's
+       debug key, so a fresh clone still runs; it just cannot update an
+       installed release (docs/developer/private-files.md). -->
   <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
-    <_WslcRepoKeystore>$(MSBuildThisFileDirectory)..\..\packaging\signing\android.keystore</_WslcRepoKeystore>
+    <_WslcPrivate>$(MSBuildThisFileDirectory)..\..\private\</_WslcPrivate>
+    <_WslcRepoKeystore>$(_WslcPrivate)android.keystore</_WslcRepoKeystore>
     <_WslcUserKeystore>$(USERPROFILE)\.wslc-agent\android.keystore</_WslcUserKeystore>
     <_WslcKeystore Condition="'$(WSLC_AGENT_KEYSTORE)' != '' And Exists('$(WSLC_AGENT_KEYSTORE)')">$(WSLC_AGENT_KEYSTORE)</_WslcKeystore>
     <_WslcKeystore Condition="'$(_WslcKeystore)' == '' And Exists('$(_WslcRepoKeystore)')">$(_WslcRepoKeystore)</_WslcKeystore>
@@ -83,10 +85,15 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
   </ItemGroup>
 
-  <!-- The agent's notifications, pushed through Firebase Cloud Messaging
-       (docs/notifications/spec.md). The app's Firebase configuration lives
-       beside the Android key, under the same rule (packaging/signing/README.md);
-       a checkout without it builds a client that simply gets no token. -->
+  <!-- The agent's notifications, pushed through Firebase Cloud Messaging. The
+       app's Firebase configuration is WSLC_AGENT_GOOGLE_SERVICES, else
+       private/google-services.json beside the Android key; a checkout without
+       it builds a client that simply gets no token. -->
+  <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+    <_WslcGoogleServices Condition="'$(WSLC_AGENT_GOOGLE_SERVICES)' != ''">$(WSLC_AGENT_GOOGLE_SERVICES)</_WslcGoogleServices>
+    <_WslcGoogleServices Condition="'$(_WslcGoogleServices)' == ''">$(_WslcPrivate)google-services.json</_WslcGoogleServices>
+  </PropertyGroup>
+
   <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
     <PackageReference Include="Xamarin.Firebase.Messaging" />
     <!-- MAUI's AndroidX extension packages at the versions Firebase's libraries
@@ -96,7 +103,7 @@
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" />
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core.Ktx" />
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" />
-    <GoogleServicesJson Include="..\..\packaging\signing\google-services.json" Condition="Exists('..\..\packaging\signing\google-services.json')" />
+    <GoogleServicesJson Include="$(_WslcGoogleServices)" Condition="Exists('$(_WslcGoogleServices)')" />
   </ItemGroup>
 
   <!-- On Windows, the agent's notifications as toasts, the ones its tray icon shows too. -->

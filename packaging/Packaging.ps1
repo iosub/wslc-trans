@@ -257,19 +257,45 @@ function Set-WslcAgentMsiExplorerVersion {
 
 # ---------------------------------------------------------------- Android --
 
+function Get-WslcAgentPrivateFolder {
+    <#
+    The checkout's private/ folder: the signing key, the Firebase files and
+    env.psd1. Git tracks nothing in it but README.md and env.example.psd1
+    (.gitignore); docs/developer/private-files.md says how to make each file.
+    #>
+    return Join-Path (Split-Path -Parent $PSScriptRoot) "private"
+}
+
+function Import-WslcAgentPrivateSettings {
+    <#
+    Loads private\env.psd1 into the environment, so a developer fills one file
+    instead of setting variables by hand. A variable already set in the
+    environment wins over the file, and an empty value in the file sets
+    nothing. The file is a PowerShell data file: it is read, never run.
+    #>
+    $file = Join-Path (Get-WslcAgentPrivateFolder) "env.psd1"
+    if (-not (Test-Path -LiteralPath $file)) { return }
+    $settings = Import-PowerShellDataFile -LiteralPath $file
+    foreach ($name in $settings.Keys) {
+        $value = [string]$settings[$name]
+        if ($value -and -not [Environment]::GetEnvironmentVariable($name)) {
+            [Environment]::SetEnvironmentVariable($name, $value)
+        }
+    }
+}
+
 function Resolve-WslcAgentAndroidSigning {
     <#
     Android refuses to update an app whose new APK is signed with a different
     key, so every machine that builds one has to sign with the same key.
     Resolution order:
       1. WSLC_AGENT_KEYSTORE (+ WSLC_AGENT_KEYSTORE_PASS, WSLC_AGENT_KEY_ALIAS, WSLC_AGENT_KEY_PASS)
-      2. packaging\signing\android.keystore in this checkout, with its password in
-         android.keystore.pass beside it: while the repository is private the key
-         travels with it, so a second machine builds a signed APK with no setup
-         (see packaging\signing\README.md, and the note in CLAUDE.md)
-      3. %USERPROFILE%\.wslc-agent\android.keystore, the same pair of files
-    When none of them exists a new keystore is generated at (3); put it at (2)
-    so the other machines get it.
+      2. private\android.keystore in this checkout, with its password in
+         android.keystore.pass beside it
+      3. %USERPROFILE%\.wslc-agent\android.keystore, the same pair of files,
+         for a machine that keeps one key for several checkouts
+    When none of them exists a new keystore is generated at (2). Back it up:
+    an APK signed with any other key cannot update the installed app.
     #>
     $keystore = $env:WSLC_AGENT_KEYSTORE
     $storePass = $env:WSLC_AGENT_KEYSTORE_PASS
@@ -277,31 +303,20 @@ function Resolve-WslcAgentAndroidSigning {
     $keyPass = $env:WSLC_AGENT_KEY_PASS
 
     if (-not $keystore) {
-        $inRepo = Join-Path $PSScriptRoot "signing\android.keystore"
-        if (Test-Path -LiteralPath $inRepo) {
-            $keystore = $inRepo
-            if (-not $storePass) {
-                $passFile = "$inRepo.pass"
-                if (-not (Test-Path -LiteralPath $passFile)) { throw "Keystore $inRepo exists but $passFile is missing; set WSLC_AGENT_KEYSTORE_PASS." }
-                $storePass = ([System.IO.File]::ReadAllText($passFile)).Trim()
-            }
-        }
-    }
-
-    if (-not $keystore) {
-        $dir = Join-Path $env:USERPROFILE ".wslc-agent"
-        $keystore = Join-Path $dir "android.keystore"
-        $passFile = Join-Path $dir "android.keystore.pass"
+        $private = Join-Path (Get-WslcAgentPrivateFolder) "android.keystore"
+        $perUser = Join-Path $env:USERPROFILE ".wslc-agent\android.keystore"
+        $keystore = if (-not (Test-Path -LiteralPath $private) -and (Test-Path -LiteralPath $perUser)) { $perUser } else { $private }
+        $passFile = "$keystore.pass"
         if (-not (Test-Path -LiteralPath $keystore)) {
             $keytool = Find-WslcAgentKeytool
-            New-Item -ItemType Directory -Force -Path $dir | Out-Null
+            New-Item -ItemType Directory -Force -Path (Split-Path -Parent $keystore) | Out-Null
             $storePass = -join ((1..32) | ForEach-Object { [char](Get-Random -InputObject ([int[]](48..57 + 65..90 + 97..122))) })
             [System.IO.File]::WriteAllText($passFile, $storePass, (New-Object System.Text.UTF8Encoding $false))
             Write-Host "No Android signing key found; generating $keystore" -ForegroundColor Yellow
             & $keytool -genkeypair -v -keystore $keystore -alias $alias -keyalg RSA -keysize 2048 -validity 10000 `
-                -storepass $storePass -keypass $storePass -dname "CN=wslc-agent, O=Berpiztu" 2>&1 | Out-Null
+                -storepass $storePass -keypass $storePass -dname "CN=wslc-agent" 2>&1 | Out-Null
             if ($LASTEXITCODE -ne 0) { throw "keytool failed with exit code $LASTEXITCODE" }
-            Write-Host "Keep $dir private and copy it to other build machines so every APK carries the same signature." -ForegroundColor Yellow
+            Write-Host "Back up $keystore and its .pass file: every later APK has to be signed with this key to update the installed app." -ForegroundColor Yellow
         }
         if (-not $storePass) {
             if (-not (Test-Path -LiteralPath $passFile)) { throw "Keystore $keystore exists but $passFile is missing; set WSLC_AGENT_KEYSTORE_PASS." }

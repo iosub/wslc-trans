@@ -5,9 +5,10 @@
     Bumps the client version in src\WslcAgent.App (versionName and versionCode),
     publishes a signed Release APK and copies it to dist\. Default is arm64-v8a
     only (phones); -Full bundles every ABI for emulators and unusual devices.
-    The signing key comes from WSLC_AGENT_KEYSTORE or
-    %USERPROFILE%\.wslc-agent\android.keystore and is generated there when
-    missing; see packaging\Packaging.ps1. -NoBump rebuilds the current version.
+    The signing key comes from WSLC_AGENT_KEYSTORE, private\android.keystore
+    or %USERPROFILE%\.wslc-agent\android.keystore, and is generated in
+    private\ when missing; see docs\developer\private-files.md.
+    -NoBump rebuilds the current version.
 #>
 param(
     [switch]$NoBump,
@@ -19,6 +20,7 @@ $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $RepoRoot
 . (Join-Path $RepoRoot "packaging\Packaging.ps1")
+Import-WslcAgentPrivateSettings
 
 $Csproj = Join-Path $RepoRoot "src\WslcAgent.App\WslcAgent.App.csproj"
 $Tfm = "net10.0-android"
