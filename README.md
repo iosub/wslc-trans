@@ -55,18 +55,41 @@ One UI, one language, one API contract.
 - [WiX Toolset](https://wixtoolset.org/) for the Windows installers
 - [xterm.js](https://xtermjs.org/) for the terminal (phase 2)
 
-## Requirements
+## Quick start
 
-- Windows 11 with WSLC installed (`wslc` on the PATH).
-- [.NET 10 SDK](https://dotnet.microsoft.com/download) with the `maui-windows`
-  and `android` workloads to build the apps (`dotnet workload restore`).
+Run these in order in PowerShell. Each one tells you whether all is well
+before you go on to the next.
 
-## Build, run, debug
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned    # once: lets PowerShell run the scripts
+git clone https://github.com/berpiztu/wslc-ai-agent.git
+cd wslc-ai-agent
+.\check-prereqs.ps1     # what this machine needs; installs nothing, says how
+.\check-private.ps1     # the optional private files (signing key, push); none is fine
+.\build.ps1             # restore, build, test: what CI runs
+.\start-agent.ps1       # the agent on http://127.0.0.1:8070
+```
+
+| Step | All is well when |
+|---|---|
+| `check-prereqs.ps1` | The last line is green: **Ready to build**. Otherwise install each `[broken]` line with the command it gives, open a new terminal, run it again. |
+| `check-private.ps1` | The last line is green: **Nothing broken**. `[absent]` only switches off what it names. |
+| `build.ps1` | The tests pass and it ends in **Done.** |
+| `start-agent.ps1` | http://127.0.0.1:8070 opens the dashboard. `Ctrl+C` stops it. |
+
+Every step, what it shows and what to do when it shows something else:
+[docs/developer/getting-started.md](docs/developer/getting-started.md).
+The signing key and the Firebase files, when you want signed APKs or push
+notifications: [docs/developer/private-files.md](docs/developer/private-files.md).
+
+## Scripts
 
 All scripts live in the repository root and work from any current directory.
 
 | Script | What it does |
 |---|---|
+| `check-prereqs.ps1` | What the machine needs to build, test, run and package, and how to install what is missing. Changes nothing. |
+| `check-private.ps1` | The private files this checkout has and what each enables, without printing a secret. |
 | `build.ps1` | Restore, build, test: what CI runs. |
 | `start-agent.ps1` | Build and run the agent in Development on http://127.0.0.1:8070. `-Port`, `-NoBuild`, `-Watch` (dotnet watch, hot reload on save). |
 | `debug-client.ps1` | Debug build of the Windows client and launch it against `-AgentUrl` (default the local agent). |
@@ -75,12 +98,8 @@ All scripts live in the repository root and work from any current directory.
 | `build-client-installer.ps1` | `dist\wslc-ai-client.msi`: the Windows client. |
 | `build-client-apk.ps1` | `dist\wslc-ai-client.apk`, arm64-v8a, signed. `build-client-apk-full.ps1` bundles every ABI. |
 
-```powershell
-git clone https://github.com/Berpiztu/wslc-agent.git
-cd wslc-agent
-.\build.ps1
-.\start-agent.ps1
-```
+The three installer scripts raise the version in the project files, which is
+how a release is made; `-NoBump` builds the current version, for trying them.
 
 Without the scripts: `dotnet build`, `dotnet test`,
 `dotnet run --project src/WslcAgent.Server` from the repository root. A
@@ -100,7 +119,8 @@ and 8069; development runs on 8070). Installer settings are also MSI properties,
 `msiexec /i dist\wslc-ai-agent.msi WSLC_AGENTPORT=8069`. The agent MSI
 registers a per-user logon task that starts the agent right away and at every
 logon, because wslc only works inside a user session. Android APKs are
-signed with a key kept outside the repository; see `packaging/AGENTS.md`.
+signed with a key kept outside the repository, in `private/`; see
+[docs/developer/private-files.md](docs/developer/private-files.md).
 
 ## Contributing
 
