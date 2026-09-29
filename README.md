@@ -59,6 +59,60 @@ One UI, one language, one API contract.
 
 Needs Windows 11 and **WSLC 2.9.13 or later**
 ([WSL 2.9.13 release](https://github.com/microsoft/WSL/releases/tag/2.9.13)).
+
+Two ways in:
+
+- **[Install it](#install-it)**: download the installers of the latest
+  release and use the agent. Nothing to build.
+- **[Build it yourself](#build-it-yourself)**: clone the repository, build and
+  run it from source, to change it or to contribute.
+
+### Install it
+
+**1. Download the agent's installer**, `wslc-ai-agent.msi`, from the
+[latest release](https://github.com/berpiztu/wslc-ai-agent/releases/latest),
+or from PowerShell:
+
+```powershell
+Invoke-WebRequest https://github.com/berpiztu/wslc-ai-agent/releases/latest/download/wslc-ai-agent.msi -OutFile "$env:USERPROFILE\Downloads\wslc-ai-agent.msi"
+```
+
+**2. Install it.** It installs for your user only, with no administrator
+rights; its wizard asks for the address and port the agent listens on
+(`127.0.0.1` and `8069` unless you change them). Windows may warn that the
+installer is from an unknown publisher: **More info → Run anyway**.
+
+```powershell
+Start-Process "$env:USERPROFILE\Downloads\wslc-ai-agent.msi"
+```
+
+**3. Open it.** The agent starts at once, and at every logon from then on;
+its icon sits beside the clock. All is well when http://127.0.0.1:8069 opens
+the dashboard:
+
+```powershell
+Start-Process http://127.0.0.1:8069
+```
+
+**4. Optional: the clients and your AI assistant.**
+
+- **Windows client**: `wslc-ai-client.msi`, and **Android client**:
+  `wslc-ai-client.apk`, from the same
+  [release](https://github.com/berpiztu/wslc-ai-agent/releases/latest). The
+  Windows client connects to the agent on the same machine unless its
+  installer is told another address; either client changes it in
+  **Settings → This client**.
+- **Claude Code** (or any MCP client) reaches the agent's tools with:
+
+```powershell
+claude mcp add --transport http wslc-agent http://127.0.0.1:8069/api/v1/mcp
+```
+
+To reach the agent from another machine or from the internet:
+[docs/developer/remote-access.md](docs/developer/remote-access.md).
+
+### Build it yourself
+
 Run each line in PowerShell, one at a time, and check what it shows before
 going on to the next.
 
