@@ -1,0 +1,270 @@
+# Features
+
+Everything WSLC AI Agent does, first at a glance, then area by area.
+
+## At a glance
+
+- **A dashboard you design yourself**
+  - Drag, resize and group live objects on a grid: readings, dials, charts, logs, containers, images, volumes, networks
+  - Two pages (System and User), each with a landscape and a portrait layout that follows the screen
+  - Kept on the server for every client, or on each device, and copied between them
+  - Drafts that survive a power cut; Save and Discard
+  - Alarms with thresholds that turn a card red and appear in a status bar on every screen
+  - Zoom and five ways to fit any screen: Fit, Fill, Width, Stretch, Fluid
+- **Containers, images, volumes, networks and sessions**, all of WSLC from one place
+  - Run, create, edit, recreate, start, stop, restart, kill, remove, back up, export
+  - Paste a `docker run` or `wslc run` line and get the form filled in
+  - Pull, build, tag, push, save, import and load images; create and prune everything
+  - A live network map; live stats; per-session disk usage and VHDX compaction
+  - Restart policies enforced by the agent itself
+- **Terminals**: the host's terminal and a shell in any container, in the browser
+- **A file browser inside containers, images and volumes**, with transfers that keep running when you leave
+- **Logs**: the agent's own log and every `wslc` command it ran, filterable, live
+- **Publishing**: a built-in nginx proxy puts a container's port on a public HTTPS name
+- **A remote browser**: open a container's web page that is not published, streamed from the agent's machine
+- **AI assistants through MCP**: 53 tools, destructive ones behind your approval, and a skill that installs itself into Claude Code, Hermes Agent or OpenClaw
+- **Notifications** on Windows and Android: thresholds, stopped containers, sessions down, jobs done, updates
+- **Every client, one UI**: web browser (also as an installable PWA), Windows app, Android app, and a tray icon
+- **Multi-client and multi-agent**: several clients on one agent share jobs and state; one client knows several agents
+- **Secure remote access**: trusted at the machine, login or API token from anywhere else
+- **Self-updating**: the agent and its clients update from one folder, with a countdown anyone can cancel
+- **Per-user installers**: no administrator rights; starts at logon
+- **Personalisable**: dark and light themes, page zoom, table or cards per list, and the look of every control
+
+## Dashboard
+
+The Home page is a dashboard designed by each user, not a fixed screen.
+
+- **Pages**: *System* shows the machine, *User* what the user runs. The one
+  looked at last opens again.
+- **Views**: a landscape and a portrait layout, each designed on its own.
+  Outside design the window's shape picks the view, and picks again when the
+  window is resized or a phone is turned.
+- **Where it is kept**: with the user on the agent, so every client opens the
+  same dashboard, or on the device alone. Either can be copied onto the other.
+- **Design mode**: a toolbox of every object and ready-made card, dragged onto
+  a grid; objects never overlap. Select several with a marquee, group them
+  into a card (Ctrl+G), undo (Ctrl+Z), delete. A floating properties window
+  sets each object's source, size, type size, colours, elevation, alignment,
+  margins, the parts it shows and how it widens on a wider screen.
+- **Drafts**: every change is kept on the device until Save; a lost
+  connection or a power cut loses nothing. Leaving with unsaved changes asks
+  first.
+- **Objects**: host CPU, memory and disk readings and dials; counts of
+  containers, images, volumes and networks; CPU, memory, disk and network
+  charts of the host or of any container, with legends; container, image,
+  volume and network headers, details, dials, shortcuts and action buttons;
+  the session selector; agent, client, `wslc`, Windows and kernel versions;
+  the live events status; the agent's log; file transfers; free text.
+- **Ready-made cards**: container, image, volume, network, system, charts.
+- **Alarms**: each measure has a threshold; past it the object turns red and
+  blinks. Chosen alarms also show as rings in a status bar on every screen.
+- **Zoom and fit**: zoom in and out, and fit the view to any screen: Fit, Fill,
+  Width, Stretch or Fluid. Each page and view keeps its own on each device;
+  portrait opens Fluid and landscape Fill until you choose.
+- **Charts**: any chart opens full size, with zoom.
+- Out of design, tapping a card offers its actions (Run, Pull, Create…) and
+  opens its page.
+
+## Containers
+
+- **List** with state, image, ports, CPU, memory, disk, id and restart
+  policy; totals of CPU and memory; search; show only running ones; select
+  several to start, stop or remove.
+- **Run and create** from one form: image, name, ports, volumes and bind
+  mounts, environment, networks with static addresses, entrypoint, command,
+  working folder, user, restart policy, memory and CPU limits, health check.
+  - **Paste a command**: a `docker run` or `wslc run` line, even across
+    several lines, fills the form; flags it cannot use are named.
+  - **Checked before it runs**: names in use, ports taken, missing networks,
+    a command that listens on another port than the one published. Errors
+    show on their fields.
+  - **Load and export JSON**: an inspect output or a request exported from
+    another agent.
+  - Runs are jobs of the agent: progress in the list, a live console, cancel;
+    a failed run keeps its settings to edit and try again.
+- **View and edit** an existing container: saving recreates it with the new
+  settings, rehearsed first under another name; if anything fails, the old one
+  is restored.
+- **Actions**: start, stop, restart, kill, remove; logs; live stats; files;
+  a shell; copy the run command; export JSON; back up.
+- **Details page**: logs, the editable form, the raw inspect JSON, bind
+  mounts, a shell, files and live stats, one tab each, with Back through them.
+- **Live stats**: CPU, memory, disk and network charts, sampled every 1.5 s.
+- **Restart policies** (no, unless stopped, always) kept by the agent, which
+  brings containers back when it starts and when a session starts.
+- **Backup**: a stopped container exported to an archive and downloaded.
+
+## Images
+
+- **List** with usage, name, tag, id, date and size; disk usage; search;
+  remove several at once.
+- **Pull** (with its progress, a live console and cancel), **push**, **tag**,
+  **save** to an archive, **import** and **load** archives.
+- **Build** from a context folder: Dockerfile, tag, build arguments, labels,
+  target stage, no cache, pull newer bases; live output and cancel.
+- **Files of an image**, browsed through a temporary container.
+- Which containers use an image; run or create a container from it.
+- **Prune** dangling images; Docker Hub one click away to find images.
+
+## Volumes
+
+- **List**, search, remove several at once.
+- **Create** on the guest or as a virtual disk (VHD) with a size, fixed or
+  growing; options and labels.
+- **Files of a volume**, browsed through a temporary container.
+- Which containers use a volume; read and written traffic; **prune**.
+
+## Networks
+
+- **List** with driver, subnet, gateway, scope; search; remove several.
+- **Create** with subnet, gateway, address range, internal, options, labels.
+- **Edit**: saving replaces the network and reconnects its containers.
+- **Connect and disconnect** containers, with a static address.
+- **Network map**: networks as hubs, containers as nodes with their
+  addresses, filtered by network or by container.
+- Received and sent traffic; **prune**.
+
+## Sessions and system
+
+- **Session** selector in the title bar, with start and stop; screens that
+  need a running session grey out while it is stopped, and a session stopped
+  from the agent stays stopped.
+- **System page**: `wslc`, Windows and kernel versions, runtime details, the
+  virtual disks (VHDX) of every session and their sizes, the largest images.
+- **Clean up**: prune images, volumes and networks; **compact** a session's
+  virtual disk, with its size before and after.
+- **Registries**: log in to and out of container registries.
+
+## Terminals
+
+- **Host terminal** in the browser, also in a tab of its own; copy, clear,
+  reconnect. At the agent's machine, Windows Terminal opens natively.
+- **A shell in any container**, in a dialog or on its details page, or as a
+  native terminal window at the agent's machine.
+- A session and its output survive leaving the page.
+
+## Files and transfers
+
+- **Browse** a container's files: breadcrumbs, sizes, permissions, dates,
+  links; select several; copy, cut and paste; rename; new folder; delete.
+- **Edit text files** in place.
+- **Upload** several files and **download** them; the native apps use the
+  system's own Save and Open dialogs.
+- **Transfers belong to the agent**: they keep running when the view closes,
+  show on the container's row, can be cancelled, and every client sees them.
+- Read-only mounts are marked, and what would fail there is greyed out.
+
+## Logs and activity
+
+- **Agent log**: time, level, source and message, with details that expand;
+  filters by level and by type; copy or delete entries; follows new entries
+  and holds still while you read.
+- **CLI activity**: every `wslc` command the agent ran, the running ones
+  included, with its time, exit code, command line and output.
+- **Container logs**: coloured by level, searchable, live.
+- The two share one page, with a divider you can move.
+
+## Publishing and remote access
+
+- **Publish a container's port** on a public HTTPS name from its form: the
+  agent writes the map of a built-in nginx proxy container and restarts it.
+- **Set up** creates the network and the proxy in one step; publications are
+  listed, opened and removed from Settings.
+- Every port offers its **local** address and, when published, its
+  **remote** one.
+- **Reverse SSH tunnels to a VPS**, kept alive across reboots by a script,
+  for reaching the agent and its published containers from the internet
+  ([remote-access guide](developer/remote-access.md)).
+
+## Remote browser
+
+- **Open a container's web page from anywhere**, even when it is not
+  published: a browser runs on the agent's machine and its picture is
+  streamed to you, with mouse, keyboard, touch, clipboard, back, forward and
+  zoom, behind the agent's own login.
+- **Sessions** can be joined by other viewers, or left running.
+- **Saved logins**, shared by every client and encrypted on the agent, typed
+  into the page on request.
+
+## MCP and AI assistants
+
+- **An MCP server** in the agent (`/api/v1/mcp`) with 53 tools: containers,
+  images, volumes, networks, sessions, publishing, notifications, logs and
+  the machine's state, and the paste of a `docker run` line.
+- **Destructive tools ask first**: a yes or no in the assistant where it
+  supports it, a confirmation step otherwise. They can be hidden entirely.
+- **A skill** that teaches the assistant how to work with WSLC, served by the
+  agent itself and **installed with one click** into Claude Code, Hermes Agent
+  or OpenClaw, on this machine or another over SSH.
+- Setup guides and ready configurations for each assistant.
+- **Architecture diagrams** of the agent, the terminal, the network and MCP,
+  one click away on every screen.
+
+## Notifications
+
+- **Watched by the agent itself**, whether or not a client is open: host
+  disk, memory and CPU, and each container's memory and CPU, past a threshold
+  for a number of minutes, and back under it; a container stopping
+  unexpectedly or not restarting; a session going down; jobs finished or
+  failed; the agent's own updates.
+- **Delivered** as Windows notifications by the tray and the Windows app, and
+  as push notifications on Android, with a Cancel button on an update's.
+- Tapping one opens its page; the history is kept.
+
+## Clients
+
+- **One interface everywhere**: the web UI served by the agent (installable
+  as an app), the **Windows** app and the **Android** app host the same
+  screens.
+- **One client, several agents**: this machine, others on the network or on
+  the internet, each remembered with its login.
+- **Self-updating clients**: a newer version is offered as soon as the agent
+  has it; the web UI offers the right app to download.
+- **Android**: the back gesture navigates the app; files saved through the
+  system; push notifications.
+- **Tray icon** on the agent's machine: the agent's page in its own window,
+  its notifications, and the dashboard one click away.
+- **Multi-client**: every client of an agent sees the same jobs (runs,
+  pulls, transfers, updates) and can follow or cancel them; what belongs to
+  a device (theme, zoom, views) stays on that device.
+
+## Security
+
+- **Trusted at the machine, login from anywhere else**: a user name and
+  password for the internet, or an API token for scripts and assistants.
+- A request that came through a proxy is never taken as local.
+- Passwords stored hashed; saved logins encrypted.
+
+## Updates
+
+- **The agent updates itself** from its package folder: with Auto update on,
+  a newer installer is announced a minute ahead on every client and device,
+  any of which can cancel it; it waits for transfers and backups, and the
+  previous agent comes back if the installer fails. **Update now** otherwise.
+- **The clients update from the same folder.**
+- The package folder is asked by the installer and can be changed in
+  Settings ([updating](updating.md)).
+
+## Installation
+
+- **Per-user installers** for the agent and the Windows client: no
+  administrator rights. The agent's asks for its address, port and package
+  folder, and starts at every logon.
+- **Android** app as a signed APK.
+- **Uninstalling** the Windows app asks whether to keep its preferences.
+- **Build it yourself** with one script per installer; check the machine and
+  the private files first; publish a release with one command
+  ([getting started](developer/getting-started.md),
+  [releasing](developer/releasing.md)).
+
+## Personalisation
+
+- Dark and light themes; page zoom; table or cards for every list, remembered
+  per list and per device.
+- **The look of every control**, tried live and saved per device: type, table
+  rows, buttons, fields, tabs, cards; exported and imported as JSON.
+- Lists: sort, resize and reorder columns, search, pages of 50, selections
+  that survive refreshes, and refreshes driven by what changed.
+- **Back is navigation** everywhere: tabs, searches, views and pages live in
+  the address.

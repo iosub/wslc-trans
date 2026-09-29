@@ -11,26 +11,30 @@ the Model Context Protocol. Repository and namespaces are `wslc-agent`; the
 products are **WSLC AI Agent** (the agent, `wslc-ai-agent.exe`) and
 **WSLC AI Client** (the Windows and Android apps, `wslc-ai-client.exe`).
 
-> **Status: early.** This repository is the .NET rebuild of an existing,
-> working product. The skeleton is in place: the agent serves the UI (also
-> installable as a PWA), answers `GET /api/v1/health` and the MCP `health`
-> tool, the Windows and Android apps host the same UI, and the installers
-> build. Features land phase by phase; see
-> [docs/architecture.md](docs/architecture.md).
+## Features
 
-## What it will do
+- **A dashboard you design yourself**: live objects dragged onto a grid, a
+  System and a User page, a landscape and a portrait view, kept on the agent
+  for every client or on the device, alarms, and a fit for any screen.
+- **All of WSLC in one place**: containers, images, volumes, networks and
+  sessions; paste a `docker run` line to fill the form; live stats, a network
+  map, restart policies kept by the agent.
+- **Terminals** on the host and in any container, in the browser.
+- **Files** inside containers, images and volumes, with transfers that keep
+  running when you leave.
+- **Logs**: the agent's own, and every `wslc` command it ran.
+- **Publishing**: a built-in nginx proxy puts a container on a public HTTPS name.
+- **A remote browser** for the containers' pages that are not published.
+- **AI assistants through MCP**: 53 tools, destructive ones behind your
+  approval, and a skill installed with one click into Claude Code, Hermes
+  Agent or OpenClaw.
+- **Notifications** on Windows and Android.
+- **Every client, one interface**: browser, Windows app, Android app and tray
+  icon; several clients per agent, several agents per client.
+- **Secure remote access**, **self-updating** agent and clients, **per-user
+  installers** with no administrator rights.
 
-Everything the previous implementation does today, on one code base:
-
-- Containers: list, inspect, run, create, start, stop, restart, remove, logs,
-  live stats, exec, file browser, recreate with changes.
-- Images: list, pull, tag, build, prune.
-- Volumes and networks: list, create, inspect, connect, disconnect, prune.
-- Sessions: see and switch the active WSLC session; VHDX sizes and compaction.
-- Terminal: a host terminal in the browser.
-- MCP server: the same operations as tools, with destructive actions gated
-  behind an explicit yes/no from the user.
-- Native clients for Windows and Android that host the same UI.
+Every feature, explained: [docs/features.md](docs/features.md).
 
 ## Architecture
 
@@ -53,7 +57,7 @@ One UI, one language, one API contract.
 - [MCP C# SDK](https://github.com/modelcontextprotocol/csharp-sdk) for the MCP server
 - [.NET MAUI](https://learn.microsoft.com/dotnet/maui/) Blazor Hybrid for the native apps
 - [WiX Toolset](https://wixtoolset.org/) for the Windows installers
-- [xterm.js](https://xtermjs.org/) for the terminal (phase 2)
+- [xterm.js](https://xtermjs.org/) for the terminals
 
 ## Quick start
 
