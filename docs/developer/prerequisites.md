@@ -101,11 +101,33 @@ wsl --update
 ```
 
 - **Virtualization turned on.** It has to be enabled in the firmware (BIOS or
-  UEFI: Intel VT-x or AMD-V) and the **Virtual Machine Platform** feature on,
-  which `wsl --install` turns on. In a virtual machine, the host has to
-  expose virtualization to it (Hyper-V: `Set-VMProcessor -ExposeVirtualizationExtensions $true`
-  with the machine off). `check-prereqs.ps1` checks that the Windows
-  hypervisor is running.
+  UEFI: Intel VT-x or AMD-V), and the **Virtual Machine Platform** feature
+  has to be on: it installs the Host Compute Service WSL starts its virtual
+  machine with, and without it every `wslc` command fails with
+  `HCS_E_SERVICE_NOT_AVAILABLE`. `wsl --install` turns it on; to turn it on
+  by itself, from a PowerShell **run as administrator**, then restart Windows:
+
+```powershell
+Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -All
+```
+
+  `check-prereqs.ps1` checks that the Host Compute Service is there.
+
+- **In a virtual machine**, the host has to expose virtualization to it
+  (nested virtualization), or WSL cannot start its own virtual machine
+  inside. With Hyper-V, on the host, from a PowerShell run as administrator,
+  with the virtual machine turned off:
+
+```powershell
+Set-VMProcessor -VMName "YourVM" -ExposeVirtualizationExtensions $true
+```
+
+  Nested virtualization does not work with dynamic memory; give the virtual
+  machine a fixed amount:
+
+```powershell
+Set-VMMemory -VMName "YourVM" -DynamicMemoryEnabled $false -StartupBytes 16GB
+```
 
 ## WSLC
 

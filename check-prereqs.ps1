@@ -130,12 +130,14 @@ if (-not $wslVersion) {
     Write-WslcAgentCheck ok "WSL" "$wslVersion."
 }
 
-# WSL runs its virtual machine on the Windows hypervisor: without it, no
-# container starts, whatever is installed.
-if ((Get-CimInstance Win32_ComputerSystem).HypervisorPresent) {
-    Write-WslcAgentCheck ok "Virtualization" "the Windows hypervisor is running."
+# WSL starts its virtual machine through the Host Compute Service, which the
+# Virtual Machine Platform feature installs; without it wslc fails with
+# HCS_E_SERVICE_NOT_AVAILABLE. Whether the hypervisor is present says nothing
+# here: inside a virtual machine Windows always reports one.
+if (Get-Service vmcompute -ErrorAction SilentlyContinue) {
+    Write-WslcAgentCheck ok "Virtual Machine Platform" "the Host Compute Service is installed."
 } else {
-    Write-WslcAgentCheck absent "Virtualization" "the Windows hypervisor is not running: WSL cannot start its virtual machine, so no container runs. Turn on virtualization in the firmware (BIOS/UEFI) and the Virtual Machine Platform feature." -Guide "$Guide#wsl"
+    Write-WslcAgentCheck absent "Virtual Machine Platform" "not enabled: WSL cannot start its virtual machine (HCS_E_SERVICE_NOT_AVAILABLE), so no container runs. Enable it from an administrator PowerShell and restart; in a virtual machine the host has to expose virtualization to it too." -Guide "$Guide#wsl"
 }
 
 $wslcRelease = "https://github.com/microsoft/WSL/releases/latest"
