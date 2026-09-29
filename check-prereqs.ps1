@@ -7,13 +7,16 @@
     global.json asks for, its MAUI workloads, NuGet) is required: its absence
     is an error and the script exits 1. What only one part needs (the Android
     SDK and a JDK for the APK, WebView2 for the Windows client, wslc to run the
-    agent against containers) is reported as absent with what it switches off.
+    agent against containers) is reported as absent with what it switches off;
+    a wslc older than the agent works with is an error.
     The private files (signing key, Firebase) are checked by check-private.ps1.
 #>
 $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 . (Join-Path $RepoRoot "packaging\Packaging.ps1")
 $script:WslcAgentCheckBroken = 0
+# The oldest WSLC the agent works with.
+$MinimumWslc = [version]"2.9.13"
 
 function Get-CommandVersion([string]$Name, [string[]]$Arguments) {
     if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) { return $null }
@@ -108,16 +111,22 @@ Write-Host ""
 
 # --- WSLC ----------------------------------------------------------------------
 Write-Host "WSLC" -ForegroundColor Cyan
+$wslcRelease = "https://github.com/microsoft/WSL/releases/tag/$MinimumWslc"
 $wslc = Get-CommandVersion wslc @("version")
-if ($wslc) {
-    Write-WslcAgentCheck ok "wslc" $wslc
+$wslcVersion = if ($wslc -match '(\d+\.\d+\.\d+(\.\d+)?)') { [version]$Matches[1] } else { $null }
+if (-not $wslc) {
+    Write-WslcAgentCheck absent "wslc" "not on the PATH: everything builds and the tests pass, and the agent has no containers to manage. Install WSLC $MinimumWslc or later ($wslcRelease), then open a new terminal."
+} elseif (-not $wslcVersion) {
+    Write-WslcAgentCheck broken "wslc" "answers '$wslc', with no version in it; the agent needs $MinimumWslc or later ($wslcRelease)."
+} elseif ($wslcVersion -lt $MinimumWslc) {
+    Write-WslcAgentCheck broken "wslc" "$wslcVersion is older than $MinimumWslc, the oldest the agent works with. Update it: $wslcRelease"
 } else {
-    Write-WslcAgentCheck absent "wslc" "not on the PATH: everything builds and the tests pass, and the agent has no containers to manage. Install WSLC, then open a new terminal."
+    Write-WslcAgentCheck ok "wslc" "$wslcVersion (the agent needs $MinimumWslc or later)."
 }
 Write-Host ""
 
 if ($script:WslcAgentCheckBroken -gt 0) {
-    Write-Host "$($script:WslcAgentCheckBroken) problem(s) above stop the build. Fix them and run this again." -ForegroundColor Red
+    Write-Host "$($script:WslcAgentCheckBroken) problem(s) above. Fix them and run this again." -ForegroundColor Red
     exit 1
 }
 Write-Host "Ready to build: .\build.ps1. What is absent only switches off what it names." -ForegroundColor Green

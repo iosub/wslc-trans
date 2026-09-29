@@ -57,6 +57,8 @@ One UI, one language, one API contract.
 
 ## Quick start
 
+Needs Windows 11 and **WSLC 2.9.13 or later**
+([WSL 2.9.13 release](https://github.com/microsoft/WSL/releases/tag/2.9.13)).
 Run these in order in PowerShell. Each one tells you whether all is well
 before you go on to the next.
 

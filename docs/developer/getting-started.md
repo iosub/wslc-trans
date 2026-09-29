@@ -60,7 +60,10 @@ And for the parts that need them:
 | Android SDK | The APK, `debug-android.ps1` | Installed by the `android` workload on the first Android build, or with Android Studio; elsewhere, set `ANDROID_HOME` |
 | A JDK (`keytool`) | The APK and its signing key | `winget install --id Microsoft.OpenJDK.21 -e`, or set `JAVA_HOME` |
 | WebView2 Runtime | The Windows client, the tray window | `winget install --id Microsoft.EdgeWebView2Runtime -e` |
-| WSLC (`wslc` on the PATH) | The agent's containers | Install WSLC, then open a new terminal |
+| WSLC **2.9.13 or later** (`wslc` on the PATH) | The agent's containers | [WSL 2.9.13](https://github.com/microsoft/WSL/releases/tag/2.9.13) or a later release, then open a new terminal |
+
+The agent works with WSLC 2.9.13 or later; an older `wslc` is reported as
+`[broken]` with the link to update it. `wslc version` prints the one you have.
 
 Install what is marked `[broken]`, open a new terminal, and run the script
 again until the last line is green: **Ready to build**.
