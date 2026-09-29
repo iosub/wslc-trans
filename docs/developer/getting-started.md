@@ -190,9 +190,9 @@ The Android client, `dist\wslc-ai-client.apk`:
 .\build-client-apk.ps1 -NoBump
 ```
 
-`-NoBump` builds the current version. Without it each script raises the
-version number in the project files, which is how a release is made; for
-trying the installers, leave the version alone.
+Each script raises the version at every build, in `private\version.props`,
+which git never tracks: your builds change no tracked file. `-NoBump` builds
+the same version again.
 
 The agent MSI installs per user under `%LOCALAPPDATA%\WSLC-AI-Agent`, runs on
 <http://127.0.0.1:8069> by default and starts at every logon. The APK is

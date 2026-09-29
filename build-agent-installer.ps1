@@ -96,4 +96,3 @@ Set-WslcAgentMsiExplorerVersion -Path $MsiDest -Name "WSLC AI Agent" -Version $m
 Write-Host ""
 Write-Host "WSLC AI Agent MSI ready: $MsiDest (version $msiVersion)" -ForegroundColor Green
 Write-Host "Install (per-user): msiexec /i `"$MsiDest`" [WSLC_BINDHOST=127.0.0.1] [WSLC_AGENTPORT=8069] [WSLC_PACKAGESFOLDER=`"$PackagesFolder`"]"
-Write-Host "Remember to commit the version bump in Directory.Build.props."

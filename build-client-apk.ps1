@@ -63,4 +63,3 @@ Copy-Item -LiteralPath $apk.FullName -Destination $ApkDest -Force
 Write-Host ""
 Write-Host "WSLC AI Client APK ready: $ApkDest ($([math]::Round($apk.Length / 1MB, 1)) MB, $abiLabel)" -ForegroundColor Green
 Write-Host "versionName $($client.Display) / versionCode $($client.Build); signed with $($signing.Keystore)"
-Write-Host "Remember to commit the version bump in src\WslcAgent.App\WslcAgent.App.csproj."

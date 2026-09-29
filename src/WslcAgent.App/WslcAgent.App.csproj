@@ -24,12 +24,16 @@
     <ApplicationTitle>WSLC AI Client</ApplicationTitle>
     <ApplicationId>ai.berpiztu.wslcagent</ApplicationId>
 
-    <!-- Client version, independent of the agent version in
-         Directory.Build.props. The packaging scripts bump both values before
-         publishing: Display is the Windows EXE ProductVersion and the Android
-         versionName; ApplicationVersion is the Android versionCode. -->
+    <!-- Client version of the release, independent of the agent's and changed
+         only when one is published: Display is the Windows EXE ProductVersion
+         and the Android versionName; ApplicationVersion is the Android
+         versionCode. The packaging scripts bump this checkout's own in
+         private\version.props (Directory.Build.props imports it), taken
+         below when above these. -->
     <ApplicationDisplayVersion>0.2.34</ApplicationDisplayVersion>
     <ApplicationVersion>234</ApplicationVersion>
+    <ApplicationDisplayVersion Condition="'$(WslcLocalClientVersion)' != '' And $([MSBuild]::VersionGreaterThan('$(WslcLocalClientVersion)', '$(ApplicationDisplayVersion)'))">$(WslcLocalClientVersion)</ApplicationDisplayVersion>
+    <ApplicationVersion Condition="'$(WslcLocalClientBuild)' != '' And $(WslcLocalClientBuild) &gt; $(ApplicationVersion)">$(WslcLocalClientBuild)</ApplicationVersion>
     <Version>$(ApplicationDisplayVersion)</Version>
     <FileVersion>$(ApplicationDisplayVersion).$(ApplicationVersion)</FileVersion>
     <InformationalVersion>$(ApplicationDisplayVersion)</InformationalVersion>

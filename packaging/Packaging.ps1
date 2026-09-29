@@ -37,47 +37,98 @@ function ConvertTo-WixProductVersion {
     return ($parts[0..2] -join '.')
 }
 
-function Update-WslcAgentVersion {
-    <# Agent version: the single <Version> in Directory.Build.props. #>
-    param([switch]$NoBump)
-    $file = Join-Path (Get-WslcAgentRepoRoot) "Directory.Build.props"
-    $text = [System.IO.File]::ReadAllText($file)
-    if ($text -notmatch '<Version>([^<]+)</Version>') {
-        throw "No <Version> element in $file"
+function Get-WslcAgentTrackedValue {
+    <# The text of one element in a tracked project file: the release's version, which no build changes. #>
+    param([string]$File, [string]$Element)
+    $text = [System.IO.File]::ReadAllText($File)
+    if ($text -notmatch "<$Element>([^<]+)</$Element>") {
+        throw "No <$Element> in $File"
     }
-    $current = $Matches[1].Trim()
+    return $Matches[1].Trim()
+}
+
+function Read-WslcAgentLocalVersions {
+    <#
+    The versions this checkout's builds have reached, from
+    private\version.props: never tracked, so building installers changes no
+    tracked file, whoever builds. Directory.Build.props and the client's
+    csproj take them when they are above the release's.
+    #>
+    $file = Join-Path (Get-WslcAgentPrivateFolder) "version.props"
+    $values = @{}
+    if (Test-Path -LiteralPath $file) {
+        $text = [System.IO.File]::ReadAllText($file)
+        foreach ($name in @("WslcLocalAgentVersion", "WslcLocalClientVersion", "WslcLocalClientBuild")) {
+            if ($text -match "<$name>([^<]+)</$name>") { $values[$name] = $Matches[1].Trim() }
+        }
+    }
+    return $values
+}
+
+function Write-WslcAgentLocalVersions {
+    param([hashtable]$Values)
+    $file = Join-Path (Get-WslcAgentPrivateFolder) "version.props"
+    New-Item -ItemType Directory -Force -Path (Split-Path -Parent $file) | Out-Null
+    $lines = @(
+        "<Project>",
+        "  <!-- The versions this checkout's builds have reached, written by the",
+        "       packaging scripts; never tracked. Taken over the release's when above it. -->",
+        "  <PropertyGroup>"
+    )
+    foreach ($name in @("WslcLocalAgentVersion", "WslcLocalClientVersion", "WslcLocalClientBuild")) {
+        if ($Values.ContainsKey($name)) { $lines += "    <$name>$($Values[$name])</$name>" }
+    }
+    $lines += @("  </PropertyGroup>", "</Project>", "")
+    [System.IO.File]::WriteAllText($file, ($lines -join "`r`n"), (New-Object System.Text.UTF8Encoding $false))
+}
+
+function Get-WslcAgentHigherVersion {
+    param([string]$Tracked, [string]$Local)
+    if ($Local -and ([version](ConvertTo-WixProductVersion $Local)) -gt ([version](ConvertTo-WixProductVersion $Tracked))) { return $Local }
+    return $Tracked
+}
+
+function Update-WslcAgentVersion {
+    <#
+    Agent version: the release's <Version> in Directory.Build.props, or this
+    checkout's higher one in private\version.props; a bump raises the patch
+    of whichever is higher and writes it to private\version.props only.
+    #>
+    param([switch]$NoBump)
+    $tracked = Get-WslcAgentTrackedValue (Join-Path (Get-WslcAgentRepoRoot) "Directory.Build.props") "Version"
+    $local = Read-WslcAgentLocalVersions
+    $current = Get-WslcAgentHigherVersion $tracked $local["WslcLocalAgentVersion"]
     if ($NoBump) { return $current }
     $next = Get-NextPatchVersion $current
-    $text = [regex]::Replace($text, '<Version>[^<]+</Version>', "<Version>$next</Version>", 1)
-    [System.IO.File]::WriteAllText($file, $text, (New-Object System.Text.UTF8Encoding $false))
-    Write-Host "Bumped agent version $current -> $next" -ForegroundColor Cyan
+    $local["WslcLocalAgentVersion"] = $next
+    Write-WslcAgentLocalVersions $local
+    Write-Host "Bumped agent version $current -> $next (private\version.props)" -ForegroundColor Cyan
     return $next
 }
 
 function Update-WslcAgentClientVersion {
-    <# Client version: ApplicationDisplayVersion (patch) and ApplicationVersion (+1) in the MAUI csproj. #>
+    <#
+    Client version: ApplicationDisplayVersion and ApplicationVersion (the
+    Android versionCode) of the release in the MAUI csproj, or this
+    checkout's higher ones in private\version.props; a bump raises the patch
+    and the code of whichever are higher and writes them there only.
+    #>
     param(
         [Parameter(Mandatory = $true)][string]$Csproj,
         [switch]$NoBump
     )
-    $text = [System.IO.File]::ReadAllText($Csproj)
-    if ($text -notmatch '<ApplicationDisplayVersion>([^<]+)</ApplicationDisplayVersion>') {
-        throw "No <ApplicationDisplayVersion> in $Csproj"
-    }
-    $display = $Matches[1].Trim()
-    if ($text -notmatch '<ApplicationVersion>([^<]+)</ApplicationVersion>') {
-        throw "No <ApplicationVersion> in $Csproj"
-    }
-    $build = [int]$Matches[1].Trim()
+    $local = Read-WslcAgentLocalVersions
+    $display = Get-WslcAgentHigherVersion (Get-WslcAgentTrackedValue $Csproj "ApplicationDisplayVersion") $local["WslcLocalClientVersion"]
+    $build = [Math]::Max([int](Get-WslcAgentTrackedValue $Csproj "ApplicationVersion"), [int]$(if ($local["WslcLocalClientBuild"]) { $local["WslcLocalClientBuild"] } else { 0 }))
     if ($NoBump) {
         return [pscustomobject]@{ Display = $display; Build = $build }
     }
     $nextDisplay = Get-NextPatchVersion $display
     $nextBuild = $build + 1
-    $text = [regex]::Replace($text, '<ApplicationDisplayVersion>[^<]+</ApplicationDisplayVersion>', "<ApplicationDisplayVersion>$nextDisplay</ApplicationDisplayVersion>", 1)
-    $text = [regex]::Replace($text, '<ApplicationVersion>[^<]+</ApplicationVersion>', "<ApplicationVersion>$nextBuild</ApplicationVersion>", 1)
-    [System.IO.File]::WriteAllText($Csproj, $text, (New-Object System.Text.UTF8Encoding $false))
-    Write-Host "Bumped client version $display ($build) -> $nextDisplay ($nextBuild)" -ForegroundColor Cyan
+    $local["WslcLocalClientVersion"] = $nextDisplay
+    $local["WslcLocalClientBuild"] = "$nextBuild"
+    Write-WslcAgentLocalVersions $local
+    Write-Host "Bumped client version $display ($build) -> $nextDisplay ($nextBuild) (private\version.props)" -ForegroundColor Cyan
     return [pscustomobject]@{ Display = $nextDisplay; Build = $nextBuild }
 }
 

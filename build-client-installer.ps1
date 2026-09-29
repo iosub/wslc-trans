@@ -66,4 +66,3 @@ Set-WslcAgentMsiExplorerVersion -Path $MsiDest -Name "WSLC AI Client" -Version $
 Write-Host ""
 Write-Host "WSLC AI Client MSI ready: $MsiDest (version $msiVersion, build $($client.Build))" -ForegroundColor Green
 Write-Host "Install (per-user): msiexec /i `"$MsiDest`" [WSLC_AGENTURL=http://host:8069/]"
-Write-Host "Remember to commit the version bump in src\WslcAgent.App\WslcAgent.App.csproj."

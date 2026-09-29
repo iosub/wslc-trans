@@ -238,8 +238,11 @@ All scripts live in the repository root and work from any current directory.
 | `build-client-installer.ps1` | `dist\wslc-ai-client.msi`: the Windows client. |
 | `build-client-apk.ps1` | `dist\wslc-ai-client.apk`, arm64-v8a, signed. `build-client-apk-full.ps1` bundles every ABI. |
 
-The three installer scripts raise the version in the project files, which is
-how a release is made; `-NoBump` builds the current version, for trying them.
+The three installer scripts raise the version at every build, in
+`private\version.props` (never tracked), so each installer is newer than the
+last and a build changes no tracked file; `-NoBump` builds the same version
+again. The version in the repository is the last release's, changed only when
+one is published.
 
 Without the scripts: `dotnet build`, `dotnet test`,
 `dotnet run --project src/WslcAgent.Server` from the repository root. A
