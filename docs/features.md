@@ -1,6 +1,9 @@
 # Features
 
 Everything WSLC AI Agent does, first at a glance, then area by area.
+WSLC AI Agent is made by [Berpiztu](https://github.com/Berpiztu), which builds
+AI agents and the tools they work with: it is made for you and for your AI
+agents alike.
 
 ## At a glance
 
@@ -18,7 +21,8 @@ Everything WSLC AI Agent does, first at a glance, then area by area.
   - Pull, build, tag, push, save, import and load images; create and prune everything
   - Live stats, a live network map, per-session disk usage and VHDX compaction
   - Restart policies enforced by the agent itself
-- **Manage from anywhere**: not only the WSLC machine, its containers too
+- **Manage from anywhere, you or your AI agents**: not only the WSLC machine, its containers too
+  - Your AI agents (Claude, Hermes, OpenClaw, etc.) connect from wherever they run, over MCP with an API token, and manage it as you would
   - Reach the agent from a phone, another PC or the internet: login or API token, SSH tunnels to a VPS
   - Consoles: the host's terminal and a shell in any container, in the browser
   - Open a container's web page even when it is not published, through a browser streamed from the agent's machine
@@ -153,14 +157,19 @@ away, in a table or as cards.
 
 ## Manage from anywhere
 
-From a phone, another PC or across the internet: not only the WSLC machine,
-but its containers too, their consoles and their web pages, and the way the
-world reaches them.
+From a phone, another PC or across the internet, **you or your AI agents**:
+Claude, Hermes, OpenClaw, etc. Not only the WSLC machine, but its containers
+too, their consoles and their web pages, and the way the world reaches them.
 
 ### Reach the agent
 
+- **Your AI agents, from wherever they run**: Claude, Hermes, OpenClaw, etc.
+  connect to the agent's MCP server with an API token, on this machine, on
+  another one or across the internet, and manage the containers as you would,
+  asking your approval before anything destructive. The skill installs on
+  the machine the AI agent runs on, over SSH if it is another one.
 - **Trusted at the machine, login from anywhere else**: a user name and
-  password for the internet, or an API token for scripts and assistants.
+  password for the internet, or an API token for scripts and AI agents.
 - **Every client, from any network**: the browser, the Windows app and the
   Android app, on the same machine, on the local network or across the
   internet.

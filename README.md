@@ -22,8 +22,10 @@ products are **WSLC AI Agent** (the agent, `wslc-ai-agent.exe`) and
 - **Easy container management with WSLC**: containers, images, volumes,
   networks and sessions from one place; paste a `docker run` line to fill the
   form; live stats, a network map, restart policies kept by the agent.
-- **Manage from anywhere**, not only the WSLC machine but its containers:
-  reach the agent from a phone or across the internet, open a console on the
+- **Manage from anywhere, you or your AI agents**: Claude, Hermes,
+  OpenClaw, etc. connect over MCP from wherever they run, and so do you from
+  a phone or across the internet. Not only the WSLC machine but its
+  containers: open a console on the
   host or in any container, open a container's web page even when it is not
   published, and publish it on a public HTTPS name through a built-in nginx
   proxy.
@@ -299,5 +301,6 @@ repository: `.env*`, keystores and certificates are ignored on purpose.
 [MIT](LICENSE). Copyright (c) 2026 Berpiztu. Third-party components and
 their licenses are listed in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
-WSLC AI Agent is built by [Berpiztu](https://github.com/Berpiztu), the team
-behind [Virtus](https://github.com/berpiztu/virtus).
+WSLC AI Agent is built by [Berpiztu](https://github.com/Berpiztu), a team
+that builds AI agents and the tools they work with, and the team behind
+[Virtus](https://github.com/berpiztu/virtus).
