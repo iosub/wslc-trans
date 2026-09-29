@@ -68,7 +68,14 @@ going on to the next.
 Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
 
-**2. Clone the repository.**
+**2. Clone the repository.** No git yet? Install it first, then open a new
+terminal:
+
+```powershell
+winget install --id Git.Git -e
+```
+
+Then clone:
 
 ```powershell
 git clone https://github.com/berpiztu/wslc-ai-agent.git
@@ -127,6 +134,7 @@ All scripts live in the repository root and work from any current directory.
 |---|---|
 | `check-prereqs.ps1` | What the machine needs to build, test, run and package, and how to install what is missing. Changes nothing. |
 | `check-private.ps1` | The private files this checkout has and what each enables, without printing a secret. |
+| `start-sandbox.ps1` | A clean Windows in Windows Sandbox, to try the Quick start as a new user ([clean-machine-test.md](docs/developer/clean-machine-test.md)). |
 | `build.ps1` | Restore, build, test: what CI runs. |
 | `start-agent.ps1` | Build and run the agent in Development on http://127.0.0.1:8070. `-Port`, `-NoBuild`, `-Watch` (dotnet watch, hot reload on save). |
 | `debug-client.ps1` | Debug build of the Windows client and launch it against `-AgentUrl` (default the local agent). |

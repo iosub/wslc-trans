@@ -6,28 +6,37 @@ on:
   pull_request:
     branches: [main]
 
+# A clean machine on every push, driven by the same scripts as the README's
+# Quick start: when a step breaks for a new user, it breaks here first.
 jobs:
   build:
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
     steps:
       - uses: actions/checkout@v4
 
+      # The prerequisites a user installs from docs/developer/prerequisites.md.
       - uses: actions/setup-dotnet@v4
         with:
           global-json-file: global.json
 
-      # WslcAgent.App needs the maui-windows and android workloads.
       - name: Install workloads
         run: dotnet workload restore WslcAgent.slnx
 
-      # Restore with the build configuration: the MAUI Windows target selects
-      # the win-x64 runtime pack only in Release, and a Debug restore leaves
-      # it missing (NETSDK1112) when the build runs with --no-restore.
-      - name: Restore
-        run: dotnet restore WslcAgent.slnx -p:Configuration=Release
+      - name: Check prerequisites
+        run: .\check-prereqs.ps1
 
-      - name: Build
-        run: dotnet build WslcAgent.slnx --configuration Release --no-restore
+      # No private file on CI, as on a fresh clone: every one is absent.
+      - name: Check private files
+        run: .\check-private.ps1
 
-      - name: Test
-        run: dotnet test WslcAgent.slnx --configuration Release --no-build --verbosity normal
+      - name: Build and test
+        run: .\build.ps1 -Configuration Release
+
+      # A build must not change what git tracks.
+      - name: Nothing tracked changed
+        run: |
+          $changed = git status --porcelain --untracked-files=no
+          if ($changed) { $changed; throw "The build changed tracked files." }
