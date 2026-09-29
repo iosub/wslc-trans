@@ -28,7 +28,7 @@ function wslcAgentPark(chosen) {
 // The UI's own interop, by name: wslcAgent.scrollToEnd (logs' jump to end),
 // wslcAgent.pickFiles and wslcAgent.sendFile (the web UI's upload: only the
 // browser can send a file of gigabytes without holding it in memory),
-// wslcAgent.isHandheld (which side the narrow navigation opens from),
+// wslcAgent.isHandheld (whether toasts come down at the top centre, as on a phone),
 // wslcAgent.clientPlatform (which native client Home offers) and
 // wslcAgent.zoom (the page zoom of the title bar's control), wslcAgent.views,
 // wslcAgent.logs, wslcAgent.theme and the wslcAgent.dashboard* keys (what this

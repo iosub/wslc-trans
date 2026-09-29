@@ -1,7 +1,6 @@
 @inherits LayoutComponentBase
 @implements IDisposable
 @inject PageChrome Chrome
-@inject HostDevice Device
 @inject WslcAgent.UI.Components.ThemePreference ThemeChoice
 @inject WslcAgent.UI.Components.Styles.UiStyle Style
 @inject AgentAccessToken Session
@@ -72,7 +71,7 @@ else
            and then the page's title, the page's search in the centre of the bar,
            the verbs, the zoom, the theme and Log out at the right. Either side
            gives way before the search moves off centre, and nothing ever overlaps. *@
-        <div class="@($"wslc-appbar-row{(Chrome.TopbarSearch is null ? "" : " has-search")}{(_handheld ? " is-handheld" : "")}")">
+        <div class="@($"wslc-appbar-row{(Chrome.TopbarSearch is null ? "" : " has-search")}")">
             <div class="wslc-appbar-start">
                 @* The brand and the session, two lines in one block: what this client is and what it is on. *@
                 <div class="wslc-appbar-brand">
@@ -165,9 +164,6 @@ else
 
     private ErrorBoundary? _errors;
 
-    /// <summary>A hand-held host; false is the safe first paint, the mouse hosts never change it.</summary>
-    private bool _handheld;
-
     /// <summary>Draws the screen again after an error the panel showed.</summary>
     private void Recover() => _errors?.Recover();
 
@@ -235,12 +231,11 @@ else
     /// <summary>The device answered: the hand or the mouse, the theme and the look are this device's own, not the safe first paint's.</summary>
     private bool _deviceRead;
 
-    /// <summary>The hand or the mouse, the theme and the look, all three from this device; a host whose helpers are not up yet is asked again on the first render.</summary>
+    /// <summary>The theme and the look, both from this device; a host whose helpers are not up yet is asked again on the first render.</summary>
     private async Task ReadDeviceAsync()
     {
         try
         {
-            _handheld = await Device.IsHandheldAsync();
             _darkMode = await ThemeChoice.ReadAsync();
             await Style.LoadAsync();
             _deviceRead = true;
