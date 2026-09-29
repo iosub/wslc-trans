@@ -215,19 +215,20 @@ function Test-WslcAgentVersionedFile {
 function Build-WslcAgentMsi {
     <#
     Build a WiX project and return the path of the produced .msi.
-    -PackagesFolder is the package folder the agent's wizard offers; the
-    project's own default stands without it.
+    -Properties are MSBuild properties the project hands to WiX as defines
+    (the agent's package folder, the client's encoded uninstall script); the
+    project's own defaults stand for any not given.
     #>
     param(
         [Parameter(Mandatory = $true)][string]$WixProj,
         [Parameter(Mandatory = $true)][string]$Version,
-        [string]$PackagesFolder
+        [hashtable]$Properties = @{}
     )
     $outDir = Join-Path (Split-Path -Parent $WixProj) "bin\Release"
     New-Item -ItemType Directory -Force -Path $outDir | Out-Null
-    # @( ) around the whole: an if that yields one item yields a string, and a
-    # string splatted goes one character per argument.
-    $extra = @(if ($PackagesFolder) { "-p:PackagesFolder=$PackagesFolder" })
+    # @( ) around the whole: a pipeline that yields one item yields a string,
+    # and a string splatted goes one character per argument.
+    $extra = @($Properties.GetEnumerator() | ForEach-Object { "-p:$($_.Key)=$($_.Value)" })
     # Out-Host keeps the build output off the pipeline: this function's only
     # return value must be the .msi path.
     & dotnet build $WixProj -c Release -nologo -v q -p:OutputPath="$outDir\" -p:MsiVersion=$Version @extra | Out-Host

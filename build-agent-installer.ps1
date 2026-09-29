@@ -88,7 +88,7 @@ Write-Host "Building wslc-ai-agent.msi $msiVersion (WiX)..." -ForegroundColor Cy
 # installers, or the releases' fixed one.
 $PackagesFolder = if ($Release) { "C:\Berpiztu\wslc-ai-agent" } else { Join-Path $RepoRoot "dist" }
 Write-Host "Package folder offered by the wizard: $PackagesFolder" -ForegroundColor DarkGray
-$built = Build-WslcAgentMsi -WixProj $WixProj -Version $msiVersion -PackagesFolder $PackagesFolder
+$built = Build-WslcAgentMsi -WixProj $WixProj -Version $msiVersion -Properties @{ PackagesFolder = $PackagesFolder }
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $MsiDest) | Out-Null
 Copy-Item -LiteralPath $built -Destination $MsiDest -Force
 Set-WslcAgentMsiExplorerVersion -Path $MsiDest -Name "WSLC AI Agent" -Version $msiVersion

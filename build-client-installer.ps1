@@ -53,7 +53,12 @@ Write-WslcAgentWixFileList -Stage $Stage -OutFile (Join-Path $RepoRoot "packagin
 
 $msiVersion = ConvertTo-WixProductVersion $client.Display
 Write-Host "Building wslc-ai-client.msi $msiVersion (WiX)..." -ForegroundColor Cyan
-$built = Build-WslcAgentMsi -WixProj $WixProj -Version $msiVersion
+# The question asked after an uninstall, whether to remove the preferences
+# too: RemovePreferences.ps1, encoded as PowerShell takes it, so the installer
+# carries it with no quoting to get wrong.
+$removePreferences = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes(
+    [IO.File]::ReadAllText((Join-Path $RepoRoot "packaging\client-install\RemovePreferences.ps1"))))
+$built = Build-WslcAgentMsi -WixProj $WixProj -Version $msiVersion -Properties @{ RemovePreferencesCommand = $removePreferences }
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $MsiDest) | Out-Null
 Copy-Item -LiteralPath $built -Destination $MsiDest -Force
 Set-WslcAgentMsiExplorerVersion -Path $MsiDest -Name "WSLC AI Client" -Version $msiVersion
