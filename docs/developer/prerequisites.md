@@ -12,6 +12,7 @@ every line it reports as `[absent]` or `[broken]` points to its section here.
 | [.NET SDK](#net-sdk) | Building | Yes |
 | [MAUI workloads](#maui-workloads) | Building the clients (the solution includes them) | Yes |
 | [NuGet access](#nuget-access) | The first build | Yes |
+| [WSL, and virtualization turned on](#wsl) | Running containers at all | To run the agent |
 | [WSLC 3.0.1 or later](#wslc) (2.9.13 at the least) | Running the agent against containers | To run the agent |
 | [JDK](#jdk) | The Android client and its signing key | For Android |
 | [Android SDK](#android-sdk) | The Android client, the emulator | For Android |
@@ -79,6 +80,32 @@ The first build downloads every package from nuget.org, the WiX Toolset
 included (the installers use it as an MSBuild SDK, so there is nothing to
 install by hand). Behind a proxy, configure it for `dotnet`
 ([NuGet proxy settings](https://learn.microsoft.com/nuget/reference/nuget-config-file#config-section)).
+
+## WSL
+
+WSLC is part of WSL, and WSL runs its containers in a virtual machine on the
+Windows hypervisor. Both have to be there:
+
+- **WSL itself.** Windows ships a `wsl.exe` that only offers to install WSL;
+  `wsl --version` answers only once WSL is installed. To install it, from a
+  PowerShell **run as administrator**, then restart Windows:
+
+```powershell
+wsl --install --no-distribution
+```
+
+  An older WSL is updated with:
+
+```powershell
+wsl --update
+```
+
+- **Virtualization turned on.** It has to be enabled in the firmware (BIOS or
+  UEFI: Intel VT-x or AMD-V) and the **Virtual Machine Platform** feature on,
+  which `wsl --install` turns on. In a virtual machine, the host has to
+  expose virtualization to it (Hyper-V: `Set-VMProcessor -ExposeVirtualizationExtensions $true`
+  with the machine off). `check-prereqs.ps1` checks that the Windows
+  hypervisor is running.
 
 ## WSLC
 

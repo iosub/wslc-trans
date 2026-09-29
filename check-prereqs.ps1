@@ -112,8 +112,32 @@ if ($webView2) {
 }
 Write-Host ""
 
-# --- WSLC ----------------------------------------------------------------------
-Write-Host "WSLC" -ForegroundColor Cyan
+# --- WSL and WSLC --------------------------------------------------------------
+Write-Host "WSL and WSLC" -ForegroundColor Cyan
+# WSLC is part of WSL. Windows ships a wsl.exe of its own that only offers to
+# install WSL: --version answers only once WSL itself is installed. wsl.exe
+# writes UTF-16 unless WSL_UTF8 asks for UTF-8.
+$previousUtf8 = $env:WSL_UTF8
+$env:WSL_UTF8 = "1"
+$wslLine = Get-CommandVersion wsl @("--version")
+$env:WSL_UTF8 = $previousUtf8
+$wslVersion = if ($wslLine -match '(\d+\.\d+\.\d+(\.\d+)?)') { [version]$Matches[1] } else { $null }
+if (-not $wslVersion) {
+    Write-WslcAgentCheck absent "WSL" "not installed: the agent has no containers to manage. Install it from an administrator PowerShell: wsl --install --no-distribution, then restart Windows." -Guide "$Guide#wsl"
+} elseif ($wslVersion -lt $MinimumWslc) {
+    Write-WslcAgentCheck broken "WSL" "$wslVersion is older than $MinimumWslc, the first with WSLC. Update it: wsl --update" -Guide "$Guide#wsl"
+} else {
+    Write-WslcAgentCheck ok "WSL" "$wslVersion."
+}
+
+# WSL runs its virtual machine on the Windows hypervisor: without it, no
+# container starts, whatever is installed.
+if ((Get-CimInstance Win32_ComputerSystem).HypervisorPresent) {
+    Write-WslcAgentCheck ok "Virtualization" "the Windows hypervisor is running."
+} else {
+    Write-WslcAgentCheck absent "Virtualization" "the Windows hypervisor is not running: WSL cannot start its virtual machine, so no container runs. Turn on virtualization in the firmware (BIOS/UEFI) and the Virtual Machine Platform feature." -Guide "$Guide#wsl"
+}
+
 $wslcRelease = "https://github.com/microsoft/WSL/releases/latest"
 $wslc = Get-CommandVersion wslc @("version")
 $wslcVersion = if ($wslc -match '(\d+\.\d+\.\d+(\.\d+)?)') { [version]$Matches[1] } else { $null }
