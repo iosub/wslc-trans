@@ -20,6 +20,10 @@ $MinimumWslc = [version]"2.9.13"
 $RecommendedWslc = [version]"3.0.1"
 # Where each prerequisite is explained and installed, section by section.
 $Guide = "docs\developer\prerequisites.md"
+# A terminal keeps the PATH it started with, and one inside VS Code the PATH
+# VS Code started with: what was just installed stays "not found" in them.
+$NewTerminal = "CLOSE this terminal and VS Code, and open a new one. Until then this terminal does not see it, and this check still reports it missing."
+$Restart = "restart Windows."
 
 function Get-CommandVersion([string]$Name, [string[]]$Arguments) {
     if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) { return $null }
@@ -42,7 +46,7 @@ if ($build -ge 22000) {
 
 $git = Get-CommandVersion git @("--version")
 if ($git) { Write-WslcAgentCheck ok "git" $git }
-else { Write-WslcAgentCheck broken "git" "not found." -Run "winget install --id Git.Git -e" -Guide "$Guide#git" }
+else { Write-WslcAgentCheck broken "git" "not found." -Run "winget install --id Git.Git -e" -Then $NewTerminal -Guide "$Guide#git" }
 Write-Host ""
 
 # --- .NET ------------------------------------------------------------------
@@ -59,9 +63,9 @@ $dotnetOk = $usable.Count -gt 0
 if ($dotnetOk) {
     Write-WslcAgentCheck ok ".NET SDK" "$($usable[0]) (global.json asks for $wanted or a later feature band)."
 } elseif ($sdks.Count -gt 0) {
-    Write-WslcAgentCheck broken ".NET SDK" "found $($sdks -join ', '); global.json asks for $wanted or later in $($wanted.Major).$($wanted.Minor)." -Run "winget install --id Microsoft.DotNet.SDK.$($wanted.Major) -e" -Guide "$Guide#net-sdk"
+    Write-WslcAgentCheck broken ".NET SDK" "found $($sdks -join ', '); global.json asks for $wanted or later in $($wanted.Major).$($wanted.Minor)." -Run "winget install --id Microsoft.DotNet.SDK.$($wanted.Major) -e" -Then $NewTerminal -Guide "$Guide#net-sdk"
 } else {
-    Write-WslcAgentCheck broken ".NET SDK" "dotnet not found." -Run "winget install --id Microsoft.DotNet.SDK.$($wanted.Major) -e" -Guide "$Guide#net-sdk"
+    Write-WslcAgentCheck broken ".NET SDK" "dotnet not found." -Run "winget install --id Microsoft.DotNet.SDK.$($wanted.Major) -e" -Then $NewTerminal -Guide "$Guide#net-sdk"
 }
 
 # The workloads of the client's two targets, maui-android bringing android,
@@ -70,7 +74,7 @@ $installWorkloads = "dotnet workload install maui-windows maui-android"
 if (-not $dotnetOk) {
     # Without the SDK they cannot be looked at, and they are needed all the
     # same: its command is shown now, to run once the SDK is in.
-    Write-WslcAgentCheck broken "workloads maui-windows, maui-android" "not checked without the .NET SDK; install them after it, from a new terminal." -Run $installWorkloads -Admin -Guide "$Guide#maui-workloads"
+    Write-WslcAgentCheck broken "workloads maui-windows, maui-android" "not checked without the .NET SDK; install them after it, in a NEW terminal opened as administrator once the SDK is in." -Run $installWorkloads -Admin -Guide "$Guide#maui-workloads"
 } else {
     # A workload brings the ones it extends: maui-android brings android and
     # maui-blazor, and dotnet workload restore may pick maui-tizen for the
@@ -125,7 +129,7 @@ $keytool = try { Find-WslcAgentKeytool } catch { $null }
 if ($keytool) {
     Write-WslcAgentCheck ok "JDK (keytool)" $keytool
 } else {
-    Write-WslcAgentCheck absent "JDK (keytool)" "build.ps1 builds without the Android client; no APK, no signing key. Installed elsewhere? Set JAVA_HOME." -Run "winget install --id Microsoft.OpenJDK.17 -e" -Guide "$Guide#jdk"
+    Write-WslcAgentCheck absent "JDK (keytool)" "build.ps1 builds without the Android client; no APK, no signing key. Installed elsewhere? Set JAVA_HOME." -Run "winget install --id Microsoft.OpenJDK.17 -e" -Then $NewTerminal -Guide "$Guide#jdk"
 }
 $androidSdk = Find-WslcAgentAndroidSdk
 if ($androidSdk) {
@@ -163,7 +167,7 @@ $wslLine = Get-CommandVersion wsl @("--version")
 $env:WSL_UTF8 = $previousUtf8
 $wslVersion = if ($wslLine -match '(\d+\.\d+\.\d+(\.\d+)?)') { [version]$Matches[1] } else { $null }
 if (-not $wslVersion) {
-    Write-WslcAgentCheck absent "WSL" "not installed: the agent has no containers to manage. Restart Windows after installing it." -Run "wsl --install --no-distribution" -Admin -Guide "$Guide#wsl"
+    Write-WslcAgentCheck absent "WSL" "not installed: the agent has no containers to manage." -Run "wsl --install --no-distribution" -Admin -Then $Restart -Guide "$Guide#wsl"
 } elseif ($wslVersion -lt $MinimumWslc) {
     Write-WslcAgentCheck broken "WSL" "$wslVersion is older than $MinimumWslc, the first with WSLC." -Run "wsl --update" -Guide "$Guide#wsl"
 } else {
@@ -177,7 +181,7 @@ if (-not $wslVersion) {
 if (Get-Service vmcompute -ErrorAction SilentlyContinue) {
     Write-WslcAgentCheck ok "Virtual Machine Platform" "the Host Compute Service is installed."
 } else {
-    Write-WslcAgentCheck absent "Virtual Machine Platform" "not enabled: WSL cannot start its virtual machine (HCS_E_SERVICE_NOT_AVAILABLE), so no container runs. Restart Windows after enabling it; in a virtual machine the host has to expose virtualization to it too." -Run "Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -All" -Admin -Guide "$Guide#wsl"
+    Write-WslcAgentCheck absent "Virtual Machine Platform" "not enabled: WSL cannot start its virtual machine (HCS_E_SERVICE_NOT_AVAILABLE), so no container runs. In a virtual machine the host has to expose virtualization to it too." -Run "Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -All" -Admin -Then $Restart -Guide "$Guide#wsl"
 }
 
 $wslcRelease = "https://github.com/microsoft/WSL/releases/latest"
@@ -186,7 +190,7 @@ $wslcVersion = if ($wslc -match '(\d+\.\d+\.\d+(\.\d+)?)') { [version]$Matches[1
 # WSLC comes with WSL: updating WSL brings it, or the installer of the latest
 # release does.
 if (-not $wslc) {
-    Write-WslcAgentCheck absent "wslc" "not on the PATH: everything builds and the tests pass, and the agent has no containers to manage. Install WSLC $RecommendedWslc or later with WSL (or from $wslcRelease), then open a new terminal." -Run "wsl --update" -Guide "$Guide#wslc"
+    Write-WslcAgentCheck absent "wslc" "not on the PATH: everything builds and the tests pass, and the agent has no containers to manage. Install WSLC $RecommendedWslc or later with WSL (or from $wslcRelease)." -Run "wsl --update" -Then $NewTerminal -Guide "$Guide#wslc"
 } elseif (-not $wslcVersion) {
     Write-WslcAgentCheck broken "wslc" "answers '$wslc', with no version in it; the agent needs $MinimumWslc or later ($wslcRelease)." -Run "wsl --update" -Guide "$Guide#wslc"
 } elseif ($wslcVersion -lt $MinimumWslc) {
