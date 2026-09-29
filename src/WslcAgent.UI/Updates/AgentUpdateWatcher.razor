@@ -77,7 +77,7 @@
             [nameof(AgentUpdateToast.StartsAt)] = DateTimeOffset.Now.AddSeconds(status.SecondsLeft),
             [nameof(AgentUpdateToast.OnCancel)] = EventCallback.Factory.Create(this, CancelAsync),
         };
-        _countdown = Snackbar.Add<AgentUpdateToast>(parameters, Severity.Warning, options =>
+        _countdown = Snackbar.Add<AgentUpdateToast>(parameters, Severity.Success, options =>
         {
             options.RequireInteraction = true;
             options.ShowCloseIcon = false;

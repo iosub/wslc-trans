@@ -4,11 +4,11 @@
    AgentUpdateWatcher, which takes it down when the agent says it is over. *@
 @implements IDisposable
 
-<MudStack Spacing="1">
+@* Green, as good news, its Cancel centred beneath the words, outlined in the
+   toast's own white so it reads on the green. *@
+<MudStack Spacing="1" AlignItems="AlignItems.Center">
     <MudText Typo="Typo.body2">The agent updates itself to @Version in @Left s.</MudText>
-    <MudStack Row="true" Spacing="1">
-        <MudButton Size="Size.Small" Variant="Variant.Filled" Color="Color.Error" Disabled="_cancelling" OnClick="CancelAsync">Cancel</MudButton>
-    </MudStack>
+    <MudButton Size="Size.Small" Variant="Variant.Outlined" Color="Color.Inherit" Disabled="_cancelling" OnClick="CancelAsync">Cancel</MudButton>
 </MudStack>
 
 @code {
