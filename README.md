@@ -20,22 +20,24 @@ products are **WSLC AI Agent** (the agent, `wslc-ai-agent.exe`) and
 - **Easy container management with WSLC**: containers, images, volumes,
   networks and sessions from one place; paste a `docker run` line to fill the
   form; live stats, a network map, restart policies kept by the agent.
-- **Terminals** on the host and in any container, in the browser.
+- **Manage from anywhere**, not only the WSLC machine but its containers:
+  reach the agent from a phone or across the internet, open a console on the
+  host or in any container, open a container's web page even when it is not
+  published, and publish it on a public HTTPS name through a built-in nginx
+  proxy.
 - **Files** inside containers, images and volumes, with transfers that keep
   running when you leave.
 - **Logs**: the agent's own, and every `wslc` command it ran.
 - **A dashboard you design yourself**: live objects dragged onto a grid, a
   System and a User page, a landscape and a portrait view, kept on the agent
   for every client or on the device, alarms, and a fit for any screen.
-- **Publishing**: a built-in nginx proxy puts a container on a public HTTPS name.
-- **A remote browser** for the containers' pages that are not published.
 - **AI assistants through MCP**: 53 tools, destructive ones behind your
   approval, and a skill installed with one click into Claude Code, Hermes
   Agent or OpenClaw.
 - **Notifications** on Windows and Android.
 - **Every client, one interface**: browser, Windows app, Android app and tray
   icon; several clients per agent, several agents per client.
-- **Secure remote access**, and a **self-updating** agent and clients.
+- A **self-updating** agent and clients.
 
 Every feature, explained: [docs/features.md](docs/features.md).
 

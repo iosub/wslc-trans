@@ -16,7 +16,11 @@ Everything WSLC AI Agent does, first at a glance, then area by area.
   - Pull, build, tag, push, save, import and load images; create and prune everything
   - Live stats, a live network map, per-session disk usage and VHDX compaction
   - Restart policies enforced by the agent itself
-- **Terminals**: the host's terminal and a shell in any container, in the browser
+- **Manage from anywhere**: not only the WSLC machine, its containers too
+  - Reach the agent from a phone, another PC or the internet: login or API token, SSH tunnels to a VPS
+  - Consoles: the host's terminal and a shell in any container, in the browser
+  - Open a container's web page even when it is not published, through a browser streamed from the agent's machine
+  - Publish a container's port on a public HTTPS name through a built-in nginx proxy
 - **A file browser inside containers, images and volumes**, with transfers that keep running when you leave
 - **Logs**: the agent's own log and every `wslc` command it ran, filterable, live
 - **A dashboard you design yourself**
@@ -26,13 +30,10 @@ Everything WSLC AI Agent does, first at a glance, then area by area.
   - Drafts that survive a power cut; Save and Discard
   - Alarms with thresholds that turn a card red and appear in a status bar on every screen
   - Zoom and five ways to fit any screen: Fit, Fill, Width, Stretch, Fluid
-- **Publishing**: a built-in nginx proxy puts a container's port on a public HTTPS name
-- **A remote browser**: open a container's web page that is not published, streamed from the agent's machine
 - **AI assistants through MCP**: 53 tools, destructive ones behind your approval, and a skill that installs itself into Claude Code, Hermes Agent or OpenClaw
 - **Notifications** on Windows and Android: thresholds, stopped containers, sessions down, jobs done, updates
 - **Every client, one UI**: web browser (also as an installable PWA), Windows app, Android app, and a tray icon
 - **Multi-client and multi-agent**: several clients on one agent share jobs and state; one client knows several agents
-- **Secure remote access**: trusted at the machine, login or API token from anywhere else
 - **Self-updating**: the agent and its clients update from one folder, with a countdown anyone can cancel
 - **Personalisable**: dark and light themes, page zoom, table or cards per list, and the look of every control
 
@@ -131,13 +132,51 @@ away, in a table or as cards.
   virtual disk, with its size before and after.
 - **Registries**: log in to and out of container registries.
 
-## Terminals
+## Manage from anywhere
+
+From a phone, another PC or across the internet: not only the WSLC machine,
+but its containers too, their consoles and their web pages, and the way the
+world reaches them.
+
+### Reach the agent
+
+- **Trusted at the machine, login from anywhere else**: a user name and
+  password for the internet, or an API token for scripts and assistants.
+- **Every client, from any network**: the browser, the Windows app and the
+  Android app, on the same machine, on the local network or across the
+  internet.
+- **Reverse SSH tunnels to a VPS**, kept alive across reboots by a script,
+  for reaching the agent and its published containers from the internet with
+  no port opened at home ([remote-access guide](developer/remote-access.md)).
+- A request that came through a proxy is never taken as local.
+- Passwords stored hashed; saved logins encrypted.
+
+### Consoles
 
 - **Host terminal** in the browser, also in a tab of its own; copy, clear,
   reconnect. At the agent's machine, Windows Terminal opens natively.
 - **A shell in any container**, in a dialog or on its details page, or as a
   native terminal window at the agent's machine.
 - A session and its output survive leaving the page.
+
+### Open the containers' pages
+
+- **Open a container's web page from anywhere**, even when it is not
+  published: a browser runs on the agent's machine and its picture is
+  streamed to you, with mouse, keyboard, touch, clipboard, back, forward and
+  zoom, behind the agent's own login.
+- **Sessions** can be joined by other viewers, or left running.
+- **Saved logins**, shared by every client and encrypted on the agent, typed
+  into the page on request.
+
+### Publish containers
+
+- **Publish a container's port** on a public HTTPS name from its form: the
+  agent writes the map of a built-in nginx proxy container and restarts it.
+- **Set up** creates the network and the proxy in one step; publications are
+  listed, opened and removed from Settings.
+- Every port offers its **local** address and, when published, its
+  **remote** one.
 
 ## Files and transfers
 
@@ -195,28 +234,6 @@ The Home page is a dashboard designed by each user, not a fixed screen.
 - Out of design, tapping a card offers its actions (Run, Pull, Create…) and
   opens its page.
 
-## Publishing and remote access
-
-- **Publish a container's port** on a public HTTPS name from its form: the
-  agent writes the map of a built-in nginx proxy container and restarts it.
-- **Set up** creates the network and the proxy in one step; publications are
-  listed, opened and removed from Settings.
-- Every port offers its **local** address and, when published, its
-  **remote** one.
-- **Reverse SSH tunnels to a VPS**, kept alive across reboots by a script,
-  for reaching the agent and its published containers from the internet
-  ([remote-access guide](developer/remote-access.md)).
-
-## Remote browser
-
-- **Open a container's web page from anywhere**, even when it is not
-  published: a browser runs on the agent's machine and its picture is
-  streamed to you, with mouse, keyboard, touch, clipboard, back, forward and
-  zoom, behind the agent's own login.
-- **Sessions** can be joined by other viewers, or left running.
-- **Saved logins**, shared by every client and encrypted on the agent, typed
-  into the page on request.
-
 ## MCP and AI assistants
 
 - **An MCP server** in the agent (`/api/v1/mcp`) with 53 tools: containers,
@@ -258,13 +275,6 @@ The Home page is a dashboard designed by each user, not a fixed screen.
 - **Multi-client**: every client of an agent sees the same jobs (runs,
   pulls, transfers, updates) and can follow or cancel them; what belongs to
   a device (theme, zoom, views) stays on that device.
-
-## Security
-
-- **Trusted at the machine, login from anywhere else**: a user name and
-  password for the internet, or an API token for scripts and assistants.
-- A request that came through a proxy is never taken as local.
-- Passwords stored hashed; saved logins encrypted.
 
 ## Updates
 
