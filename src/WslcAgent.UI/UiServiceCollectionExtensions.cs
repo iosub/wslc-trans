@@ -68,8 +68,6 @@ public static class UiServiceCollectionExtensions
         services.AddScoped<OpenPopups>();
         services.AddScoped<SessionState>();
         services.AddScoped<SessionPower>();
-        services.AddScoped<DashboardPreference>();
-        services.AddScoped<AlarmReadings>();
         services.AddScoped<OpenDetails>();
         services.AddScoped<ViewPreference>();
         services.AddScoped<ListOrder>();

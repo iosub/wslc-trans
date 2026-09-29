@@ -4,22 +4,14 @@ using WslcAgent.Server.Wslc;
 namespace WslcAgent.Server.Overview;
 
 /// <summary>
-/// Home v2's dashboard (docs/home/v2/specv2.md, decision 20), kept with the
-/// user in the agent's data folder, so every client opens the same one. A
-/// file of its own beside today's Home's (<see cref="DashboardStore"/>):
-/// neither reads the other. Like that one it keeps the client's text as it
-/// was written and reads nothing inside it, and a user who has none yet is
-/// given the default the agent ships with (embedded; the owner, 26 September
-/// 2026), written to their file the first time it is asked for. A
-/// development build writes that default back to the repository, so the next
-/// installer ships what was designed; a release build writes none
-/// (<see cref="ShippedFile"/>).
-/// <para>
-/// Home v2.5 (docs/home/v2.5/spec.md, decision 7) starts from nothing: its
-/// landscape and portrait views are kept in <c>dashboard-v2.5.json</c>, with
-/// a default of their own (<c>dashboard-v2.5.default.json</c>), and v2's
-/// <c>dashboard-v2.json</c> is never read or written.
-/// </para>
+/// The Home dashboard, its landscape and portrait views, kept with the user
+/// in the agent's data folder (<c>dashboard-v2.5.json</c>), so every client
+/// opens the same one. It keeps the client's text as it was written and reads
+/// nothing inside it, and a user who has none yet is given the default the
+/// agent ships with (embedded, <c>dashboard-v2.5.default.json</c>), written
+/// to their file the first time it is asked for. A development build writes
+/// that default back to the repository, so the next installer ships what was
+/// designed; a release build writes none (<see cref="ShippedFile"/>).
 /// </summary>
 public sealed class DashboardV2Store
 {

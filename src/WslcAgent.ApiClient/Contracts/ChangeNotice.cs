@@ -10,9 +10,7 @@ namespace WslcAgent.ApiClient.Contracts;
 /// The kinds, as <c>wslc</c> names them: <c>container</c>, <c>network</c>,
 /// <c>image</c>, <c>volume</c> — and <c>session</c>, the agent's own: a
 /// session was started, stopped or chosen, from any client, or its event
-/// stream died with it — and <c>dashboard</c>, the agent's own too: the
-/// dashboard a user keeps on the agent was written, so a Home showing it reads
-/// it again instead of asking every few seconds — and <c>agent-update</c>:
+/// stream died with it — and <c>agent-update</c>:
 /// the agent's own update changed state (announced, cancelled, installing),
 /// so every client reads it and shows or takes down its countdown — and
 /// <c>notification</c>: the agent raised a notification, and whoever shows
@@ -37,7 +35,6 @@ public sealed record ChangeNotice(IReadOnlyList<string> Kinds, bool Complete = f
     public const string Image = "image";
     public const string Volume = "volume";
     public const string Session = "session";
-    public const string Dashboard = "dashboard";
     public const string AgentUpdate = "agent-update";
     public const string Notification = "notification";
 

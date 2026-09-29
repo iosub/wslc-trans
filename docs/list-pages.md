@@ -430,10 +430,6 @@ the navigation button's row (`Layout/PageVerbsFab.razor`).
 ## 9. The dashboard
 
 Home is not a list page but it keeps the same contract for what it shows:
-the mode is in the address (`?mode=edit`, so Back leaves Edit), the
-selected card is the page's state (never a step Back returns to, cleared on
-navigation and on a change of mode), and the round button offers the
-selected card's verbs above the page's own, by mode — Open in View,
-Settings and Hide in Edit. Everything the dashboard is, card by card, is in
-`docs/home/spec.md`; the controls are in `docs/ui-controls.md`, Dashboard
-cards.
+designing it is a step of its own in the address, so Back takes the
+dashboard out of design, and the view chosen and the page shown are in the
+address too (`Pages/DashboardPage.razor`).

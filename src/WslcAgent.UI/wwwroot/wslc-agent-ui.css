@@ -477,7 +477,6 @@
     width: 32px !important;
 }
 
-
 /* The air every column carries beyond its widest value, in characters: the one
    number that says how loose the tables read. */
 .wslc-fill > .mud-table {
@@ -495,7 +494,6 @@
 .wslc-grid {
     container-type: inline-size;
 }
-
 
 @container (max-width: 600px) {
     /* No air between columns, and 2 px each side of a cell so one column's
@@ -1100,8 +1098,6 @@
     width: 100%;
 }
 
-
-
 /* The title gives its width up first: it never pushes the search off centre.
    But never all of it: on a phone it went to nothing (the owner,
    20 September 2026), and a bar with no page title says nothing. */
@@ -1346,7 +1342,6 @@
 .wslc-topnav .mud-button-filled .mud-button-icon-start {
     margin-inline-end: 4px;
 }
-
 
 /* The top bar's nav slot (bulk bar, page verbs): one row of the same 26px
    controls, next to the theme and menu buttons. */
@@ -1688,7 +1683,6 @@
     background-color: var(--mud-palette-success);
 }
 
-
 /* The fields in the reference's two columns (one on phones); .wslc-span2
    spans both. Labels bold at the body size, helper texts one step smaller,
    as the reference. */
@@ -1821,7 +1815,6 @@
     flex: 1 1 auto;
     min-width: 0;
 }
-
 
 .wslc-form-grid > .wslc-span2 {
     grid-column: 1 / -1;
@@ -3009,15 +3002,6 @@
     border-radius: var(--mud-default-borderradius);
 }
 
-/* A ring of the System card's load, in the middle of its cells. */
-.wslc-system-ring {
-    flex: 1 1 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 0;
-}
-
 /* A mount point's row: one cell across the name, the free column and Size
    holds its name and what is mounted there; a host path longer than the three
    breaks where it can instead of widening the table. It holds the parked row
@@ -3195,7 +3179,6 @@
     min-width: 6rem;
 }
 
-
 /* The active tab and its panel are one piece: the tab wears the panel's
    surface, its corners round upwards and the line between them is covered, so
    the block reads as a single card instead of a bar over a box. */
@@ -3221,7 +3204,6 @@
 .wslc-fill.mud-tabs .mud-tab-slider {
     display: none;
 }
-
 
 /* The parent folder is the rows' own yellow folder with the up arrow drawn on
    it, at the very size the rows draw theirs: the box is wider than the glyph
@@ -3311,7 +3293,6 @@
     width: auto;
     height: auto;
 }
-
 
 /* The host browser pane (BrowserPane.razor, wslc-browse-pane.js). A full-screen
    dialog's content fills what its title leaves; the surface is the hole the
@@ -4017,46 +3998,14 @@
     max-width: 24rem;
 }
 
-/* Home: the overview cards fill the row and wrap as the width allows. */
-.wslc-home-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
-    gap: 8px;
-}
-
 /* The reference's stat value is bold (700) at the title size. */
 .wslc-home-card-value {
     font-weight: 700;
 }
 
-/* Every card answers to a tap (it selects the card); the selected one wears
-   the green everything selected wears, over the error border when both.
-   Nothing leaves the card (the owner, 22 September 2026): what does not fit
-   the size the user gave it is cut at its edge, a line of text with an
-   ellipsis, the rest below the fold. */
-.wslc-home-card {
-    position: relative;
-    cursor: pointer;
-    overflow: hidden;
-}
-
-/* A card whose alarm is up (the owner, 22 September 2026): its background
-   red, blinking between the red and the card's own surface; still red, and
-   still, where the system asks for less motion. */
-.wslc-home-card.wslc-home-card-alarm {
-    background-color: color-mix(in srgb, var(--mud-palette-error) 45%, var(--mud-palette-surface));
-    animation: wslc-home-card-alarm 1.2s ease-in-out infinite;
-}
-
 @keyframes wslc-home-card-alarm {
     50% {
         background-color: var(--mud-palette-surface);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .wslc-home-card.wslc-home-card-alarm {
-        animation: none;
     }
 }
 
@@ -4094,44 +4043,10 @@
     }
 }
 
-/* An alarm card's one part, its ring, in the middle of its cells. */
-.wslc-alarm-ring {
-    display: flex;
-    flex: 1 1 auto;
-    align-items: center;
-    justify-content: center;
-    min-height: 0;
-}
-
-/* The ring a card turns while its reading is on its way (HomeCard Loading),
-   over the card and in its middle, and never in the way of the hand. */
-.wslc-home-card-loading {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-}
-
 .wslc-home-card-head > * {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.wslc-home-card:hover {
-    border-color: var(--mud-palette-primary);
-}
-
-.wslc-home-card-error {
-    border-color: var(--mud-palette-error);
-}
-
-.wslc-home-card-selected,
-.wslc-home-card-selected:hover {
-    border-color: var(--mud-palette-success);
-    box-shadow: inset 0 0 0 1px var(--mud-palette-success);
 }
 
 /* A card's three texts, stacked, each cut at the part's edge (the owner,
@@ -4139,110 +4054,6 @@
 .wslc-home-card-head {
     flex-shrink: 0;
     min-width: 0;
-}
-
-/* A card laid out (Layout, the owner, 22 September 2026): a grid of the
-   card's own cells, its parts on them — the summary, the chart, the legend,
-   the bars — each cut at its edge like the card itself. In Layout the parts
-   answer to the hand as cards do on the dashboard: a dashed edge says they
-   can be taken, the selected one wears the green, and a finger on one drags
-   it instead of scrolling. */
-.wslc-card-grid {
-    flex: 1 1 auto;
-    display: grid;
-    /* A part below the card's last row has no row to stand in: it takes no
-       height and shows nothing until the card is given the rows, and the
-       rows the card has keep their share. */
-    grid-auto-rows: 0;
-    gap: 4px;
-    min-height: 0;
-    min-width: 0;
-}
-
-.wslc-card-part {
-    overflow: hidden;
-    flex-direction: column;
-}
-
-.wslc-card-part > .wslc-chart-panel,
-.wslc-card-part > .wslc-dash-bars {
-    flex: 1 1 auto;
-    min-height: 0;
-}
-
-/* The parts squared off in a fainter green once the card is selected in
-   Edit (the owner, 22 September 2026), so what can be taken is plain to
-   see; the part that has the focus wears the full green on a faint tint.
-   The hand is the cursor over the whole card, parts included — the chart's
-   canvas and the texts would each show their own otherwise — since it moves
-   the card, or the taken part, whichever has the focus. */
-.wslc-card-grid.wslc-card-grid-marked .wslc-card-part {
-    outline: 1px dashed color-mix(in srgb, var(--mud-palette-success) 60%, transparent);
-    outline-offset: -1px;
-}
-
-/* A swipe on a part scrolls the dashboard; a part held still is taken, and
-   the helper then keeps the finger's travel for it (wslcAgent.dashboardGrid). */
-.wslc-card-grid.wslc-dash-editing .wslc-card-part {
-    touch-action: pan-x pan-y;
-}
-
-.wslc-dash-editing .wslc-dash-item,
-.wslc-dash-editing .wslc-dash-item * {
-    cursor: grab;
-}
-
-.wslc-card-grid.wslc-dash-editing .wslc-card-part.wslc-card-part-selected {
-    outline: 2px solid var(--mud-palette-success);
-    outline-offset: -2px;
-    background-color: color-mix(in srgb, var(--mud-palette-success) 10%, transparent);
-}
-
-/* The hand stops at a handle, the card's or a part's: there the cursor says resize. */
-.wslc-dash-editing .wslc-dash-item .wslc-home-card-handle,
-.wslc-dash-editing .wslc-dash-item .wslc-home-card-handle * {
-    cursor: nwse-resize;
-}
-
-/* A part's type size (the owner, 22 September 2026), Small, Medium or
-   Large, each one of the theme's four steps by name (docs/RULES.md). The
-   summary is drawn at its size by its Typos; the legend and the bars, whose
-   texts have no Typo of their own, take theirs from the part's class here:
-   the legend body1 as it always was, caption a step down, h6 a step up; the
-   bars' names and sizes body2 as they were, overline down, body1 up. The
-   wrapper is the part's box for what it carries and fills it. */
-.wslc-card-part-body {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    min-width: 0;
-}
-
-.wslc-card-part-body > .wslc-chart-panel,
-.wslc-card-part-body > .wslc-dash-bars {
-    flex: 1 1 auto;
-    min-height: 0;
-}
-
-/* Two fields of a dialog on one line, each taking half of it (the owner,
-   22 September 2026: Columns over Rows, and an alarm's box over its
-   threshold, left the dialog half empty). Boxed: a box and the field that
-   belongs to it — MudBlazor gives the box flex:none itself, so the field
-   takes the rest of the line and the two read as one. */
-.wslc-field-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-}
-
-.wslc-field-row > * {
-    flex: 1 1 0;
-    min-width: 0;
-}
-
-.wslc-field-row-boxed {
-    align-items: center;
 }
 
 /* The summary spreads over the cells it was given (the owner, 22 September
@@ -4288,17 +4099,6 @@
     min-height: 0;
 }
 
-/* A resource card's verbs part (HomeCard) fills its cells, so the actions
-   row in it — the footer's tone and its line — covers the part as the header
-   covers its own. */
-.wslc-card-part-verbs {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    min-width: 0;
-}
-
 /* The buttons keep their taps (VerbTaps), across the footer's whole width so
    its two groups stand at its two ends as in the list's card: the shortcuts
    at the left, the row's own verbs at the right. They are verbs of View. */
@@ -4320,28 +4120,12 @@
     flex: 1 1 auto;
 }
 
-/* Edit is design: what a part shows is inert there — a chart's point and its
-   tooltip, a link, a verb (docs/home/spec.md, section 5) — so a finger on it
-   takes the part, drags it or reaches its handle, and nothing answers in its
-   place (the owner, 22 September 2026: on a phone the chart's tooltip came up
-   under the finger and the part could not be resized). The handle is the
-   part's own, beside what it shows, and keeps the hand. */
-.wslc-dash-editing .wslc-card-part-body {
-    pointer-events: none;
-}
-
-/* The legend sits in the middle of its cells, not at their top. */
-.wslc-card-part-body.wslc-card-part-legend {
-    justify-content: center;
-}
-
 /* The steps, by the theme's variables. The summary's lines keep their Typos
    (caption, h6, caption) and take a step by size alone — the overline Typo
    would also set its capitals, and a capitalised label is wider than its
    cell (the owner, 22 September 2026). The chart's axis labels follow the
    canvas's font, which the script reads. */
-.wslc-type-small .wslc-home-card-head .mud-typography-caption,
-.wslc-type-small .wslc-home-bar .mud-typography {
+.wslc-type-small .wslc-home-card-head .mud-typography-caption {
     font-size: var(--mud-typography-overline-size);
 }
 
@@ -4358,7 +4142,6 @@
 }
 
 .wslc-type-large .wslc-home-card-head .mud-typography-caption,
-.wslc-type-large .wslc-home-bar .mud-typography,
 .wslc-type-large .wslc-chart-canvas {
     font-size: var(--mud-typography-body1-size);
 }
@@ -4921,77 +4704,6 @@
     font-size: var(--mud-typography-h6-size);
 }
 
-/* The resize handle of the selected card in Edit mode, in the card's corner.
-   A finger holds it still to resize (wslcAgent.dashboardHoldMs); a swipe from
-   it scrolls the dashboard, as anywhere else. The glyph stays in the corner;
-   what answers the touch reaches further up and to the left, into the card,
-   where the card does not clip it (the owner, 22 September 2026: a finger
-   meant for the corner landed beside it and moved the card instead). */
-/* A dialog that does not hold the page (DialogFlow.ShowMovableAsync, the
-   owner, 24 September 2026): no dimmed backdrop, and the layer MudBlazor
-   spreads over the whole window lets the pointer through to the page, the
-   dialog alone taking it. */
-.wslc-modeless {
-    background-color: transparent;
-}
-
-.mud-dialog-container:has(.wslc-modeless) {
-    pointer-events: none;
-}
-
-.mud-dialog-container:has(.wslc-modeless) .mud-dialog {
-    pointer-events: auto;
-    /* As wide as its widest row — the title with every verb, or its fields —
-       and never wider than the window: with a fixed cap, five verbs in the
-       card Settings pushed Close out of the row (the owner, 24 September
-       2026). On a window narrower than that, the title gives way first, as in
-       every dialog's title row. */
-    width: max-content;
-    max-width: calc(100vw - 32px);
-}
-
-/* Its title row is what the hand takes it by. */
-.mud-dialog-container:has(.wslc-modeless) .mud-dialog-title {
-    cursor: move;
-    touch-action: none;
-}
-
-/* The gear across from the resize handle, in the top left corner of what has
-   the focus: a tap opens its Settings (the owner, 24 September 2026). */
-.wslc-home-card-gear {
-    position: absolute;
-    left: 2px;
-    top: 2px;
-    z-index: 1;
-    line-height: 0;
-}
-
-.wslc-home-card-handle {
-    position: absolute;
-    right: 2px;
-    bottom: 2px;
-    padding: 18px 0 0 18px;
-    line-height: 0;
-    color: var(--mud-palette-success);
-    cursor: nwse-resize;
-    touch-action: pan-x pan-y;
-}
-
-/* A session's VHDX bar: its name, the bar against the largest session, its size. */
-.wslc-home-bar {
-    display: grid;
-    grid-template-columns: minmax(4rem, 10rem) 1fr auto;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 6px;
-}
-
-.wslc-home-bar-name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
 /* Home's chart panels, the reference's home-chart-grid: two side by side while
    each has 20rem, one per row below that; the canvas takes the panel's width at
    the reference's 220px. */
@@ -5106,7 +4818,6 @@
     margin-right: 6px;
     border-radius: 2px;
 }
-
 
 /* Toasts come in over the title bar at its right end, sliding in from the edge:
    the bar's height (36px) and the application's body type — a message is read
@@ -5225,7 +4936,6 @@
     zoom: calc(1 / var(--wslc-zoom));
 }
 
-
 /* The page zoom in the title bar: − and + tight round the percentage field, which
    keeps one width so the keys do not move with the number. */
 .wslc-zoom {
@@ -5342,7 +5052,6 @@
 .mud-dialog .mud-input.mud-input-filled {
     border-radius: var(--wslc-form-radius, var(--mud-default-borderradius));
 }
-
 
 /* Hover with pinned columns: a pinned cell has to carry an opaque colour of
    its own, or what scrolls under it would show through — and that colour was
@@ -5956,147 +5665,24 @@ html[data-wslc-rows~="outlined"] .wslc-files-table {
    canvas frame keeps them the same way (the owner, 29 September 2026): its
    overlay bars came and went, and a press on one fell on the canvas under
    it and began a selection instead of a scroll. */
-.wslc-dash-pane,
 .bz-dash-canvas-frame {
     scrollbar-width: auto;
     scrollbar-color: auto;
 }
 
-.wslc-dash-pane::-webkit-scrollbar,
 .bz-dash-canvas-frame::-webkit-scrollbar {
     width: 10px;
     height: 10px;
 }
 
-.wslc-dash-pane::-webkit-scrollbar-thumb,
 .bz-dash-canvas-frame::-webkit-scrollbar-thumb {
     background: var(--mud-palette-lines-inputs);
     border-radius: 5px;
 }
 
-.wslc-dash-pane::-webkit-scrollbar-track,
-.wslc-dash-pane::-webkit-scrollbar-corner,
 .bz-dash-canvas-frame::-webkit-scrollbar-track,
 .bz-dash-canvas-frame::-webkit-scrollbar-corner {
     background: transparent;
-}
-
-/* A cell is a quarter of the card the dashboard opened with, each way (the
-   owner, 22 September 2026, halving the half cell of the afternoon so a row
-   of verbs takes one row and nothing has to be worked out in halves): that
-   card, 11rem by 9.5rem, is four cells by four with the three 8px gaps
-   between them — (11rem − 24px) / 4 wide, (9.5rem − 24px) / 4 high — so a
-   standard card opens at the size it always had. */
-.wslc-dash-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(var(--wslc-dash-column), 100%), 1fr));
-    grid-auto-rows: calc((9.5rem - 24px) / 4);
-    gap: 8px;
-    align-content: start;
-}
-
-/* The dashboard out of sight while its view is not settled (the owner,
-   22 September 2026): before the window has been measured for the first time,
-   and while it is being changed. The cards keep their place in the page — only
-   their ink goes — so the pane measures the same width throughout and what
-   comes back is the arrangement of the width the window settled at. */
-.wslc-dash-grid.wslc-dash-placing {
-    visibility: hidden;
-}
-
-/* In Edit the dashboard runs on half a screen below its lowest card (the
-   owner, 22 September 2026): on a phone the last card's corner sat against
-   the pane's bottom edge, with no room for a finger to grow it or carry it
-   down. The pane scrolls it up to the middle; View ends at the last card. */
-.wslc-dash-grid.wslc-dash-editing {
-    padding-bottom: 50vh;
-}
-
-/* A card's box: its cell and span come with it (docs/home/spec.md, section
-   4, DashboardLayout). In Edit it is dragged (the grab; a finger holds it
-   still first, or its swipe scrolls), and while it is, it rides over the
-   others. */
-.wslc-dash-item {
-    position: relative;
-    display: flex;
-    min-height: 0;
-    min-width: 0;
-}
-
-/* In Edit a swipe still scrolls the dashboard (the owner, 22 September
-   2026): a card is taken by holding it still, not by the first touch, so the
-   pan stays the browser's until then. A long press selects no text and opens
-   no menu there. */
-.wslc-dash-editing .wslc-dash-item {
-    cursor: grab;
-    touch-action: pan-x pan-y;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-}
-
-.wslc-dash-item.wslc-dash-dragging {
-    z-index: 2;
-    cursor: grabbing;
-}
-
-/* Where a dragged card would land: the cells it would take, outlined in the
-   success colour when they are free; the edge of the card it would go in
-   front of, as a bar of the same, when they are not. */
-.wslc-dash-ghost {
-    /* Over the items, which are positioned and would cover an outline
-       smaller than themselves — a card being made smaller showed nothing. */
-    position: relative;
-    z-index: 3;
-    border: 2px dashed var(--mud-palette-success);
-    border-radius: var(--mud-default-borderradius);
-    background-color: color-mix(in srgb, var(--mud-palette-success) 12%, transparent);
-    pointer-events: none;
-}
-
-/* Where an item cannot go: the cells are taken, and letting go does nothing
-   (the owner, 22 September 2026: an item goes only where there is room; the
-   user makes the room). The outline says so in the error colour. */
-.wslc-dash-ghost.wslc-dash-ghost-blocked {
-    border-color: var(--mud-palette-error);
-    background-color: color-mix(in srgb, var(--mud-palette-error) 12%, transparent);
-}
-
-/* Edit's one button: over the page, at the right edge halfway up until the
-   hand drags it elsewhere (wslcAgent.dashboardFab, which then sets its place
-   and remembers it); under the menus and dialogs, over the bars. Not in the
-   bottom corner (the owner, 22 September 2026): on a phone it covered the
-   corner of the lowest card, and that card could not be resized. */
-.wslc-dash-fab {
-    position: fixed;
-    right: 16px;
-    /* Half the large FAB's 56 px below the middle, so its centre is there. */
-    bottom: calc(50% - 28px);
-    z-index: 1101;
-    cursor: grab;
-    touch-action: none;
-}
-
-.wslc-dash-grid .wslc-home-card,
-.wslc-dash-grid .wslc-home-card-tap {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    min-width: 0;
-}
-
-/* A card's sparkline takes what the three lines leave. */
-.wslc-dash-grid .wslc-home-card .wslc-chart-panel {
-    flex: 1 1 auto;
-    min-height: 0;
-}
-
-/* A card's list of session stores scrolls inside the card, never the page. */
-.wslc-dash-grid .wslc-home-card .wslc-dash-bars {
-    flex: 1 1 auto;
-    min-height: 0;
-    overflow-y: auto;
 }
 
 /* A sparkline: the chart panel with no header, no legend, no box of its own —

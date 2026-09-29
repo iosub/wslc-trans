@@ -6,21 +6,15 @@ namespace WslcAgent.UI.Dashboard;
 
 /// <summary>
 /// The containers' aggregate CPU and memory, read for the host's readings,
-/// dials and charts, and handed to the alarms' readings as well, so the
-/// bottom bar does not read it again on the same beat. Not asked while the
-/// session is stopped.
+/// dials, charts and alarms. Not asked while the session is stopped.
 /// </summary>
-public sealed class HostRuntimeRead(WslcAgentApi api, SessionState session, AlarmReadings alarms)
+public sealed class HostRuntimeRead(WslcAgentApi api, SessionState session)
     : SampledRead<HomeRuntime>(TimeSpan.FromSeconds(5))
 {
     protected override bool CanRead => session.Active;
 
-    protected override async Task<HomeRuntime?> ReadAsync(CancellationToken cancellationToken)
-    {
-        var runtime = await api.GetHomeRuntimeAsync(cancellationToken);
-        alarms.Report(runtime);
-        return runtime;
-    }
+    protected override async Task<HomeRuntime?> ReadAsync(CancellationToken cancellationToken) =>
+        await api.GetHomeRuntimeAsync(cancellationToken);
 
     protected override bool Failed(HomeRuntime sample) => sample.Error;
 }

@@ -38,21 +38,21 @@ public sealed class HomeEndpointTests(WebApplicationFactory<Program> factory)
     }
 
     [Fact]
-    public async Task Home_v2s_dashboard_is_kept_as_written_and_apart_from_todays()
+    public async Task The_dashboard_is_kept_as_written_and_a_user_with_none_is_given_the_default()
     {
         var client = factory.ClientWith(new FakeWslcRunner());
         const string layout = """{"version":1,"columns":24,"objects":[]}""";
 
+        var shipped = await client.GetStringAsync("/api/v1/dashboard-v2/default");
+        await client.PutAsync("/api/v1/me/dashboard-v2", new StringContent(""));
         var none = await client.GetStringAsync("/api/v1/me/dashboard-v2");
         await client.PutAsync("/api/v1/me/dashboard-v2", new StringContent(layout));
         var kept = await client.GetStringAsync("/api/v1/me/dashboard-v2");
-        var today = await client.GetStringAsync("/api/v1/me/dashboard");
         await client.PutAsync("/api/v1/me/dashboard-v2", new StringContent(""));
         var forgotten = await client.GetStringAsync("/api/v1/me/dashboard-v2");
 
-        Assert.Equal("", none);
+        Assert.Equal(shipped, none);
         Assert.Equal(layout, kept);
-        Assert.NotEqual(layout, today);
-        Assert.Equal("", forgotten);
+        Assert.Equal(shipped, forgotten);
     }
 }

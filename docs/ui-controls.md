@@ -67,11 +67,6 @@ component uses the controls below with these parameters and never adds
   22 September 2026): it never grows or shrinks with what it holds. What can
   change — a list, a field that appears — sits in a box of fixed height that
   scrolls (`MudPaper Outlined` with `wslc-picker-list`), as the pickers do.
-- **A dialog whose changes wait for Save** carries `SaveCancelClose` in its
-  title row — Save (`Color.Success`, enabled once something changed),
-  Cancel, Close — and opens with `DialogFlow.ShowPersistentAsync`, no
-  Escape: the dashboard's + list, Status alarms and the Settings of a card
-  and of a part.
 - **Close leaves the window; Cancel cancels what was typed.** They are two
   things, and a window that has both (the launch form, whose Cancel is in its
   action rail) keeps both: Close is in the title row and closes the dialog,
@@ -357,61 +352,6 @@ Only through `CardsGrid` and `EntityCard`:
 Body lines are `Typo.body2` with the label in bold; secondary lines
 `Typo.caption` with `mud-text-secondary`.
 
-## Dashboard cards
-
-The Home cards are `HomeCard` (the plan: `docs/home/spec.md`). A tap
-selects a card (`.wslc-home-card-selected`, the success border and an inset
-ring of the same, over the error border when both) and its verbs go to the
-round button — Open in View, Settings in Edit; a second tap on the
-selected card opens it in View. Edit is the address (`?mode=edit`); only
-there the cards are dragged, Edit's one button shows (`.wslc-dash-fab`, a
-`Size.Large` `MudFab` over the page, dragged anywhere and remembered on the
-device by `wslcAgent.dashboardFab`: `Add` in Primary with nothing selected,
-opening `CardsDialog`, a `SquareCheckBox` per kind; `Remove` in Error with a
-card selected, which takes it off after `DialogFlow.ConfirmAsync`), and the
-selected card carries the resize handle (`.wslc-home-card-handle`, `SouthEast` in the
-success colour, at the corner, `touch-action: none`). The grid is ours:
-`.wslc-dash-grid` of `auto-fill` columns, each card's box (`.wslc-dash-item`)
-carrying its cell as `grid-area` — the one inline style in the application,
-a cell being data the user chose — placed by `DashboardLayout` for the
-columns `wslcAgent.dashboardGrid` measures. The same helper carries the
-drag in Edit: an outline (`.wslc-dash-ghost`) of where the item would
-land, in the error colour (`.wslc-dash-ghost-blocked`) where others stand,
-where letting go does nothing — an item goes only onto free cells, judged
-the same by `wslcAgent.dashboardFree` and `DashboardLayout.IsFree`; the size
-fields say so through `NoRoom`. A size is columns by rows,
-with no limit of its own and never wider than the grid,
-chosen in `CardSettingsDialog` through two `MudSelect`s or by dragging the
-handle (`wslcAgent.dashboardResize`, which stops at the grid's
-`data-max-columns` / `data-max-rows`). Everything measured comes from the
-grid's resolved tracks (`wslcAgent.dashboardCell`), never from a number in
-a script. A cell is a quarter of the card the dashboard opened with, each
-way (`.wslc-dash-grid`, the 11rem by 9.5rem box less its three gaps, over
-four), so a standard card opens at four by four. Nothing leaves a card: `.wslc-home-card` clips
-and each head line is cut with an ellipsis. A card is always a grid of its
-cells (`.wslc-card-grid`, `grid-auto-rows: 0` so a part below the last row
-shows nothing) with its parts (`.wslc-card-part`) on them, each at its
-defined size (`DashboardCatalogue.PartSize`, four by two; a resource
-card's header, details and verbs eight by two, four and one) until laid out;
-nothing adjusts itself to the room, and a bigger card shows more, never
-bigger type. Once the card is selected in Edit its parts are squared off
-in a fainter success (`.wslc-card-grid-marked`); a tap on one gives it the
-focus (`.wslc-card-part-selected`, the success outline) and the parts
-answer to the hand — an outline (`.wslc-dash-ghost`) showing the size a
-handle drags to, the item taking it on release — driven by the same helpers,
-`wslcAgent.dashboardGrid` on the card's grid and `dashboardResize` on the
-selected part's handle; `PartSettingsDialog` gives a part columns and rows,
-`SpanFields` being the one pair of size fields both settings dialogs use;
-the card's Settings also show a `SquareCheckBox` per part, under Shows, to
-hide it or show it again, and `PartSettingsDialog` carries **Hide** in its
-title row for the part that has the focus.
-A part's **Type size**
-(`TypeSize`, Small · Medium · Large, in `PartSettingsDialog`) is one of the
-theme's four steps up or down: the summary by its `Typo`s, the legend and
-the bars by the theme's variables on `.wslc-type-small` / `.wslc-type-large`,
-never a number — the owner's authorisation for those steps is dated
-22 September 2026 in `docs/home/spec.md`.
-
 ## State
 
 - Table: `<StateDot Active="…" Title="running" />` (green dot while active,
@@ -635,8 +575,7 @@ from this table, or adds a row to it; nothing is inlined twice with two icons.
 
 `mb-1` under the header row, `mb-2` under an alert, `ml-1` for an inline
 spinner, `flex-shrink-0` on rows above a grid, `mt-2` between the fields of
-a dialog, `pa-1` inside a dashboard card (`HomeCard`, where a wider padding
-ate the cells its parts stand in).
+a dialog, `pa-1` around a list's cards (`CardsGrid`).
 Nothing else; if a screen seems to need more, the shared component is
 missing a feature, not the page a class.
 

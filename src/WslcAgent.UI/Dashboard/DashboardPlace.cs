@@ -6,6 +6,16 @@ using WslcAgent.UI.Components;
 
 namespace WslcAgent.UI.Dashboard;
 
+/// <summary>Where the dashboard is kept, this device's choice.</summary>
+public enum DashboardScope
+{
+    /// <summary>On this device alone (<see cref="DeviceDashboardStore"/>), as the theme and the table-or-cards choice are.</summary>
+    Device,
+
+    /// <summary>With the user, on the agent (<see cref="AgentDashboardStore"/>): the phone and the desktop open the same one.</summary>
+    User,
+}
+
 /// <summary>
 /// Where this device keeps Home v2's dashboard (the owner, 26 September 2026,
 /// as today's Home, docs/home/spec.md, section 7): with the user on the agent

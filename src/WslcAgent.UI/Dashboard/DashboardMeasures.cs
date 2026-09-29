@@ -6,8 +6,7 @@ using WslcAgent.UI.Components;
 namespace WslcAgent.UI.Dashboard;
 
 /// <summary>
-/// What Home v2's alarms watch (the owner, 26 September 2026, as today's
-/// Home's, AlarmReadings): on an object that reads a container, the
+/// What the dashboard's alarms watch: on an object that reads a container, the
 /// container's own CPU or memory while it runs; on any other the host's — the
 /// CPU used of all there is, the memory used of the session's, the drive the
 /// sessions' VHDX files are on. Worked out here alone, from the reads the
@@ -20,6 +19,15 @@ public sealed class DashboardMeasures : IMeasures, IDisposable
     public const string Memory = "memory";
 
     public const string Disk = "disk";
+
+    /// <summary>A measure as the status bar names it, short enough for its narrow cells: CPU, Mem, Disk.</summary>
+    public static string Short(string measure) => measure switch
+    {
+        Cpu => "CPU",
+        Memory => "Mem",
+        Disk => "Disk",
+        _ => measure,
+    };
 
     private readonly HostRuntimeRead _runtime;
     private readonly HostDiskRead _disk;

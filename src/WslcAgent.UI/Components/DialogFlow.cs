@@ -35,29 +35,6 @@ public static class DialogFlow
         return result is { Canceled: false };
     }
 
-    /// <summary>
-    /// A small window over the page that does not hold the page (the owner,
-    /// 24 September 2026): no dimmed backdrop, the page under it still takes
-    /// the pointer (the wslc-modeless background class, in the stylesheet), as
-    /// wide as its fields rather than a fixed width, dragged by its title
-    /// (Movable, inside the dialog) and left through its own buttons alone.
-    /// For a card's and a part's Settings, which apply as they change, so what
-    /// they change stays in sight. Not awaited: the page goes on under it.
-    /// </summary>
-    public static Task ShowMovableAsync<TDialog>(IDialogService dialogs, string title, DialogParameters parameters)
-        where TDialog : IComponent =>
-        dialogs.ShowAsync<TDialog>(title, parameters, Small with
-        {
-            CloseOnEscapeKey = false,
-            FullWidth = false,
-            // As wide as its title row asks, all its verbs in it, up to the
-            // window (the stylesheet, .wslc-modeless): a fixed cap cut Close off
-            // the row once the card Settings had five verbs (the owner,
-            // 24 September 2026).
-            MaxWidth = MaxWidth.False,
-            BackgroundClass = "wslc-modeless",
-        });
-
     /// <summary>A dialog the user can only leave through its own buttons (the backup job, a dialog whose changes wait for Save): no close button, no backdrop click, no Escape. True when it closed by submitting.</summary>
     public static async Task<bool> ShowPersistentAsync<TDialog>(IDialogService dialogs, string title, DialogParameters? parameters = null)
         where TDialog : IComponent

@@ -37,23 +37,10 @@ public sealed class WslcAgentApi(HttpClient http, AgentAccessToken? access = nul
         GetAsync<HomeDisk>("api/v1/home/metrics/disk", cancellationToken);
 
     /// <summary>
-    /// The dashboard arrangement the user keeps with the agent
-    /// (docs/home/spec.md, section 7); empty when they keep none there. It is
-    /// the client's own text, sent and read back as it was written, so an
-    /// older client never loses what a newer one wrote.
+    /// The dashboard as the user keeps it with this agent, the client's own
+    /// text, sent and read back as it was written, so an older client never
+    /// loses what a newer one wrote; the shipped default when they have none yet.
     /// </summary>
-    public async Task<string> GetUserDashboardAsync(CancellationToken cancellationToken = default)
-    {
-        using var response = await http.GetAsync("api/v1/me/dashboard", cancellationToken);
-        await EnsureSuccessAsync(response, cancellationToken);
-        return await response.Content.ReadAsStringAsync(cancellationToken);
-    }
-
-    /// <summary>The client's own text, kept as it is written; empty forgets it.</summary>
-    public Task SetUserDashboardAsync(string arrangement, CancellationToken cancellationToken = default) =>
-        PutTextAsync("api/v1/me/dashboard", arrangement, cancellationToken);
-
-    /// <summary>Home v2's dashboard as the user keeps it with this agent, the client's own text; empty when they have none yet.</summary>
     public async Task<string> GetUserDashboardV2Async(CancellationToken cancellationToken = default)
     {
         using var response = await http.GetAsync("api/v1/me/dashboard-v2", cancellationToken);
@@ -61,11 +48,11 @@ public sealed class WslcAgentApi(HttpClient http, AgentAccessToken? access = nul
         return await response.Content.ReadAsStringAsync(cancellationToken);
     }
 
-    /// <summary>Home v2's dashboard, kept as it is written; empty forgets it.</summary>
+    /// <summary>The user's dashboard, kept as it is written; empty forgets it.</summary>
     public Task SetUserDashboardV2Async(string layout, CancellationToken cancellationToken = default) =>
         PutTextAsync("api/v1/me/dashboard-v2", layout, cancellationToken);
 
-    /// <summary>Home v2's default as the agent ships it, the client's own text; empty when none is shipped.</summary>
+    /// <summary>The dashboard's default as the agent ships it, the client's own text; empty when none is shipped.</summary>
     public async Task<string> GetDefaultDashboardV2Async(CancellationToken cancellationToken = default)
     {
         using var response = await http.GetAsync("api/v1/dashboard-v2/default", cancellationToken);
@@ -74,33 +61,14 @@ public sealed class WslcAgentApi(HttpClient http, AgentAccessToken? access = nul
     }
 
     /// <summary>
-    /// Home v2's default, the dashboard a user with none is given, written back
-    /// to the repository by a development agent; a release agent refuses it (409).
+    /// The dashboard's default, the one a user with none is given, written
+    /// back to the repository by a development agent while it is being
+    /// designed; a release agent refuses it (409).
     /// </summary>
     public Task SetDefaultDashboardV2Async(string layout, CancellationToken cancellationToken = default) =>
         PutTextAsync("api/v1/dashboard-v2/default", layout, cancellationToken);
 
-    /// <summary>
-    /// The default a user with none is given, written back to the repository
-    /// by a development agent while the dashboard is being designed; a release
-    /// agent refuses it (409).
-    /// </summary>
-    public Task SetDefaultDashboardAsync(string arrangement, CancellationToken cancellationToken = default) =>
-        PutTextAsync("api/v1/dashboard/default", arrangement, cancellationToken);
-
-    /// <summary>How each kind of dashboard card ships, and whether this agent writes them back (a development build).</summary>
-    public Task<CardDefaultsResponse> GetCardDefaultsAsync(CancellationToken cancellationToken = default) =>
-        GetAsync<CardDefaultsResponse>("api/v1/dashboard/card-defaults", cancellationToken);
-
-    /// <summary>
-    /// One kind's default in one view (desktop, mobile), merged by a development
-    /// agent into the rest and written back to its repository; a release agent
-    /// refuses it (409).
-    /// </summary>
-    public Task SetCardDefaultAsync(string view, string kind, string card, CancellationToken cancellationToken = default) =>
-        PutTextAsync($"api/v1/dashboard/card-defaults/{Uri.EscapeDataString(view)}/{Uri.EscapeDataString(kind)}", card, cancellationToken);
-
-    /// <summary>How each kind of Home v2's object is born, view by view, and whether this agent writes them back (a development build).</summary>
+    /// <summary>How each kind of dashboard object is born, view by view, and whether this agent writes them back (a development build).</summary>
     public Task<ObjectDefaultsResponse> GetObjectDefaultsAsync(CancellationToken cancellationToken = default) =>
         GetAsync<ObjectDefaultsResponse>("api/v1/dashboard/object-defaults", cancellationToken);
 

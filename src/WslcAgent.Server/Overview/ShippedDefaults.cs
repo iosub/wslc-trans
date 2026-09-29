@@ -5,8 +5,7 @@ namespace WslcAgent.Server.Overview;
 
 /// <summary>
 /// A file of defaults the agent ships, view by view and kind by kind — how
-/// each kind of today's card ships (<see cref="CardDefaultsStore"/>), how each
-/// kind of Home v2's object is born (<see cref="ObjectDefaultsStore"/>) —
+/// each kind of dashboard object is born (<see cref="ObjectDefaultsStore"/>) —
 /// designed on the development agent and written back to the repository
 /// (<see cref="ShippedFile"/>), so the installer ships it.
 /// <para>

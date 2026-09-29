@@ -159,7 +159,7 @@
         return @<div class="@(up ? "wslc-status-alarm wslc-status-alarm-up" : "wslc-status-alarm")"
                      role="button" title="@title" aria-label="@title" @onclick="@(() => Navigation.NavigateTo(""))">
             <UsageDial Label="" Reading="@reading" Live="@(value is not null)" Title="@title" />
-            <span class="wslc-status-line">@DashboardCatalogue.MeasureShort(item.Measure.Measure)</span>
+            <span class="wslc-status-line">@DashboardMeasures.Short(item.Measure.Measure)</span>
             <span class="wslc-status-line">@Name(item)</span>
         </div>;
     }
