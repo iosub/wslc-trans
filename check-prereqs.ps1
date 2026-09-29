@@ -70,7 +70,7 @@ if ($dotnetOk) {
         if ($installed -contains $workload) {
             Write-WslcAgentCheck ok "workload $workload" "installed."
         } else {
-            Write-WslcAgentCheck broken "workload $workload" "missing; the client project needs it. Install every workload the solution uses: dotnet workload restore WslcAgent.slnx" -Guide "$Guide#maui-workloads"
+            Write-WslcAgentCheck broken "workload $workload" "missing; the client project needs it. From an administrator PowerShell, in this folder: dotnet workload restore WslcAgent.slnx" -Guide "$Guide#maui-workloads"
         }
     }
 }
@@ -89,13 +89,13 @@ $androidSdk = Find-WslcAgentAndroidSdk
 if ($androidSdk) {
     Write-WslcAgentCheck ok "Android SDK" $androidSdk
 } else {
-    Write-WslcAgentCheck absent "Android SDK" "no APK, no debug-android.ps1. Install it with the android workload (VS Code, no IDE), Android Studio or Visual Studio; if it lives elsewhere, set ANDROID_HOME." -Guide "$Guide#android-sdk"
+    Write-WslcAgentCheck absent "Android SDK" "build.ps1 builds without the Android client; no APK, no debug-android.ps1. Install it with the android workload (VS Code, no IDE), Android Studio or Visual Studio; if it lives elsewhere, set ANDROID_HOME." -Guide "$Guide#android-sdk"
 }
 $keytool = try { Find-WslcAgentKeytool } catch { $null }
 if ($keytool) {
     Write-WslcAgentCheck ok "JDK (keytool)" $keytool
 } else {
-    Write-WslcAgentCheck absent "JDK (keytool)" "no Android build nor signing key. Install it: winget install --id Microsoft.OpenJDK.17 -e, or set JAVA_HOME." -Guide "$Guide#jdk"
+    Write-WslcAgentCheck absent "JDK (keytool)" "build.ps1 builds without the Android client; no APK, no signing key. Install it: winget install --id Microsoft.OpenJDK.17 -e, or set JAVA_HOME." -Guide "$Guide#jdk"
 }
 Write-Host ""
 

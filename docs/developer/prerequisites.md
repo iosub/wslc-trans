@@ -15,7 +15,7 @@ every line it reports as `[absent]` or `[broken]` points to its section here.
 | [WSL, and virtualization turned on](#wsl) | Running containers at all | To run the agent |
 | [WSLC 3.0.1 or later](#wslc) (2.9.13 at the least) | Running the agent against containers | To run the agent |
 | [JDK](#jdk) | The Android client and its signing key | For Android |
-| [Android SDK](#android-sdk) | The Android client, the emulator | For Android |
+| [Android SDK](#android-sdk) | The Android client, the emulator; without it `build.ps1` builds everything else | For Android |
 | [WebView2 Runtime](#webview2-runtime) | Running the Windows client and the tray window | For the Windows client |
 | [Editor](#editor-vs-code) | Editing and debugging | No: any editor works |
 
@@ -63,7 +63,8 @@ Or the installer from [dotnet.microsoft.com](https://dotnet.microsoft.com/downlo
 
 The Windows and Android clients are .NET MAUI; the solution builds them, so
 the `maui-windows` and `android` workloads are needed even to build the agent
-alone. From the root of the repository:
+alone. The .NET SDK lives under `Program Files`, so installing workloads needs
+a PowerShell **run as administrator**, opened in the root of the repository:
 
 ```powershell
 dotnet workload restore WslcAgent.slnx

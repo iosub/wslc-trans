@@ -290,6 +290,19 @@ function Find-WslcAgentAndroidSdk {
     return $null
 }
 
+function Get-WslcAgentSolutionScope {
+    <#
+    The MSBuild properties a build of the whole solution takes on this
+    machine. The Android client needs the Android SDK and a JDK; without them
+    the solution is built without its Android target, and says so, instead of
+    failing: everything else still builds, runs and passes its tests.
+    #>
+    $keytool = try { Find-WslcAgentKeytool } catch { $null }
+    if ((Find-WslcAgentAndroidSdk) -and $keytool) { return @() }
+    Write-Host "No Android SDK or no JDK: building without the Android client (docs\developer\prerequisites.md#android-sdk)." -ForegroundColor Yellow
+    return @("-p:WslcAgentWindowsOnly=true")
+}
+
 function Get-WslcAgentPrivateFolder {
     <#
     The checkout's private/ folder: the signing key, the Firebase files and

@@ -73,8 +73,10 @@ if ($Existing) {
 }
 
 if (-not $NoBuild -and -not $Watch) {
+    # In a scope of its own: Packaging.ps1 turns strict mode on for whoever loads it.
+    $scope = & { . (Join-Path $RepoRoot "packagingPackaging.ps1"); Get-WslcAgentSolutionScope }
     Write-Host "Building WslcAgent.slnx ($Configuration)..." -ForegroundColor Cyan
-    dotnet build (Join-Path $RepoRoot "WslcAgent.slnx") -c $Configuration -nologo -v q
+    dotnet build (Join-Path $RepoRoot "WslcAgent.slnx") -c $Configuration -nologo -v q @scope
     if ($LASTEXITCODE -ne 0) { throw "dotnet build failed with exit code $LASTEXITCODE" }
 }
 
