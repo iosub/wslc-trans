@@ -257,6 +257,33 @@ function Set-WslcAgentMsiExplorerVersion {
 
 # ---------------------------------------------------------------- Android --
 
+function Write-WslcAgentCheck {
+    <#
+    One line of a check script's report: what was checked, its state, and what
+    it means or how to fix it. Counts the broken ones in $script:WslcAgentCheckBroken
+    of the script that called it.
+    #>
+    param(
+        [ValidateSet("ok", "absent", "broken")][string]$State,
+        [string]$What,
+        [string]$Detail
+    )
+    $colour = @{ ok = "Green"; absent = "Yellow"; broken = "Red" }[$State]
+    if ($State -eq "broken") { $script:WslcAgentCheckBroken++ }
+    Write-Host ("  {0,-9} " -f "[$State]") -ForegroundColor $colour -NoNewline
+    Write-Host "$What  " -NoNewline
+    Write-Host $Detail
+}
+
+function Find-WslcAgentAndroidSdk {
+    # The Android SDK the MAUI workload uses: ANDROID_HOME, ANDROID_SDK_ROOT,
+    # then where Visual Studio and Android Studio install it. Null when absent.
+    foreach ($candidate in @($env:ANDROID_HOME, $env:ANDROID_SDK_ROOT, "${env:ProgramFiles(x86)}\Android\android-sdk", "$env:LOCALAPPDATA\Android\Sdk")) {
+        if ($candidate -and (Test-Path -LiteralPath (Join-Path $candidate "platform-tools\adb.exe"))) { return $candidate }
+    }
+    return $null
+}
+
 function Get-WslcAgentPrivateFolder {
     <#
     The checkout's private/ folder: the signing key, the Firebase files and

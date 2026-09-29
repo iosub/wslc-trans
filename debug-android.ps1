@@ -32,20 +32,15 @@ param(
 $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $RepoRoot
+. (Join-Path $RepoRoot "packaging\Packaging.ps1")
 
 $Csproj = Join-Path $RepoRoot "src\WslcAgent.App\WslcAgent.App.csproj"
 $Tfm = "net10.0-android"
 $PackageId = "ai.berpiztu.wslcagent"
 $Activity = "$PackageId/$PackageId.MainActivity"
 
-function Find-AndroidSdk {
-    foreach ($candidate in @($env:ANDROID_HOME, $env:ANDROID_SDK_ROOT, "${env:ProgramFiles(x86)}\Android\android-sdk", "$env:LOCALAPPDATA\Android\Sdk")) {
-        if ($candidate -and (Test-Path -LiteralPath (Join-Path $candidate "platform-tools\adb.exe"))) { return $candidate }
-    }
-    throw "Android SDK not found. Set ANDROID_HOME to the folder that contains platform-tools\adb.exe."
-}
-
-$sdk = Find-AndroidSdk
+$sdk = Find-WslcAgentAndroidSdk
+if (-not $sdk) { throw "Android SDK not found. Set ANDROID_HOME to the folder that contains platform-tools\adb.exe (.\check-prereqs.ps1)." }
 $adb = Join-Path $sdk "platform-tools\adb.exe"
 $emulator = Join-Path $sdk "emulator\emulator.exe"
 
