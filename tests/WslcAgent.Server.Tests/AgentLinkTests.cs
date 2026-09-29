@@ -53,7 +53,11 @@ public sealed class AgentLinkTests
     {
         public HttpStatusCode? Answer { get; set; } = HttpStatusCode.OK;
 
+        // The agent's own refusals are problem details: a bare 502, 503 or 504
+        // is a gateway answering for an agent that is not there.
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) =>
-            Answer is { } status ? Task.FromResult(new HttpResponseMessage(status)) : throw new HttpRequestException("TypeError: Failed to fetch");
+            Answer is { } status
+                ? Task.FromResult(new HttpResponseMessage(status) { Content = new StringContent("{}", System.Text.Encoding.UTF8, "application/problem+json") })
+                : throw new HttpRequestException("TypeError: Failed to fetch");
     }
 }

@@ -194,7 +194,7 @@ public sealed class ContainersEndpointTests(WebApplicationFactory<Program> facto
             .Answer("network inspect host --format json", "[]")
             .Answer("network inspect none --format json", "[]")
             .Answer("network inspect appnet --format json", "[]")
-            .Answer("image list --format json", FakeWslcRunner.Fixture("image-list.ndjson"));
+            .Answer("image list --digests --format json", FakeWslcRunner.Fixture("image-list.ndjson"));
         var client = factory.ClientWith(runner);
         var request = new ContainerLaunchRequest { Image = "nginx", Name = "agent-zero", Network = "no-such-net", Publish = ["8080:80"], Command = "serve --port 3000" };
 
@@ -216,7 +216,7 @@ public sealed class ContainersEndpointTests(WebApplicationFactory<Program> facto
         var runner = new FakeWslcRunner()
             .Answer("container list --all --format json", FakeWslcRunner.Fixture("container-list.ndjson"))
             .Answer("container stats --all --format json", FakeWslcRunner.Fixture("container-stats.ndjson"))
-            .Answer("image list --format json", FakeWslcRunner.Fixture("image-list.ndjson"));
+            .Answer("image list --digests --format json", FakeWslcRunner.Fixture("image-list.ndjson"));
         var client = factory.ClientWith(runner);
 
         var response = await client.PostAsJsonAsync("/api/v1/containers/launch-check", new LaunchCheckRequest(new ContainerLaunchRequest { Image = "nginx", Name = "agent-zero" }, "agent-zero"));

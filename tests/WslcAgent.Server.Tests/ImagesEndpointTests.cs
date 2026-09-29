@@ -15,7 +15,7 @@ public sealed class ImagesEndpointTests(WebApplicationFactory<Program> factory)
     public async Task List_maps_rows_marks_usage_and_totals_the_size()
     {
         var runner = new FakeWslcRunner()
-            .Answer("image list --format json", FakeWslcRunner.Fixture("image-list.ndjson"))
+            .Answer("image list --digests --format json", FakeWslcRunner.Fixture("image-list.ndjson"))
             .Answer(Usage, FakeWslcRunner.Fixture("container-list-usage.ndjson"))
             .Answer("container stats --all --format json", "");
 

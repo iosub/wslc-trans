@@ -382,7 +382,7 @@ public sealed partial class LaunchChecks(
     [GeneratedRegex(@"^(?:(?:\d{1,3}\.){3}\d{1,3}:)?(?:(?<host>\d{1,5})(?<range>-\d{1,5})?:)?(?<container>\d{1,5})(?:-\d{1,5})?(?:/(?:tcp|udp|sctp))?$", RegexOptions.IgnoreCase)]
     private static partial Regex PublishSpec();
 
-    [GeneratedRegex(@"(?<flag>--?[A-Za-z][\w-]*port[\w-]*)(?:=|\s+)(?<port>\d{1,5})\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"(?<flag>--?(?:[A-Za-z][\w-]*)?port[\w-]*)(?:=|\s+)(?<port>\d{1,5})\b", RegexOptions.IgnoreCase)]
     private static partial Regex PortFlag();
 
     [GeneratedRegex(@"(?:localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\]):(?<port>\d{1,5})\b")]

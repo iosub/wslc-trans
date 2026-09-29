@@ -30,7 +30,7 @@ public sealed class PublishingTests(WebApplicationFactory<Program> factory)
 
         var text = PublishedMap.Render(names);
 
-        Assert.Contains("webui-home.example.com   http://open-webui:8080;", text);
+        Assert.Contains($"{"webui-home.example.com",-28} http://open-webui:8080;", text);
         Assert.Contains("resolver 127.0.0.11", text);
         Assert.Contains("return 404;", text);
         Assert.Equal(names.OrderBy(n => n.Hostname, StringComparer.Ordinal), PublishedMap.Parse(text));
@@ -40,7 +40,7 @@ public sealed class PublishingTests(WebApplicationFactory<Program> factory)
     public async Task Publishing_writes_the_map_and_restarts_the_proxy_and_unpublishing_takes_the_line_out()
     {
         var runner = new FakeWslcRunner()
-            .Answer("network inspect mio --format json", WebOnNetwork)
+            .Answer("network inspect published --format json", WebOnNetwork)
             .Answer("container restart proxy", "");
         var client = factory.ClientWith(runner);
         var map = Path.Combine(TestHost.TempDataDirectory(), "published.conf");
@@ -63,14 +63,14 @@ public sealed class PublishingTests(WebApplicationFactory<Program> factory)
     [Fact]
     public async Task A_container_that_is_not_on_the_network_is_not_published_and_not_attached()
     {
-        var runner = new FakeWslcRunner().Answer("network inspect mio --format json", EmptyNetwork);
+        var runner = new FakeWslcRunner().Answer("network inspect published --format json", EmptyNetwork);
         var client = factory.ClientWith(runner);
         await client.PutAsJsonAsync("/api/v1/publishing/settings", new PublishingSettings("example.test", "-pc", "proxy", "published", Path.Combine(TestHost.TempDataDirectory(), "published.conf")));
 
         var response = await client.PostAsJsonAsync("/api/v1/publications", new PublishRequest("web", 8080, "web-pc.example.test"));
 
         Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
-        Assert.Contains("not on the network 'mio'", await response.Content.ReadAsStringAsync());
+        Assert.Contains("not on the network 'published'", await response.Content.ReadAsStringAsync());
         Assert.DoesNotContain(runner.Calls, c => c[0] == "network" && c[1] == "connect");
     }
 
@@ -100,12 +100,12 @@ public sealed class PublishingTests(WebApplicationFactory<Program> factory)
     {
         var map = Path.Combine(TestHost.TempDataDirectory(), "published.conf");
         var runner = new FakeWslcRunner()
-            .Fail("network inspect mio --format json", "network mio not found")
-            .Answer("network create mio", "")
+            .Fail("network inspect published --format json", "network published not found")
+            .Answer("network create published", "")
             .Answer("container list --all --format json", FakeWslcRunner.Fixture("container-list.ndjson"))
             .Answer("container stats --all --format json", FakeWslcRunner.Fixture("container-stats.ndjson"))
             .Answer($"container run --detach --name proxy --publish 127.0.0.1:8081:80 --volume {map.Replace('\\', '/')}:/etc/nginx/conf.d/default.conf:ro nginx:alpine", "beefbeefbeef\n")
-            .Answer("network connect mio proxy", "");
+            .Answer("network connect published proxy", "");
         var client = factory.ClientWith(runner);
         await client.PutAsJsonAsync("/api/v1/publishing/settings", new PublishingSettings("example.test", "-pc", "proxy", "published", map));
 
@@ -127,7 +127,7 @@ public sealed class PublishingTests(WebApplicationFactory<Program> factory)
     public async Task A_name_under_another_domain_and_a_name_held_by_another_container_are_refused()
     {
         var runner = new FakeWslcRunner()
-            .Answer("network inspect mio --format json", WebOnNetwork)
+            .Answer("network inspect published --format json", WebOnNetwork)
             .Answer("container restart proxy", "");
         var client = factory.ClientWith(runner);
         await client.PutAsJsonAsync("/api/v1/publishing/settings", new PublishingSettings("example.test", "-pc", "proxy", "published", Path.Combine(TestHost.TempDataDirectory(), "published.conf")));
@@ -145,7 +145,7 @@ public sealed class PublishingTests(WebApplicationFactory<Program> factory)
     {
         var runner = new FakeWslcRunner()
             .Answer(Inspect, FakeWslcRunner.Fixture("container-inspect.json"))
-            .Fail("network inspect mio --format json", "network mio not found");
+            .Fail("network inspect published --format json", "network published not found");
         var client = factory.ClientWith(runner);
         await client.PutAsJsonAsync("/api/v1/publishing/settings", new PublishingSettings("example.test", "-pc", "proxy", "published", Path.Combine(TestHost.TempDataDirectory(), "published.conf")));
 
@@ -153,7 +153,7 @@ public sealed class PublishingTests(WebApplicationFactory<Program> factory)
             new ContainerLaunchRequest { Image = "nginx", Name = "web", ConnectNetworks = ["published"], PublicNames = ["80:web"] });
 
         Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
-        Assert.Contains("network 'mio'", await response.Content.ReadAsStringAsync());
+        Assert.Contains("network 'published'", await response.Content.ReadAsStringAsync());
         Assert.DoesNotContain(runner.Calls, c => c[0] == "container" && c[1] is "rm" or "stop" or "run" or "create");
     }
 
@@ -165,14 +165,14 @@ public sealed class PublishingTests(WebApplicationFactory<Program> factory)
             .Answer("container stop web", "")
             .Answer("container rm --force web", "")
             .Answer("container run --detach --name web nginx", "cafecafecafe\n")
-            .Answer("network inspect mio --format json", ProxyOnNetwork)
-            .Answer("network connect mio web", "")
+            .Answer("network inspect published --format json", ProxyOnNetwork)
+            .Answer("network connect published web", "")
             .Answer("container restart proxy", "");
         var client = factory.ClientWith(runner);
         var map = Path.Combine(TestHost.TempDataDirectory(), "published.conf");
         await client.PutAsJsonAsync("/api/v1/publishing/settings", new PublishingSettings("example.test", "-pc", "proxy", "published", map));
 
-        // The network is the form's: mio, which the proxy is on, among its Networks rows, connected as every extra network is.
+        // The network is the form's: published, which the proxy is on, among its Networks rows, connected as every extra network is.
         var response = await client.PostAsJsonAsync("/api/v1/containers/web/recreate",
             new ContainerLaunchRequest { Image = "nginx", Name = "web", ConnectNetworks = ["published"], PublicNames = ["80:web"] });
         var details = await client.GetFromJsonAsync<ContainerDetails>("/api/v1/containers/web/details");
