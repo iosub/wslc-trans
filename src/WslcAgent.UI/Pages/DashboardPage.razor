@@ -52,7 +52,6 @@
 @inject ObjectCatalogue Catalogue
 @inject DashboardInterop Interop
 @inject IJSRuntime Js
-@inject WslcAgent.UI.Layout.HostDevice Device
 @inject DashboardMeasures Measures
 @inject WslcAgentApi Api
 @inject IDialogService Dialogs
@@ -202,7 +201,7 @@
                 @* How the view meets a screen of another aspect (as a
                    television offers it): whole, filling
                    it, or stretched to it; this page's and view's, on this device. *@
-                <MudToggleGroup T="ViewFit" Value="@(_fitting ?? ViewFit.Fit)" ValueChanged="FitAsync" Size="Style.Applied.ToggleSize" Color="Style.Applied.ToggleColor"
+                <MudToggleGroup T="ViewFit" Value="@(_fitting ?? ViewFit.Fill)" ValueChanged="FitAsync" Size="Style.Applied.ToggleSize" Color="Style.Applied.ToggleColor"
                                 Outlined="Style.Applied.ToggleOutlined" Delimiters="Style.Applied.ToggleDelimiters"
                                 Class="@(Style.Applied.ToggleRounded ? "rounded-pill mt-2" : "mt-2")" CheckMark="Style.Applied.ToggleCheckMark">
                     <MudToggleItem Value="ViewFit.Fit" Text="Fit" title="The whole view, as large as it goes, its aspect kept; the room left over at both sides" />
@@ -546,17 +545,15 @@
 
     /// <summary>
     /// The fitting this device keeps for this page and view
-    /// (<c>wslcAgent.dashboardViewFit</c>), from its first paint. Where none is:
-    /// Fluid on a desktop, browser or Windows client, whose window takes the
-    /// cards at their own size across its width; Fit in the hand, where the
-    /// whole view has to come into a small screen.
+    /// (<c>wslcAgent.dashboardViewFit</c>), from its first paint. Where none is,
+    /// Fill: the screen filled with the view's aspect kept, which holds on a
+    /// phone and on a desktop alike, where Fluid cut what a small screen had
+    /// no room for.
     /// </summary>
     private async Task ReadFittingAsync()
     {
         var kept = await Js.InvokeAsync<string?>("wslcAgent.dashboardViewFit", ZoomOf);
-        _fitting = Enum.TryParse<ViewFit>(kept, ignoreCase: true, out var fitting)
-            ? fitting
-            : await Device.IsHandheldAsync() ? ViewFit.Fit : ViewFit.Fluid;
+        _fitting = Enum.TryParse<ViewFit>(kept, ignoreCase: true, out var fitting) ? fitting : ViewFit.Fill;
         await InvokeAsync(StateHasChanged);
     }
 
