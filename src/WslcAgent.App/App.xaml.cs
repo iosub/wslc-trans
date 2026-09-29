@@ -16,6 +16,18 @@ public partial class App : Application
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        return new Window(new MainPage()) { Title = "WSLC AI Client" };
+        var window = new Window(new MainPage()) { Title = "WSLC AI Client" };
+#if WINDOWS
+        // Opens maximized: the dashboard and the lists are laid out for the
+        // whole screen. The user can restore it like any other window.
+        window.Created += (_, _) =>
+        {
+            if (window.Handler?.PlatformView is Microsoft.UI.Xaml.Window { AppWindow.Presenter: Microsoft.UI.Windowing.OverlappedPresenter presenter })
+            {
+                presenter.Maximize();
+            }
+        };
+#endif
+        return window;
     }
 }
