@@ -57,8 +57,30 @@
       <RemoveFolder Id="RemoveClientFolder" Directory="INSTALLFOLDER" On="uninstall" />
     </Component>
 
+    <!-- The client's preferences (the agents it knows, the theme, the views,
+         the dashboard kept on this PC) live in the WebView2 folder the client
+         creates beside itself, which the installer never installed. Once the
+         client is removed, a Yes/No box asks whether to remove them too: Yes
+         deletes the folder, and the install folder if nothing else is left;
+         No keeps them for a later install. Only on a real uninstall with a
+         window to ask in: never when a newer version replaces this one (its
+         own update included), never on a silent uninstall.
+         No braces in the command, which a formatted text reads as its own:
+         -and runs each step only when the one before it held. -->
+    <SetProperty Id="WixQuietExec64CmdLine"
+                 Value="&quot;[System64Folder]WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command &quot;$p = '[INSTALLFOLDER]wslc-ai-client.exe.WebView2'; (Test-Path -LiteralPath $p) -and ((New-Object -ComObject WScript.Shell).Popup('Remove your WSLC AI Client preferences too? The agents it knows, the theme, the views and the dashboard kept on this PC. No keeps them for a later install.', 0, 'Uninstall WSLC AI Client', 36) -eq 6) -and (Remove-Item -LiteralPath $p -Recurse -Force -ErrorAction SilentlyContinue); Remove-Item -LiteralPath '[INSTALLFOLDER]' -ErrorAction SilentlyContinue&quot;"
+                 Before="AskToRemovePreferences"
+                 Sequence="execute" />
+    <CustomAction Id="AskToRemovePreferences"
+                  BinaryRef="Wix4UtilCA_X64"
+                  DllEntry="WixQuietExec64"
+                  Execute="immediate"
+                  Return="ignore" />
+
     <InstallExecuteSequence>
       <RemoveExistingProducts After="InstallValidate" />
+      <Custom Action="AskToRemovePreferences" After="InstallFinalize"
+              Condition="REMOVE~=&quot;ALL&quot; AND NOT UPGRADINGPRODUCTCODE AND UILevel &gt; 2" />
     </InstallExecuteSequence>
 
     <ui:WixUI Id="WixUI_Minimal" />
