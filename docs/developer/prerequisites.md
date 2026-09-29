@@ -65,8 +65,10 @@ Or the installer from [dotnet.microsoft.com](https://dotnet.microsoft.com/downlo
 ## MAUI workloads
 
 The Windows and Android clients are .NET MAUI; the solution builds them, so
-the `maui-windows` and `android` workloads are needed even to build the agent
-alone. The .NET SDK lives under `Program Files`, so installing workloads needs
+their workloads are needed even to build the agent alone: `android`, and
+`maui-blazor`, the MAUI core with its Blazor web view. Either may come inside
+another: `maui-android` brings both, `maui-windows` or `maui-tizen` the
+second, and `check-prereqs.ps1` accepts whichever brought them. The .NET SDK lives under `Program Files`, so installing workloads needs
 a PowerShell **run as administrator**, opened in the root of the repository:
 
 ```powershell

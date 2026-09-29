@@ -65,12 +65,35 @@ if ($dotnetOk) {
 }
 
 if ($dotnetOk) {
+    # A workload brings the ones it extends: maui-android brings android and
+    # maui-blazor, and dotnet workload restore may pick maui-tizen for the
+    # Windows target. So what counts is what the installed ones bring, read
+    # from the SDK's own workload manifests, not their names.
     $installed = @(Invoke-WslcAgentNative dotnet @("workload", "list") | ForEach-Object { ($_.Trim() -split "\s+")[0] })
-    foreach ($workload in @("maui-windows", "android")) {
-        if ($installed -contains $workload) {
-            Write-WslcAgentCheck ok "workload $workload" "installed."
+    $extends = @{}
+    $manifestRoots = @((Split-Path -Parent (Get-Command dotnet).Source), (Join-Path $env:USERPROFILE ".dotnet")) | ForEach-Object { Join-Path $_ "sdk-manifests" }
+    Get-ChildItem -LiteralPath @($manifestRoots | Where-Object { Test-Path -LiteralPath $_ }) -Directory -Filter "$($wanted.Major).$($wanted.Minor).*" -ErrorAction SilentlyContinue |
+        Get-ChildItem -Recurse -Filter "WorkloadManifest.json" | ForEach-Object {
+            try { $manifest = Get-Content -LiteralPath $_.FullName -Raw | ConvertFrom-Json } catch { return }
+            foreach ($workload in @($manifest.workloads.PSObject.Properties)) {
+                $bases = $workload.Value.PSObject.Properties["extends"]
+                if ($bases) { $extends[$workload.Name] = @($extends[$workload.Name]) + @($bases.Value) | Where-Object { $_ } | Select-Object -Unique }
+            }
+        }
+    function Get-WorkloadsBroughtBy([string]$Workload, [hashtable]$Seen = @{}) {
+        if ($Seen.ContainsKey($Workload)) { return }
+        $Seen[$Workload] = $true
+        $Workload
+        foreach ($base in @($extends[$Workload])) { if ($base) { Get-WorkloadsBroughtBy $base $Seen } }
+    }
+    # android for the Android client; maui-blazor, the MAUI core with the
+    # Blazor web view, for the Windows client (maui-windows brings it).
+    foreach ($needed in @("android", "maui-blazor")) {
+        $by = @($installed | Where-Object { $_ -and (@(Get-WorkloadsBroughtBy $_) -contains $needed) })
+        if ($by.Count -gt 0) {
+            Write-WslcAgentCheck ok "workload $needed" "installed$(if ($by -notcontains $needed) { ", brought by $($by -join ', ')" })."
         } else {
-            Write-WslcAgentCheck broken "workload $workload" "missing; the client project needs it. From an administrator PowerShell, in this folder: dotnet workload restore WslcAgent.slnx" -Guide "$Guide#maui-workloads"
+            Write-WslcAgentCheck broken "workload $needed" "missing; the client project needs it. From an administrator PowerShell, in this folder: dotnet workload restore WslcAgent.slnx" -Guide "$Guide#maui-workloads"
         }
     }
 }
