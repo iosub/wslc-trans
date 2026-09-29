@@ -52,6 +52,7 @@
 @inject ObjectCatalogue Catalogue
 @inject DashboardInterop Interop
 @inject IJSRuntime Js
+@inject WslcAgent.UI.Layout.HostDevice Device
 @inject DashboardMeasures Measures
 @inject WslcAgentApi Api
 @inject IDialogService Dialogs
@@ -543,11 +544,19 @@
 
     private void OnSelectionChanged(DashboardSelection selection) => _selection = selection;
 
-    /// <summary>The fitting this device keeps for this page and view (<c>wslcAgent.dashboardViewFit</c>), from its first paint; Fit where none is.</summary>
+    /// <summary>
+    /// The fitting this device keeps for this page and view
+    /// (<c>wslcAgent.dashboardViewFit</c>), from its first paint. Where none is:
+    /// Fluid on a desktop, browser or Windows client, whose window takes the
+    /// cards at their own size across its width; Fit in the hand, where the
+    /// whole view has to come into a small screen.
+    /// </summary>
     private async Task ReadFittingAsync()
     {
         var kept = await Js.InvokeAsync<string?>("wslcAgent.dashboardViewFit", ZoomOf);
-        _fitting = Enum.TryParse<ViewFit>(kept, ignoreCase: true, out var fitting) ? fitting : ViewFit.Fit;
+        _fitting = Enum.TryParse<ViewFit>(kept, ignoreCase: true, out var fitting)
+            ? fitting
+            : await Device.IsHandheldAsync() ? ViewFit.Fit : ViewFit.Fluid;
         await InvokeAsync(StateHasChanged);
     }
 
