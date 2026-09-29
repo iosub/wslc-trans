@@ -25,6 +25,11 @@ both.
 
 ```powershell
 git clone https://github.com/berpiztu/wslc-ai-agent.git
+```
+
+Then go into it; every later command runs from there:
+
+```powershell
 cd wslc-ai-agent
 ```
 
@@ -127,11 +132,24 @@ Destructive tools ask for your approval before they act.
 
 ## 8. Run the clients (optional)
 
-With the agent running, in another terminal:
+With the agent running, in another terminal.
+
+The Windows client, pointed at http://127.0.0.1:8070/:
 
 ```powershell
-.\debug-client.ps1      # the Windows client, pointed at http://127.0.0.1:8070/
-.\debug-android.ps1     # the Android client on an emulator, or a phone with -Phone
+.\debug-client.ps1
+```
+
+The Android client on an emulator:
+
+```powershell
+.\debug-android.ps1
+```
+
+Or on a phone attached by USB, with USB debugging on:
+
+```powershell
+.\debug-android.ps1 -Phone
 ```
 
 `debug-android.ps1` starts an emulator when no device is attached (create one
@@ -140,10 +158,22 @@ in Android Studio's Device Manager first). From the emulator, the PC is
 
 ## 9. Build the installers (optional)
 
+The agent, `dist\wslc-ai-agent.msi`:
+
 ```powershell
-.\build-agent-installer.ps1 -NoBump     # dist\wslc-ai-agent.msi
-.\build-client-installer.ps1 -NoBump    # dist\wslc-ai-client.msi
-.\build-client-apk.ps1 -NoBump          # dist\wslc-ai-client.apk
+.\build-agent-installer.ps1 -NoBump
+```
+
+The Windows client, `dist\wslc-ai-client.msi`:
+
+```powershell
+.\build-client-installer.ps1 -NoBump
+```
+
+The Android client, `dist\wslc-ai-client.apk`:
+
+```powershell
+.\build-client-apk.ps1 -NoBump
 ```
 
 `-NoBump` builds the current version. Without it each script raises the

@@ -151,8 +151,15 @@ Any editor works: every step runs from the scripts. For VS Code, install:
 - [.NET MAUI](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.dotnet-maui):
   building, deploying and debugging the Windows and Android clients.
 
+C# Dev Kit from a terminal:
+
 ```powershell
 code --install-extension ms-dotnettools.csdevkit
+```
+
+.NET MAUI from a terminal:
+
+```powershell
 code --install-extension ms-dotnettools.dotnet-maui
 ```
 

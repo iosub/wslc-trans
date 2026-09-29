@@ -65,8 +65,7 @@ with any JDK (the Android workload of Visual Studio or of the .NET SDK installs
 one under `C:\Program Files (x86)\Android\openjdk\`):
 
 ```powershell
-keytool -genkeypair -v -keystore private\android.keystore -alias wslc-agent `
-  -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=wslc-agent"
+keytool -genkeypair -v -keystore private\android.keystore -alias wslc-agent -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=wslc-agent"
 ```
 
 `keytool` asks for a password twice. Then write the same password, alone on
@@ -174,15 +173,37 @@ file: the scripts read it as data and never run it.
 
 A workflow that builds signed releases gets the same files from the
 repository's secrets (**Settings → Secrets and variables → Actions**) and
-writes them into `private\` before building. Binary files travel as base64:
+writes them into `private\` before building. Binary files travel as base64.
+
+On your machine, each line below copies one file's content to the clipboard;
+paste it as a new repository secret with the name given above it.
+
+`ANDROID_KEYSTORE_BASE64`:
 
 ```powershell
-# On your machine: copy each file's content, then paste it as a secret.
-[Convert]::ToBase64String([IO.File]::ReadAllBytes("private\android.keystore")) | Set-Clipboard   # ANDROID_KEYSTORE_BASE64
-Get-Content private\android.keystore.pass -Raw | Set-Clipboard                                  # ANDROID_KEYSTORE_PASS
-Get-Content private\google-services.json -Raw | Set-Clipboard                                   # GOOGLE_SERVICES_JSON
-Get-Content private\firebase-service-account.json -Raw | Set-Clipboard                          # FIREBASE_SERVICE_ACCOUNT_JSON
+[Convert]::ToBase64String([IO.File]::ReadAllBytes("private\android.keystore")) | Set-Clipboard
 ```
+
+`ANDROID_KEYSTORE_PASS`:
+
+```powershell
+Get-Content private\android.keystore.pass -Raw | Set-Clipboard
+```
+
+`GOOGLE_SERVICES_JSON`:
+
+```powershell
+Get-Content private\google-services.json -Raw | Set-Clipboard
+```
+
+`FIREBASE_SERVICE_ACCOUNT_JSON`:
+
+```powershell
+Get-Content private\firebase-service-account.json -Raw | Set-Clipboard
+```
+
+The workflow step that writes them back (this one is a file to paste into a
+workflow, not a command):
 
 ```yaml
 - name: Private files

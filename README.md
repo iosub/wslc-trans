@@ -59,25 +59,60 @@ One UI, one language, one API contract.
 
 Needs Windows 11 and **WSLC 2.9.13 or later**
 ([WSL 2.9.13 release](https://github.com/microsoft/WSL/releases/tag/2.9.13)).
-Run these in order in PowerShell. Each one tells you whether all is well
-before you go on to the next.
+Run each line in PowerShell, one at a time, and check what it shows before
+going on to the next.
+
+**1. Let PowerShell run the scripts** (once per user; answer `Y`).
 
 ```powershell
-Set-ExecutionPolicy -Scope CurrentUser RemoteSigned    # once: lets PowerShell run the scripts
-git clone https://github.com/berpiztu/wslc-ai-agent.git
-cd wslc-ai-agent
-.\check-prereqs.ps1     # what this machine needs; installs nothing, says how
-.\check-private.ps1     # the optional private files (signing key, push); none is fine
-.\build.ps1             # restore, build, test: what CI runs
-.\start-agent.ps1       # the agent on http://127.0.0.1:8070
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
 
-| Step | All is well when |
-|---|---|
-| `check-prereqs.ps1` | The last line is green: **Ready to build**. Otherwise each missing piece names the section of [docs/developer/prerequisites.md](docs/developer/prerequisites.md) that installs it (VS Code, Visual Studio or no IDE); install it, open a new terminal, run it again. |
-| `check-private.ps1` | The last line is green: **Nothing broken**. `[absent]` only switches off what it names. |
-| `build.ps1` | The tests pass and it ends in **Done.** |
-| `start-agent.ps1` | http://127.0.0.1:8070 opens the dashboard. `Ctrl+C` stops it. |
+**2. Clone the repository.**
+
+```powershell
+git clone https://github.com/berpiztu/wslc-ai-agent.git
+```
+
+**3. Go into it.**
+
+```powershell
+cd wslc-ai-agent
+```
+
+**4. Check what this machine needs.** It installs nothing. All is well when
+the last line is green: **Ready to build**. Otherwise every missing piece
+names the section of
+[docs/developer/prerequisites.md](docs/developer/prerequisites.md) that
+installs it (VS Code, Visual Studio or no IDE); install it, open a new
+terminal, and run this line again.
+
+```powershell
+.\check-prereqs.ps1
+```
+
+**5. Check the private files.** They are optional (the signing key, push
+notifications) and a fresh clone has none. All is well when the last line is
+green: **Nothing broken**; `[absent]` only switches off what it names.
+
+```powershell
+.\check-private.ps1
+```
+
+**6. Build and test**, as CI does. All is well when the tests pass and it
+ends in **Done.** The first run downloads the packages and takes a few
+minutes.
+
+```powershell
+.\build.ps1
+```
+
+**7. Run the agent.** All is well when http://127.0.0.1:8070 opens the
+dashboard. `Ctrl+C` stops it.
+
+```powershell
+.\start-agent.ps1
+```
 
 Every step, what it shows and what to do when it shows something else:
 [docs/developer/getting-started.md](docs/developer/getting-started.md).
