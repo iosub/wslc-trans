@@ -1,11 +1,12 @@
 # WSLC AI Agent
 
-A local agent for **WSLC** (Windows Subsystem for Linux Containers, Microsoft's
-`wslc` CLI) built for the age of AI agents: a web dashboard, Windows and
-Android clients, and an MCP server with its skill included, so Claude,
-Hermes, OpenClaw and other AI agents can operate your containers.
-Destructive actions are off by default; switched on, each one still asks
-your approval.
+A **local agent and MCP server for WSLC** (Windows Subsystem for Linux
+Containers), with its skill included, so Claude, Hermes, OpenClaw and other
+AI agents can operate your WSLC infrastructure: containers, images, volumes,
+networks and sessions. Built for the age of AI agents, it also brings a web
+dashboard and Windows and Android clients, to manage it all yourself from
+anywhere. Destructive actions are off by default; switched on, each one
+still asks your approval.
 
 It is the small Windows process that sits next to `wslc`, talks to it for you,
 and exposes what it knows over HTTP, in a browser, in native apps and through
