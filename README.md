@@ -49,7 +49,9 @@ products are **WSLC AI Agent** (the agent, `wslc-ai-agent.exe`) and
 Everything the app does, your AI agent (Claude, Hermes, OpenClaw, etc.) can
 do too, through the agent's MCP server and its skill.
 
-![How AI agents reach WSLC: the skill in the AI client, the MCP endpoint, the approval gate for destructive tools, and wslc](docs/images/architecture-mcp.png)
+[![How AI agents reach WSLC: the skill in the AI client, the MCP endpoint, the approval gate for destructive tools, and wslc](docs/images/architecture-mcp.webp)](https://berpiztu.github.io/wslc-ai-agent/architecture/wslc-mcp.html)
+
+▶ **[Explore it interactive](https://berpiztu.github.io/wslc-ai-agent/architecture/wslc-mcp.html)**
 
 Ask in your own words:
 
@@ -76,13 +78,18 @@ Every feature, explained: [docs/features.md](docs/features.md).
 
 ## Architecture
 
-![WSLC AI Agent architecture: clients and AI agents reach the agent, which runs wslc and the containers in the user session](docs/images/architecture-overview.png)
+[![WSLC AI Agent architecture: clients and AI agents reach the agent, which runs wslc and the containers in the user session](docs/images/architecture-overview.webp)](https://berpiztu.github.io/wslc-ai-agent/architecture/wslc-overview.html)
+
+▶ **[Explore it interactive](https://berpiztu.github.io/wslc-ai-agent/architecture/wslc-overview.html)**:
+zoom, search, follow a route, light or dark. More:
+[terminals](https://berpiztu.github.io/wslc-ai-agent/architecture/wslc-terminal.html),
+[a container's page](https://berpiztu.github.io/wslc-ai-agent/architecture/wslc-networks.html),
+[MCP](https://berpiztu.github.io/wslc-ai-agent/architecture/wslc-mcp.html).
 
 The agent in the middle is the only thing that runs `wslc`: the clients call
 its API, AI agents its MCP endpoint, and a public host reaches it through a
-reverse forward. The same diagram, interactive, opens from any screen of the
-app (the architecture button), with three more: the terminals, publishing and
-MCP.
+reverse forward. The same diagrams open from any screen of the app (the
+architecture button).
 
 | Project | Role |
 |---|---|

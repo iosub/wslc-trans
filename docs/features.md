@@ -219,7 +219,7 @@ too, their consoles and their web pages, and the way the world reaches them.
 
 ### Consoles
 
-![Terminals: xterm.js in the app over a WebSocket to the agent, which keeps each shell in a session registry, on the host or inside a container](images/architecture-terminal.png)
+[![Terminals: xterm.js in the app over a WebSocket to the agent, which keeps each shell in a session registry, on the host or inside a container](images/architecture-terminal.png)](https://berpiztu.github.io/wslc-ai-agent/architecture/wslc-terminal.html)
 
 - **Host terminal** in the browser, also in a tab of its own; copy, clear,
   reconnect. At the agent's machine, Windows Terminal opens natively.
@@ -239,7 +239,7 @@ too, their consoles and their web pages, and the way the world reaches them.
 
 ### Publish containers
 
-![A container's page: published through the public host and the nginx proxy by name, or opened with no setup through the host browser](images/architecture-networks.png)
+[![A container's page: published through the public host and the nginx proxy by name, or opened with no setup through the host browser](images/architecture-networks.png)](https://berpiztu.github.io/wslc-ai-agent/architecture/wslc-networks.html)
 
 - **Publish a container's port** on a public HTTPS name from its form: the
   agent writes the map of a built-in nginx proxy container and restarts it.
