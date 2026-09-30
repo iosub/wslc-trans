@@ -78,6 +78,9 @@ Waiting for it, gathered since 1.0.0 (30 September 2026):
   everywhere, also in a virtual machine or on a phone in power saving
   (`packaging/patch-archify-motion.mjs`). The public pages have it already;
   the app's own architecture button gets it with the release.
+- The tray icon: a click opens the agent's page in the browser. Its own
+  WebView2 window is gone: in it the dashboard's objects did not fit as they
+  do in the browser.
 - To look at: WSLC 3.0.1 no longer starts its session on its own. The
   agent's Set up (Settings > Publish) runs `wslc` without starting it, so on a
   stopped session it fails; `install.ps1` starts the session first
