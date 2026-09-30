@@ -70,6 +70,19 @@ git checkout -- private/README.md private/env.example.psd1
   to decide calmly: once the key is a secret, any admin of the repository
   could use it in a workflow.
 
+### Next release: 1.0.1
+
+Waiting for it, gathered since 1.0.0 (30 September 2026):
+
+- The architecture diagrams play: the Live button and "Play story" work
+  everywhere, also in a virtual machine or on a phone in power saving
+  (`packaging/patch-archify-motion.mjs`). The public pages have it already;
+  the app's own architecture button gets it with the release.
+- Whatever shows up from the first users.
+
+Run `.\deploy-release.ps1 -Publish` in the public clone: it takes 1.0.0 to
+1.0.1 by itself.
+
 ## The Firebase key on your server
 
 A published installer carries **no** Firebase key, on purpose: whoever
