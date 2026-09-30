@@ -19,9 +19,10 @@ products are **WSLC AI Agent** (the agent, `wslc-ai-agent.exe`) and
   the background of your Windows session, goes on with the browser and the
   apps closed, and serves the web interface, the clients
   and a REST API too. Per user, no administrator rights.
-- **Easy container management with WSLC**: containers, images, volumes,
-  networks and sessions from one place; paste a `docker run` line to fill the
-  form; live stats, a network map, restart policies kept by the agent.
+- **Easy container management with WSLC, MCP and skills**: containers,
+  images, volumes, networks and sessions from one place; paste a `docker run`
+  line to fill the form; live stats, a network map, restart policies kept by
+  the agent. Or just tell your AI agent (below).
 - **Manage from anywhere, you or your AI agents**: Claude, Hermes,
   OpenClaw, etc. connect over MCP from wherever they run, and so do you from
   a phone or across the internet. Not only the WSLC machine but its
@@ -39,6 +40,26 @@ products are **WSLC AI Agent** (the agent, `wslc-ai-agent.exe`) and
 - **Every client, one interface**: browser, Windows app, Android app and tray
   icon; several clients per agent, several agents per client.
 - A **self-updating** agent and clients.
+
+### Just tell your AI agent
+
+Everything the app does, your AI agent (Claude, Hermes, OpenClaw, etc.) can
+do too, through the agent's MCP server and its skill. Ask in your own words:
+
+```text
+List all containers with their state and ports
+Run this as is: docker run -d --name web -p 8080:80 nginx:latest
+Show me the last 20 log lines of the web container
+Show me the live CPU and memory of the database container
+Pull alpine:latest and let me know when it finishes
+Show me the network topology
+Publish port 80 of the web container on web.example.com
+Clean up the images that are not used
+```
+
+Anything destructive waits for your yes: the AI agent shows what it is about
+to do and asks first. More examples:
+[docs/features.md](docs/features.md#or-just-tell-your-ai-agent).
 
 Every feature, explained: [docs/features.md](docs/features.md).
 

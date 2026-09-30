@@ -14,7 +14,8 @@ agents alike.
   - Runs in the background of your Windows session: close the browser and the apps, and its jobs, restart policies, alarms and notifications go on
   - Serves everything itself: the web interface, the native clients, a REST API (`/api/v1`) and an MCP server
   - Installed per user, with no administrator rights; an icon beside the clock
-- **Easy container management with WSLC**, all of it from one place
+- **Easy container management with WSLC, MCP and skills**, all of it from one place, or from your AI agent in your own words
+  - "Run this as is: docker run -d --name web -p 8080:80 nginx:latest", "Show me the last 20 log lines of the web container", "Publish port 80 of the web container on web.example.com"
   - Containers, images, volumes, networks and sessions, as lists or cards
   - Run, create, edit, recreate, start, stop, restart, kill, remove, back up, export
   - Paste a `docker run` or `wslc run` line and get the form filled in, checked before it runs
@@ -79,11 +80,41 @@ from the start, with its skill included for Claude, Hermes, OpenClaw, etc.
   page, with the System card over its log.
 - **Updates itself** from a folder you choose (see [Updates](#updates)).
 
-## Easy container management with WSLC
+## Easy container management with WSLC, MCP and skills
 
 Everything `wslc` does, without typing it: lists that refresh themselves,
 forms that check what you typed before it runs, and every action one click
 away, in a table or as cards.
+
+### Or just tell your AI agent
+
+Everything below can also be done from the AI agent you prefer (Claude,
+Hermes, OpenClaw, etc.) through the agent's MCP server and its skill, simply
+by asking in your own words. For example:
+
+```text
+Check the health of the WSLC server and tell me which wslc version it has
+List all containers with their state and ports
+Show me the last 20 log lines of the web container
+Show me the live CPU and memory of the database container
+Run this as is: docker run -d --name web -p 8080:80 nginx:latest
+Prepare without starting: docker create --name store -p 9000:9000 minio/minio server /data
+Pull alpine:latest and let me know when it finishes
+Create a volume called site-html and run nginx:latest on port 8081 with it mounted at /usr/share/nginx/html
+What is in /usr/share/nginx/html inside the web container?
+Show me the processes running inside the web container
+Set the restart policy of the web container to unless-stopped
+Create a network called backend and connect the web container to it
+Show me the network topology
+Publish port 80 of the web container on web.example.com
+Which session is selected and how much space does the store take?
+What wslc commands has the agent run in the last few minutes?
+Clean up the images that are not used
+```
+
+Anything destructive (stopping, deleting, pruning, publishing, running a
+command inside a container) waits for your yes: the AI agent shows what it is
+about to do and asks first.
 
 ### Containers
 
