@@ -97,8 +97,14 @@ for the phone, kept on the agent for every device, or on each device alone.
 
 ### Easy to start
 
-- **Install it**: per-user installers, no administrator rights, from the
-  latest release. The agent starts at logon and updates itself.
+- **Install it in one line**, in PowerShell:
+
+  > irm https://berpiztu.github.io/wslc-ai-agent/install.ps1 | iex
+
+  Per-user, no administrator rights. It installs the agent, leaves the
+  Windows and Android clients ready to download from its web page, and
+  offers to install the Windows client and the publishing proxy too. The
+  agent starts at logon; the same line updates it later.
 - **Or build it yourself**: one script tells you what your machine lacks,
   another installs it all, a third builds and tests.
 

@@ -69,11 +69,11 @@ Anything destructive asks for your yes first.
 Last reply:
 
 ```text
-Get it:
-⬇️ Installers: https://github.com/Berpiztu/wslc-ai-agent/releases/latest
-🛠️ Or build it yourself: one script checks your machine, one installs what's missing.
+Install it in one line, in PowerShell (and the same line updates it):
 
-Stars, issues and PRs welcome ⭐
+irm https://berpiztu.github.io/wslc-ai-agent/install.ps1 | iex
+
+Or build it yourself. Stars, issues and PRs welcome ⭐
 ```
 
 ## Answers
@@ -111,9 +111,15 @@ Not yet: `wslc compose` is on Microsoft's roadmap, and we'll follow it.
 No: WSLC is Windows-only. The clients are Windows and Android, plus any
 browser.
 
+**How do I install it?**
+One line in PowerShell: `irm https://berpiztu.github.io/wslc-ai-agent/install.ps1 | iex`.
+The same line updates it later. The Windows client: `install-client.ps1`
+instead of `install.ps1`.
+
 **Why does Windows warn about the installers?**
-They are not code-signed yet. The README says how to get past the warning,
-or build it yourself from source in a few commands.
+It does not with the one-line install: PowerShell's download carries no
+"from the internet" mark. Downloaded with a browser, it does: they are not
+code-signed yet; the README says how to get past the warning.
 
 **Who made it?**
 Berpiztu, a team that builds AI agents and the tools they work with, with
