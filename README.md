@@ -3,7 +3,8 @@
 A local agent for **WSLC** (Windows Subsystem for Linux Containers, Microsoft's
 `wslc` CLI) built for the age of AI assistants: a web dashboard, Windows and
 Android clients, and an MCP server so Claude and other assistants can operate
-your containers, with your approval for anything destructive.
+your containers. Destructive actions are off by default; switched on, each
+one still asks your approval.
 
 It is the small Windows process that sits next to `wslc`, talks to it for you,
 and exposes what it knows over HTTP, in a browser, in native apps and through
@@ -14,8 +15,8 @@ products are **WSLC AI Agent** (the agent, `wslc-ai-agent.exe`) and
 ## Features
 
 - **An MCP agent for WSLC, skill included for Claude, Hermes, OpenClaw,
-  etc.**: 53 tools, destructive ones behind your approval, and a skill
-  installed with one click. One Windows program beside `wslc` that runs in
+  etc.**: 53 tools, the destructive ones off by default and asking your
+  approval once switched on, and a skill installed with one click. One Windows program beside `wslc` that runs in
   the background of your Windows session, goes on with the browser and the
   apps closed, and serves the web interface, the clients
   and a REST API too. Per user, no administrator rights.
@@ -57,8 +58,12 @@ Publish port 80 of the web container on web.example.com
 Clean up the images that are not used
 ```
 
-Anything destructive waits for your yes: the AI agent shows what it is about
-to do and asks first. More examples:
+**Destructive actions are off by default**: removing, pruning, killing,
+running a command inside a container, publishing and stopping a session are
+not even offered to the AI agent until you switch them on in Settings → MCP
+server. Switched on, each one still waits for your yes: the AI agent shows
+what it is about to do and asks first. The last two examples above need
+them on. More examples:
 [docs/features.md](docs/features.md#or-just-tell-your-ai-agent).
 
 Every feature, explained: [docs/features.md](docs/features.md).

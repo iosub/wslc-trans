@@ -8,7 +8,7 @@ agents alike.
 ## At a glance
 
 - **An MCP agent for WSLC, skill included for Claude, Hermes, OpenClaw, etc.**
-  - 53 MCP tools: your AI assistant runs your containers, and asks your approval before anything destructive
+  - 53 MCP tools: your AI assistant runs your containers; destructive actions are off by default, and once switched on each one asks your approval
   - Its skill, which teaches the assistant WSLC, installed with one click into Claude Code, Hermes Agent or OpenClaw
   - A small Windows program that sits next to `wslc`, Microsoft's container CLI, and runs it for you
   - Runs in the background of your Windows session: close the browser and the apps, and its jobs, restart policies, alarms and notifications go on
@@ -55,8 +55,11 @@ from the start, with its skill included for Claude, Hermes, OpenClaw, etc.
 - **An MCP server** in the agent (`/api/v1/mcp`) with 53 tools: containers,
   images, volumes, networks, sessions, publishing, notifications, logs and
   the machine's state, and the paste of a `docker run` line.
-- **Destructive tools ask first**: a yes or no in the assistant where it
-  supports it, a confirmation step otherwise. They can be hidden entirely.
+- **Destructive tools off by default**: removing, pruning, killing, running a
+  command inside a container, publishing and stopping a session are not even
+  offered to the assistant until you switch them on in Settings → MCP server.
+- **Switched on, they ask first**: a yes or no in the assistant where it
+  supports it, a confirmation step otherwise.
 - **A skill** that teaches the assistant how to work with WSLC, served by the
   agent itself and **installed with one click** into Claude Code, Hermes Agent
   or OpenClaw, on this machine or another over SSH.
@@ -112,9 +115,12 @@ What wslc commands has the agent run in the last few minutes?
 Clean up the images that are not used
 ```
 
-Anything destructive (stopping, deleting, pruning, publishing, running a
-command inside a container) waits for your yes: the AI agent shows what it is
-about to do and asks first.
+Destructive actions (removing, pruning, killing, running a command inside a
+container, publishing, stopping a session) are off by default: the AI agent
+is not even offered them until you switch them on in Settings → MCP server.
+Switched on, each one waits for your yes: the AI agent shows what it is about
+to do and asks first. Of the examples above, looking inside a container,
+publishing and cleaning up need them on.
 
 ### Containers
 
@@ -196,8 +202,9 @@ too, their consoles and their web pages, and the way the world reaches them.
 
 - **Your AI agents, from wherever they run**: Claude, Hermes, OpenClaw, etc.
   connect to the agent's MCP server with an API token, on this machine, on
-  another one or across the internet, and manage the containers as you would,
-  asking your approval before anything destructive. The skill installs on
+  another one or across the internet, and manage the containers as you would.
+  Nothing destructive unless you switch it on, and then only with your
+  approval. The skill installs on
   the machine the AI agent runs on, over SSH if it is another one.
 - **Trusted at the machine, login from anywhere else**: a user name and
   password for the internet, or an API token for scripts and AI agents.
