@@ -6,10 +6,11 @@ with its installers. The launch on X is the morning after.
 
 ## When
 
-**30 September 2026, 14:00–15:00 UTC**: morning on the US East Coast
-(10:00–11:00), afternoon in Europe (16:00–17:00 in Spain). Both audiences
-awake, and the WSLC announcement is still less than a day old and still
-being read.
+**30 September 2026, 07:00 in Colombia (12:00 UTC)**: 08:00 on the US East
+Coast, 14:00 in Spain. Europe fully awake, the US starting its day, and the
+WSLC announcement still less than a day old and still being read. The US
+West Coast wakes three hours later: a repost from the other account around
+10:00 in Colombia catches it.
 
 ## Where
 
