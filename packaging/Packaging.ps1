@@ -155,7 +155,8 @@ function Copy-WslcAgentNotices {
     New-Item -ItemType Directory -Force -Path $licenses | Out-Null
     Copy-Item -LiteralPath (Join-Path $root "LICENSE") -Destination (Join-Path $Destination "LICENSE.txt") -Force
     Copy-Item -LiteralPath (Join-Path $root "THIRD-PARTY-NOTICES.md") -Destination $Destination -Force
-    Copy-Item -LiteralPath (Join-Path $root "packaging\licenses\Apache-2.0.txt") -Destination $licenses -Force
+    # Every full license text the notices point to (Apache-2.0, OFL-1.1).
+    Get-ChildItem -LiteralPath (Join-Path $root "packaging\licenses") -File | Copy-Item -Destination $licenses -Force
 }
 
 function Clear-WslcAgentIconCache {

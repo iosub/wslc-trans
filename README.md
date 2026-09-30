@@ -47,7 +47,11 @@ products are **WSLC AI Agent** (the agent, `wslc-ai-agent.exe`) and
 ### Just tell your AI agent
 
 Everything the app does, your AI agent (Claude, Hermes, OpenClaw, etc.) can
-do too, through the agent's MCP server and its skill. Ask in your own words:
+do too, through the agent's MCP server and its skill.
+
+![How AI agents reach WSLC: the skill in the AI client, the MCP endpoint, the approval gate for destructive tools, and wslc](docs/images/architecture-mcp.png)
+
+Ask in your own words:
 
 ```text
 List all containers with their state and ports
@@ -72,6 +76,14 @@ Every feature, explained: [docs/features.md](docs/features.md).
 
 ## Architecture
 
+![WSLC AI Agent architecture: clients and AI agents reach the agent, which runs wslc and the containers in the user session](docs/images/architecture-overview.png)
+
+The agent in the middle is the only thing that runs `wslc`: the clients call
+its API, AI agents its MCP endpoint, and a public host reaches it through a
+reverse forward. The same diagram, interactive, opens from any screen of the
+app (the architecture button), with three more: the terminals, publishing and
+MCP.
+
 | Project | Role |
 |---|---|
 | `WslcAgent.Server` | ASP.NET Core agent: runs `wslc`, exposes `/api/v1`, serves the UI, hosts the MCP endpoint. Ships as `wslc-ai-agent.exe`. |
@@ -80,6 +92,9 @@ Every feature, explained: [docs/features.md](docs/features.md).
 | `WslcAgent.App` | .NET MAUI Blazor Hybrid host of the UI for Windows and Android (`wslc-ai-client.exe`, `ai.berpiztu.wslcagent`). |
 | `WslcAgent.ApiClient` | Contracts and typed client for `/api/v1`, shared by every host. |
 | `WslcAgent.Mcp` | MCP tools (official C# SDK), hosted by the server. |
+| `Berpiztu.Dashboard` | The dashboard and its designer, a Razor class library on MudBlazor that knows nothing of WSLC. |
+| `WslcAgent.Tray` | The agent's icon beside the clock (`wslc-ai-agent-tray.exe`): its page in a window, its menu and its notifications. |
+| `WslcAgent.Toasts` | The agent's notifications as Windows toasts, shared by the tray and the Windows client. |
 
 One UI, one language, one API contract.
 
