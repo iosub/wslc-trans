@@ -181,7 +181,8 @@ $wslVersion = if ($wslLine -match '(\d+\.\d+\.\d+(\.\d+)?)') { [version]$Matches
 if (-not $wslVersion) {
     Write-WslcAgentCheck absent "WSL" "not installed: the agent has no containers to manage." -Run "wsl --install --no-distribution" -Admin -Then $Restart -Guide "$Guide#wsl"
 } elseif ($wslVersion -lt $MinimumWslc) {
-    Write-WslcAgentCheck broken "WSL" "$wslVersion is older than $MinimumWslc, the first with WSLC." -Run "wsl --update" -Guide "$Guide#wsl"
+    # As good as no WSLC: everything builds, the agent has no containers.
+    Write-WslcAgentCheck absent "WSL" "$wslVersion is older than $MinimumWslc, the first with WSLC: everything builds and the tests pass, and the agent has no containers to manage." -Run "wsl --update" -Guide "$Guide#wsl"
 } else {
     Write-WslcAgentCheck ok "WSL" "$wslVersion."
 }

@@ -3,16 +3,6 @@
 Not guidelines. These are settled, and they are not reopened by whoever happens
 to be editing a screen. Take them or leave them.
 
-## Migrating from the reference: follow reference-first.md
-
-Anything brought over from `../wslc-dashboard` — a screen, a verb, a parser, a
-fix — is ported by **[docs/knowledge/reference-first.md](knowledge/reference-first.md)**,
-read before the first line is written, not after the first thing breaks. In
-short: find every file the feature lives in, list its whole contract, port all
-of it at once, drop nothing without asking, and call a screen finished only once
-it has been measured against the reference's in the DOM
-([awards.md](knowledge/awards.md)).
-
 ## Type: five sizes, and nothing else
 
 Every piece of text in this application is one of these five. The first four
@@ -28,55 +18,46 @@ own.
 | 4 | 10.88px (0.68rem) | `Overline` | the smallest: paths, counts, the note under a field |
 | 5 | 9.6px (0.6rem) | `--wslc-typography-tiny-size` (the stylesheet's `:root`) | a dashboard part set to Small whose text already stands at step 4 |
 
-**Step 5 was authorised by the repository owner on 24 September 2026.** A
-dashboard part's Small has to be smaller than its Medium, and the System
-card's labels already stood at step 4, so Small and Medium drew the same. It is
-the existing ratio between steps 3 and 2 (0.82 / 0.72 = 1.139) taken once more
-below step 4: 0.68 / 1.139 = 0.597, so 0.6rem. It is for that and nothing else:
-a screen that wants its text smaller than step 4 asks first, as for any size.
-The owner has since given it three more uses, all on 24 September 2026: the
-texts at the left of a header bar that no longer fits take it before they are
-hidden (a smaller word is still read), and so did an opened log row's code
-until the exception below; and the title bar's zoom percentage on a phone (600
-px or less), its number and its %.
+**Step 5 exists for a dashboard part's Small.** A dashboard part's Small has to
+be smaller than its Medium, and the System card's labels already stand at step
+4, so Small and Medium would draw the same. It is the existing ratio between
+steps 3 and 2 (0.82 / 0.72 = 1.139) taken once more below step 4:
+0.68 / 1.139 = 0.597, so 0.6rem. It has three more uses: the texts at the left
+of a header bar that no longer fits take it before they are hidden (a smaller
+word is still read); and the title bar's zoom percentage on a phone (600 px or
+less), its number and its %. It is for those and nothing else: a screen that
+wants its text smaller than step 4 asks first, as for any size.
 
-**One exception, outside the scale** (the owner, 24 September 2026: "una
-excepción … un tamaño sin que sea uno de los generales"): the code an opened
-log or Activity row shows — the command and its JSON — in a narrow table (a
-phone, 600 px or less) is 8px (0.5rem), `--wslc-typography-detail-code-size`
-(the stylesheet's `:root`). The owner extended it the same day to everything
-else that opened row says — its summary line and its labels (Command and
-output, Output, Errors) — so the detail is one size and not two.
-There is a great deal of it, and at step 5 it still could not be read on a
+**One exception, outside the scale**: the code an opened log or Activity row
+shows — the command and its JSON — in a narrow table (a phone, 600 px or less)
+is 8px (0.5rem), `--wslc-typography-detail-code-size` (the stylesheet's
+`:root`). So is everything else that opened row says — its summary line and its
+labels (Command and output, Output, Errors) — so the detail is one size and not
+two. There is a great deal of it, and at step 5 it still cannot be read on a
 phone. It is an exception and not a sixth step: nothing else may use it, and a
 second one is asked for like any size.
 
-**Home v2's objects scale, outside the scale** (the owner, 25 September 2026:
-a ring and its text grow together, in the same proportion): the text of an
-object on Home v2's dashboard is one of the theme's sizes above times the
-object's scale, `--wslc-dash-scale` — 0.75 for Small, 1 for Medium, 1.3333
-for Large — as its ring, its glyphs and its avatar are. Medium is always a
-size of the scale; Small and Large are that size scaled, not steps of it.
-Each part of such an object — a dial's figure and name, a reading's label,
-value and hint — may take a size of its own on top of it, the same three
-factors again (`--bz-part-{key}-scale`, the owner, 26 September 2026), so a
-part's text is a theme size times the object's factor times the part's.
-Nothing outside those objects may use it. Their buttons' glyphs follow the
-same factors from the 20px a card of today's Home draws them at (the owner,
-26 September 2026, authorising the change from 27px: Small stood too large
-on a phone), one rule for every object's buttons. Two of their sizes are
-MudBlazor's own instead of the theme's, so a resource card on the dashboard
-draws as the list pages' card does (the owner, 28 September 2026, Home
-v2.5): the header's avatar letter, MudAvatar's 1.25rem (it was h6), and its
-state chip, MudChip's 0.75rem (it was body2), each times the object's scale;
-and a dial of bytes is the list card's 56px at Medium, not a percent's 60px.
-One field follows them too (the owner, 29 September 2026, authorising CSS
-behind a field): a choice inside an object — the File transfers card's
-filter, `wslc-dash-choice`, which has no label — its value and the items of
-its list at body2, each times the object's scale; bare (`Variant.Text`, no
-underline, MudBlazor's own parameters); its ground and its text the
-object's, not the form fields' grey box (the owner, same day); and
-everything else of the field MudBlazor's.
+**The Home dashboard's objects scale, outside the scale**: a ring and its text
+grow together, in the same proportion. The text of an object on the Home
+dashboard is one of the theme's sizes above times the object's scale,
+`--wslc-dash-scale` — 0.75 for Small, 1 for Medium, 1.3333 for Large — as its
+ring, its glyphs and its avatar are. Medium is always a size of the scale;
+Small and Large are that size scaled, not steps of it. Each part of such an
+object — a dial's figure and name, a reading's label, value and hint — may take
+a size of its own on top of it, the same three factors again
+(`--bz-part-{key}-scale`), so a part's text is a theme size times the object's
+factor times the part's. Nothing outside those objects may use it. Their
+buttons' glyphs follow the same factors from a base of 20px, one rule for every
+object's buttons. Two of their sizes are MudBlazor's own instead of the
+theme's, so a resource card on the dashboard draws as the list pages' card
+does: the header's avatar letter, MudAvatar's 1.25rem, and its state chip,
+MudChip's 0.75rem, each times the object's scale; and a dial of bytes is the
+list card's 56px at Medium, not a percent's 60px. One field follows them too: a
+choice inside an object — the File transfers card's filter,
+`wslc-dash-choice`, which has no label — its value and the items of its list at
+body2, each times the object's scale; bare (`Variant.Text`, no underline,
+MudBlazor's own parameters); its ground and its text the object's, not the
+form fields' grey box; and everything else of the field MudBlazor's.
 
 A rule that needs a size names the variable — `var(--mud-typography-caption-size)`,
 `var(--mud-typography-overline-size)` — never a number. A number in a
@@ -158,8 +139,8 @@ list editor. Never build this by hand. `ContainerForm.razor:61`
 
 ## Before touching any of this
 
-**Changing a type size, or the CSS behind fields, needs the repository owner's
-express authorisation and approval, asked for and given, every time.** Not a
+**Changing a type size, or the CSS behind fields, needs the maintainers'
+approval in an issue or a pull request before it is made, every time.** Not a
 judgement call, not "while I was in there", not a tidy-up. Ask first.
 
 The reason is not ceremony. Every rule of ours that reaches into MudBlazor's

@@ -19,7 +19,7 @@
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.20" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="10.0.12" />
 
-    <!-- The Android client's pushed notifications (Firebase Cloud Messaging), the owner's approval of 27 September 2026 -->
+    <!-- The Android client's pushed notifications (Firebase Cloud Messaging) -->
     <PackageVersion Include="Xamarin.Firebase.Messaging" Version="125.1.3" />
     <!-- Firebase lifts these AndroidX libraries past what MAUI's Kotlin
          extension packages accept (NU1608), and from Fragment 1.9 on the

@@ -307,6 +307,7 @@ All scripts live in the repository root and work from any current directory.
 | `start-agent.ps1` | Build and run the agent in Development on http://127.0.0.1:8070. `-Port`, `-NoBuild`, `-Watch` (dotnet watch, hot reload on save). |
 | `debug-client.ps1` | Debug build of the Windows client and launch it against `-AgentUrl` (default the local agent). |
 | `debug-android.ps1` | Debug build of the Android client, deploy to an emulator or phone and launch it against `-AgentUrl` (default `http://10.0.2.2:8070/`, the host as seen from the emulator). |
+| `debug-phone.ps1` | `debug-android.ps1` aimed at the phone on the USB cable: built for its architecture, and launched against the PC's agent through the cable. |
 | `build-agent-installer.ps1` | `dist\wslc-ai-agent.msi`: self-contained agent with the UI inside. |
 | `build-client-installer.ps1` | `dist\wslc-ai-client.msi`: the Windows client. |
 | `build-client-apk.ps1` | `dist\wslc-ai-client.apk`, arm64-v8a, signed. `build-client-apk-full.ps1` bundles every ABI. |
@@ -340,9 +341,11 @@ signed with a key kept outside the repository, in `private/`; see
 
 ## Contributing
 
-Issues and pull requests are welcome. The code, comments, docs and commit
-messages are in English. Nothing machine-specific and no secrets go into the
-repository: `.env*`, keystores and certificates are ignored on purpose.
+Issues and pull requests are welcome: [CONTRIBUTING.md](CONTRIBUTING.md) says
+how to build it, what a pull request needs and the rules the code keeps, and
+[AGENTS.md](AGENTS.md) gives the same rules to AI coding agents. Security
+problems go privately, through [SECURITY.md](SECURITY.md). Everyone follows
+the [code of conduct](CODE_OF_CONDUCT.md).
 
 ## License
 

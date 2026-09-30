@@ -2,8 +2,8 @@
 
 The Containers page (`src/WslcAgent.UI/Pages/Containers.razor`) is the
 settled layout for every list page (Images, Volumes, Networks, …). A new
-list page copies its structure and changes only the data: the columns
-(from the reference's Tabulator definition), the card body and the actions.
+list page copies its structure and changes only the data: the columns,
+the card body and the actions.
 Everything below is already implemented by shared components; a page never
 sets grid look parameters, paddings or widths itself. The parameters of each
 control are in `docs/ui-controls.md`.
@@ -65,8 +65,7 @@ bar and the section-actions row; the page never touches them.
 ```
 
 The page's verbs (Run, Create, Pull, Build, Import, Load, Hub…) are not in
-this row: they go in `PageShell`'s `Verbs` as `VerbFab`s (see
-`docs/ui-desing.md`, section 2), and the layout draws them as the menu over
+this row: they go in `PageShell`'s `Verbs` as `VerbFab`s, and the layout draws them as the menu over
 the navigation button. The row keeps the stats, the filters, the view toggle and
 Refresh.
 
@@ -97,7 +96,7 @@ only search box. A verb that is not built yet stays a normal button that calls
         </TemplateColumn>
         @* identity column, pinned left *@
         <PropertyColumn T="ImageSummary" TProperty="string" Property="i => i.Repository" Title="Repository" StickyLeft="true" />
-        @* the rest, in the reference's Tabulator order; empty values as a dash *@
+        @* the rest, in the page's declared order; empty values as a dash *@
         <PropertyColumn T="ImageSummary" TProperty="string" Property="i => i.Tag" Title="Tag" />
         <PropertyColumn T="ImageSummary" TProperty="string" Property="i => i.Id" Title="ID" CellClass="mud-text-secondary" />
         <PropertyColumn T="ImageSummary" TProperty="string" Property="i => i.Size" Title="Size">
@@ -134,7 +133,7 @@ What `ListGrid` fixes (never repeat these on a page):
 | Status-dot column | 20px, no title | `GridColumn.Bullet` + CSS |
 | Pinned columns | selection, dot, identity left (offsets 32px, 52px); actions right; they keep the row tone | CSS |
 | Rows | one line per cell, 3px vertical padding, 0.75rem text; header 0.72rem bold | CSS + theme |
-| Row identity | `ListRow<TItem>`, equal by the page's `KeyOf`: a poll updates cells in place instead of redrawing rows, so ticks and open menus survive it (the reference's `index: "Id"`) | `ListRow` + `ListPageBase.Rows` |
+| Row identity | `ListRow<TItem>`, equal by the page's `KeyOf`: a poll updates cells in place instead of redrawing rows, so ticks and open menus survive it | `ListRow` + `ListPageBase.Rows` |
 | A stopped WSLC session | the page goes dead with it: `PageShell RequiresSession="true"` says so above the screen and greys it out, pointer and keyboard alike (`inert` plus `.wslc-session-off`), in its content and in the title-bar and section-action slots the layout draws for it; it stops loading and polling and drops what it held. Starting the session wakes every screen at once, with no reload. System and Settings never carry the flag: Compact VHDX is what a stopped session is for | `SessionState` + `PageShell` + `MainLayout` + `ListPageBase` |
 | Header and pager tone | primary mixed 18% into the surface | CSS |
 
@@ -146,9 +145,9 @@ columns, so it would be the one column that cannot be resized or moved.
 Empty values render as a dash through a page-local `Dash(string)` helper.
 `SelectColumn` needs `Size="Size.Small"`.
 
-Columns, their order, their titles and which are pinned come from the
-reference's Tabulator definition (`static/js/app.js` for containers,
-`static/js/features/*.js` for the rest). Do not invent a column set.
+Columns, their order, their titles and which are pinned are part of each
+page's contract: they are declared once in the page and changed on purpose,
+never invented per screen.
 
 ### A paged grid, a detail row, a strip and a rail (Logs)
 
@@ -158,8 +157,8 @@ the API hands over (its cap, 5000) is in the list and the pager at the
 bottom walks through them 50 at a time, the page kept in the URL (`?page=`)
 as on every list, so Back returns to it and a filter change sends it back
 to the first; the reader sorts and pages the log as they like. The second
-row is **the Activity list** (`CliActivityList`, the reference's CLI
-Activity list: each `wslc` command in its own box, its header one row of
+row is **the Activity list** (`CliActivityList`, the CLI Activity
+list: each `wslc` command in its own box, its header one row of
 fixed columns — +/−, start 9ch, type 11ch, title with session stretching,
 status chip 9ch, time taken 7ch right, exit 8ch right (`.wslc-cli-row`, a
 CSS grid in characters like the grid's columns) — and opened,
@@ -193,7 +192,7 @@ wins. **The grid's list is anchored**: the first full load takes the last
 read never moves (the last 5000 alone is a window that slides by a row with
 every entry the agents write, and page 1 with it). A delete drops the
 anchor and starts over. Virtualisation was tried for
-the grid on 19 September 2026 and given up: it drew slowly and read
+the grid and given up: it drew slowly and read
 backwards from the pager's point of view; the settled answer is the paged
 grid for reading the log and the strip for watching it. The filtered lists
 are built once per load or filter change, not per render (`Visible`,
@@ -214,9 +213,8 @@ is typed).
 
 **The grid has no rail and no Autorefresh: the log is a log**, searched
 with the search box and the level select, reloaded by hand — Copy and
-Refresh sit in its header row — so what is being read never moves (the
-owner had the grid's Autorefresh taken out on 19 September 2026 once the
-Activity list was live: "ya no hace falta el rolling en los logs"). **The
+Refresh sit in its header row — so what is being read never moves; watching the log as it grows is the
+Activity list's job. **The
 Activity list has its own header row** (`CliActivityList`: `PageStat`
 "Activity · N commands" at the left, Expand all and Collapse all at the
 right) and **the one rail** at its right (`.wslc-action-body` >
@@ -227,8 +225,7 @@ group — All, then one toggle per type: Containers, Images, Networks,
 Volumes, General (`CliKinds.Groups`, with the sidebar's icons); pressed,
 that type is listed; the hidden ones go in the URL as `?hide=a,b`; All
 lists or hides every type; the counts in the tooltips are of commands —
-then a gap (`.wslc-rail-gap`) and the list's **Autorefresh**, drawn as the
-owner asked: a ring (`MudProgressCircular`, `.wslc-rail-spinner`, the 30px
+then a gap (`.wslc-rail-gap`) and the list's **Autorefresh**, drawn as a ring (`MudProgressCircular`, `.wslc-rail-spinner`, the 30px
 of a square rail button) with a round button inside
 (`.wslc-rail-spinner-dot`) and no box (`.wslc-rail-ring`, a text-variant
 `MudIconButton` with the rail's shadow, fill and padding removed). On, the
@@ -248,7 +245,7 @@ takes its state from `RailToggle`, the one helper every rail uses: green
 standing proud while off, blue and pressed in while on. The counts per type
 are in the toggles' tooltips.
 
-Logs holds what CLI Activity showed, since 19 September 2026: a `wslc`
+Logs holds what CLI Activity shows: a `wslc`
 command's entry carries the command (`AgentLogEntry.Command`), and its
 detail is CLI Activity's disclosure — type, title, status chip, time taken,
 session, start, exit; Command and output; Output; Errors — with the level's
@@ -260,7 +257,7 @@ row change state, and reopens it if it was open. Everything else — the
 select column, sorting, the widths, the tone — is the list contract
 unchanged.
 
-Two rules every grid keeps, settled by the owner on 19 September 2026:
+Two rules every grid keeps:
 **the selection checkbox is the first column**, whatever else the grid
 has; and **a row is ticked by its checkbox and by nothing else** —
 `ListGrid` sets `SelectOnRowClick="false"`, so clicking a row never marks
@@ -288,7 +285,7 @@ texts at the left in `.wslc-card-texts`, the dials at the right in
 `.wslc-card-dials`, one `UsageDial` each). Containers show CPU and memory,
 the measure's four colours (the row carries the container's disk and
 network totals too, `diskIoBytes` / `netIoBytes`, but the card does not
-draw them: the owner wants that card as it was). Networks show **Received**
+draw them: that card keeps CPU and memory only). Networks show **Received**
 and **Sent**, Volumes **Read** and **Written**: what the containers on the
 resource have moved together (each container's whole `stats` figure, so a
 container on two networks counts on both), the ring at its share of what
@@ -321,17 +318,17 @@ One `<Resource>Actions` component per resource, all deriving from
 `EntityActionsBase` (`Components/EntityActionsBase.cs`), which owns `Api`,
 `Busy`, `RunAsync` (verb + snackbar + `Changed`), `RemoveAsync` (confirm,
 then remove) and `OpenAsync<TDialog>`. The same row of small icon buttons
-serves the table's Actions column and the card footer, in the reference's
+serves the table's Actions column and the card footer, in this
 order: containers [start or stop] [⋮] [remove]; images [＋] [▶] [⋮] [remove];
 volumes [files] [⋮] [remove]; networks [connect] [disconnect] [view] [remove].
 Menu entries and buttons use `Icons.Material.Filled`, one icon per action
 across the application (the table in `docs/ui-controls.md`, Icons). No entry is disabled by
-the row's state (the reference never does; the CLI answers). An entry a
+the row's state (the CLI answers). An entry a
 later slice brings stays in place and says so through `NotYet`. The
 containers menu, complete: View details · View & edit · View image packages
 and CVEs (`JsonDialog` over `/images/inspect`) · Copy run command · Open in
-terminal (terminal slice) · Use wslc Debug (the reference's placeholder
-toast) · View files (files slice) · Restart · Open with browser
+terminal (terminal slice) · Use wslc Debug (not built yet: a toast
+says so) · View files (files slice) · Restart · Open with browser
 (`OpenPortDialog`, every published port as a link; the `PortsLink` opens the
 preferred one) · View browser sessions (browser slice) · Logs · Stats
 (`ContainerStatsDialog`, also the details tab) · Exec (terminal slice) ·
@@ -363,8 +360,8 @@ Export JSON (`/containers/{id}/inspect.json` download) · Backup
   `NetworkAsync` (one `NamedPickerDialog` fed a loader and the resource's
   create dialog, which selects what it created) and `HostFolderAsync`
   (`HostFolderPickerDialog`, the agent machine's folders).
-- The container launch form is one component, `Launch/ContainerForm`, in the
-  reference's three uses: Run (Fill bar, always detached), Create (Start
+- The container launch form is one component, `Launch/ContainerForm`, in
+  three uses: Run (Fill bar, always detached), Create (Start
   toggle) and View & edit (pre-filled from `GET /containers/{id}/details`,
   saving removes and recreates). `LaunchForm` is its state and converts to
   and from `ContainerLaunchRequest`; `MountRows` and `NetworkRows` are its
@@ -391,17 +388,16 @@ Export JSON (`/containers/{id}/inspect.json` download) · Backup
   previous screen on show while the CLI answered, and the new one then
   appeared and changed under the user. Measured: the list is on screen, in its
   remembered view, 2 ms after the navigation entry is clicked.
-- A details page (`/containers/{id}?tab=`) has the reference's header
+- A details page (`/containers/{id}?tab=`) has a header
   (state, name, id, image, ports, the same actions row) and tabs; `LogsView`
   is the logs tab and the ⋮ menu's Logs.
 
 - The section remembers the details it is showing (`OpenDetails`): while a
   container's page is open the sidebar's Containers entry points at it, so
   leaving for Networks and coming back returns to that container instead of
-  the list — the reference's `wslc-containers-open-details`. Arriving at the
-  list, by the header's ← Containers or any other route, is what forgets it.
-  Ours remembers in memory where the reference uses session storage, so a
-  full reload of the page starts at the list.
+  the list. Arriving at the list, by the header's ← Containers or any other
+  route, is what forgets it. It is remembered in memory, not in session
+  storage, so a full reload of the page starts at the list.
 ## 6. What a slice ships together
 
 Service (`WslcAgent.Server/<Resource>/`, usage through `ContainerUsageScanner`,
@@ -424,7 +420,7 @@ control heights.
 Icons are `Icons.Material.Filled` almost everywhere: the navigation, the row
 actions and their menus (one component draws the table row and the card), the
 action rail and the shell's own controls (search, refresh, view toggle, pager,
-theme). `WslcIcons` — the reference's glyphs, in colour — keeps the session
+theme). `WslcIcons` — the project's own glyph set, in colour — keeps the session
 block, the pages' own verbs (Run, Create, Pull, Prune…) and the Files browser. A new page gets its entry in
 the navigation button's row (`Layout/PageVerbsFab.razor`).
 

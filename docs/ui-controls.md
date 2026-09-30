@@ -16,7 +16,7 @@ component uses the controls below with these parameters and never adds
 | Type steps | default/body1 0.82rem · subtitle1 (inputs) 0.82rem · body2 (tables, buttons, captions in bars) 0.75rem · subtitle2 (table header) 0.72rem bold · caption 0.72rem · overline 0.68rem · h6 (page and sidebar titles) 1.06rem | theme |
 | Font | Inter, Segoe UI, Roboto, Helvetica, Arial | theme |
 | Buttons | sentence case (no uppercase) | theme |
-| Palette | reference colours: background #0f172a, surface #1e293b, lines #334155, primary #4f46e5, success #10b981, warning #f59e0b, error #ef4444; light palette alongside | theme |
+| Palette | dark colours: background #0f172a, surface #1e293b, lines #334155, primary #4f46e5, success #10b981, warning #f59e0b, error #ef4444; light palette alongside | theme |
 | Layout | app bar 48px (36px dense), drawer 200px, mini rail 56px, radius 8px | theme |
 | Header tone | primary mixed 18% into the surface: table header, pagers, card header and footer, section-actions row, pinned header cells | CSS |
 | Page | 8px padding, viewport-high column, never scrolls itself | CSS |
@@ -59,12 +59,11 @@ component uses the controls below with these parameters and never adds
   to it, the verbs at the right): Close alone for a window that only shows
   something, Cancel and the submit for a form. No `DialogActions`, and no cross
   in the corner — `DialogFlow` switches MudBlazor's off.
-- **No dialog is dragged sideways** (the owner, 22 September 2026): in its
+- **No dialog is dragged sideways**: in its
   title row the title gives way first — it shrinks and is cut with an
   ellipsis — and on a phone the verbs take the theme's small type and a
   tighter padding, so four of them fit the width.
-- **A dialog is sized when it opens and keeps that size** (the owner,
-  22 September 2026): it never grows or shrinks with what it holds. What can
+- **A dialog is sized when it opens and keeps that size**: it never grows or shrinks with what it holds. What can
   change — a list, a field that appears — sits in a box of fixed height that
   scrolls (`MudPaper Outlined` with `wslc-picker-list`), as the pickers do.
 - **Close leaves the window; Cancel cancels what was typed.** They are two
@@ -94,15 +93,13 @@ component uses the controls below with these parameters and never adds
   Archify diagram from `wwwroot/archify/`, an iframe, opened by
   `ArchitectureVerb`, a verb of the round button on every screen, above
   the page's own and apart from them, so a stopped session leaves it
-  working; at the right end of the bottom strip until the strip became the
-  status bar (the owner, 22 September 2026): the control
-  plane everywhere, the terminal diagram on Terminal, the network one on
+  working: the control plane everywhere, the terminal diagram on Terminal, the network one on
   Networks, the skill and MCP one on Settings; one list,
   `ArchitectureDiagrams`, and `docs/architecture.md` describes them). The
   window's title row holds a `MudToggleGroup` with a key per diagram, in the
   style of the table/cards keys, the current one pressed, so a reader switches
   without leaving it.
-- Form fields carry the reference's `Label`, `Placeholder` (an example value)
+- Form fields carry a `Label`, `Placeholder` (an example value)
   and `HelperText` ("Example: …"), `Immediate="true"`, `Variant.Text`,
   `Margin.Dense`; multi-line values use `Lines`.
 - Repeatable rows (Volumes, Networks) open with `RowsHeader` (the label at
@@ -115,7 +112,7 @@ component uses the controls below with these parameters and never adds
 - Tabs on a details page are one bordered card on the surface tone (tab bar
   and panel); tabs are body2, weight 500, muted, the active one in the text
   colour on a faint accent tint (CSS on `.wslc-fill.mud-tabs`).
-- A details header (`.wslc-details-header`) is the reference's: state dot,
+- A details header (`.wslc-details-header`) holds the state dot,
   name (`.wslc-details-name`) and the outlined capitalised state badge
   (`.wslc-details-state`); the ID / Image / Ports meta line; at the right
   `ContainerLifecycle` (start or stop, restart, remove) and an outlined
@@ -131,8 +128,8 @@ component uses the controls below with these parameters and never adds
   everything chosen wears) and drawn pressed into the rail (`wslc-rail-on`),
   off it is neutral and stands proud of it like every other button there. The
   exec window's rail holds every verb it has — Connect, Reconnect, Copy,
-  Clear — because its pane takes the rest: what the reference typed in a
-  Command field over it is typed in the shell itself. The search bar (`.wslc-action-search`)
+  Clear — because its pane takes the rest: a command is typed in the shell
+  itself, not in a Command field over it. The search bar (`.wslc-action-search`)
   shows only while its rail toggle is on. Log lines are `.wslc-log-line`
   with `log-level-<level>` from `LogLines.DetectLevel`. `ContainerForm`
   takes `Above` / `Below` fragments for what scrolls with its fields and
@@ -236,7 +233,7 @@ bar (Run) and by what the verbs do (View & edit removes and recreates).
   something running (Run), default otherwise.
 - A dialog's primary action is `Color.Primary`; Cancel is the default colour.
 - Not built yet: a normal button whose `OnClick` calls `NotYet(feature, slice)`
-  (base classes), so it looks like the reference's and says which slice
+  (base classes), so it looks like a finished one and says which slice
   brings it; menu entries not built yet stay `Disabled`.
 
 ## Icon buttons
@@ -248,16 +245,15 @@ bar (Run) and by what the verbs do (View & edit removes and recreates).
 
 - `Size="Size.Small"` always; `title` always (it is the only label).
 - **Row actions and their menus: `Icons.Material.Filled`** — the same set as
-  the rail and the shell's own controls. The colours stay the reference's
+  the rail and the shell's own controls. The colours are fixed
   (start green `Color.Success`, stop `Color.Primary`, remove `Color.Error`,
-  more uncoloured), and the row keeps its horizontal shape. They used to be
-  `WslcIcons` glyphs; the owner asked for MudBlazor's set in the rows and the
-  cards, which are drawn by the same component.
+  more uncoloured), and the row keeps its horizontal shape. The rows and the
+  cards are drawn by the same component, so they share MudBlazor's set.
 - Shell controls (search, refresh, view toggle, pager, theme, menu):
   `Icons.Material.Filled`.
-- `WslcIcons` (the reference's glyphs) keeps the session block, the page verbs
-  of the toolbars and the Files browser. The navigation moved to Material with
-  the row actions, at the owner's word.
+- `WslcIcons` (the project's own glyph set) keeps the session block, the page
+  verbs of the toolbars and the Files browser. The navigation uses Material,
+  like the row actions.
 
 ### Icon size rule
 
@@ -269,12 +265,12 @@ own; a context that sets a button size (the 26px bar controls, the 1.75rem
 rail squares, the 22px row-remove square) sets the button, never the glyph.
 The only smaller glyphs are the status dot (0.42rem), the responsive
 steps of the bars (0.9rem, then 0.75rem when the row is tight) and the
-published mark after the ports (0.9rem, the owner's word).
+published mark after the ports (0.9rem).
 
 Why the rule is needed: a `WslcIcons` glyph is SVG text 16 units high in a
 24-unit box, so it renders at two thirds of the icon box (12px at 18px);
-a Material icon fills the box. Halving the box size (the reference's
-`0.85rem` for its rail, copied literally) halves an already small glyph.
+a Material icon fills the box. Halving the box size (a `0.85rem` box for a
+rail, say) halves an already small glyph.
 
 ## Menus
 
@@ -285,10 +281,11 @@ a Material icon fills the box. Halving the box size (the reference's
 ```
 
 - `Size="Size.Small" Dense="true"`; every item has a `WslcIcons` glyph and a
-  sentence-case verb, in the reference's order; `OpenChanged="MenuOpenChanged"`
-  so the page holds its refresh while the menu is open.
-- No item is disabled by the row's state: the reference never does, the CLI
-  answers and the snackbar reports.
+  sentence-case verb, in the order `docs/list-pages.md` lists;
+  `OpenChanged="MenuOpenChanged"` so the page holds its refresh while the menu
+  is open.
+- No item is disabled by the row's state: the CLI answers and the snackbar
+  reports.
 
 ## Toggle group (table / cards and any other mode switch)
 
@@ -369,18 +366,18 @@ Body lines are `Typo.body2` with the label in bold; secondary lines
 | Data, table cells, card lines, bar captions | `Typo.body2` |
 | Secondary line | `Typo.caption` + `Class="mud-text-secondary"` |
 | Section label in the sidebar | `Typo.overline` |
-| Header-row stat | `<PageStat Label="CPU" Value="…" />`, never raw `MudText`; `Large="true"` puts label and value in body1, the row's button size — the Activity header only, by the owner's order of 19 September 2026 |
+| Header-row stat | `<PageStat Label="CPU" Value="…" />`, never raw `MudText`; `Large="true"` puts label and value in body1, the row's button size — the Activity header only |
 | Bulk bar | `<BulkBar Count="Selected.Count">…verbs…</BulkBar>` in `TopbarNav` |
 
 ## Feedback
 
 - Load errors: `<MudAlert Severity="Severity.Error" Class="mb-2 flex-shrink-0">@_error</MudAlert>` above the grid.
-- Toasts appear top right, over the title bar: its height (36px), the application's body type, sliding in from the edge (position set once in `AddWslcAgentUi`, the rest in `wslc-agent-ui.css`). Held in the hand they come down under the title bar, across the top, the same toast (`Toasts`; the owner, 22 September 2026: the bottom edge is the status bar now).
+- Toasts appear top right, over the title bar: its height (36px), the application's body type, sliding in from the edge (position set once in `AddWslcAgentUi`, the rest in `wslc-agent-ui.css`). Held in the hand they come down under the title bar, across the top, the same toast (`Toasts`; the bottom edge is the status bar).
 - Action results: `Snackbar.Add($"{name}: {verb} ok", Severity.Success)` and
   `Snackbar.Add($"{name}: {verb} failed. {ex.Message}", Severity.Error)`.
 - Confirmations: `DialogFlow.ConfirmAsync(Dialogs, "Remove container", "Remove {name} ({id})? This cannot be undone.", "Remove", destructive: true)` (`ConfirmRemoveAsync` for removals); the yes text is the verb, drawn in `Color.Error` when destructive and `Color.Primary` otherwise; never MudBlazor's message box.
-- Picker dialogs (`NamedPickerDialog`, `HostFolderPickerDialog`), the
-  reference's composition: compact (`DialogFlow.PickAsync`, no close cross),
+- Picker dialogs (`NamedPickerDialog`, `HostFolderPickerDialog`), one
+  composition: compact (`DialogFlow.PickAsync`, no close cross),
   the verbs in the title row after the title: Create / New (`Color.Primary`),
   Use (`Color.Success`), Close (default colour); the list inside
   `MudPaper Outlined` with a fixed height (`wslc-picker-list`) so the dialog
@@ -390,7 +387,7 @@ Body lines are `Typo.body2` with the label in bold; secondary lines
   it): the name selected in the list, or the folder's parent with the folder
   selected. The folder
   picker adds ↑ Up, ⌂ Home and the path in mono above the list, a first row
-  `..` that goes up, the reference's yellow folder pictogram
+  `..` that goes up, the yellow folder pictogram
   (`WslcIcons.Files`, drives `WslcIcons.Drive`), and New asks the name in a
   `PromptDialog` (`DialogFlow.PromptAsync`).
 - List editors (`ValueListDialog`, opened by `DialogFlow.EditValuesAsync`):
@@ -406,7 +403,7 @@ Body lines are `Typo.body2` with the label in bold; secondary lines
   container has a public name and `Color.Default` when not, the names in
   its title. Link and mark share the cell as a flex pair (`wslc-ports`): the
   text gives way with an ellipsis, the mark always shows. Its glyph is the
-  0.9rem step of the bars, one under the icon size, at the owner's word.
+  0.9rem step of the bars, one under the icon size.
 - Ports on the launch form (`PortsField`): the `--publish` values on one
   line as the other multi-value fields, and its ⋮ opens `PortRowsDialog`,
   the list editor with three columns and a check per row — host port,
@@ -477,8 +474,7 @@ Body lines are `Typo.body2` with the label in bold; secondary lines
   to the error colour, says why in its tooltip, keeps the console when its
   output holds the reason (a pull; a run that failed after its pull has none,
   `LogAfterFailure="false"`) and its cross becomes Dismiss: the agent remembers
-  a failed pull five minutes and a failed run 45 seconds, the reference's
-  times, and the cross forgets it now, for every client. No confirmation:
+  a failed pull five minutes and a failed run 45 seconds, and the cross forgets it now, for every client. No confirmation:
   nothing is lost.
 - The agent not answering (`AgentLink`, read by `AgentLinkHandler` from every
   call the client makes: a call that could not be sent at all takes the link
@@ -497,8 +493,7 @@ Body lines are `Typo.body2` with the label in bold; secondary lines
   neither, offers **Reload**. No Cancel: a page under the veil with no agent
   behind it does nothing.
 - The last catch (`UnhandledErrors`): Blazor's yellow bar, "An unhandled error
-  has occurred", is gone from both `index.html` files (owner, 2026-09-20:
-  "no quiero volver a ver esa barra amarilla nunca más") — it looked final
+  has occurred", is gone from both `index.html` files — it looked final
   and was not: a WebAssembly app goes on after such an error. What nothing
   caught (a dialog, a provider, the layout: anything outside the page's
   `ErrorBoundary`) is reported instead — through
@@ -517,8 +512,8 @@ Body lines are `Typo.body2` with the label in bold; secondary lines
 
 One icon per action, the same wherever the action appears — a row, a card, a
 menu, a page verb, a rail, a dialog — so a button is read before its tooltip
-is. Actions are `Icons.Material.Filled.*`; `WslcIcons.*` (the reference's
-glyphs, in colour) keeps the navigation, the session block and the Files
+is. Actions are `Icons.Material.Filled.*`; `WslcIcons.*` (the project's own
+glyph set, in colour) keeps the navigation, the session block and the Files
 browser. A new action takes its icon
 from this table, or adds a row to it; nothing is inlined twice with two icons.
 

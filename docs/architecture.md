@@ -15,12 +15,15 @@ through the `wslc` CLI and exposes it three ways, all from the same code base:
 
 ```
 src/
-  WslcAgent.Server     ASP.NET Core host: wslc runner, /api/v1, static UI, /mcp. Exe: wslc-ai-agent.exe
+  WslcAgent.Server     ASP.NET Core host: wslc runner, /api/v1, static UI, /api/v1/mcp. Exe: wslc-ai-agent.exe
   WslcAgent.UI         The UI: Razor Class Library of MudBlazor components (layout, pages).
   WslcAgent.Web        Blazor WebAssembly host of UI, served by Server; PWA manifest + service worker.
   WslcAgent.App        MAUI Blazor Hybrid host of UI: Windows (wslc-ai-client.exe) and Android (ai.berpiztu.wslcagent).
+  WslcAgent.Tray       The installed agent's icon beside the clock: opens the agent's own page in a WebView2 window or the browser. Exe: wslc-ai-agent-tray.exe
+  WslcAgent.Toasts     The agent's notifications as Windows toasts, shared by App and Tray.
   WslcAgent.ApiClient  Contracts (records) and a typed HttpClient for /api/v1.
   WslcAgent.Mcp        MCP tool types and the interfaces they need from the host.
+  Berpiztu.Dashboard   The Home dashboard's engine: a Razor Class Library on MudBlazor only, with nothing of WSLC's.
 tests/
   WslcAgent.Server.Tests   Integration tests over WebApplicationFactory.
 packaging/
@@ -29,30 +32,48 @@ packaging/
 ```
 
 Dependency direction: `Server -> Web, Mcp, ApiClient`; `Web -> UI`;
-`App -> UI, ApiClient`; `UI -> ApiClient`; `Mcp -> ApiClient`. `Mcp`
-declares the service interfaces it needs (`IAgentInfo`, `IContainerService`,
-…) and the server implements them, so tools and endpoints share one service
-layer and return the same contract records.
+`App -> UI, Toasts, ApiClient`; `Tray -> Toasts, ApiClient`;
+`Toasts -> ApiClient`; `UI -> Berpiztu.Dashboard, ApiClient`;
+`Mcp -> ApiClient`. `Berpiztu.Dashboard` refers to no project of ours: WSLC's
+dashboard objects live in `WslcAgent.UI/Dashboard/`, so the engine can leave
+the repository by moving its folder. `Mcp` declares the service interfaces it
+needs (`IAgentInfo`, `IContainerService`, …) and the server implements them,
+so tools and endpoints share one service layer and return the same contract
+records.
+
+## How requests flow
+
+- **Clients to the agent.** The web UI, the Windows and Android apps and the
+  tray's window all speak to the agent over `/api/v1` through
+  `WslcAgent.ApiClient`. Terminals use one WebSocket per shell.
+- **AI agents to the agent.** An MCP client connects to `/api/v1/mcp`. Its
+  tools call the same service interfaces the endpoints call.
+- **The agent to WSLC.** The server runs the `wslc` CLI (`WslcAgent.Server/Wslc/`)
+  and parses its output. Nothing shells out to `docker`.
 
 ## Rules that shape the code
 
 - **One clean `/api/v1`.** Every screen and every MCP tool goes through it;
-  `docs/api-v1.md` is the contract and grows with each slice. The reference
-  implementation's HTTP surface (per-page routes such as `/containers/api`)
-  is not reproduced: its clients are retired with it, and only its behaviour
-  and data are ported.
+  `docs/api-v1.md` is the contract.
 - **One UI.** `WslcAgent.UI` is the only user interface. The hosts add
   nothing visual: `Web` registers services and routes; `App` does the same in
   a WebView and adds native code only for connection settings, login,
-  self-update (`IClientUpdates`) and saving a file on the user's machine
+  self-update (`IClientUpdates`), the agent's notifications
+  (`IClientNotifications`) and saving a file on the user's machine
   (`IClientFiles`: Windows `FileSavePicker`, Android's Storage Access
   Framework, because a WebView has no download UI). Each is an interface the
-  shared UI asks, with a no-op browser implementation.
-- **MudBlazor's look, not a copy of the old one.** Layout, tables, dialogs,
-  snackbars and forms are MudBlazor components on a MudBlazor theme. There is
-  no custom CSS beyond the theme and the boot-time loading screen. JavaScript
-  interop is limited to the terminal (xterm.js), charts, the network map and
-  the host folder picker.
+  shared UI asks, with a no-op browser implementation. `Tray` hosts the
+  agent's own page (`/agent`) the same way and adds nothing native but its
+  icon, its menu and the notifications as Windows toasts.
+- **MudBlazor's look.** Layout, tables, dialogs, snackbars and forms are
+  MudBlazor components on a MudBlazor theme. Beyond the theme and the
+  boot-time loading screen, the only stylesheets are
+  `src/WslcAgent.UI/wwwroot/wslc-agent-ui.css` and
+  `src/Berpiztu.Dashboard/wwwroot/berpiztu-dashboard.css`: layout MudBlazor
+  lacks, never a restyling. JavaScript interop is limited to the terminal
+  (xterm.js), charts, the network map, the host browser pane, the host folder
+  picker and the small named helpers in `wslc-agent-ui.js` and
+  `berpiztu-dashboard.js`.
 - **Layout.** Wide (md and up): menu button and drawer on the left, drawer
   open. Narrow (sm and down): the drawer becomes an overlay and a menu button
   appears in the top bar, on the left as everywhere else — unless the host is
@@ -68,8 +89,8 @@ layer and return the same contract records.
   its surface, the shell on the agent stays connected, and the page that
   comes back takes it over. Log out closes them all.
 - **Secrets never enter the repository.** Per-machine settings live outside
-  the checkout, the Android signing key lives in the user profile; the history
-  must be publishable at any time.
+  the checkout; the Android signing key and the Firebase files live in the
+  ignored `private/` folder ([developer/private-files.md](developer/private-files.md)).
 - **Static assets and environments.** `dotnet run` (Development) serves the
   referenced projects' assets from the static web assets manifest; a
   Production run must come from `dotnet publish`, which copies them into
@@ -95,7 +116,7 @@ Two independent versions, both bumped by the packaging scripts:
 
 ## Diagrams
 
-Three interactive diagrams, made with the Archify skill from the JSON next to
+Four interactive diagrams, made with the Archify skill from the JSON next to
 each and served by the UI at `_content/WslcAgent.UI/archify/`, under
 `src/WslcAgent.UI/wwwroot/archify/`. The Architecture button at the right end
 of the bottom strip opens the screen's own: the control plane everywhere, the
@@ -114,27 +135,3 @@ deployment: no host names, addresses or certificates.
 To change one, edit its `.architecture.json`, then validate and deliver it with
 the skill at showcase quality (`archify validate` / `deliver` / `visual-check`);
 the HTML is the delivered artifact, never edited by hand.
-
-## Reference implementation
-
-The previous product (Python agent, Jinja web UI, MAUI XAML clients) is the
-functional specification: which screens exist, what they show, which actions
-they offer and with which confirmations, how `wslc` output is parsed, and the
-MCP tool list with its approval model. Behaviour is ported from it; neither
-its look nor its code is copied, with the exception of its C# API client,
-which may be brought over and renamed.
-
-It keeps moving, so `docs/changes-refe.md` holds **the last reference commit
-already ported here**. Read that file before looking for what is missing: what
-is pending is exactly what `git -C ../wslc-dashboard log <that id>..HEAD`
-lists, and the file is updated in the same commit that ports it.
-
-## Phases
-
-| Phase | Deliverable | Validated by |
-|---|---|---|
-| 0 | Solution skeleton: Server serves UI (PWA), `/api/v1/health`, MCP `health` tool, App hosts UI on Windows and Android, installers and APK build, CI. **Done.** | `dotnet test`, headless browser render, app launch, `dist/` artifacts |
-| 1 | Server with the full `/api/v1` and the MCP tools, running `wslc`; the UI page for each resource lands with its endpoints (containers list/start/stop/restart done). | Smoke tests over `FakeWslcRunner`, the user's review of each slice |
-| 2 | UI pages reaching functional parity with the reference UI. | Manual parity checklist per page |
-| 3 | App: connection settings, login, self-update; installer settings dialogs. | Install and rotate on a device |
-| 4 | Reference implementation retired. | |
