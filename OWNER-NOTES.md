@@ -118,7 +118,7 @@ images have to be made again the same way.
 
 ## Before carrying changes to the public repository
 
-- Leave this file out.
+- Leave this file and the `marketing/` folder out.
 - Run gitleaks over the files that go (`gitleaks dir <folder>`), and search
   them for private names, domains and e-mails.
 - Where development continues from now on (in the public repository, or here
