@@ -446,31 +446,6 @@ function Import-WslcAgentPrivateSettings {
     }
 }
 
-function Get-WslcAgentSetting {
-    <#
-    A setting a script reads: the value given on its command line, else the
-    environment variable of that name (private\env.psd1 included, once
-    Import-WslcAgentPrivateSettings ran), else the default. A required one
-    that has none stops the script and names the variable, so a missing
-    setting never becomes a wrong host or folder.
-    #>
-    param(
-        [string]$Name,
-        [string]$Value,
-        [string]$Default,
-        [switch]$Required,
-        [string]$What
-    )
-    if ($Value) { return $Value }
-    $fromEnvironment = [Environment]::GetEnvironmentVariable($Name)
-    if ($fromEnvironment) { return $fromEnvironment }
-    if ($Default) { return $Default }
-    if ($Required) {
-        throw "$Name is not set: $What. Set it in private\env.psd1 or the environment (docs\developer\environment.md)."
-    }
-    return $null
-}
-
 function Resolve-WslcAgentAndroidSigning {
     <#
     Android refuses to update an app whose new APK is signed with a different

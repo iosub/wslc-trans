@@ -9,7 +9,7 @@ namespace WslcAgent.Server.Updates;
 
 /// <summary>
 /// The agent updating itself from the installer in its package folder, the one
-/// deploy-server.ps1 copies there: copying it is the whole deployment, since an
+/// copied there: copying it is the whole deployment, since an
 /// install over SSH lands in the SSH account and not in the session the agent
 /// runs in. Only the installed agent does it, and never over a transfer — a file
 /// on its way or a backup being saved would be cut, so the update waits for

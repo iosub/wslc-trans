@@ -273,8 +273,6 @@ All scripts live in the repository root and work from any current directory.
 | `install-prereqs.ps1` | Install everything `check-prereqs.ps1` finds missing, in order, after one administrator prompt. |
 | `check-private.ps1` | The private files this checkout has and what each enables, without printing a secret. |
 | `deploy-release.ps1` | Publish a release: raise the repository's version above every build, build the three installers at it, commit, tag and push; `-Publish` also creates the GitHub release ([releasing.md](docs/developer/releasing.md)). |
-| `deploy-server.ps1` | Copy the built installers to the machine that runs the agent over SSH, and install the agent there ([environment.md](docs/developer/environment.md)). |
-| `vps-tunnels.ps1` | Keep the reverse SSH forwards to a VPS open across reboots, for remote access ([remote-access.md](docs/developer/remote-access.md)). |
 | `start-sandbox.ps1` | A clean Windows in Windows Sandbox, to try the Quick start as a new user ([clean-machine-test.md](docs/developer/clean-machine-test.md)). |
 | `build.ps1` | Restore, build, test: what CI runs. |
 | `start-agent.ps1` | Build and run the agent in Development on http://127.0.0.1:8070. `-Port`, `-NoBuild`, `-Watch` (dotnet watch, hot reload on save). |

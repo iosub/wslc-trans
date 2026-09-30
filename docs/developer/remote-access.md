@@ -72,16 +72,12 @@ browser ── https://webui-home.example.com ──► VPS nginx, wildcard bloc
 | A VPS with a public address, SSH and nginx | It holds the public names and terminates TLS. The examples assume a Debian or Ubuntu layout (`/etc/nginx/sites-available`, `sites-enabled`) |
 | A domain whose DNS you control | `agent.example.com` and a wildcard record `*.example.com` pointing at the VPS |
 | A wildcard certificate for `example.com` and `*.example.com` | Let's Encrypt issues wildcards only through the DNS challenge (certbot with your DNS provider's plugin, or `--manual`) |
-| OpenSSH Client on the Windows PC | Built into Windows 11 (`C:\Windows\System32\OpenSSH\ssh.exe`); `vps-tunnels.ps1` uses it |
+| OpenSSH Client on the Windows PC | Built into Windows 11 (`C:\Windows\System32\OpenSSH\ssh.exe`); the forwards run on it |
 | Key-based SSH from the PC to the VPS | The tunnels run unattended and never answer a password prompt |
 | WSLC AI Agent installed and running on the PC | Listening on `127.0.0.1:8069`, the default |
-| This repository on the PC | For [vps-tunnels.ps1](../../vps-tunnels.ps1), and [deploy-server.ps1](../../deploy-server.ps1) if you use it |
 
 Optional: the OpenSSH Server on the PC, only for reaching the PC's own SSH
 through the VPS (see [SSH into the PC through the VPS](#ssh-into-the-pc-through-the-vps)).
-
-Scripts of the repository need PowerShell to allow running them:
-[prerequisites.md](prerequisites.md#powershell-script-execution).
 
 ## 1. DNS and the certificate
 
@@ -145,96 +141,74 @@ On the VPS, leave `GatewayPorts` at its default (`no`) in
 only, which is what this setup relies on. `AllowTcpForwarding` must be `yes`
 (the default).
 
-## 3. The reverse forwards: `vps-tunnels.ps1`
+## 3. The reverse forwards
 
-[vps-tunnels.ps1](../../vps-tunnels.ps1), at the root of the repository,
-keeps three reverse forwards open from the PC to the VPS:
+Three reverse forwards carry the traffic from the VPS back to the PC. The PC
+opens them, with the `ssh` built into Windows:
 
-| Name | The VPS listens on | Goes to, on the PC | What for |
+| Forward | The VPS listens on | Goes to, on the PC | What for |
 |---|---|---|---|
-| `agent` | `127.0.0.1:8069` | `127.0.0.1:8069` | The agent, `agent.example.com` |
-| `published` | `127.0.0.1:8081` | `127.0.0.1:8081` | The proxy container, `*.example.com` |
-| `ssh` | `127.0.0.1:2222` | `127.0.0.1:22` | The PC's own `sshd`, optional |
+| agent | `127.0.0.1:8069` | `127.0.0.1:8069` | The agent, `agent.example.com` |
+| published | `127.0.0.1:8081` | `127.0.0.1:8081` | The proxy container, `*.example.com` |
+| ssh | `127.0.0.1:2222` | `127.0.0.1:22` | The PC's own `sshd`, optional |
 
-It registers **one scheduled task per forward** (`WSLC-Tunnel-agent`,
-`WSLC-Tunnel-published`, `WSLC-Tunnel-ssh`). Each runs its own
-`ssh.exe -N -R …` as you, at logon, and the scheduler relaunches it every
-minute when it exits (the VPS unreachable right after logon, a dropped
-connection). One task per forward on purpose: an `ssh` that carries several
-forwards exits when any one of them cannot bind, and would take the others
-down with it.
-
-Each `ssh` runs with `ExitOnForwardFailure=yes` (an `ssh` whose port the VPS
-could not bind exits at once and is relaunched, instead of staying connected
-and useless), `BatchMode=yes` (never wait for a prompt nobody will see),
-`ServerAliveInterval=30` and `ServerAliveCountMax=3` (a dead connection is
-noticed within a minute and a half), and `StrictHostKeyChecking=accept-new`.
-Both ends are written as `127.0.0.1`, never `localhost`, which on Windows may
-resolve to `::1`.
-
-### Tell the script where the VPS is
-
-The VPS comes from `WSLC_TUNNEL_HOST`. Set it once in `private\env.psd1`
-(copied from `private\env.example.psd1`; see [environment.md](environment.md)),
-or in the environment of the current session:
+Each one is an `ssh` with no remote command (`-N`) and one reverse forward
+(`-R`). The agent's:
 
 ```powershell
-$env:WSLC_TUNNEL_HOST = "user@vps.example.com"
+ssh -N -R 8069:127.0.0.1:8069 -o ExitOnForwardFailure=yes -o BatchMode=yes -o ServerAliveInterval=30 -o ServerAliveCountMax=3 user@vps.example.com
 ```
 
-A `-VpsHost user@vps.example.com` parameter on the command line wins over
-both.
-
-### Register and start the forwards
-
-From the root of the repository:
+The published containers':
 
 ```powershell
-.\vps-tunnels.ps1
+ssh -N -R 8081:127.0.0.1:8081 -o ExitOnForwardFailure=yes -o BatchMode=yes -o ServerAliveInterval=30 -o ServerAliveCountMax=3 user@vps.example.com
 ```
 
-It replaces any task of the same name, starts the three, and waits up to
-30 seconds for the VPS to confirm each port is bound, printing
-`up, VPS 127.0.0.1:… -> this PC 127.0.0.1:…` for each.
-
-`-Name` limits the script to one forward, in any mode. If you do not want the
-PC's SSH reachable through the VPS, register only the forwards you need:
+The PC's own SSH, only if you want it (see
+[SSH into the PC through the VPS](#ssh-into-the-pc-through-the-vps)):
 
 ```powershell
-.\vps-tunnels.ps1 -Name agent
+ssh -N -R 2222:127.0.0.1:22 -o ExitOnForwardFailure=yes -o BatchMode=yes -o ServerAliveInterval=30 -o ServerAliveCountMax=3 user@vps.example.com
 ```
 
-```powershell
-.\vps-tunnels.ps1 -Name published
-```
+What the options are for:
+
+- **`-R <VPS port>:127.0.0.1:<PC port>`** with no address before the VPS
+  port binds it on the VPS's loopback only (with `GatewayPorts no`, step 2),
+  where nginx on the VPS reaches it and nobody else does. Write `127.0.0.1`,
+  never `localhost`, which on Windows may resolve to `::1`.
+- **`ExitOnForwardFailure=yes`**: an `ssh` whose port the VPS could not bind
+  exits at once, instead of staying connected and useless.
+- **`BatchMode=yes`**: it never waits for a prompt nobody will see.
+- **`ServerAliveInterval=30`, `ServerAliveCountMax=3`**: a dead connection is
+  noticed within a minute and a half, and `ssh` exits.
+
+### Keep them open
+
+Opened by hand, a forward lasts as long as its window. For remote access that
+survives a dropped connection and a reboot, run each `ssh` unattended, as
+your user, at logon, and start it again whenever it exits: the VPS may be
+unreachable right after logon, and a connection drops now and then. Windows'
+Task Scheduler does it (a task per forward, triggered at logon, restarted
+every minute on failure, with no time limit); so do other service managers.
+
+Keep **one `ssh` per forward**: an `ssh` carrying several `-R` exits when any
+one of them cannot bind, and would take the others down with it.
 
 ### Check them
 
-```powershell
-.\vps-tunnels.ps1 -Status
-```
-
-For each forward it prints the task's state, whether the `ssh` carrying it is
-running, whether something listens on the PC's side, and whether the VPS has
-the port bound. A task's `last result 267009` is Windows' code for "running
-right now", not an error. `Local: … NOT listening` on `published` is expected
-until the proxy container exists (step 5), and on `ssh` when the PC has no
-OpenSSH Server.
-
-The same check from the VPS side:
+From the VPS side, each forward in use has its port bound on the loopback:
 
 ```powershell
 ssh user@vps.example.com "ss -ltn | grep -E '127.0.0.1:(2222|8069|8081) '"
 ```
 
-### Remove them
+On the PC, the `ssh` processes carrying them:
 
 ```powershell
-.\vps-tunnels.ps1 -Uninstall
+Get-CimInstance Win32_Process -Filter "Name = 'ssh.exe'" | Select-Object ProcessId, CommandLine
 ```
-
-stops every `ssh` and removes every task; with `-Name published` it removes
-that one only.
 
 ## 4. The VPS: nginx for the agent's own name
 
@@ -367,8 +341,8 @@ there is left as it is, and the answer lists which was which:
 2. Writes the map file, holding every name already published (none, the first
    time), creating its folder if needed.
 3. Runs the proxy container: image `nginx:alpine`, named as the setting says,
-   port `127.0.0.1:8081:80` (loopback only; it is the `published` row of
-   `vps-tunnels.ps1`), the map file mounted read-only at
+   port `127.0.0.1:8081:80` (loopback only; it is where the `published`
+   forward arrives), the map file mounted read-only at
    `/etc/nginx/conf.d/default.conf`, connected to the network, with the agent's
    restart policy `always`.
 
@@ -620,7 +594,7 @@ crosses both nginx and the tunnel.
 ## SSH into the PC through the VPS
 
 Optional. With the OpenSSH Server running on the PC and the `ssh` forward
-registered, the VPS's `127.0.0.1:2222` reaches the PC's port 22, and the VPS
+open, the VPS's `127.0.0.1:2222` reaches the PC's port 22, and the VPS
 serves as a jump host from anywhere:
 
 ```powershell
@@ -637,36 +611,10 @@ running, and other `wslc` verbs find nothing either. Use the agent's API
 (`curl.exe http://127.0.0.1:8069/api/v1/…` on the PC) instead; it always
 answers from the right session.
 
-### Deploying installers through the jump host
-
-[deploy-server.ps1](../../deploy-server.ps1) copies the built installers from
-the local `dist` folder to the PC over SSH, file by file, and can install the
-agent there. Behind the VPS, set these in `private\env.psd1` or the
-environment ([environment.md](environment.md)):
-
-| Variable | Value behind the VPS |
-|---|---|
-| `WSLC_DEPLOY_USER` | `pcuser`, the Windows account on the PC |
-| `WSLC_DEPLOY_HOST` | `127.0.0.1`, the PC as the VPS reaches it |
-| `WSLC_DEPLOY_PORT` | `2222` |
-| `WSLC_DEPLOY_JUMP` | `user@vps.example.com` |
-| `WSLC_DEPLOY_DIST` | `C:/Berpiztu/wslc-ai-agent`, with forward slashes |
-
-Then, from the root of the repository:
-
-```powershell
-.\deploy-server.ps1
-```
-
-It asks what to copy (all, one by one, or none) and then whether to install
-the agent's MSI that is on the PC. `-All` copies everything without asking;
-`-Install` only installs the MSI already there. The MSI is per user: over SSH
-it installs for the SSH account, so an agent running in another account's
-session is not the one updated.
-
 ## Surviving a reboot
 
-The agent and the three tunnel tasks are logon tasks of your account, and
+The agent is a logon task of your account, as your forwards are if you run
+them that way, and
 WSLC's containers need an interactive session too: after a restart nothing
 comes back until someone signs in at the PC. SSH cannot fix that, since an
 SSH session is not an interactive one.
@@ -690,8 +638,9 @@ phone off your network.
 
 ## Security
 
-- **Never bind a forward to `0.0.0.0` on the VPS.** `vps-tunnels.ps1` writes
-  `127.0.0.1` on both ends, and the VPS's `GatewayPorts no` keeps it there.
+- **Never bind a forward to `0.0.0.0` on the VPS.** Write the forwards as in
+  step 3, with `127.0.0.1` on the PC's end and no address on the VPS's, and
+  the VPS's `GatewayPorts no` keeps them on its loopback.
   A forward on `0.0.0.0` would expose the agent, and the PC's SSH, on the VPS's
   public address, bypassing nginx and TLS.
 - **Keep the PC's services on the loopback.** The agent on `127.0.0.1:8069`,
@@ -736,18 +685,18 @@ on the PC per session.
 
 | Symptom | Where it comes from | What to do |
 |---|---|---|
-| `502` at `agent.example.com` | The VPS could not reach `127.0.0.1:8069` | `.\vps-tunnels.ps1 -Name agent -Status`; check the agent is running on the PC |
+| `502` at `agent.example.com` | The VPS could not reach `127.0.0.1:8069` | Check the `agent` forward from the VPS side (step 3), and that the agent is running on the PC |
 | `503 Internet login not set` at `agent.example.com` | The agent has no Internet login | Set it at `http://127.0.0.1:8069/settings`, tab Security, on the PC |
 | `401` from `curl.exe` at `agent.example.com` | The agent asking for its session | Not a fault: that is the agent answering |
 | Pages load but the terminal or live updates do not | WebSockets blocked on the way | The VPS block needs the `Upgrade` and `Connection` headers and `proxy_http_version 1.1` |
-| `502` from the VPS on a published name | The `published` forward is down | `.\vps-tunnels.ps1 -Name published -Status` |
+| `502` from the VPS on a published name | The `published` forward is down | Check the `published` forward from the VPS side (step 3) |
 | `502` from the proxy, `no resolver defined` in its log | A map without the `resolver` line, written by hand | Let the agent write the map (publish or unpublish once), or add `resolver 127.0.0.11 valid=30s ipv6=off;` |
 | `502` from the proxy, the name resolves | The container is not on the shared network, is not running, or the map names the host port instead of the internal one | Check the container's Networks and its port rows |
 | `404` on a published name | The name is not in the map | Check Settings → Publish; the name must match the full hostname |
 | `404` on the agent's name | Its VPS block is missing, so the wildcard block caught it | Enable the agent's block; an exact name always wins over the wildcard |
-| `-Status` shows the `ssh` running but `VPS: … NOT bound` | An old connection still holds the port on the VPS | On the VPS, `sudo ss -ltnp` shows which `sshd` holds it; stop that process and the task's next relaunch binds |
-| `-Status` shows `VPS: unreachable or ssh prompted` | The key is not accepted, or the VPS's host key changed | Repeat the `BatchMode` check of step 2 |
-| `Local: … NOT listening` | Nothing on the PC behind the forward | Start the agent, run Set up (the proxy), or install the OpenSSH Server for `ssh` |
+| A forward's `ssh` exits at once with `remote port forwarding failed` | An old connection still holds the port on the VPS | On the VPS, `sudo ss -ltnp` shows which `sshd` holds it; stop that process and start the forward again |
+| A forward's `ssh` exits with `Permission denied` or `Host key verification failed` | The key is not accepted, or the VPS's host key changed | Repeat the `BatchMode` check of step 2 |
+| The port is bound on the VPS but the name answers `502` | Nothing on the PC behind the forward | Start the agent, run Set up (the proxy), or install the OpenSSH Server for `ssh` |
 | `wslc` over SSH shows no containers | An SSH session is not the containers' session | Use the agent's API on `127.0.0.1:8069` |
 
 Checks on the PC for a `502` from the proxy. The address the proxy's `resolver`

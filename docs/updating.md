@@ -81,11 +81,9 @@ the installed agent picks it up and updates itself.
 
 ## Updating another machine
 
-[deploy-server.ps1](../deploy-server.ps1) copies the built installers to
-another machine over SSH. Set `WSLC_DEPLOY_DIST` to that machine's package
-folder, with forward slashes (`C:/Berpiztu/wslc-ai-agent`), and its agent
-updates itself from what arrives
-([developer/environment.md](developer/environment.md)).
+Copy the built installers into that machine's package folder, in whatever
+way suits you (a shared folder, `scp`, a USB stick), and its agent updates
+itself, and offers its clients their updates, from what arrives.
 
 ## Updating by hand
 

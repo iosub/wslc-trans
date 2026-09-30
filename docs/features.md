@@ -204,8 +204,8 @@ too, their consoles and their web pages, and the way the world reaches them.
 - **Every client, from any network**: the browser, the Windows app and the
   Android app, on the same machine, on the local network or across the
   internet.
-- **Reverse SSH tunnels to a VPS**, kept alive across reboots by a script,
-  for reaching the agent and its published containers from the internet with
+- **Reverse SSH tunnels to a VPS**, step by step in a guide, for reaching the
+  agent and its published containers from the internet with
   no port opened at home ([remote-access guide](developer/remote-access.md)).
 - A request that came through a proxy is never taken as local.
 - Passwords stored hashed; saved logins encrypted.

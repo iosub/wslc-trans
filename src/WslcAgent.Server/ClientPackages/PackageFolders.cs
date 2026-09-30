@@ -8,7 +8,7 @@ namespace WslcAgent.Server.ClientPackages;
 /// Where the installers the agent hands out live: the clients' MSI and APK for
 /// the clients to update themselves and to be downloaded, and the agent's own
 /// MSI for the agent to update itself. One folder for all of them, so one copy
-/// (by hand, or deploy-server.ps1) puts all three where they are looked for.
+/// puts all three where they are looked for.
 /// </summary>
 public sealed class PackageFolders(IOptions<WslcOptions> options, AgentUpdateSettingsStore settings, IHostEnvironment environment, ILogger<PackageFolders> logger)
 {
