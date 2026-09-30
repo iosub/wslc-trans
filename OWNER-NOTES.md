@@ -78,6 +78,11 @@ Waiting for it, gathered since 1.0.0 (30 September 2026):
   everywhere, also in a virtual machine or on a phone in power saving
   (`packaging/patch-archify-motion.mjs`). The public pages have it already;
   the app's own architecture button gets it with the release.
+- To look at: WSLC 3.0.1 no longer starts its session on its own. The
+  agent's Set up (Settings > Publish) runs `wslc` without starting it, so on a
+  stopped session it fails; `install.ps1` starts the session first
+  (`POST /sessions/start`), the button should do the same. Check the other
+  actions that assume a running session.
 - Whatever shows up from the first users.
 
 Run `.\deploy-release.ps1 -Publish` in the public clone: it takes 1.0.0 to
