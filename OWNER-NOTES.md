@@ -137,6 +137,23 @@ by ffmpeg as animated WebP (a GIF of the overview weighed 31 MB). ffmpeg and
 gitleaks are installed on this machine with winget. If a diagram changes, the
 images have to be made again the same way.
 
+## To decide (around 2 October 2026): where development continues
+
+Today there are three copies of the code: `wslc-agent` (the original),
+`wslc-trans` and the public `Berpiztu/wslc-ai-agent`; every change of 30
+September was made twice, trans then public. Proposal:
+
+- Develop and test only in the public clone, `C:\IA\Berpiztu\wslc-ai-agent`:
+  the development agent (`start-agent.ps1`), local installers (`build-*.ps1`,
+  never uploaded), CI on every push. Larger changes on a branch with a pull
+  request; small ones straight to `main`.
+- `wslc-trans` stays private for what must never be public: this file,
+  `marketing/`, a copy of `private/`. No code any more.
+- `wslc-agent` archived on GitHub, read-only, for its history and internal
+  documents.
+- Claude's working rules (the original's `CLAUDE.md` and its memory) carried
+  to a local `CLAUDE.md` in the public clone, ignored by git.
+
 ## Before carrying changes to the public repository
 
 - Leave this file and the `marketing/` folder out.
